@@ -13,7 +13,8 @@ The implementation must move in small, testable steps. Each step ends with a cle
 - Keep commits scoped to the step being completed.
 - Do not commit if any required gate fails.
 - If a gate fails, read the full error, fix the cause, rerun the failed gate, then rerun the full step gate list.
-- Do not add placeholder project pages, fake metrics, screenshots, architecture diagrams, code snippets, Open Maintainer, Go, a contact form, or dark mode.
+- Do not add placeholder project pages, fake metrics, screenshots, architecture diagrams, code snippets, Open Maintainer, Go, a contact form, copy-email button, exact public geography, public phone number, or dark mode.
+- Do not add glassmorphism, particles, typing effects, fake terminal windows, decorative code blocks, heavy gradients, carousels, scroll-reveal animations, skill bars, percentages, or decorative glyph icons.
 - Use Bun for installs and scripts. Do not use npm, pnpm, or yarn.
 - Use Biome for formatting/linting and TypeScript for type checking.
 - After any user-facing frontend step, verify the local app in a browser at desktop and mobile widths before committing.
@@ -50,6 +51,7 @@ Tasks:
 
 - Review `docs/PRD.md`, `docs/DESIGN.md`, and this plan for internal contradictions.
 - Confirm source assets are present:
+  - `docs/design.png`
   - `docs/professional-photo.png`
   - `docs/Resume-June2026.pdf`
 - Keep original source assets in `docs/`; do not move them.
@@ -72,7 +74,7 @@ The `rg` command should return no matches.
 Commit:
 
 ```bash
-git add docs/PRD.md docs/DESIGN.md docs/IMPLEMENTATION_PLAN.md docs/professional-photo.png docs/Resume-June2026.pdf
+git add docs/PRD.md docs/DESIGN.md docs/IMPLEMENTATION_PLAN.md docs/design.png docs/professional-photo.png docs/Resume-June2026.pdf
 git commit -m "Document website implementation plan"
 ```
 
@@ -91,10 +93,10 @@ Tasks:
 - Add `.gitignore` for `node_modules`, `.next`, `out`, coverage, logs, and local env files.
 - Add base scripts:
   - `dev`
-  - `build`
-  - `lint`
-  - `format`
-  - `typecheck`
+  - `build`: `next build`
+  - `lint`: `biome check .`
+  - `format`: `biome format --write .`
+  - `typecheck`: `tsc --noEmit`
 - Install required dependencies:
   - `next`
   - `react`
@@ -137,17 +139,26 @@ Goal: implement the base visual system before building pages.
 
 Tasks:
 
-- Add global CSS variables for colors, type scale, spacing, shadows, and focus styles.
+- Add global CSS variables for colors, type scale, spacing, shadows, and focus styles using the color and typography tables in `docs/DESIGN.md` as the source of truth.
 - Configure Tailwind to use the intended theme where useful.
+- Implement the centered container rule from the design spec:
+  - `width: min(100% - 48px, 1180px)` on desktop
+  - `width: min(100% - 32px, 1180px)` at `max-width: 720px`
 - Add global semantic layout primitives:
   - `Container`
   - `Section`
   - `ExternalLink`
   - `TagList`
   - `PageHeader`
+- Ensure page sections are full-width bands or unframed layouts with constrained inner content, not decorative cards.
+- Allow cards only for project cards, focus groups, resume entries, and case-study metadata blocks; avoid nested cards.
 - Add reduced-motion global CSS.
 - Add base metadata defaults.
 - Add accessible link, button, and focus-visible styles.
+- Add motion constraints:
+  - hover/focus transitions only
+  - maximum lift of `translateY(-2px)`
+  - no scroll reveal, parallax, autoplaying carousels, or typing effects
 
 Acceptance criteria:
 
@@ -155,6 +166,8 @@ Acceptance criteria:
 - The app still renders a simple page using the new layout primitives.
 - No component library is added.
 - No heavy animations or decorative effects are introduced.
+- Light theme only; no dark-mode toggle exists.
+- Focus-visible styling is clearly visible and follows the design-spec outline treatment.
 
 Quality gates:
 
@@ -193,10 +206,14 @@ Tasks:
   - selected projects
   - project case studies
   - resume data
+- Do not create a Writing / Notes route or homepage section unless at least one finished technical note exists.
 - Copy runtime assets:
   - `docs/professional-photo.png` to `public/images/professional-photo.png`
   - `docs/Resume-June2026.pdf` to `public/resume.pdf`
-- Add initial static OG image at `public/og.png`.
+- Add initial static OG image at `public/og.png` with simple text-only content:
+  - `Alex Metelli`
+  - `Software Engineer`
+  - `Backend systems · Developer tooling · Blockchain infrastructure`
 - Keep all original source assets in `docs/`.
 
 Acceptance criteria:
@@ -204,8 +221,10 @@ Acceptance criteria:
 - No page copy is duplicated unnecessarily across components.
 - Public email is `alex-metelli@gmx.com`.
 - Go and Open Maintainer do not appear in content.
-- Project case-study records include metadata, current state, and evidence placeholders only if the destination is real. Do not add fake links.
+- AWS does not appear in homepage Technical Focus; AWS Console and CloudWatch appear only where accurate, especially Voyager Verifier and resume content.
+- Project case-study records include metadata, current state, and real evidence links where available. Omit evidence links rather than adding fake or placeholder destinations.
 - Resume content is structured manually, not extracted from the PDF.
+- Public rendered content does not expose phone number or exact geography.
 
 Quality gates:
 
@@ -291,11 +310,19 @@ Tasks:
   - Voyager Verifier
   - AggSandbox
   - NoGame
+- Use recommended project icons where they fit:
+  - Voyager Verifier: `ShieldCheck` or `FileCode`
+  - AggSandbox: `Network` or `GitBranch`
+  - NoGame: `Gamepad2` or `Boxes`
 - Build Technical Focus.
 - Build Experience Snapshot.
 - Build flat dark Proof Bar.
 - Build compact Contact section.
 - Use meaningful `lucide-react` icons where useful.
+- Implement responsive layout targets:
+  - desktop: two-column hero, three-column selected work, four-column proof bar
+  - tablet: stacked hero, two-column selected work, two-column proof bar
+  - mobile: one-column selected work, one-column technical focus, one-column proof bar, stacked hero actions and summary facts
 
 Acceptance criteria:
 
@@ -303,8 +330,13 @@ Acceptance criteria:
 - No headshot appears on the homepage.
 - No screenshots, diagrams, fake metrics, or code snippets appear.
 - Selected Work has exactly three cards.
+- Homepage Technical Focus uses exactly the four PRD groups: Backend & infrastructure, Developer tooling, Blockchain systems, Product engineering.
+- AWS is not shown in homepage Technical Focus.
+- Contact uses visible `alex-metelli@gmx.com` mailto link plus LinkedIn and GitHub only.
+- Project cards use `article` or equivalent semantic grouping.
 - All homepage CTAs work.
 - Mobile layout does not overlap or clip text.
+- No decorative glyph icons, skill bars, percentages, or empty fourth-card space appear.
 
 Quality gates:
 
@@ -339,6 +371,8 @@ Tasks:
 - Build `/work/aggsandbox`.
 - Build `/work/nogame`.
 - Use the case-study template:
+  - title
+  - short description
   - metadata block
   - overview
   - problem
@@ -353,6 +387,7 @@ Tasks:
 Acceptance criteria:
 
 - No placeholder case-study pages exist.
+- Each case-study page uses `article` semantics.
 - Project pages use restrained first person.
 - Evidence links are real or omitted.
 - No screenshots, diagrams, or code snippets appear.
@@ -393,6 +428,7 @@ Tasks:
   - what roles and consulting work Alex is open to
   - links to email, GitHub, LinkedIn, and resume
 - Build `/resume` as a rendered web resume from structured content.
+- Include resume links for GitHub, LinkedIn, Email, and Download PDF.
 - Add `Download PDF` action pointing to `/resume.pdf`.
 - Add page-specific metadata.
 
@@ -438,6 +474,7 @@ Tasks:
 - Add shared site metadata helper with configurable site URL.
 - Ensure no custom production domain is hard-coded.
 - Configure static `/og.png` for shared OG image.
+- Ensure the static OG image is text-only and does not include the headshot.
 - Add page-specific title and description for:
   - `/`
   - `/work`
@@ -448,9 +485,12 @@ Tasks:
 Acceptance criteria:
 
 - Build emits valid metadata for every route.
+- Homepage title is `Alex Metelli - Software Engineer | Backend, Developer Tooling, Blockchain Infrastructure`.
+- Homepage description is `Alex Metelli is a software engineer focused on backend systems, developer tooling, blockchain infrastructure, Starknet tooling, and AI-assisted engineering workflows.`
 - Sitemap includes all v1 routes.
 - Robots file allows crawling.
-- JSON-LD contains name, job title, email, sameAs, and knowsAbout.
+- JSON-LD contains name, job title, url, email, sameAs, and knowsAbout.
+- JSON-LD knowsAbout includes backend systems, developer tooling, blockchain infrastructure, Starknet, Cairo, Solidity, TypeScript, Rust, and Python.
 - Metadata does not publish exact geography or phone number.
 
 Quality gates:
@@ -527,6 +567,9 @@ Tasks:
 - Verify all links.
 - Verify image alt text.
 - Verify all pages have exactly one `h1`.
+- Verify project cards and case studies use semantic `article` markup.
+- Verify icons are never the only source of meaning.
+- Verify allowed motion is limited to hover/focus transitions and at most `translateY(-2px)`.
 - Search for excluded content.
 
 Acceptance criteria:
@@ -535,6 +578,7 @@ Acceptance criteria:
 - No route has broken links.
 - No forbidden v1 content appears.
 - Visual design remains restrained and evidence-first.
+- Writing / Notes is either absent or contains at least one finished technical note.
 
 Quality gates:
 
@@ -659,6 +703,7 @@ git commit -m "Finalize Vercel deployment"
 The product is final and deployable when:
 
 - Every route in the PRD exists and is non-placeholder.
+- Writing / Notes is excluded unless a finished technical note exists.
 - Homepage is evidence-first and matches the positioning.
 - Selected Work includes exactly Voyager Verifier, AggSandbox, and NoGame.
 - `/about` uses the professional headshot.
