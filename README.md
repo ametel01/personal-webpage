@@ -25,6 +25,9 @@ bun run test
 bun run build
 ```
 
+The GitHub Actions CI workflow runs the same lint, typecheck, test, and build gates on
+pull requests and pushes to `main`.
+
 ## Vercel Deployment
 
 Production URL: https://personal-webpage-three-woad.vercel.app
