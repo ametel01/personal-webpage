@@ -1,11 +1,11 @@
 import assert from "node:assert/strict";
 import { describe, test } from "node:test";
-import { primaryNavItems } from "@/components/site-shell";
 import { profile, technicalFocusGroups } from "@/content/profile";
 import { getProject, isProjectSlug, projectSlugs, projects } from "@/content/projects";
 import { resume } from "@/content/resume";
 import type * as MetadataModule from "@/lib/metadata";
 import { createPageMetadata, getAbsoluteUrl, homeTitle } from "@/lib/metadata";
+import { primaryNavItems } from "@/lib/navigation";
 import { site } from "@/lib/site";
 
 const expectedSlugs = ["voyager-verifier", "aggsandbox", "nogame"] as const;

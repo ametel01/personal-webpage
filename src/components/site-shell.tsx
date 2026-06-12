@@ -3,18 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { Container, ExternalLink } from "@/components/primitives";
+import { primaryNavItems } from "@/lib/navigation";
 import { site } from "@/lib/site";
-
-export const primaryNavItems = [
-  {
-    label: "Work",
-    href: "/work"
-  },
-  {
-    label: "About",
-    href: "/about"
-  }
-] as const;
 
 const footerLinks = [
   {
