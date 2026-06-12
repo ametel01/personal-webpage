@@ -51,6 +51,31 @@ async function importMetadataWithEnv(env: Record<string, string | undefined>) {
   }
 }
 
+function collectText(node: unknown): string {
+  if (typeof node === "string" || typeof node === "number") {
+    return String(node);
+  }
+
+  if (Array.isArray(node)) {
+    return node.map(collectText).join(" ");
+  }
+
+  if (node && typeof node === "object" && "props" in node) {
+    const props = (node as { props?: Record<string, unknown> }).props;
+
+    if (!props) {
+      return "";
+    }
+
+    return Object.entries(props)
+      .filter(([key]) => !["alt", "className", "href", "src", "style"].includes(key))
+      .map(([, value]) => collectText(value))
+      .join(" ");
+  }
+
+  return "";
+}
+
 describe("website content invariants", () => {
   test("selected projects expose the expected slugs and routes", () => {
     assert.deepStrictEqual([...projectSlugs], [...expectedSlugs]);
@@ -189,5 +214,94 @@ describe("website content invariants", () => {
       homeTitle,
       "Alex Metelli - Software Engineer | Backend, Developer Tooling, Blockchain Infrastructure"
     );
+  });
+
+  test("static page routes render route-critical content", async () => {
+    const [
+      { default: HomePage },
+      { default: WorkPage },
+      { default: AboutPage },
+      { default: ResumePage }
+    ] = await Promise.all([
+      import("../../app/page"),
+      import("../../app/work/page"),
+      import("../../app/about/page"),
+      import("../../app/resume/page")
+    ]);
+
+    assert.match(
+      collectText(HomePage()),
+      /Backend systems\. Developer tooling\. Blockchain infrastructure\./
+    );
+    assert.match(
+      collectText(WorkPage()),
+      /Focused case studies with concrete engineering evidence\./
+    );
+    assert.match(
+      collectText(AboutPage()),
+      /Engineering work built around correctness, clarity, and delivery\./
+    );
+    assert.match(collectText(ResumePage()), /Alex Metelli/);
+  });
+
+  test("dynamic project route generation and metadata cover every selected project", async () => {
+    const {
+      default: ProjectPage,
+      generateMetadata,
+      generateStaticParams
+    } = await import("../../app/work/[slug]/page");
+
+    assert.deepStrictEqual(
+      generateStaticParams(),
+      expectedSlugs.map((slug) => ({ slug }))
+    );
+
+    const voyager = getProject("voyager-verifier");
+    assert.ok(voyager);
+
+    const metadata = await generateMetadata({
+      params: Promise.resolve({ slug: "voyager-verifier" })
+    });
+    assert.equal(metadata.title, voyager.title);
+    assert.equal(metadata.description, voyager.shortDescription);
+
+    for (const slug of expectedSlugs) {
+      const project = getProject(slug);
+      assert.ok(project);
+
+      const element = await ProjectPage({ params: Promise.resolve({ slug }) });
+      const pageText = collectText(element);
+
+      assert.match(pageText, new RegExp(project.title));
+      assert.match(pageText, /Case Study/);
+    }
+  });
+
+  test("metadata routes include public pages and project routes", async () => {
+    const [{ default: sitemap }, { default: robots }] = await Promise.all([
+      import("../../app/sitemap"),
+      import("../../app/robots")
+    ]);
+
+    const sitemapPaths = sitemap().map((entry) => new URL(String(entry.url)).pathname);
+
+    assert.deepStrictEqual(
+      [...sitemapPaths].sort(),
+      [
+        "/",
+        "/about",
+        "/resume",
+        "/resume.pdf",
+        "/work",
+        ...expectedSlugs.map((slug) => `/work/${slug}`)
+      ].sort()
+    );
+
+    const robotsConfig = robots();
+    assert.deepStrictEqual(robotsConfig.rules, {
+      userAgent: "*",
+      allow: "/"
+    });
+    assert.equal(String(robotsConfig.sitemap).endsWith("/sitemap.xml"), true);
   });
 });
