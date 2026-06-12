@@ -9,7 +9,8 @@
     "lint": "biome check .",
     "format": "biome format --write .",
     "typecheck": "tsc --noEmit",
-    "test": "bun test"
+    "test": "bun test",
+    "doctor": "npx react-doctor@latest"
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",
