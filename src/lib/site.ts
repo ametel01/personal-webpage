@@ -3,7 +3,7 @@ export const site = {
   role: "Software Engineer",
   email: "alex-metelli@gmx.com",
   githubUrl: "https://github.com/ametel01",
-  linkedinUrl: "https://www.linkedin.com/in/alex-metelli/",
+  linkedinUrl: "https://uk.linkedin.com/in/alex-metelli-344169182",
   resumePath: "/resume"
 } as const;
 
