@@ -1,17 +1,41 @@
+import { Container, ExternalLink, PageHeader, Section, TagList } from "@/components/primitives";
+import { site } from "@/lib/site";
+
 export default function Home() {
   return (
-    <main className="min-h-screen">
-      <section className="mx-auto flex min-h-screen w-[min(100%-48px,1180px)] flex-col justify-center py-20 max-[720px]:w-[min(100%-32px,1180px)]">
-        <p className="text-sm font-semibold uppercase tracking-normal text-slate-600">
-          Alex Metelli
-        </p>
-        <h1 className="mt-4 max-w-3xl text-5xl font-semibold tracking-normal text-slate-950 max-[720px]:text-4xl">
-          Software Engineer
-        </h1>
-        <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-700">
-          Backend systems. Developer tooling. Blockchain infrastructure.
-        </p>
-      </section>
+    <main>
+      <Section>
+        <Container>
+          <PageHeader
+            eyebrow={site.name}
+            title="Software Engineer"
+            description="Backend systems. Developer tooling. Blockchain infrastructure."
+          />
+          <div className="mt-8 flex flex-wrap gap-3">
+            <a className="button" href="/work">
+              View work
+            </a>
+            <ExternalLink className="button button-secondary" href={site.githubUrl}>
+              GitHub
+            </ExternalLink>
+          </div>
+        </Container>
+      </Section>
+      <Section muted tight>
+        <Container>
+          <div className="max-w-3xl border-l border-[var(--color-border)] pl-6">
+            <h2 className="text-[length:var(--text-xl)] font-semibold text-[var(--color-text)]">
+              Design foundation
+            </h2>
+            <p className="mt-3 text-[length:var(--text-md)] text-[var(--color-text-muted)]">
+              A restrained system for an evidence-first engineering website.
+            </p>
+            <div className="mt-5">
+              <TagList items={["Backend", "Developer tooling", "Blockchain infrastructure"]} />
+            </div>
+          </div>
+        </Container>
+      </Section>
     </main>
   );
 }
