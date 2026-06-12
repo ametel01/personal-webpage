@@ -47,6 +47,8 @@ const personJsonLd = {
   ]
 } as const;
 
+const personJsonLdScript = JSON.stringify(personJsonLd).replace(/</g, "\\u003c");
+
 const projectIcons = {
   ShieldCheck,
   Network,
@@ -59,13 +61,7 @@ const proofIcons = [BriefcaseBusiness, Code2, GitBranch, UsersRound] as const;
 export default function Home() {
   return (
     <main>
-      <script
-        type="application/ld+json"
-        // biome-ignore lint/security/noDangerouslySetInnerHtml: Static JSON-LD generated from local content.
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(personJsonLd).replace(/</g, "\\u003c")
-        }}
-      />
+      <script type="application/ld+json">{personJsonLdScript}</script>
       <div className="intro-page">
         <Section className="hero-section">
           <Container>
