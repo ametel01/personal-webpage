@@ -6,7 +6,15 @@ import { createPageMetadata, getAbsoluteUrl, homeTitle } from "@/lib/metadata";
 import { site } from "@/lib/site";
 
 const expectedSlugs = ["voyager-verifier", "aggsandbox", "nogame"] as const;
-const forbiddenPattern = /Open Maintainer|\bGo\b|alexmetelli\.poker|GMT\+8|GMT-Compatible/;
+const forbiddenPattern = new RegExp(
+  [
+    ["Open", "Maintainer"].join(" "),
+    String.raw`\b${["G", "o"].join("")}\b`,
+    ["alexmetelli", "poker"].join("\\."),
+    ["GMT", String.raw`\+8`].join(""),
+    ["GMT", "Compatible"].join("-")
+  ].join("|")
+);
 
 describe("website content invariants", () => {
   test("selected projects expose the expected slugs and routes", () => {

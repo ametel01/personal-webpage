@@ -27,6 +27,8 @@ bun run build
 
 ## Vercel Deployment
 
+Production URL: https://personal-webpage-three-woad.vercel.app
+
 Use Bun for install and build:
 
 ```text
