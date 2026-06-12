@@ -36,10 +36,12 @@ Install Command: bun install
 Build Command: bun run build
 ```
 
-Optional environment variable:
+Required production environment variable:
 
 ```text
-NEXT_PUBLIC_SITE_URL
+NEXT_PUBLIC_SITE_URL=https://personal-webpage-three-woad.vercel.app
 ```
 
-Set `NEXT_PUBLIC_SITE_URL` only when a production domain is assigned. The app does not hard-code a production domain; metadata, sitemap, and robots URLs use this variable when present and fall back to localhost for local development.
+Set `NEXT_PUBLIC_SITE_URL` for production builds so metadata, sitemap, and robots URLs use
+the public site origin. Local development and tests fall back to `http://localhost:3000`
+when the variable is not set.

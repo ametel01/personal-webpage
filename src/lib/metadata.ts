@@ -3,7 +3,25 @@ import { defaultDescription, site } from "@/lib/site";
 
 const fallbackSiteUrl = "http://localhost:3000";
 
-export const siteUrl = new URL(process.env.NEXT_PUBLIC_SITE_URL || fallbackSiteUrl);
+export function resolveSiteUrl() {
+  const configuredUrl = process.env.NEXT_PUBLIC_SITE_URL;
+
+  if (!configuredUrl) {
+    if (process.env.NODE_ENV === "production") {
+      throw new Error("NEXT_PUBLIC_SITE_URL is required for production metadata.");
+    }
+
+    return new URL(fallbackSiteUrl);
+  }
+
+  try {
+    return new URL(configuredUrl);
+  } catch {
+    throw new Error("NEXT_PUBLIC_SITE_URL must be a valid URL.");
+  }
+}
+
+export const siteUrl = resolveSiteUrl();
 
 export function getAbsoluteUrl(path: string) {
   return new URL(path, siteUrl).toString();

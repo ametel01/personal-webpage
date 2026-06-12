@@ -3,6 +3,7 @@ import { describe, test } from "node:test";
 import { profile, technicalFocusGroups } from "@/content/profile";
 import { getProject, isProjectSlug, projectSlugs, projects } from "@/content/projects";
 import { resume } from "@/content/resume";
+import type * as MetadataModule from "@/lib/metadata";
 import { createPageMetadata, getAbsoluteUrl, homeTitle } from "@/lib/metadata";
 import { site } from "@/lib/site";
 
@@ -16,6 +17,38 @@ const forbiddenPattern = new RegExp(
     ["GMT", "Compatible"].join("-")
   ].join("|")
 );
+
+async function importMetadataWithEnv(env: Record<string, string | undefined>) {
+  const processEnv = process.env as Record<string, string | undefined>;
+  const previousNodeEnv = process.env.NODE_ENV;
+  const previousSiteUrl = process.env.NEXT_PUBLIC_SITE_URL;
+
+  try {
+    for (const [key, value] of Object.entries(env)) {
+      if (value === undefined) {
+        delete processEnv[key];
+      } else {
+        processEnv[key] = value;
+      }
+    }
+
+    return (await import(
+      `../lib/metadata.ts?case=${crypto.randomUUID()}`
+    )) as typeof MetadataModule;
+  } finally {
+    if (previousNodeEnv === undefined) {
+      delete processEnv.NODE_ENV;
+    } else {
+      processEnv.NODE_ENV = previousNodeEnv;
+    }
+
+    if (previousSiteUrl === undefined) {
+      delete processEnv.NEXT_PUBLIC_SITE_URL;
+    } else {
+      processEnv.NEXT_PUBLIC_SITE_URL = previousSiteUrl;
+    }
+  }
+}
 
 describe("website content invariants", () => {
   test("selected projects expose the expected slugs and routes", () => {
@@ -95,6 +128,49 @@ describe("website content invariants", () => {
     const openGraph = metadata.openGraph as { title?: unknown; url?: unknown } | undefined;
     assert.equal(openGraph?.title, "Selected Work | Alex Metelli");
     assert.equal(openGraph?.url, "http://localhost:3000/work");
+  });
+
+  test("metadata helper uses localhost outside production when no site URL is configured", async () => {
+    const metadata = await importMetadataWithEnv({
+      NODE_ENV: "test",
+      NEXT_PUBLIC_SITE_URL: undefined
+    });
+
+    assert.equal(metadata.getAbsoluteUrl("/work"), "http://localhost:3000/work");
+  });
+
+  test("metadata helper uses the configured site URL", async () => {
+    const metadata = await importMetadataWithEnv({
+      NODE_ENV: "production",
+      NEXT_PUBLIC_SITE_URL: "https://personal-webpage-three-woad.vercel.app"
+    });
+
+    assert.equal(
+      metadata.getAbsoluteUrl("/work"),
+      "https://personal-webpage-three-woad.vercel.app/work"
+    );
+  });
+
+  test("metadata helper requires a site URL for production", async () => {
+    await assert.rejects(
+      () =>
+        importMetadataWithEnv({
+          NODE_ENV: "production",
+          NEXT_PUBLIC_SITE_URL: undefined
+        }),
+      /NEXT_PUBLIC_SITE_URL/
+    );
+  });
+
+  test("metadata helper rejects invalid configured site URLs", async () => {
+    await assert.rejects(
+      () =>
+        importMetadataWithEnv({
+          NODE_ENV: "test",
+          NEXT_PUBLIC_SITE_URL: "not a url"
+        }),
+      /NEXT_PUBLIC_SITE_URL/
+    );
   });
 
   test("homepage title matches the required SEO title", () => {
