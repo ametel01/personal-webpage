@@ -1,5 +1,7 @@
+import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
+import { SiteShell } from "@/components/site-shell";
 import { defaultDescription, site } from "@/lib/site";
 import "./globals.css";
 
@@ -18,7 +20,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <SiteShell>{children}</SiteShell>
+        <Analytics />
+      </body>
     </html>
   );
 }
