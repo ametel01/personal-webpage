@@ -5,6 +5,7 @@ coverage
 test-results
 *.log
 *.tsbuildinfo
+.DS_Store
 .env
 .env.*
 !.env.example
