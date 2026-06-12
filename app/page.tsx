@@ -8,6 +8,30 @@ import {
   technicalFocusGroups
 } from "@/content/profile";
 import { type Project, projects } from "@/content/projects";
+import { getAbsoluteUrl, homeMetadata } from "@/lib/metadata";
+
+export const metadata = homeMetadata;
+
+const personJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: profile.name,
+  jobTitle: profile.role,
+  url: getAbsoluteUrl("/"),
+  email: `mailto:${profile.email}`,
+  sameAs: [profile.links.github, profile.links.linkedin],
+  knowsAbout: [
+    "backend systems",
+    "developer tooling",
+    "blockchain infrastructure",
+    "Starknet",
+    "Cairo",
+    "Solidity",
+    "TypeScript",
+    "Rust",
+    "Python"
+  ]
+} as const;
 
 const projectIcons = {
   ShieldCheck,
@@ -18,6 +42,13 @@ const projectIcons = {
 export default function Home() {
   return (
     <main>
+      <script
+        type="application/ld+json"
+        // biome-ignore lint/security/noDangerouslySetInnerHtml: Static JSON-LD generated from local content.
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(personJsonLd).replace(/</g, "\\u003c")
+        }}
+      />
       <Section className="pt-20 max-[720px]:pt-14">
         <Container>
           <div className="grid items-start gap-14 lg:grid-cols-[minmax(0,1.02fr)_minmax(320px,0.62fr)]">

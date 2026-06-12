@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
 import { Container, ExternalLink, Section } from "@/components/primitives";
 import { getProject, isProjectSlug, projectSlugs } from "@/content/projects";
+import { createPageMetadata } from "@/lib/metadata";
 
 type ProjectPageProps = {
   params: Promise<{
@@ -33,10 +34,11 @@ export async function generateMetadata({ params }: ProjectPageProps): Promise<Me
     };
   }
 
-  return {
+  return createPageMetadata({
     title: project.title,
-    description: project.shortDescription
-  };
+    description: project.shortDescription,
+    path: `/work/${project.slug}`
+  });
 }
 
 export default async function ProjectPage({ params }: ProjectPageProps) {

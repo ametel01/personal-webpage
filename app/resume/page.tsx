@@ -2,12 +2,14 @@ import { ArrowUpRight, Download, Mail } from "lucide-react";
 import type { Metadata } from "next";
 import { Container, ExternalLink, PageHeader, Section, TagList } from "@/components/primitives";
 import { resume } from "@/content/resume";
+import { createPageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPageMetadata({
   title: "Resume",
   description:
-    "Structured web resume for Alex Metelli, software engineer focused on backend systems, developer tooling, and blockchain infrastructure."
-};
+    "Structured web resume for Alex Metelli, software engineer focused on backend systems, developer tooling, and blockchain infrastructure.",
+  path: "/resume"
+});
 
 export default function ResumePage() {
   return (

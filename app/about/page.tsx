@@ -4,12 +4,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { Container, ExternalLink, PageHeader, Section } from "@/components/primitives";
 import { profile } from "@/content/profile";
+import { createPageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPageMetadata({
   title: "About",
   description:
-    "About Alex Metelli, a software engineer focused on backend systems, developer tooling, blockchain infrastructure, and correctness-sensitive software."
-};
+    "About Alex Metelli, a software engineer focused on backend systems, developer tooling, blockchain infrastructure, and correctness-sensitive software.",
+  path: "/about"
+});
 
 export default function AboutPage() {
   return (

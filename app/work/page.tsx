@@ -3,13 +3,15 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Container, ExternalLink, PageHeader, Section, TagList } from "@/components/primitives";
 import { type Project, projects } from "@/content/projects";
+import { createPageMetadata } from "@/lib/metadata";
 import { site } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPageMetadata({
   title: "Selected Work",
   description:
-    "Selected engineering case studies by Alex Metelli across Starknet verification, cross-chain infrastructure, and on-chain game systems."
-};
+    "Selected engineering case studies by Alex Metelli across Starknet verification, cross-chain infrastructure, and on-chain game systems.",
+  path: "/work"
+});
 
 const projectIcons = {
   ShieldCheck,
