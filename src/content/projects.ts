@@ -156,6 +156,12 @@ export const projects: readonly Project[] = [
   }
 ] as const;
 
+export const projectSlugs = projects.map((project) => project.slug);
+
+export function isProjectSlug(slug: string): slug is Project["slug"] {
+  return projectSlugs.includes(slug as Project["slug"]);
+}
+
 export function getProject(slug: Project["slug"]) {
   return projects.find((project) => project.slug === slug);
 }

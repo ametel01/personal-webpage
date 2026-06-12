@@ -1,4 +1,5 @@
 import { ArrowRight, ArrowUpRight, Gamepad2, Mail, Network, ShieldCheck } from "lucide-react";
+import Link from "next/link";
 import { Container, ExternalLink, Section, TagList } from "@/components/primitives";
 import {
   experienceSnapshot,
@@ -220,7 +221,6 @@ function SectionHeading({
 
 function ProjectCard({ project }: { project: Project }) {
   const Icon = projectIcons[project.icon];
-  const primaryEvidence = project.caseStudy.evidence[0];
 
   return (
     <article className="flex min-h-[360px] flex-col border border-[var(--color-border)] bg-white p-6 shadow-[var(--shadow-card)] transition hover:-translate-y-0.5 hover:border-[var(--color-accent)]">
@@ -241,15 +241,13 @@ function ProjectCard({ project }: { project: Project }) {
       <div className="mt-5">
         <TagList items={project.tags} ariaLabel={`${project.title} technologies`} />
       </div>
-      {primaryEvidence ? (
-        <ExternalLink
-          className="mt-auto inline-flex items-center gap-2 pt-7 text-[length:var(--text-sm)] font-bold text-[var(--color-accent)] hover:text-[var(--color-accent-hover)]"
-          href={primaryEvidence.href}
-        >
-          View Project
-          <ArrowRight aria-hidden="true" size={16} strokeWidth={2.4} />
-        </ExternalLink>
-      ) : null}
+      <Link
+        className="mt-auto inline-flex items-center gap-2 pt-7 text-[length:var(--text-sm)] font-bold text-[var(--color-accent)] hover:text-[var(--color-accent-hover)]"
+        href={`/work/${project.slug}`}
+      >
+        View Project
+        <ArrowRight aria-hidden="true" size={16} strokeWidth={2.4} />
+      </Link>
     </article>
   );
 }
