@@ -1,288 +1,605 @@
-For a professional dev website, don’t build “a portfolio.” Build a **proof page for why someone should trust you with serious engineering work**.
+# Alex Metelli Personal Website PRD
 
-Your strongest angle should not be “blockchain developer.” It should be broader and more hireable:
+Last updated: 2026-06-12
 
-> **Software Engineer — Backend, Developer Infrastructure, AI Tooling, Blockchain Systems**
+## 1. Product Goal
 
-That keeps your Web3 depth, but avoids looking too niche.
+Build a professional software engineering website that helps Alex Metelli earn serious remote engineering opportunities.
 
-## 1. First-screen message
+The site is not a generic portfolio. It is a proof page for why a technical hiring manager should trust Alex with backend, infrastructure, developer tooling, and blockchain systems work.
 
-The homepage hero must answer three things in under 10 seconds:
+Primary conversion goal:
 
-**Who are you?**
-Software engineer with backend, infra, tooling, and blockchain systems experience.
+- Remote software engineering roles
+- Selected consulting work with concrete technical scope
 
-**What problems do you solve?**
-Developer tooling, infra automation, correctness-sensitive systems, AI-assisted workflows, protocol/backend work.
+Primary reader:
 
-**Why should they care?**
-You ship usable systems, not toy demos.
-
-A strong structure:
-
-```text
-Alex Metelli
-Software Engineer — Backend, Developer Infrastructure, AI Tooling
-
-I build backend systems, developer tools, and blockchain infrastructure with TypeScript, Rust, Python, Solidity, and Cairo.
-
-Previously at Nethermind. I work across AI-assisted engineering workflows, open-source tooling, cross-chain infrastructure, and correctness-sensitive systems.
-
-[View Projects] [GitHub] [LinkedIn] [Contact]
-```
-
-Avoid vague lines like:
-
-```text
-Passionate developer building the future of Web3.
-```
-
-That sounds generic and junior.
-
-## 2. Visual style
-
-Use a clean, technical, restrained design. Your work is complex; the site should make it feel clear.
-
-Best direction:
-
-| Element     | Recommendation                                             |
-| ----------- | ---------------------------------------------------------- |
-| Layout      | Minimal, editorial, spacious                               |
-| Colors      | White/dark neutral background, one accent color            |
-| Fonts       | One strong sans-serif, one monospace for technical details |
-| Animations  | Very light; no gimmicky 3D unless it improves credibility  |
-| Tone        | Senior, direct, evidence-based                             |
-| Density     | Compact but not cramped                                    |
-| Personality | Serious engineer, not startup influencer                   |
-
-A standalone website still matters because it gives you control over the narrative and acts as a credible owned presence, while social profiles are better used as funnels into it. Recent portfolio guidance still emphasizes curated work, clear storytelling, and quality over quantity. ([Creative Bloq][1])
-
-## 3. Site structure
-
-Keep it simple:
-
-```text
-/
-  Hero
-  Selected Work
-  Technical Strengths
-  Experience
-  Writing / Notes
-  Contact
-
-/projects/open-maintainer
-/projects/voyager-verifier
-/projects/aggsandbox-or-cross-chain-infra
-/projects/nogame
-/about
-```
-
-Do not overbuild. A beautiful homepage with 3–5 strong project case studies beats a large site full of weak entries. Nielsen Norman Group’s portfolio guidance also recommends choosing **3–5 detailed case studies** rather than showing everything. ([Nielsen Norman Group][2])
-
-## 4. Project case studies
-
-Each project should be written like an engineering artifact, not like a gallery item.
-
-Use this format:
-
-```text
-Project name
-One-line explanation.
-
-Problem
-What needed to be solved?
-
-My role
-What did I personally own?
-
-Technical decisions
-Stack, architecture, tradeoffs.
-
-Hard parts
-What was difficult? Performance, correctness, DX, security, infra, ambiguity.
-
-Result
-What shipped? Users, adoption, PRs, metrics, production use, lessons.
-
-Links
-GitHub, demo, docs, article.
-```
-
-Your strongest case studies should probably be:
-
-1. **Open Maintainer** — AI-ready repo context, PR review, issue triage, developer workflow tooling.
-2. **Voyager Verifier / Starknet tooling** — contract verification, Cairo, infra, API/compiler integration.
-3. **AggSandbox / cross-chain infra** — LayerZero, AggLayer, bridging, contracts, scripts.
-4. **NoGame / Starknet MMO** — full-stack product, smart contracts, frontend, game logic.
-5. **x402 Starknet or Horizon Starknet** — only if you can show clear technical substance.
-
-For each, show **evidence**: screenshots, architecture diagrams, code snippets, GitHub links, PRs, metrics, and tradeoffs. Do not just describe the project.
-
-## 5. Messaging hierarchy
-
-Your site should repeatedly reinforce this identity:
-
-```text
-I build systems that help developers and protocols ship faster, safer, and with better context.
-```
-
-Good phrases for your positioning:
-
-```text
-Backend systems
-Developer infrastructure
-AI-assisted engineering workflows
-Open-source tooling
-Blockchain infrastructure
-Protocol integrations
-Correctness-sensitive software
-Remote async engineering
-```
-
-Use less of this:
-
-```text
-Web3 enthusiast
-Passionate builder
-Innovative developer
-Cutting-edge blockchain solutions
-Disruptive technology
-```
-
-Those phrases weaken you.
-
-## 6. What recruiters and hiring managers should see fast
-
-Add a compact “Technical Focus” section:
-
-```text
-Backend & infra
-Node.js, TypeScript, Python, Rust, Go, PostgreSQL, Redis, Docker, Linux
-
-Blockchain systems
-Starknet, Cairo, Solidity, EVM, LayerZero, Aztec, cross-chain infrastructure
-
-Developer tooling
-CLI tools, repo automation, AI-assisted workflows, GitHub integrations, code review systems
-
-Product engineering
-Next.js, React, APIs, dashboards, deployment, observability
-```
-
-This gives both humans and search engines clear topical signals. Google’s SEO guidance emphasizes making pages easy to crawl, index, and understand, and using clear, helpful content rather than tricks. ([Google for Developers][3])
-
-## 7. SEO basics for your name and niche
-
-You want to rank for:
-
-```text
-Alex Metelli software engineer
-Alex Metelli developer infrastructure
-Alex Metelli blockchain engineer
-Alex Metelli Starknet
-Alex Metelli Cairo developer
-Alex Metelli AI tooling engineer
-```
-
-Do this:
-
-* Use your full name in the homepage title:
-  `Alex Metelli — Software Engineer | Backend, AI Tooling, Blockchain Infrastructure`
-* Add a strong meta description.
-* Create individual project pages.
-* Add Open Graph images for link previews.
-* Use semantic HTML: `h1`, `h2`, `article`, `nav`, `main`.
-* Add JSON-LD structured data for `Person`, `SoftwareSourceCode`, and possibly `CreativeWork`.
-* Keep the site fast, mobile-friendly, and accessible.
-* Link out to GitHub, LinkedIn, live demos, docs, and relevant PRs.
-* Link back from GitHub profile, LinkedIn, resume, and project READMEs.
-
-Google is explicit that SEO is not a guarantee of ranking, but following search essentials and making content understandable improves eligibility and visibility. ([Google for Developers][3])
-
-## 8. Homepage sections
-
-Use this order:
-
-```text
-1. Hero
-2. Selected work
-3. Technical strengths
-4. Experience highlights
-5. Open-source / writing
-6. Contact
-```
-
-The “Selected Work” section should not be cards with only titles. Each card needs a sharp value statement:
-
-```text
-Open Maintainer
-AI-ready repository context, PR review, and issue triage for GitHub projects.
-
-Voyager Verifier
-Contract verification tooling for Starknet, integrating compiler workflows, API endpoints, and status polling.
-
-AggSandbox
-Cross-chain infrastructure experiments using LayerZero, AggLayer-style settlement, and token adapter contracts.
-```
-
-## 9. About page
-
-Do not write a life story. Write a professional narrative:
-
-```text
-I’m a software engineer focused on backend systems, developer infrastructure, and AI-assisted engineering workflows.
-
-I previously worked at Nethermind on blockchain infrastructure, Starknet tooling, verification workflows, and cross-chain systems. My work usually sits where product requirements meet correctness-sensitive engineering: APIs, CLIs, smart contracts, repo automation, indexing, and developer experience.
-
-I’m especially interested in tools that make engineering teams faster without removing review, ownership, or technical judgment.
-```
-
-That last line is strong because it positions you well in the AI tooling space without sounding like “AI will replace developers.”
-
-## 10. Design mistakes to avoid
-
-Avoid these:
-
-* Huge animated hero with no clear message.
-* Too much Web3 language on the homepage.
-* Listing 20 small projects.
-* Skill bars.
-* “90% Rust, 80% TypeScript” nonsense.
-* Long paragraphs.
-* Fake metrics.
-* Generic AI-generated copy.
-* A site that looks like a template portfolio for junior frontend developers.
-* No contact CTA.
-* No project depth.
-
-## 11. Best stack
-
-For you, I’d use:
-
-```text
-Next.js / Astro
-Tailwind
-MDX for case studies
-Vercel / Cloudflare Pages
-Plausible or Umami analytics
-Static generation where possible
-```
-
-Astro is probably ideal if the site is mostly content. Next.js is fine if you want richer interactive project demos.
-
-## 12. The standard to aim for
+- Engineering managers first
+- Recruiters second
+- Technical peers third
 
 The site should make someone think:
 
-> “This person can take ambiguous engineering problems, structure them, build the system, document it, and ship.”
+> Alex can take ambiguous engineering problems, structure them, build the system, document it, and ship.
 
-Not:
+## 2. Positioning
 
-> “This person knows many technologies.”
+Primary identity:
 
-Your edge is not the stack list. It is the combination of **backend engineering + developer tooling + blockchain infra + AI workflow judgment**. Build the site around that.
+```text
+Software Engineer
 
-[1]: https://www.creativebloq.com/professional-development/creative-careers/in-the-age-of-social-media-do-designers-still-need-a-website-in-2026?utm_source=chatgpt.com "In the age of social media, do designers still need a website in 2026?"
-[2]: https://www.nngroup.com/articles/ux-design-portfolios/?utm_source=chatgpt.com "5 Steps to Creating a UX-Design Portfolio"
-[3]: https://developers.google.com/search/docs/fundamentals/seo-starter-guide?utm_source=chatgpt.com "Search Engine Optimization (SEO) Starter Guide"
+Backend systems.
+Developer tooling.
+Blockchain infrastructure.
+```
+
+Hero body:
+
+```text
+I build backend systems, developer tools, and blockchain infrastructure for teams working on correctness-sensitive software.
+```
+
+Supporting positioning:
+
+- Generalist software engineer with blockchain depth
+- Backend and infrastructure capability
+- Developer tooling and engineering automation
+- Starknet, Cairo, Solidity, verification, and cross-chain systems experience
+- AI-assisted engineering workflows as a supporting strength, not the headline
+
+Avoid:
+
+- Blockchain/Web3-only positioning
+- "Passionate developer"
+- "Building the future"
+- "Web3 enthusiast"
+- "Cutting-edge solutions"
+- Fake metrics
+- Junior portfolio aesthetics
+
+## 3. V1 Site Map
+
+```text
+/
+  Home
+
+/work
+  Curated selected work index
+
+/work/voyager-verifier
+  Voyager Verifier case study
+
+/work/aggsandbox
+  AggSandbox case study
+
+/work/nogame
+  NoGame case study
+
+/about
+  Professional narrative, headshot, working style, links
+
+/resume
+  Rendered web resume
+
+/resume.pdf
+  Optional downloadable PDF resume
+```
+
+There is no dedicated `/contact` page in v1. Contact appears on the homepage, footer, about page, and resume page.
+
+## 4. Homepage Requirements
+
+Homepage order:
+
+```text
+1. Header
+2. Hero
+3. Selected Work
+4. Technical Focus
+5. Experience Snapshot
+6. Proof Bar
+7. Contact
+8. Footer
+```
+
+### Header
+
+Desktop navigation:
+
+```text
+AM / Alex Metelli
+Work
+About
+Resume
+```
+
+Mobile navigation:
+
+```text
+AM
+Work
+About
+Resume
+```
+
+Hide the full brand name on small screens if needed. Do not add a hamburger menu for v1.
+
+### Hero
+
+The hero must answer, within seconds:
+
+- Who Alex is
+- What systems he works on
+- Why the work is credible
+
+Hero content:
+
+```text
+Alex Metelli
+Software Engineer
+
+Backend systems.
+Developer tooling.
+Blockchain infrastructure.
+
+I build backend systems, developer tools, and blockchain infrastructure for teams working on correctness-sensitive software.
+```
+
+Hero actions:
+
+```text
+View Work
+GitHub
+LinkedIn
+```
+
+External hero links open in a new tab with `rel="noreferrer"`.
+
+Do not include the headshot in the homepage hero. Use the right side for a credibility summary panel.
+
+### Hero Summary Panel
+
+Include:
+
+```text
+Previously at Nethermind, working on Starknet tooling, verification workflows, cross-chain infrastructure, and developer experience automation.
+```
+
+Structured facts:
+
+```text
+Focus
+Backend · Dev Tools · Blockchain · AI Workflows
+
+Tech
+TypeScript · Rust · Python · Solidity · Cairo
+
+Strengths
+System Design · APIs · Smart Contracts · DX · Automation
+
+Availability
+Remote · Async · Timezone flexible
+```
+
+Do not include Go anywhere in v1.
+
+## 5. Selected Work
+
+V1 uses three strong case studies only:
+
+```text
+1. Voyager Verifier
+2. AggSandbox
+3. NoGame
+```
+
+Do not mention Open Maintainer. It is incomplete and not suitable as proof.
+
+Do not force a fourth project. Add x402 Starknet, Horizon Starknet, or another project only later if it has real evidence and defensible technical substance.
+
+Each homepage project card must include:
+
+- Project name
+- One-sentence value statement
+- One-line proof signal
+- Tech tags
+- Link to full case study or strongest external artifact
+
+No card should link to a placeholder or thin page.
+
+### Project Card Copy
+
+Voyager Verifier:
+
+```text
+Starknet contract verification tooling with compiler integration and status tracking.
+Proof: Built for Starknet verification workflows at Nethermind.
+```
+
+AggSandbox:
+
+```text
+Cross-chain infrastructure experiments using LayerZero, AggLayer concepts, and executable contract scripts.
+Proof: Cross-chain protocol experiments with executable contracts and scripts.
+```
+
+NoGame:
+
+```text
+Starknet MMO prototype with contracts, frontend systems, and game logic.
+Proof: Playable Starknet MMO prototype with contracts and frontend systems.
+```
+
+## 6. Project Case Study Template
+
+Every v1 project page must be a real case study, not a placeholder.
+
+Template:
+
+```text
+Overview
+Problem
+My role
+Technical details
+Hard parts and tradeoffs
+Current state
+Evidence
+```
+
+Include a top metadata block:
+
+```text
+Role
+Stack
+Current state
+```
+
+Write case studies in restrained first person:
+
+- "I built..."
+- "I owned..."
+- "I integrated..."
+- "I chose..."
+
+Avoid inflated or vague claims.
+
+Do not include screenshots, architecture diagrams, or code snippets in v1.
+
+Evidence links should be real and open in a new tab with `rel="noreferrer"`.
+
+## 7. Technical Focus
+
+Homepage Technical Focus should include four groups:
+
+```text
+Backend & infrastructure
+TypeScript · Node.js · Python · Rust · PostgreSQL · Redis · Docker · Linux
+
+Developer tooling
+CLI tools · Engineering automation · AI-assisted engineering workflows
+
+Blockchain systems
+Starknet · Cairo · Solidity · EVM · LayerZero · AggLayer · Cross-chain infrastructure · Aztec experiments
+
+Product engineering
+Next.js · React · APIs · Deployment · Observability
+```
+
+AWS should not appear in the homepage Technical Focus. Include AWS Console and CloudWatch only where relevant, especially the Voyager Verifier case study and resume.
+
+## 8. Experience Snapshot
+
+Include a compact homepage Experience Snapshot without dates:
+
+```text
+Nethermind
+Starknet tooling, contract verification workflows, cross-chain infrastructure, developer experience automation.
+
+Independent / Open Source
+Protocol experiments, full-stack product prototypes, CLI tooling, engineering automation, and AI-assisted engineering workflows.
+```
+
+Dates belong on `/resume`, not on the homepage.
+
+## 9. Proof Bar
+
+Use a compact proof bar with no fake metrics.
+
+Recommended content:
+
+```text
+Professional Experience
+Nethermind
+
+Core Work
+Backend · Infra · Tooling
+
+Open Source
+Starknet · Cairo · Dev Tools
+
+Availability
+Remote · Async · Timezone flexible
+```
+
+Do not use:
+
+```text
+Projects
+10+
+```
+
+## 10. Contact
+
+Include a compact homepage Contact section.
+
+Contact positioning:
+
+```text
+Open to remote software engineering roles focused on backend systems, developer tooling, and blockchain infrastructure. Also open to selected consulting work where the scope is technical and concrete.
+```
+
+Public email:
+
+```text
+alex-metelli@gmx.com
+```
+
+Show the email visibly and make it a `mailto:` link.
+
+Do not add a copy-email button in v1.
+
+Public web contact should be limited to:
+
+- Email
+- LinkedIn
+- GitHub
+
+Do not publish phone number or exact location on rendered web pages.
+
+## 11. About Page
+
+The about page should be mostly professional.
+
+Include:
+
+- `professional-photo.png`
+- Short professional narrative
+- What Alex works on
+- How Alex works
+- What roles or consulting work Alex is open to
+- Links to GitHub, LinkedIn, email, and resume
+
+Use the headshot on `/about` only for v1.
+
+Working style sentence:
+
+```text
+I work well in remote, async teams and can adapt my schedule across time zones when collaboration needs it.
+```
+
+Do not publish exact geography.
+
+## 12. Resume
+
+The web resume is `/resume`.
+
+The optional PDF download is `/resume.pdf`.
+
+Header Resume link should point to `/resume`, not directly to the PDF.
+
+The web resume should be rendered from structured content, not generated from PDF extraction.
+
+Recommended structure:
+
+```text
+Experience
+Nethermind
+
+Selected Projects
+Voyager Verifier
+AggSandbox
+NoGame
+
+Skills
+Backend & infrastructure
+Developer tooling
+Blockchain systems
+Product engineering
+
+Education / Certifications
+If relevant and accurate
+
+Links
+GitHub
+LinkedIn
+Email
+Download PDF
+```
+
+Dates should appear on `/resume` where accurate. Dates should not appear on the homepage.
+
+The PDF source currently lives at:
+
+```text
+docs/Resume-June2026.pdf
+```
+
+For implementation, copy it to:
+
+```text
+public/resume.pdf
+```
+
+Keep the original PDF in `docs/`.
+
+## 13. Writing / Notes
+
+Include Writing / Notes only if at least one finished technical note is ready.
+
+Good topics:
+
+- Starknet verification workflows
+- Cairo tooling
+- Cross-chain infrastructure
+- AI-assisted engineering workflows
+- Developer tooling tradeoffs
+
+Do not ship an empty or thin writing section.
+
+## 14. SEO and Metadata
+
+Homepage title:
+
+```text
+Alex Metelli - Software Engineer | Backend, Developer Tooling, Blockchain Infrastructure
+```
+
+Meta description:
+
+```text
+Alex Metelli is a software engineer focused on backend systems, developer tooling, blockchain infrastructure, Starknet tooling, and AI-assisted engineering workflows.
+```
+
+Target keywords:
+
+```text
+Alex Metelli software engineer
+Alex Metelli backend engineer
+Alex Metelli blockchain engineer
+Alex Metelli Starknet
+Alex Metelli Cairo developer
+developer tooling engineer
+blockchain infrastructure engineer
+AI tooling engineer
+```
+
+Add homepage `Person` JSON-LD:
+
+- `name`
+- `jobTitle`
+- `url`
+- `sameAs`: GitHub, LinkedIn
+- `knowsAbout`: backend systems, developer tooling, blockchain infrastructure, Starknet, Cairo, Solidity, TypeScript, Rust, Python
+- `email`
+
+Add page-specific metadata for each project page. V1 can share one static Open Graph image:
+
+```text
+public/og.png
+```
+
+Add:
+
+```text
+app/sitemap.ts
+app/robots.ts
+```
+
+Do not hard-code a custom canonical domain yet. The production domain is an open decision. Use a configurable site URL later.
+
+## 15. Stack and Tooling
+
+Use:
+
+```text
+Next.js App Router
+TypeScript
+Tailwind
+Bun
+MDX or structured static content
+lucide-react
+Vercel Web Analytics
+Biome
+```
+
+Do not use a component library in v1.
+
+Quality scripts:
+
+```json
+{
+  "format": "biome format --write .",
+  "lint": "biome check .",
+  "typecheck": "tsc --noEmit",
+  "build": "next build"
+}
+```
+
+Vercel deployment should be optimized for Bun:
+
+```text
+Install Command: bun install
+Build Command: bun run build
+```
+
+Local quality gates come before GitHub Actions. Add CI later after the app structure is stable.
+
+## 16. Runtime Assets
+
+Keep planning/source files in `docs/`:
+
+```text
+docs/PRD.md
+docs/DESIGN.md
+docs/design.png
+docs/professional-photo.png
+docs/Resume-June2026.pdf
+```
+
+Copy runtime assets into `public/` during implementation:
+
+```text
+docs/professional-photo.png -> public/images/professional-photo.png
+docs/Resume-June2026.pdf -> public/resume.pdf
+```
+
+Do not move the docs source artifacts.
+
+## 17. Accessibility
+
+Requirements:
+
+- Semantic HTML
+- One `h1` per page
+- Real links for CTAs
+- Clear focus-visible styles
+- Minimum 4.5:1 contrast for normal text
+- Icons must not be the only source of meaning
+- Respect `prefers-reduced-motion`
+- External links that open in a new tab need clear behavior and `rel="noreferrer"`
+
+## 18. Do Not Include in V1
+
+- Open Maintainer
+- Go
+- Dedicated contact page
+- Contact form
+- Hero headshot
+- Dark mode
+- Component library
+- Screenshots
+- Architecture diagrams
+- Code snippets
+- Placeholder case-study pages
+- Fake metrics
+- `Projects 10+`
+- Heavy animations
+- Typing animations
+- Particles
+- Carousels
+- Decorative code blocks
+- Fake terminal windows
+- Exact public geography
+- Public phone number on rendered pages
+
+## 19. Open Decisions
+
+- Final production domain and canonical URL
+- Exact evidence links for Voyager Verifier
+- Exact evidence links for AggSandbox
+- Exact evidence links for NoGame
+- Exact structured resume transcription
+- Whether Writing / Notes ships in v1
+- Final static Open Graph image design

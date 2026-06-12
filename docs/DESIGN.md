@@ -1,411 +1,125 @@
-# Alex Metelli Developer Website Design Specification
+# Alex Metelli Personal Website Design Specification
 
-## 1. Goal
+Last updated: 2026-06-12
 
-Create a clean professional website that helps Alex Metelli get software engineering opportunities by quickly communicating:
+## 1. Design Goal
 
-* Senior backend and infrastructure capability
-* Developer tooling experience
-* Blockchain infrastructure experience
-* Open-source credibility
-* Clear availability for remote roles
-* Direct access to resume, GitHub, LinkedIn, and contact
+Create a clean, technical, evidence-first website for a serious software engineer.
 
-The site should feel serious, technical, and reliable. It should avoid portfolio clutter, gimmicks, fake dashboards, decorative code blocks, and vague startup-style copy.
+The design should help hiring managers quickly understand:
 
----
+- Alex works on backend systems, developer tooling, and blockchain infrastructure
+- Alex has real professional experience at Nethermind
+- Alex can work on correctness-sensitive systems
+- Alex is available for remote roles and selected consulting
+- The selected projects are concrete and reviewable
 
-# 2. Brand Positioning
+The site should feel:
 
-## Primary positioning
+- Direct
+- Technical
+- Calm
+- Professional
+- Editorial
+- Evidence-based
 
-**Software Engineer focused on backend systems, developer tooling, and blockchain infrastructure.**
+It should not feel like:
 
-## Supporting message
+- A junior portfolio template
+- A startup landing page
+- A Web3 hype site
+- A fake dashboard
+- A decorative code playground
 
-Alex builds scalable backend systems, developer tools, and correctness-sensitive infrastructure that help teams ship faster and with more confidence.
+## 2. Visual Direction
 
-## Tone
+Use a restrained editorial layout:
 
-* Direct
-* Technical
-* Professional
-* Minimal
-* Evidence-based
-* No hype
-* No unnecessary personal branding fluff
+- Light theme only for v1
+- White and near-white surfaces
+- Deep navy text
+- One restrained blue accent
+- Thin borders
+- Strong typography
+- Spacious sections
+- Compact proof elements
+- Minimal motion
+- Meaningful icons only
 
-## Avoid
+Do not use:
 
-* “Passionate developer”
-* “Building the future”
-* “Web3 enthusiast”
-* “Cutting-edge solutions”
-* Excessive AI buzzwords
-* Decorative code snippets
-* Fake metrics
-* Overloaded animations
+- Glassmorphism
+- Particles
+- Typing effects
+- Fake terminal windows
+- Decorative code blocks
+- Heavy gradients
+- Dark mode toggle
+- Hero headshot
+- Screenshots
+- Architecture diagrams
+- Code snippets
 
----
+## 3. Site Structure
 
-# 3. Site Structure
-
-## Main pages
-
-```txt
+```text
 /
   Home
 
 /work
-  Selected project case studies
+  Curated selected work
 
-/work/open-maintainer
 /work/voyager-verifier
 /work/aggsandbox
 /work/nogame
 
 /about
-  Professional background
+  Professional narrative and headshot
 
-/experience
-  Work history and technical focus
-
-/contact
-  Contact form or direct email
+/resume
+  Rendered web resume
 
 /resume.pdf
-  Downloadable resume
+  Optional PDF download
 ```
 
-## Homepage sections
+No dedicated `/contact` page in v1.
 
-```txt
-1. Header
-2. Hero
-3. Professional summary
-4. Selected work
-5. Proof bar
-6. Footer
+## 4. Layout System
+
+Use a centered container:
+
+```css
+:root {
+  --container: 1180px;
+}
+
+.container {
+  width: min(100% - 48px, var(--container));
+  margin-inline: auto;
+}
+
+@media (max-width: 720px) {
+  .container {
+    width: min(100% - 32px, var(--container));
+  }
+}
 ```
 
----
+Prefer full-width page sections with constrained inner content. Do not put page sections inside decorative cards.
 
-# 4. Homepage Layout
+Cards are allowed for:
 
-## Header
+- Project cards
+- Focus groups
+- Resume entries
+- Case-study metadata blocks
 
-### Purpose
+Avoid nested cards.
 
-Give quick navigation and a strong first impression.
+## 5. Color System
 
-### Content
-
-Left side:
-
-```txt
-AM
-Alex Metelli
-```
-
-Right side:
-
-```txt
-Work
-About
-Experience
-Contact
-Resume
-```
-
-### Behavior
-
-* Sticky header optional
-* Resume button should be visually stronger than normal nav links
-* Header should stay minimal and not dominate the page
-
----
-
-## Hero Section
-
-### Purpose
-
-Immediately communicate what Alex does and why he is relevant to hiring managers.
-
-### Left column
-
-Eyebrow:
-
-```txt
-SOFTWARE ENGINEER
-```
-
-Headline:
-
-```txt
-Backend systems.
-Developer tooling.
-Blockchain infrastructure.
-```
-
-Body:
-
-```txt
-I build scalable backend systems, developer tools, and blockchain infrastructure that help teams ship faster and with confidence.
-```
-
-Primary CTA:
-
-```txt
-View My Work
-```
-
-Secondary links:
-
-```txt
-GitHub
-LinkedIn
-```
-
-### Right column
-
-Professional summary panel:
-
-```txt
-Software engineer with experience at Nethermind, working on Starknet tooling, verification systems, cross-chain infrastructure, and developer experience automation.
-```
-
-Structured facts:
-
-```txt
-Focus
-Backend · Dev Tools · Blockchain · AI Workflows
-
-Tech
-TypeScript · Rust · Python · Solidity · Cairo · Go
-
-Strengths
-System Design · APIs · Smart Contracts · DX · Automation
-
-Interests
-Developer Productivity · Open Source · Infrastructure
-```
-
-### Design notes
-
-* No code block in hero
-* No fake architecture diagrams
-* No fake dashboard metrics
-* Use the right column as a credibility summary
-* Keep the hero text large and calm
-
----
-
-# 5. Selected Work Section
-
-## Purpose
-
-Show credible projects without overwhelming the visitor.
-
-## Section heading
-
-```txt
-SELECTED WORK
-```
-
-## Link
-
-```txt
-View all projects →
-```
-
-## Project cards
-
-Each card should include:
-
-* Icon
-* Project name
-* One-sentence value
-* Tech tags
-* View Project link
-
-### Card 1
-
-Title:
-
-```txt
-Open Maintainer
-```
-
-Description:
-
-```txt
-AI-ready repository context, PR review, and issue triage for GitHub projects.
-```
-
-Tags:
-
-```txt
-TypeScript
-GitHub API
-AI
-CLI
-```
-
-### Card 2
-
-Title:
-
-```txt
-Voyager Verifier
-```
-
-Description:
-
-```txt
-Starknet contract verification tooling with compiler integration and status tracking.
-```
-
-Tags:
-
-```txt
-Cairo
-Starknet
-TypeScript
-API
-```
-
-### Card 3
-
-Title:
-
-```txt
-AggSandbox
-```
-
-Description:
-
-```txt
-Cross-chain infrastructure experiments using LayerZero and AggLayer concepts.
-```
-
-Tags:
-
-```txt
-Solidity
-LayerZero
-Foundry
-Hardhat
-```
-
-### Card 4
-
-Title:
-
-```txt
-NoGame
-```
-
-Description:
-
-```txt
-Starknet MMO game with real-time systems, smart contracts, and frontend.
-```
-
-Tags:
-
-```txt
-Next.js
-Cairo
-Starknet
-WebSocket
-```
-
----
-
-# 6. Proof Bar
-
-## Purpose
-
-End the page with compact credibility signals.
-
-## Items
-
-```txt
-Professional Experience
-Nethermind
-
-Projects
-10+
-
-Open Source
-Active Contributor
-
-Focus
-Remote · Async · Global
-```
-
-## Design notes
-
-* Dark background
-* Strong contrast
-* Compact layout
-* No inflated metrics
-* If possible, replace “10+” later with a stronger factual proof point
-
-Better future variants:
-
-```txt
-Professional Experience
-Nethermind, 2024–2026
-
-Open Source
-Starknet · Cairo · Dev Tools
-
-Availability
-Remote · GMT+8 · Async
-
-Core Work
-Backend · Infra · Tooling
-```
-
----
-
-# 7. Visual Style
-
-## Overall style
-
-Minimal technical editorial layout.
-
-## Keywords
-
-```txt
-Clean
-Precise
-Structured
-Calm
-Professional
-Technical
-Spacious
-```
-
-## Design principles
-
-* Large typography
-* Strong hierarchy
-* Plenty of white space
-* Light borders
-* Limited accent color
-* Few icons
-* No unnecessary illustrations
-* No glassmorphism
-* No fake terminal windows
-* No excessive gradients
-
----
-
-# 8. Color System
-
-## CSS variables
+Use a mostly neutral palette with one blue accent.
 
 ```css
 :root {
@@ -438,31 +152,20 @@ Spacious
 }
 ```
 
----
+The proof bar should use a flat dark background, not a radial gradient.
 
-# 9. Typography
+## 6. Typography
 
-## Recommended fonts
+Recommended fonts:
 
-Primary:
-
-```txt
-Inter
+```text
+Primary: Inter or Geist Sans
+Mono: Geist Mono only for small technical labels if needed
 ```
 
-Alternative:
+Use normal letter spacing for body text. Avoid strong negative tracking. Slight tightening is acceptable only on large display text if it improves rendering.
 
-```txt
-Geist Sans
-```
-
-Monospace, only for tiny labels if needed:
-
-```txt
-Geist Mono
-```
-
-## Type scale
+Suggested type scale:
 
 ```css
 :root {
@@ -479,832 +182,424 @@ Geist Mono
   --text-4xl: 3.25rem;
   --text-5xl: 4.5rem;
 
-  --leading-tight: 0.96;
+  --leading-tight: 0.98;
   --leading-snug: 1.15;
   --leading-normal: 1.55;
-
-  --tracking-tight: -0.045em;
-  --tracking-normal: -0.015em;
-  --tracking-wide: 0.12em;
 }
 ```
 
-## Usage
+Usage:
 
-```txt
-Hero eyebrow: 14px uppercase, letter-spaced
-Hero headline: 64–72px desktop, 42–48px tablet, 36–40px mobile
+```text
+Hero name: medium, strong
+Hero eyebrow: small uppercase
+Hero H1: large display
 Hero body: 18px
 Section heading: 13px uppercase
 Card title: 20px
-Card body: 15–16px
+Card body: 15-16px
 Tag text: 13px
 ```
 
----
+## 7. Header
 
-# 10. Spacing System
+Desktop:
 
-```css
-:root {
-  --space-1: 0.25rem;
-  --space-2: 0.5rem;
-  --space-3: 0.75rem;
-  --space-4: 1rem;
-  --space-5: 1.25rem;
-  --space-6: 1.5rem;
-  --space-8: 2rem;
-  --space-10: 2.5rem;
-  --space-12: 3rem;
-  --space-16: 4rem;
-  --space-20: 5rem;
-  --space-24: 6rem;
-
-  --container: 1320px;
-}
+```text
+AM
+Alex Metelli
+Work
+About
+Resume
 ```
 
----
+Mobile:
 
-# 11. Radius System
-
-```css
-:root {
-  --radius-sm: 6px;
-  --radius-md: 10px;
-  --radius-lg: 14px;
-  --radius-xl: 18px;
-  --radius-full: 999px;
-}
+```text
+AM
+Work
+About
+Resume
 ```
 
----
+Rules:
 
-# 12. Base CSS
+- Keep header minimal
+- Sticky header is acceptable
+- Hide full name on small screens
+- Do not add a hamburger menu in v1
+- Header Resume link points to `/resume`, not `/resume.pdf`
+- External profile links do not belong in the primary header for v1
 
-```css
-* {
-  box-sizing: border-box;
-}
+Recommended behavior:
 
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  margin: 0;
-  font-family: var(--font-sans);
-  background: var(--color-bg);
-  color: var(--color-text);
-  line-height: var(--leading-normal);
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-button,
-input,
-textarea {
-  font: inherit;
-}
-
-img,
-svg {
-  display: block;
-  max-width: 100%;
-}
-
-::selection {
-  background: var(--color-primary);
-  color: white;
-}
+```text
+Internal links: same tab
+External links: new tab with rel="noreferrer"
 ```
 
----
+## 8. Homepage Hero
 
-# 13. Container
+Purpose:
 
-```css
-.container {
-  width: min(100% - 48px, var(--container));
-  margin-inline: auto;
-}
+- Communicate positioning immediately
+- Establish credibility without noise
+- Move the reader into selected work
 
-@media (max-width: 720px) {
-  .container {
-    width: min(100% - 32px, var(--container));
-  }
-}
+Hero text:
+
+```text
+Alex Metelli
+Software Engineer
+
+Backend systems.
+Developer tooling.
+Blockchain infrastructure.
+
+I build backend systems, developer tools, and blockchain infrastructure for teams working on correctness-sensitive software.
 ```
 
----
+Hero actions:
 
-# 14. Header CSS
-
-```css
-.site-header {
-  height: 72px;
-  border-bottom: 1px solid var(--color-border-soft);
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(14px);
-  position: sticky;
-  top: 0;
-  z-index: 20;
-}
-
-.header-inner {
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.brand {
-  display: inline-flex;
-  align-items: center;
-  gap: 18px;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-}
-
-.brand-mark {
-  font-size: 1.35rem;
-  font-weight: 900;
-  letter-spacing: -0.08em;
-}
-
-.brand-name {
-  font-size: var(--text-sm);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-}
-
-.nav {
-  display: flex;
-  align-items: center;
-  gap: 34px;
-}
-
-.nav-link {
-  font-size: var(--text-sm);
-  color: var(--color-text);
-  transition: color 160ms ease;
-}
-
-.nav-link:hover {
-  color: var(--color-accent);
-}
-
-.resume-button {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  height: 42px;
-  padding: 0 20px;
-  border-radius: var(--radius-sm);
-  background: var(--color-primary);
-  color: white;
-  font-size: var(--text-sm);
-  font-weight: 700;
-  box-shadow: var(--shadow-button);
-  transition: background 160ms ease, transform 160ms ease;
-}
-
-.resume-button:hover {
-  background: var(--color-primary-hover);
-  transform: translateY(-1px);
-}
-
-@media (max-width: 820px) {
-  .nav {
-    gap: 18px;
-  }
-
-  .nav-link:nth-child(2),
-  .nav-link:nth-child(3) {
-    display: none;
-  }
-}
-
-@media (max-width: 560px) {
-  .brand-name {
-    display: none;
-  }
-
-  .nav-link {
-    display: none;
-  }
-}
+```text
+View Work
+GitHub
+LinkedIn
 ```
 
----
+Recommended layout:
 
-# 15. Hero CSS
+- Two columns on desktop
+- Left column: name, eyebrow, H1, body, actions
+- Right column: credibility summary panel
+- Stack columns on tablet and mobile
 
-```css
-.hero {
-  padding: 72px 0 72px;
-  border-bottom: 1px solid var(--color-border-soft);
-}
+Do not include the headshot in the hero.
 
-.hero-grid {
-  display: grid;
-  grid-template-columns: 1.05fr 0.95fr;
-  gap: 72px;
-  align-items: center;
-}
+## 9. Hero Summary Panel
 
-.eyebrow {
-  margin: 0 0 24px;
-  color: var(--color-accent);
-  font-size: var(--text-sm);
-  font-weight: 800;
-  letter-spacing: var(--tracking-wide);
-  text-transform: uppercase;
-}
+Use the right column for concrete credibility.
 
-.hero-title {
-  margin: 0;
-  max-width: 760px;
-  font-size: clamp(2.5rem, 6vw, var(--text-5xl));
-  line-height: var(--leading-tight);
-  letter-spacing: var(--tracking-tight);
-  font-weight: 850;
-}
+Summary copy:
 
-.hero-copy {
-  max-width: 680px;
-  margin: 28px 0 0;
-  color: var(--color-text-muted);
-  font-size: var(--text-lg);
-  line-height: 1.55;
-}
-
-.hero-actions {
-  display: flex;
-  align-items: center;
-  gap: 28px;
-  margin-top: 32px;
-}
-
-.primary-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  min-height: 48px;
-  padding: 0 24px;
-  border-radius: var(--radius-sm);
-  background: var(--color-primary);
-  color: white;
-  font-weight: 750;
-  box-shadow: var(--shadow-button);
-  transition: background 160ms ease, transform 160ms ease;
-}
-
-.primary-button:hover {
-  background: var(--color-primary-hover);
-  transform: translateY(-1px);
-}
-
-.text-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  color: var(--color-text);
-  font-weight: 600;
-}
-
-.text-link:hover {
-  color: var(--color-accent);
-}
-
-.summary-panel {
-  border-left: 1px solid var(--color-border);
-  padding-left: 64px;
-}
-
-.summary-copy {
-  margin: 0 0 36px;
-  color: var(--color-text);
-  font-size: var(--text-lg);
-  line-height: 1.55;
-}
-
-.fact-list {
-  display: grid;
-  gap: 24px;
-}
-
-.fact-item {
-  display: grid;
-  grid-template-columns: 120px 1fr;
-  gap: 18px;
-  align-items: start;
-}
-
-.fact-label {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-size: var(--text-sm);
-  font-weight: 800;
-}
-
-.fact-value {
-  color: var(--color-text-muted);
-  font-size: var(--text-sm);
-  line-height: 1.7;
-}
-
-@media (max-width: 980px) {
-  .hero-grid {
-    grid-template-columns: 1fr;
-    gap: 48px;
-  }
-
-  .summary-panel {
-    border-left: 0;
-    padding-left: 0;
-    padding-top: 40px;
-    border-top: 1px solid var(--color-border-soft);
-  }
-}
-
-@media (max-width: 560px) {
-  .hero {
-    padding: 48px 0 56px;
-  }
-
-  .hero-actions {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 18px;
-  }
-
-  .fact-item {
-    grid-template-columns: 1fr;
-    gap: 8px;
-  }
-}
+```text
+Previously at Nethermind, working on Starknet tooling, verification workflows, cross-chain infrastructure, and developer experience automation.
 ```
 
----
+Facts:
 
-# 16. Selected Work CSS
+```text
+Focus
+Backend · Dev Tools · Blockchain · AI Workflows
 
-```css
-.work-section {
-  padding: 32px 0 40px;
-}
+Tech
+TypeScript · Rust · Python · Solidity · Cairo
 
-.section-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 24px;
-}
+Strengths
+System Design · APIs · Smart Contracts · DX · Automation
 
-.section-title {
-  margin: 0;
-  font-size: var(--text-sm);
-  font-weight: 850;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-
-.work-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
-}
-
-.project-card {
-  min-height: 260px;
-  display: flex;
-  flex-direction: column;
-  padding: 24px;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  background: var(--color-surface);
-  box-shadow: var(--shadow-card);
-  transition: border-color 160ms ease, transform 160ms ease, box-shadow 160ms ease;
-}
-
-.project-card:hover {
-  transform: translateY(-3px);
-  border-color: #c8d2e1;
-  box-shadow: 0 12px 34px rgba(7, 16, 36, 0.08);
-}
-
-.project-icon {
-  width: 46px;
-  height: 46px;
-  display: grid;
-  place-items: center;
-  margin-bottom: 26px;
-  border-radius: var(--radius-sm);
-  background: var(--color-primary);
-  color: white;
-}
-
-.project-title {
-  margin: 0;
-  font-size: var(--text-xl);
-  line-height: 1.2;
-  letter-spacing: -0.03em;
-}
-
-.project-copy {
-  margin: 10px 0 0;
-  color: var(--color-text-muted);
-  font-size: var(--text-sm);
-  line-height: 1.55;
-}
-
-.tag-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 20px;
-}
-
-.tag {
-  display: inline-flex;
-  align-items: center;
-  min-height: 28px;
-  padding: 0 10px;
-  border-radius: var(--radius-sm);
-  background: var(--color-tag-bg);
-  color: var(--color-tag-text);
-  font-size: var(--text-xs);
-  font-weight: 600;
-}
-
-.project-link {
-  margin-top: auto;
-  padding-top: 24px;
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  font-size: var(--text-sm);
-  font-weight: 750;
-  color: var(--color-primary);
-}
-
-.project-link:hover {
-  color: var(--color-accent);
-}
-
-@media (max-width: 1120px) {
-  .work-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 640px) {
-  .section-header {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .work-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .project-card {
-    min-height: auto;
-  }
-}
+Availability
+Remote · Async · Timezone flexible
 ```
 
----
+Do not include Go.
 
-# 17. Proof Bar CSS
+Visual style:
 
-```css
-.proof-bar {
-  background: radial-gradient(circle at top left, #10234a 0%, var(--color-dark) 42%, #050b18 100%);
-  color: white;
-  padding: 34px 0;
-}
+- Use a left border or top border, not a heavy card
+- Keep labels short
+- Keep content scan-friendly
+- No fake metrics
 
-.proof-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-}
+## 10. Selected Work
 
-.proof-item {
-  display: grid;
-  grid-template-columns: 44px 1fr;
-  gap: 20px;
-  align-items: center;
-  padding: 0 32px;
-  border-right: 1px solid rgba(255, 255, 255, 0.18);
-}
+Use three cards in v1:
 
-.proof-item:first-child {
-  padding-left: 0;
-}
-
-.proof-item:last-child {
-  border-right: 0;
-  padding-right: 0;
-}
-
-.proof-icon {
-  color: white;
-  opacity: 0.92;
-}
-
-.proof-label {
-  margin: 0;
-  color: rgba(255, 255, 255, 0.72);
-  font-size: var(--text-sm);
-}
-
-.proof-value {
-  margin: 4px 0 0;
-  font-size: var(--text-lg);
-  font-weight: 800;
-}
-
-@media (max-width: 920px) {
-  .proof-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 28px 0;
-  }
-
-  .proof-item:nth-child(2) {
-    border-right: 0;
-  }
-
-  .proof-item:nth-child(3),
-  .proof-item:nth-child(4) {
-    padding-top: 28px;
-    border-top: 1px solid rgba(255, 255, 255, 0.18);
-  }
-}
-
-@media (max-width: 560px) {
-  .proof-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .proof-item {
-    padding: 22px 0;
-    border-right: 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.18);
-  }
-
-  .proof-item:first-child {
-    padding-top: 0;
-  }
-
-  .proof-item:last-child {
-    padding-bottom: 0;
-    border-bottom: 0;
-  }
-
-  .proof-item:nth-child(3),
-  .proof-item:nth-child(4) {
-    padding-top: 22px;
-    border-top: 0;
-  }
-}
+```text
+Voyager Verifier
+AggSandbox
+NoGame
 ```
 
----
+Do not mention Open Maintainer.
 
-# 18. Footer CSS
+Project cards should include:
 
-```css
-.site-footer {
-  padding: 28px 0;
-  border-top: 1px solid var(--color-border-soft);
-  color: var(--color-text-soft);
-  font-size: var(--text-sm);
-}
+- Meaningful icon from `lucide-react`
+- Project name
+- Value statement
+- Proof line
+- Tech tags
+- View Project link
 
-.footer-inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-}
+Use meaningful icons only. Avoid decorative glyphs such as:
 
-.footer-links {
-  display: flex;
-  align-items: center;
-  gap: 24px;
-}
-
-.footer-links a:hover {
-  color: var(--color-accent);
-}
-
-@media (max-width: 640px) {
-  .footer-inner {
-    align-items: flex-start;
-    flex-direction: column;
-  }
-}
+```text
+◇
+◎
+▣
+◌
 ```
 
----
+Recommended icons:
 
-# 19. Example HTML Structure
-
-```html
-<header class="site-header">
-  <div class="container header-inner">
-    <a class="brand" href="/">
-      <span class="brand-mark">AM</span>
-      <span class="brand-name">Alex Metelli</span>
-    </a>
-
-    <nav class="nav">
-      <a class="nav-link" href="/work">Work</a>
-      <a class="nav-link" href="/about">About</a>
-      <a class="nav-link" href="/experience">Experience</a>
-      <a class="nav-link" href="/contact">Contact</a>
-      <a class="resume-button" href="/resume.pdf">Resume ↓</a>
-    </nav>
-  </div>
-</header>
-
-<main>
-  <section class="hero">
-    <div class="container hero-grid">
-      <div>
-        <p class="eyebrow">Software Engineer</p>
-        <h1 class="hero-title">Backend systems.<br>Developer tooling.<br>Blockchain infrastructure.</h1>
-        <p class="hero-copy">I build scalable backend systems, developer tools, and blockchain infrastructure that help teams ship faster and with confidence.</p>
-
-        <div class="hero-actions">
-          <a class="primary-button" href="/work">View My Work →</a>
-          <a class="text-link" href="https://github.com/ametel01">GitHub ↗</a>
-          <a class="text-link" href="https://linkedin.com/in/alex-metelli-344169182">LinkedIn ↗</a>
-        </div>
-      </div>
-
-      <aside class="summary-panel">
-        <p class="summary-copy">Software engineer with experience at Nethermind, working on Starknet tooling, verification systems, cross-chain infrastructure, and developer experience automation.</p>
-
-        <div class="fact-list">
-          <div class="fact-item">
-            <div class="fact-label">Focus</div>
-            <div class="fact-value">Backend · Dev Tools · Blockchain · AI Workflows</div>
-          </div>
-
-          <div class="fact-item">
-            <div class="fact-label">Tech</div>
-            <div class="fact-value">TypeScript · Rust · Python · Solidity · Cairo · Go</div>
-          </div>
-
-          <div class="fact-item">
-            <div class="fact-label">Strengths</div>
-            <div class="fact-value">System Design · APIs · Smart Contracts · DX · Automation</div>
-          </div>
-
-          <div class="fact-item">
-            <div class="fact-label">Interests</div>
-            <div class="fact-value">Developer Productivity · Open Source · Infrastructure</div>
-          </div>
-        </div>
-      </aside>
-    </div>
-  </section>
-
-  <section class="work-section">
-    <div class="container">
-      <div class="section-header">
-        <h2 class="section-title">Selected Work</h2>
-        <a class="text-link" href="/work">View all projects →</a>
-      </div>
-
-      <div class="work-grid">
-        <article class="project-card">
-          <div class="project-icon">◇</div>
-          <h3 class="project-title">Open Maintainer</h3>
-          <p class="project-copy">AI-ready repository context, PR review, and issue triage for GitHub projects.</p>
-          <div class="tag-list">
-            <span class="tag">TypeScript</span>
-            <span class="tag">GitHub API</span>
-            <span class="tag">AI</span>
-            <span class="tag">CLI</span>
-          </div>
-          <a class="project-link" href="/work/open-maintainer">View Project →</a>
-        </article>
-
-        <article class="project-card">
-          <div class="project-icon">◇</div>
-          <h3 class="project-title">Voyager Verifier</h3>
-          <p class="project-copy">Starknet contract verification tooling with compiler integration and status tracking.</p>
-          <div class="tag-list">
-            <span class="tag">Cairo</span>
-            <span class="tag">Starknet</span>
-            <span class="tag">TypeScript</span>
-            <span class="tag">API</span>
-          </div>
-          <a class="project-link" href="/work/voyager-verifier">View Project →</a>
-        </article>
-
-        <article class="project-card">
-          <div class="project-icon">◇</div>
-          <h3 class="project-title">AggSandbox</h3>
-          <p class="project-copy">Cross-chain infrastructure experiments using LayerZero and AggLayer concepts.</p>
-          <div class="tag-list">
-            <span class="tag">Solidity</span>
-            <span class="tag">LayerZero</span>
-            <span class="tag">Foundry</span>
-            <span class="tag">Hardhat</span>
-          </div>
-          <a class="project-link" href="/work/aggsandbox">View Project →</a>
-        </article>
-
-        <article class="project-card">
-          <div class="project-icon">◇</div>
-          <h3 class="project-title">NoGame</h3>
-          <p class="project-copy">Starknet MMO game with real-time systems, smart contracts, and frontend.</p>
-          <div class="tag-list">
-            <span class="tag">Next.js</span>
-            <span class="tag">Cairo</span>
-            <span class="tag">Starknet</span>
-            <span class="tag">WebSocket</span>
-          </div>
-          <a class="project-link" href="/work/nogame">View Project →</a>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <section class="proof-bar">
-    <div class="container proof-grid">
-      <div class="proof-item">
-        <div class="proof-icon">▣</div>
-        <div>
-          <p class="proof-label">Professional Experience</p>
-          <p class="proof-value">Nethermind</p>
-        </div>
-      </div>
-
-      <div class="proof-item">
-        <div class="proof-icon">⌘</div>
-        <div>
-          <p class="proof-label">Projects</p>
-          <p class="proof-value">10+</p>
-        </div>
-      </div>
-
-      <div class="proof-item">
-        <div class="proof-icon">◎</div>
-        <div>
-          <p class="proof-label">Open Source</p>
-          <p class="proof-value">Active Contributor</p>
-        </div>
-      </div>
-
-      <div class="proof-item">
-        <div class="proof-icon">◌</div>
-        <div>
-          <p class="proof-label">Focus</p>
-          <p class="proof-value">Remote · Async · Global</p>
-        </div>
-      </div>
-    </div>
-  </section>
-</main>
-
-<footer class="site-footer">
-  <div class="container footer-inner">
-    <span>© 2026 Alex Metelli</span>
-    <div class="footer-links">
-      <a href="https://github.com/ametel01">GitHub</a>
-      <a href="https://linkedin.com/in/alex-metelli-344169182">LinkedIn</a>
-      <a href="mailto:alexmetelli.poker@gmail.com">Email</a>
-    </div>
-  </div>
-</footer>
+```text
+Voyager Verifier: ShieldCheck or FileCode
+AggSandbox: Network or GitBranch
+NoGame: Gamepad2 or Boxes
 ```
 
----
+Card grid:
 
-# 20. Interaction Rules
+```text
+Desktop: 3 columns
+Tablet: 2 columns
+Mobile: 1 column
+```
 
-## Hover states
+Do not create empty space for a fourth card.
 
-* Cards lift slightly
-* Buttons move up 1px
-* Text links change to accent color
-* No aggressive animations
+## 11. Technical Focus
 
-## Motion
+Show four compact groups.
+
+```text
+Backend & infrastructure
+TypeScript · Node.js · Python · Rust · PostgreSQL · Redis · Docker · Linux
+
+Developer tooling
+CLI tools · Engineering automation · AI-assisted engineering workflows
+
+Blockchain systems
+Starknet · Cairo · Solidity · EVM · LayerZero · AggLayer · Cross-chain infrastructure · Aztec experiments
+
+Product engineering
+Next.js · React · APIs · Deployment · Observability
+```
+
+Design:
+
+- Use simple grouped panels or rows
+- Keep Product engineering visually secondary
+- Do not over-style as a skills dashboard
+- Do not use skill bars or percentages
+
+## 12. Experience Snapshot
+
+Homepage section, no dates:
+
+```text
+Nethermind
+Starknet tooling, contract verification workflows, cross-chain infrastructure, developer experience automation.
+
+Independent / Open Source
+Protocol experiments, full-stack product prototypes, CLI tooling, engineering automation, and AI-assisted engineering workflows.
+```
+
+This section should bridge to `/resume`, not replace it.
+
+## 13. Proof Bar
+
+Use a flat dark bar with four compact items.
+
+```text
+Professional Experience
+Nethermind
+
+Core Work
+Backend · Infra · Tooling
+
+Open Source
+Starknet · Cairo · Dev Tools
+
+Availability
+Remote · Async · Timezone flexible
+```
+
+Rules:
+
+- No dates
+- No `Projects 10+`
+- No inflated metrics
+- No radial gradient
+- Strong contrast
+- Compact layout
+
+Responsive:
+
+```text
+Desktop: 4 columns
+Tablet: 2 columns
+Mobile: 1 column
+```
+
+## 14. Contact Section
+
+Use a compact final homepage section.
+
+Copy:
+
+```text
+Open to remote software engineering roles focused on backend systems, developer tooling, and blockchain infrastructure. Also open to selected consulting work where the scope is technical and concrete.
+```
+
+Links:
+
+```text
+alex-metelli@gmx.com
+LinkedIn
+GitHub
+```
+
+Email should be visible and use `mailto:alex-metelli@gmx.com`.
+
+Do not add a copy-email button in v1.
+
+## 15. Footer
+
+Footer links:
+
+```text
+Email
+GitHub
+LinkedIn
+Resume
+```
+
+Use the public email:
+
+```text
+alex-metelli@gmx.com
+```
+
+Footer should be quiet and functional.
+
+## 16. About Page
+
+Purpose:
+
+- Add human credibility
+- Explain professional direction
+- Show the headshot in the right context
+
+Use:
+
+```text
+public/images/professional-photo.png
+```
+
+Source asset:
+
+```text
+docs/professional-photo.png
+```
+
+Content sections:
+
+```text
+Professional narrative
+What I work on
+How I work
+What I am looking for
+Links
+```
+
+Working style copy:
+
+```text
+I work well in remote, async teams and can adapt my schedule across time zones when collaboration needs it.
+```
+
+Do not publish exact geography.
+
+## 17. Resume Page
+
+`/resume` should be a polished web resume, not a PDF embed.
+
+Use structured content for:
+
+```text
+Experience
+Selected Projects
+Skills
+Education / Certifications
+Links
+```
+
+Include a secondary PDF action:
+
+```text
+Download PDF
+```
+
+The PDF should be copied during implementation:
+
+```text
+docs/Resume-June2026.pdf -> public/resume.pdf
+```
+
+Do not expose phone or exact location on the rendered web resume.
+
+Dates are acceptable on `/resume` where accurate.
+
+## 18. Project Pages
+
+Each project page uses the same structure:
+
+```text
+Title
+Short description
+Metadata block: Role, Stack, Current state
+Overview
+Problem
+My role
+Technical details
+Hard parts and tradeoffs
+Current state
+Evidence
+```
+
+Writing style:
+
+- First person
+- Restrained
+- Specific
+- Evidence-based
+
+Do not include:
+
+- Screenshots
+- Architecture diagrams
+- Code snippets
+- Decorative media
+
+Evidence links should open in a new tab with `rel="noreferrer"`.
+
+## 19. Motion and Interaction
+
+Allowed:
+
+- Button hover
+- Link color transition
+- Subtle card lift
+- Border-color change
+- Slight shadow increase
+
+Maximum card/button lift:
+
+```text
+translateY(-2px)
+```
+
+Avoid:
+
+- Scroll reveal animations
+- Typing effects
+- Moving particles
+- Auto-playing carousels
+- Large parallax effects
+
+Respect reduced motion:
 
 ```css
 @media (prefers-reduced-motion: reduce) {
@@ -1319,59 +614,18 @@ svg {
 }
 ```
 
-## Animation limits
+## 20. Accessibility
 
-Allowed:
+Requirements:
 
-* Button hover
-* Card hover
-* Link color transition
-
-Avoid:
-
-* Hero typing animations
-* Code rain
-* Moving background particles
-* Excessive scroll effects
-* Auto-playing carousels
-
----
-
-# 21. Responsive Rules
-
-## Desktop
-
-* Two-column hero
-* Four project cards in one row
-* Proof bar in four columns
-
-## Tablet
-
-* Hero stacks into one column
-* Project grid becomes two columns
-* Proof bar becomes two columns
-
-## Mobile
-
-* Hero title reduced
-* CTA buttons stacked
-* Project grid one column
-* Hide secondary nav links
-* Keep resume button visible
-* Summary facts stacked
-
----
-
-# 22. Accessibility Requirements
-
-* Minimum contrast ratio: 4.5:1 for normal text
-* All links must have clear hover/focus states
-* Use semantic HTML
-* Use one `h1` only
-* Project cards should use `article`
-* CTAs should be real links, not divs
-* Icons must not be the only source of meaning
-* Resume link should include accessible label if using an icon
+- Semantic HTML
+- One `h1` per page
+- `article` for project cards and case studies
+- Real links for CTAs
+- Icons cannot be the only source of meaning
+- Minimum 4.5:1 contrast for normal text
+- Clear hover states
+- Clear keyboard focus states
 
 Focus style:
 
@@ -1383,102 +637,91 @@ Focus style:
 }
 ```
 
----
+## 21. SEO and Social Preview
 
-# 23. SEO Definitions
+Homepage title:
 
-## Homepage title
-
-```txt
-Alex Metelli — Software Engineer | Backend, Developer Tooling, Blockchain Infrastructure
+```text
+Alex Metelli - Software Engineer | Backend, Developer Tooling, Blockchain Infrastructure
 ```
 
-## Meta description
+Meta description:
 
-```txt
+```text
 Alex Metelli is a software engineer focused on backend systems, developer tooling, blockchain infrastructure, Starknet tooling, and AI-assisted engineering workflows.
 ```
 
-## Open Graph title
+Use one static OG image for v1:
 
-```txt
-Alex Metelli — Software Engineer
+```text
+public/og.png
 ```
 
-## Open Graph description
+The OG image should be simple:
 
-```txt
-Backend systems, developer tooling, blockchain infrastructure, and open-source engineering.
+```text
+Alex Metelli
+Software Engineer
+Backend systems · Developer tooling · Blockchain infrastructure
 ```
 
-## Target keywords
+Do not include the headshot in the OG image for v1.
 
-```txt
-Alex Metelli software engineer
-Alex Metelli backend engineer
-Alex Metelli blockchain engineer
-Alex Metelli Starknet
-Alex Metelli Cairo developer
-developer tooling engineer
-blockchain infrastructure engineer
-AI tooling engineer
+Each page should still have page-specific metadata.
+
+Add:
+
+```text
+app/sitemap.ts
+app/robots.ts
 ```
 
----
+Use configurable site URL metadata later. Do not hard-code a custom domain yet.
 
-# 24. Project Page Template
+## 22. Implementation Notes
 
-Each project page should follow this structure:
+Use:
 
-```txt
-Project name
-Short one-line description
-
-Overview
-What the project does
-
-Problem
-Why it needed to exist
-
-My role
-What Alex personally built or owned
-
-Technical details
-Architecture, stack, integrations, tradeoffs
-
-Hard parts
-What was technically difficult
-
-Result
-What shipped, what improved, what was learned
-
-Links
-GitHub, demo, docs, PRs, articles
+```text
+Next.js App Router
+TypeScript
+Tailwind
+Bun
+lucide-react
+Vercel Web Analytics
+Biome
 ```
 
-## Project page design
+No component library in v1.
 
-* No big decorative hero
-* Use a clear technical case study format
-* Include screenshots only if they help explain the project
-* Include architecture diagrams only if real
-* Include code snippets only inside project pages, and only when they prove a technical decision
+Runtime assets should be copied from `docs/` into `public/`, not moved.
 
----
+## 23. Responsive Rules
 
-# 25. Final Implementation Direction
+Desktop:
 
-This site should optimize for hiring, not visual noise.
+- Two-column hero
+- Three-column selected work
+- Four-column proof bar
 
-The homepage should make a recruiter or engineering manager understand within seconds:
+Tablet:
 
-```txt
-Alex is a backend/infrastructure engineer.
-He has real professional experience.
-He has worked on serious blockchain tooling.
-He builds developer-facing systems.
-He is available for remote technical work.
-His projects are concrete and reviewable.
-```
+- Hero stacks
+- Selected work becomes two columns
+- Proof bar becomes two columns
 
-Everything else should be removed.
+Mobile:
+
+- Full brand name hidden in header
+- Keep Work, About, Resume visible if they fit
+- Hero actions can stack
+- Selected work one column
+- Technical focus one column
+- Proof bar one column
+- Summary facts stacked
+
+## 24. Final Standard
+
+Every design choice should support trust.
+
+If an element does not help a hiring manager understand Alex's engineering credibility, remove it.
