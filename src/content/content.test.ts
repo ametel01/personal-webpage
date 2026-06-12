@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { describe, test } from "node:test";
+import { primaryNavItems } from "@/components/site-shell";
 import { profile, technicalFocusGroups } from "@/content/profile";
 import { getProject, isProjectSlug, projectSlugs, projects } from "@/content/projects";
 import { resume } from "@/content/resume";
@@ -111,6 +112,16 @@ describe("website content invariants", () => {
     );
 
     assert.equal(JSON.stringify(technicalFocusGroups).includes("AWS"), false);
+  });
+
+  test("primary header navigation matches the v1 route contract", () => {
+    assert.deepStrictEqual(
+      primaryNavItems.map((item) => [item.label, item.href]),
+      [
+        ["Work", "/work"],
+        ["About", "/about"]
+      ]
+    );
   });
 
   test("metadata helper builds canonical and Open Graph URLs from the site URL", () => {

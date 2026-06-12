@@ -5,7 +5,7 @@ import type { ReactNode } from "react";
 import { Container, ExternalLink } from "@/components/primitives";
 import { site } from "@/lib/site";
 
-const navItems = [
+export const primaryNavItems = [
   {
     label: "Work",
     href: "/work"
@@ -13,14 +13,6 @@ const navItems = [
   {
     label: "About",
     href: "/about"
-  },
-  {
-    label: "Experience",
-    href: "/#experience"
-  },
-  {
-    label: "Contact",
-    href: "/#contact"
   }
 ] as const;
 
@@ -80,8 +72,8 @@ function SiteHeader() {
           </span>
         </Link>
         <nav className="flex items-center gap-7 max-[760px]:gap-3" aria-label="Primary navigation">
-          <ul className="flex items-center gap-7 max-[760px]:hidden">
-            {navItems.map((item) => (
+          <ul className="flex items-center gap-5 max-[760px]:gap-3">
+            {primaryNavItems.map((item) => (
               <li key={item.href}>
                 <Link
                   className="text-[length:var(--text-sm)] font-medium text-[var(--color-text)] hover:text-[var(--color-accent)]"
