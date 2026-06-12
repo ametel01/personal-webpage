@@ -57,10 +57,10 @@ type TagListProps = {
 
 export function TagList({ items, ariaLabel = "Technologies" }: TagListProps) {
   return (
-    <ul className="flex flex-wrap gap-2" aria-label={ariaLabel}>
+    <ul className="flex flex-wrap gap-1.5" aria-label={ariaLabel}>
       {items.map((item) => (
         <li
-          className="rounded-[6px] bg-[var(--color-tag-bg)] px-2.5 py-1 text-[length:var(--text-xs)] font-semibold text-[var(--color-tag-text)]"
+          className="rounded-[6px] bg-[var(--color-tag-bg)] px-2 py-0.5 text-[length:var(--text-xs)] font-semibold text-[var(--color-tag-text)]"
           key={item}
         >
           {item}

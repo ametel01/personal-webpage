@@ -1,18 +1,18 @@
 @import "tailwindcss";
 
 :root {
-  --container: 1180px;
+  --container: 1390px;
 
   --color-bg: #ffffff;
   --color-surface: #ffffff;
-  --color-surface-muted: #f7f8fb;
+  --color-surface-muted: #fafbfc;
 
   --color-text: #071024;
   --color-text-muted: #4b5870;
   --color-text-soft: #6b7280;
 
-  --color-border: #dce2ea;
-  --color-border-soft: #edf0f5;
+  --color-border: #d9dee7;
+  --color-border-soft: #edf0f4;
 
   --color-primary: #0b1b3a;
   --color-primary-hover: #102952;
@@ -27,8 +27,8 @@
   --color-tag-bg: #f1f4f8;
   --color-tag-text: #263348;
 
-  --shadow-card: 0 1px 2px rgba(7, 16, 36, 0.04), 0 8px 24px rgba(7, 16, 36, 0.04);
-  --shadow-button: 0 8px 18px rgba(7, 16, 36, 0.16);
+  --shadow-card: 0 1px 2px rgba(7, 16, 36, 0.03), 0 12px 28px rgba(7, 16, 36, 0.035);
+  --shadow-button: 0 10px 18px rgba(7, 16, 36, 0.18);
 
   --font-sans:
     Inter, Geist, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
@@ -37,19 +37,19 @@
   --text-xs: 0.75rem;
   --text-sm: 0.875rem;
   --text-base: 1rem;
-  --text-md: 1.0625rem;
-  --text-lg: 1.125rem;
+  --text-md: 1rem;
+  --text-lg: 1.0625rem;
   --text-xl: 1.375rem;
   --text-2xl: 1.75rem;
   --text-3xl: 2.25rem;
   --text-4xl: 3.25rem;
-  --text-5xl: 4.5rem;
+  --text-5xl: 2.85rem;
 
   --leading-tight: 0.98;
   --leading-snug: 1.15;
   --leading-normal: 1.55;
 
-  --space-section: clamp(4.5rem, 8vw, 7.5rem);
+  --space-section: clamp(4.25rem, 7vw, 6.5rem);
   --space-section-tight: clamp(3.25rem, 6vw, 5rem);
 }
 
@@ -110,6 +110,10 @@ button {
   padding-block: var(--space-section);
 }
 
+.hero-section {
+  padding-block: clamp(1.8rem, 2.2vw, 2.25rem) clamp(0.6rem, 0.9vw, 0.85rem);
+}
+
 .section-tight {
   padding-block: var(--space-section-tight);
 }
@@ -119,8 +123,50 @@ button {
   border-block: 1px solid var(--color-border-soft);
 }
 
+.work-band {
+  scroll-margin-top: 64px;
+  border-top: 1px solid var(--color-border);
+  background: #ffffff;
+  padding-block: clamp(0.85rem, 1.2vw, 1rem) clamp(0.9rem, 1.35vw, 1.15rem);
+}
+
+.proof-band {
+  background:
+    radial-gradient(circle at 15% 20%, rgba(39, 64, 112, 0.34), transparent 38%),
+    linear-gradient(135deg, #071024 0%, #091a35 48%, #071024 100%);
+  color: #ffffff;
+  padding-block: clamp(0.55rem, 1vw, 0.75rem);
+}
+
+.proof-item {
+  display: grid;
+  grid-template-columns: 34px 1fr;
+  gap: 0.9rem;
+  align-items: center;
+  min-height: 44px;
+  padding-inline: clamp(0.75rem, 2vw, 1.5rem);
+  color: #ffffff;
+}
+
+.proof-item + .proof-item {
+  border-left: 1px solid rgba(255, 255, 255, 0.2);
+}
+
 .text-balance {
   text-wrap: balance;
+}
+
+.site-logo-mark {
+  display: block;
+  width: 50px;
+  height: auto;
+  flex: 0 0 auto;
+  object-fit: contain;
+}
+
+.avoid-break {
+  break-inside: avoid;
+  page-break-inside: avoid;
 }
 
 .link {
@@ -137,7 +183,7 @@ button {
 
 .button {
   display: inline-flex;
-  min-height: 44px;
+  min-height: 40px;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
@@ -148,8 +194,13 @@ button {
   font-size: var(--text-sm);
   font-weight: 700;
   line-height: 1;
-  padding: 0.8rem 1rem;
+  padding: 0.68rem 1rem;
   box-shadow: var(--shadow-button);
+}
+
+.button-compact {
+  min-height: 40px;
+  padding-inline: 1.1rem;
 }
 
 .button:hover {
@@ -174,6 +225,20 @@ button {
 
   .section {
     padding-block: clamp(3.5rem, 12vw, 5rem);
+  }
+
+  .hero-section {
+    padding-block: clamp(3rem, 12vw, 4.5rem);
+  }
+
+  .proof-item {
+    padding-block: 1rem;
+    padding-inline: 0;
+  }
+
+  .proof-item + .proof-item {
+    border-left: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
   }
 }
 

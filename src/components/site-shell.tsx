@@ -1,3 +1,5 @@
+import { Download } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { Container, ExternalLink } from "@/components/primitives";
@@ -13,8 +15,12 @@ const navItems = [
     href: "/about"
   },
   {
-    label: "Resume",
-    href: site.resumePath
+    label: "Experience",
+    href: "/#experience"
+  },
+  {
+    label: "Contact",
+    href: "/#contact"
   }
 ] as const;
 
@@ -53,25 +59,32 @@ export function SiteShell({ children }: { children: ReactNode }) {
 
 function SiteHeader() {
   return (
-    <header className="sticky top-0 z-20 border-b border-[var(--color-border-soft)] bg-white">
-      <Container className="flex min-h-16 items-center justify-between gap-6">
+    <header className="sticky top-0 z-20 border-b border-[var(--color-border)] bg-white/95 backdrop-blur">
+      <Container className="flex min-h-16 items-center justify-between gap-8">
         <Link
-          className="flex min-w-0 items-center gap-3 font-semibold text-[var(--color-text)]"
+          aria-label="Alex Metelli home"
+          className="flex min-w-0 items-center gap-6 font-semibold text-[var(--color-text)]"
           href="/"
         >
-          <span className="flex size-9 shrink-0 items-center justify-center rounded-[6px] border border-[var(--color-border)] text-[length:var(--text-sm)]">
-            AM
-          </span>
-          <span className="truncate text-[length:var(--text-sm)] max-[520px]:hidden">
-            {site.name}
+          <Image
+            className="site-logo-mark"
+            src="/images/logo-mark.png"
+            alt=""
+            width={54}
+            height={28}
+            priority
+            aria-hidden="true"
+          />
+          <span className="truncate text-[length:var(--text-sm)] font-bold uppercase tracking-[0.02em] max-[620px]:hidden">
+            Alex Metelli
           </span>
         </Link>
-        <nav aria-label="Primary navigation">
-          <ul className="flex items-center gap-1 max-[420px]:gap-0">
+        <nav className="flex items-center gap-7 max-[760px]:gap-3" aria-label="Primary navigation">
+          <ul className="flex items-center gap-7 max-[760px]:hidden">
             {navItems.map((item) => (
               <li key={item.href}>
                 <Link
-                  className="rounded-[6px] px-3 py-2 text-[length:var(--text-sm)] font-semibold text-[var(--color-text-muted)] hover:bg-[var(--color-primary-soft)] hover:text-[var(--color-primary)] max-[420px]:px-2"
+                  className="text-[length:var(--text-sm)] font-medium text-[var(--color-text)] hover:text-[var(--color-accent)]"
                   href={item.href}
                 >
                   {item.label}
@@ -79,6 +92,10 @@ function SiteHeader() {
               </li>
             ))}
           </ul>
+          <Link className="button button-compact" href={site.resumePath}>
+            Resume
+            <Download aria-hidden="true" size={15} strokeWidth={2.3} />
+          </Link>
         </nav>
       </Container>
     </header>
