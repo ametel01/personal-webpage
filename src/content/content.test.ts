@@ -1,4 +1,5 @@
-import { describe, expect, test } from "bun:test";
+import assert from "node:assert/strict";
+import { describe, test } from "node:test";
 import { profile, technicalFocusGroups } from "@/content/profile";
 import { getProject, isProjectSlug, projectSlugs, projects } from "@/content/projects";
 import { resume } from "@/content/resume";
@@ -18,35 +19,35 @@ const forbiddenPattern = new RegExp(
 
 describe("website content invariants", () => {
   test("selected projects expose the expected slugs and routes", () => {
-    expect([...projectSlugs]).toEqual([...expectedSlugs]);
+    assert.deepStrictEqual([...projectSlugs], [...expectedSlugs]);
 
     for (const slug of expectedSlugs) {
-      expect(isProjectSlug(slug)).toBe(true);
-      expect(getProject(slug)?.slug).toBe(slug);
+      assert.equal(isProjectSlug(slug), true);
+      assert.equal(getProject(slug)?.slug, slug);
     }
   });
 
   test("projects have required case study fields and real evidence links", () => {
-    expect(projects).toHaveLength(3);
+    assert.equal(projects.length, 3);
 
     for (const project of projects) {
-      expect(project.title.length).toBeGreaterThan(0);
-      expect(project.shortDescription.length).toBeGreaterThan(0);
-      expect(project.proof.length).toBeGreaterThan(0);
-      expect(project.metadata.role.length).toBeGreaterThan(0);
-      expect(project.metadata.stack.length).toBeGreaterThan(0);
-      expect(project.metadata.currentState.length).toBeGreaterThan(0);
-      expect(project.caseStudy.overview.length).toBeGreaterThan(0);
-      expect(project.caseStudy.problem.length).toBeGreaterThan(0);
-      expect(project.caseStudy.role.length).toBeGreaterThan(0);
-      expect(project.caseStudy.technicalDetails.length).toBeGreaterThan(0);
-      expect(project.caseStudy.tradeoffs.length).toBeGreaterThan(0);
-      expect(project.caseStudy.currentState.length).toBeGreaterThan(0);
-      expect(project.caseStudy.evidence.length).toBeGreaterThan(0);
+      assert.ok(project.title.length > 0);
+      assert.ok(project.shortDescription.length > 0);
+      assert.ok(project.proof.length > 0);
+      assert.ok(project.metadata.role.length > 0);
+      assert.ok(project.metadata.stack.length > 0);
+      assert.ok(project.metadata.currentState.length > 0);
+      assert.ok(project.caseStudy.overview.length > 0);
+      assert.ok(project.caseStudy.problem.length > 0);
+      assert.ok(project.caseStudy.role.length > 0);
+      assert.ok(project.caseStudy.technicalDetails.length > 0);
+      assert.ok(project.caseStudy.tradeoffs.length > 0);
+      assert.ok(project.caseStudy.currentState.length > 0);
+      assert.ok(project.caseStudy.evidence.length > 0);
 
       for (const link of project.caseStudy.evidence) {
-        expect(link.href).toMatch(/^https:\/\//);
-        expect(link.href).not.toContain("example.com");
+        assert.match(link.href, /^https:\/\//);
+        assert.equal(link.href.includes("example.com"), false);
       }
     }
   });
@@ -59,31 +60,28 @@ describe("website content invariants", () => {
       technicalFocusGroups
     });
 
-    expect(publicContent).not.toMatch(forbiddenPattern);
+    assert.doesNotMatch(publicContent, forbiddenPattern);
   });
 
   test("public email is consistent across profile and resume links", () => {
-    expect(site.email).toBe("alex-metelli@gmx.com");
-    expect(profile.email).toBe(site.email);
-    expect(resume.links).toContainEqual({
-      label: "Email",
-      href: `mailto:${site.email}`
-    });
+    assert.equal(site.email, "alex-metelli@gmx.com");
+    assert.equal(profile.email, site.email);
+    assert.ok(
+      resume.links.some((link) => link.label === "Email" && link.href === `mailto:${site.email}`)
+    );
   });
 
   test("homepage technical focus keeps the exact PRD groups", () => {
-    expect(technicalFocusGroups.map((group) => group.title)).toEqual([
-      "Backend & infrastructure",
-      "Developer tooling",
-      "Blockchain systems",
-      "Product engineering"
-    ]);
+    assert.deepStrictEqual(
+      technicalFocusGroups.map((group) => group.title),
+      ["Backend & infrastructure", "Developer tooling", "Blockchain systems", "Product engineering"]
+    );
 
-    expect(JSON.stringify(technicalFocusGroups)).not.toContain("AWS");
+    assert.equal(JSON.stringify(technicalFocusGroups).includes("AWS"), false);
   });
 
   test("metadata helper builds canonical and Open Graph URLs from the site URL", () => {
-    expect(getAbsoluteUrl("/work")).toBe("http://localhost:3000/work");
+    assert.equal(getAbsoluteUrl("/work"), "http://localhost:3000/work");
 
     const metadata = createPageMetadata({
       title: "Selected Work",
@@ -91,16 +89,17 @@ describe("website content invariants", () => {
       path: "/work"
     });
 
-    expect(metadata.title).toBe("Selected Work");
-    expect(metadata.alternates).toEqual({ canonical: "/work" });
-    expect(metadata.openGraph).toMatchObject({
-      title: "Selected Work | Alex Metelli",
-      url: "http://localhost:3000/work"
-    });
+    assert.equal(metadata.title, "Selected Work");
+    assert.deepStrictEqual(metadata.alternates, { canonical: "/work" });
+
+    const openGraph = metadata.openGraph as { title?: unknown; url?: unknown } | undefined;
+    assert.equal(openGraph?.title, "Selected Work | Alex Metelli");
+    assert.equal(openGraph?.url, "http://localhost:3000/work");
   });
 
   test("homepage title matches the required SEO title", () => {
-    expect(homeTitle).toBe(
+    assert.equal(
+      homeTitle,
       "Alex Metelli - Software Engineer | Backend, Developer Tooling, Blockchain Infrastructure"
     );
   });
