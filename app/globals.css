@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --container: 1390px;
+  --container: 1180px;
 
   --color-bg: #ffffff;
   --color-surface: #ffffff;
@@ -131,9 +131,7 @@ button {
 }
 
 .proof-band {
-  background:
-    radial-gradient(circle at 15% 20%, rgba(39, 64, 112, 0.34), transparent 38%),
-    linear-gradient(135deg, #071024 0%, #091a35 48%, #071024 100%);
+  background: var(--color-dark);
   color: #ffffff;
   padding-block: clamp(0.55rem, 1vw, 0.75rem);
 }

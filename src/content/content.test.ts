@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import { describe, test } from "node:test";
 import { profile, technicalFocusGroups } from "@/content/profile";
 import { getProject, isProjectSlug, projectSlugs, projects } from "@/content/projects";
@@ -9,6 +10,7 @@ import { primaryNavItems } from "@/lib/navigation";
 import { site } from "@/lib/site";
 
 const expectedSlugs = ["voyager-verifier", "aggsandbox", "scopepilot", "horizon-starknet"] as const;
+const globalCss = readFileSync(new URL("../../app/globals.css", import.meta.url), "utf8");
 const forbiddenPattern = new RegExp(
   [
     ["Open", "Maintainer"].join(" "),
@@ -151,6 +153,16 @@ describe("website content invariants", () => {
     );
 
     assert.equal(JSON.stringify(technicalFocusGroups).includes("AWS"), false);
+  });
+
+  test("global CSS keeps documented layout and proof bar invariants", () => {
+    assert.match(globalCss, /--container:\s*1180px;/);
+
+    const proofBand = globalCss.match(/\.proof-band\s*{(?<body>[^}]*)}/);
+
+    assert.ok(proofBand?.groups?.body);
+    assert.match(proofBand.groups.body, /background:\s*var\(--color-dark\);/);
+    assert.doesNotMatch(proofBand.groups.body, /gradient\(/);
   });
 
   test("primary header navigation matches the v1 route contract", () => {
