@@ -35,7 +35,7 @@ When tests exist, also run:
 bun run test
 ```
 
-When Playwright or browser verification exists, also run the relevant browser/e2e check. Until an automated browser suite exists, perform manual browser verification against the local dev server and record the checked viewports in the step notes before committing.
+When Playwright or browser verification exists, also run the relevant browser/e2e check. The automated browser smoke suite covers public route structure, link, and overflow checks; use manual browser verification for visual design changes not covered by `bun run test:e2e`.
 
 For documentation-only steps before the app exists, run:
 
@@ -687,7 +687,7 @@ Production verification:
 
 - Homepage renders.
 - Work index renders.
-- All three case studies render.
+- Voyager Verifier, AggSandbox, ScopePilot, and Horizon Protocol case studies render.
 - About page renders with headshot.
 - Resume page renders.
 - `/resume.pdf` works.

@@ -30,6 +30,15 @@ jobs:
       - name: Test
         run: bun run test
 
+      - name: Install Playwright browsers
+        run: bunx playwright install --with-deps chromium
+
+      - name: Browser smoke tests
+        run: bun run test:e2e
+        env:
+          NEXT_TELEMETRY_DISABLED: "1"
+          NEXT_PUBLIC_SITE_URL: http://localhost:3000
+
       - name: Build
         run: bun run build
         env:
