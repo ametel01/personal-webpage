@@ -16,7 +16,7 @@
 
 ## Why this matters
 
-Most docs now describe four selected-work projects, but one production-verification line still says "all three case studies render". Stale docs are worse than missing docs for this repo because future agents use these files as implementation contracts. This plan removes the remaining contradiction and refreshes old rejected-plan notes that still mention the prior three-project PRD.
+Most docs now describe four selected-work projects, but one production-verification line still used old three-project wording. Stale docs are worse than missing docs for this repo because future agents use these files as implementation contracts. This plan removes the remaining contradiction and refreshes old rejected-plan notes that still mention the prior three-project PRD.
 
 ## Current state
 
@@ -34,18 +34,21 @@ docs/DESIGN.md:316 Use four cards in v1:
 docs/IMPLEMENTATION_PLAN.md:708 Selected Work includes exactly Voyager Verifier, AggSandbox, ScopePilot, and Horizon Protocol.
 ```
 
-Stale excerpt:
+Historical stale excerpt from the original audit:
 
 ```text
 docs/IMPLEMENTATION_PLAN.md:686 Production verification:
 docs/IMPLEMENTATION_PLAN.md:690 - All three case studies render.
 ```
 
-Potentially stale rejected-finding note:
+Historical potentially stale rejected-finding note from the original audit:
 
 ```text
 plans/README.md:31 Dedicated direction plan for adding more project pages: rejected for now because `docs/PRD.md` says v1 should use three strong case studies only...
 ```
+
+These quoted examples are intentionally preserved here as audit history for this plan. Living
+documentation and plan-index rationale should not keep the stale selected-work count.
 
 Repo conventions:
 
@@ -58,7 +61,7 @@ Repo conventions:
 | Purpose | Command | Expected on success |
 |---|---|---|
 | Diff whitespace check | `git diff --check` | exit 0 |
-| Stale text audit | `rg -n "all three case studies|three strong case studies|three cards|NoGame|nogame|Gamepad2" docs plans` | no stale selected-work matches except intentional historical notes that are explicitly marked |
+| Stale text audit | `rg -n "all three case studies|three strong case studies|three cards|NoGame|nogame|Gamepad2" docs plans --glob '!plans/011-clean-up-selected-work-docs.md'` | no stale selected-work matches in living docs or other plans |
 
 ## Scope
 
@@ -123,13 +126,13 @@ Do not change statuses for existing plans 001-005.
 
 ### Step 3: Audit docs for old selected-work vocabulary
 
-Run:
+Run against living docs and other plans:
 
 ```bash
-rg -n "all three case studies|three strong case studies|three cards|NoGame|nogame|Gamepad2" docs plans
+rg -n "all three case studies|three strong case studies|three cards|NoGame|nogame|Gamepad2" docs plans --glob '!plans/011-clean-up-selected-work-docs.md'
 ```
 
-Expected result: no stale selected-work references, except any historical notes explicitly marked as historical. If matches remain, inspect each one and update only if it is a living instruction rather than a historical record.
+Expected result: no stale selected-work references. If matches remain, inspect each one and update only if it is a living instruction rather than a historical record.
 
 **Verify**: the command exits 1 for no matches, or any remaining matches are documented as intentional in the final notes.
 
