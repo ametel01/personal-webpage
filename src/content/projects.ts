@@ -4,12 +4,12 @@ export type EvidenceLink = {
 };
 
 export type Project = {
-  slug: "voyager-verifier" | "aggsandbox" | "nogame";
+  slug: "voyager-verifier" | "aggsandbox" | "scopepilot" | "horizon-starknet";
   title: string;
   shortDescription: string;
   valueStatement: string;
   proof: string;
-  icon: "ShieldCheck" | "Network" | "Gamepad2";
+  icon: "ShieldCheck" | "Network" | "ClipboardList" | "Coins";
   tags: readonly string[];
   metadata: {
     role: string;
@@ -117,39 +117,90 @@ export const projects: readonly Project[] = [
     }
   },
   {
-    slug: "nogame",
-    title: "NoGame",
-    shortDescription: "Starknet MMO prototype with contracts, frontend systems, and game logic.",
-    valueStatement: "Starknet MMO prototype with contracts, frontend systems, and game logic.",
-    proof: "Playable Starknet MMO prototype with contracts and frontend systems.",
-    icon: "Gamepad2",
-    tags: ["Cairo", "Starknet", "React", "TypeScript", "Smart contracts"],
+    slug: "scopepilot",
+    title: "ScopePilot",
+    shortDescription:
+      "Agency proposal configurator for scope, pricing, approvals, revisions, and client delivery.",
+    valueStatement:
+      "Agency proposal configurator for scope, pricing, approvals, revisions, and client delivery.",
+    proof: "Live product with public user documentation for proposal and change-order workflows.",
+    icon: "ClipboardList",
+    tags: ["TypeScript", "Astro", "Cloudflare Workers", "Bun", "PostgreSQL", "Product workflows"],
     metadata: {
-      role: "Founder and lead developer",
-      stack: ["Cairo", "Starknet", "React", "TypeScript", "Smart contracts"],
-      currentState: "Public prototype repository with contracts, scripts, and application code."
+      role: "Independent product engineer",
+      stack: ["TypeScript", "Astro", "Cloudflare Workers", "Bun", "PostgreSQL"],
+      currentState: "Live product with public documentation and deployed proposal workflows."
     },
     caseStudy: {
       overview:
-        "NoGame is a space-themed Starknet MMO prototype. It combines smart contracts, frontend systems, game logic, scripts, and operational tooling around a fully on-chain game direction.",
+        "ScopePilot is an agency proposal scope and pricing configurator. It supports service catalogs, pricing inputs, approvals, revisions, change orders, workspace branding, team access, reports, and private client proposal pages.",
       problem:
-        "A blockchain game has to coordinate product design, contract state, frontend interaction, transaction flows, and game mechanics while keeping the system understandable to players and contributors.",
-      role: "I designed and built the project as a solo engineer, owning architecture, contracts, frontend systems, deployment workflows, and ongoing iteration.",
+        "Agency proposals often move across spreadsheets, documents, review threads, and client emails. That makes scope changes, pricing assumptions, approvals, and client-facing delivery difficult to keep consistent.",
+      role: "I designed and built the product workflows, application structure, documentation surface, and deployment path as an independent product engineer.",
       technicalDetails: [
-        "Implemented Cairo contracts and supporting scripts for Starknet game systems.",
-        "Built TypeScript and React interfaces for player-facing flows and chain interactions.",
-        "Designed game mechanics and infrastructure around a long-running on-chain world."
+        "Built an Astro and TypeScript web app with Bun-based development and Biome quality gates.",
+        "Implemented proposal workflows around services, pricing, clients, approvals, revisions, and change orders.",
+        "Designed Cloudflare Pages and Workers deployment paths with PostgreSQL-backed local development."
       ],
       tradeoffs: [
-        "Game mechanics had to balance on-chain transparency with usable player workflows.",
-        "Prototype velocity had to be weighed against contract and data model choices that would be expensive to change later."
+        "The product has to expose enough pricing structure for operational control without turning proposal creation into a dense back-office tool.",
+        "Client-facing proposal pages need to stay simple while still reflecting internal revisions, approvals, and scope changes accurately."
       ],
       currentState:
-        "The repository is public and contains contracts, scripts, tests, and project documentation.",
+        "The product is deployed publicly, and its documentation describes proposal setup, client delivery, workspace, billing, and reporting workflows.",
       evidence: [
         {
+          label: "Live product",
+          href: "https://scopepilot.launchingfoundry.xyz/"
+        },
+        {
+          label: "User documentation",
+          href: "https://github.com/ametel01/scopepilot/tree/main/documentation"
+        }
+      ]
+    }
+  },
+  {
+    slug: "horizon-starknet",
+    title: "Horizon Protocol",
+    shortDescription:
+      "Starknet yield tokenization protocol with SY/PT/YT assets, AMM markets, router flows, frontend, and indexer.",
+    valueStatement:
+      "Starknet yield tokenization protocol with SY/PT/YT assets, AMM markets, router flows, frontend, and indexer.",
+    proof:
+      "Alpha mainnet deployment with live SplitYield product and documented Starknet contract addresses.",
+    icon: "Coins",
+    tags: ["Cairo", "Starknet", "TypeScript", "Next.js", "Apibara", "PostgreSQL", "DeFi"],
+    metadata: {
+      role: "Independent protocol engineer",
+      stack: ["Cairo", "Starknet", "TypeScript", "Next.js", "Apibara", "PostgreSQL"],
+      currentState: "Alpha mainnet deployment on Starknet with a live SplitYield interface."
+    },
+    caseStudy: {
+      overview:
+        "Horizon Protocol is a Pendle-style yield tokenization protocol for Starknet. It separates yield-bearing assets into standardized yield, principal, and yield tokens, with AMM markets, factories, router operations, oracle integration, contracts, frontend, and indexer pieces.",
+      problem:
+        "Yield tokenization needs protocol contracts, market creation, routing, oracle-aware pricing, frontend flows, and indexed data to stay aligned. Each layer has to expose enough detail for advanced DeFi users without creating unsafe or confusing product paths.",
+      role: "I built across the protocol, frontend, and indexing surfaces, connecting Cairo contracts, TypeScript product flows, and data infrastructure into a live alpha.",
+      technicalDetails: [
+        "Implemented Starknet protocol pieces for standardized yield, principal, and yield token flows.",
+        "Built product and router flows around markets, factories, AMM interactions, and documented deployed addresses.",
+        "Connected a Next.js frontend and Bun-based Apibara indexer with PostgreSQL-backed data workflows."
+      ],
+      tradeoffs: [
+        "Alpha DeFi infrastructure needs clear current-state language because live contracts are useful evidence but do not imply a completed risk or audit posture.",
+        "The protocol surface has to balance composable contract primitives with a frontend that makes tokenized yield operations legible."
+      ],
+      currentState:
+        "The repository documents an alpha mainnet deployment on Starknet Mainnet, and the SplitYield product is publicly reachable.",
+      evidence: [
+        {
+          label: "Live SplitYield product",
+          href: "https://splityield.org/"
+        },
+        {
           label: "GitHub repository",
-          href: "https://github.com/ametel01/nogame-starknet"
+          href: "https://github.com/ametel01/horizon-starknet"
         }
       ]
     }

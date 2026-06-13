@@ -1,4 +1,4 @@
-import { ArrowRight, ArrowUpRight, Gamepad2, Network, ShieldCheck } from "lucide-react";
+import { ArrowRight, ArrowUpRight, ClipboardList, Coins, Network, ShieldCheck } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Container, ExternalLink, PageHeader, Section, TagList } from "@/components/primitives";
@@ -9,14 +9,15 @@ import { site } from "@/lib/site";
 export const metadata: Metadata = createPageMetadata({
   title: "Selected Work",
   description:
-    "Selected engineering case studies by Alex Metelli across Starknet verification, cross-chain infrastructure, and on-chain game systems.",
+    "Selected engineering case studies by Alex Metelli across product systems, Starknet verification, cross-chain infrastructure, and DeFi yield infrastructure.",
   path: "/work"
 });
 
 const projectIcons = {
   ShieldCheck,
   Network,
-  Gamepad2
+  ClipboardList,
+  Coins
 } satisfies Record<Project["icon"], typeof ShieldCheck>;
 
 export default function WorkPage() {
@@ -29,7 +30,7 @@ export default function WorkPage() {
             title="Focused case studies with concrete engineering evidence."
             description="A curated set of backend, tooling, and blockchain infrastructure projects. Each page covers the problem, role, technical details, tradeoffs, current state, and evidence."
           />
-          <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+          <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
             {projects.map((project) => (
               <article
                 className="flex min-h-[380px] flex-col border border-[var(--color-border)] bg-white p-6 shadow-[var(--shadow-card)] transition hover:-translate-y-0.5 hover:border-[var(--color-accent)]"

@@ -8,14 +8,17 @@ import { createPageMetadata, getAbsoluteUrl, homeTitle } from "@/lib/metadata";
 import { primaryNavItems } from "@/lib/navigation";
 import { site } from "@/lib/site";
 
-const expectedSlugs = ["voyager-verifier", "aggsandbox", "nogame"] as const;
+const expectedSlugs = ["voyager-verifier", "aggsandbox", "scopepilot", "horizon-starknet"] as const;
 const forbiddenPattern = new RegExp(
   [
     ["Open", "Maintainer"].join(" "),
     String.raw`\b${["G", "o"].join("")}\b`,
     ["alexmetelli", "poker"].join("\\."),
     ["GMT", String.raw`\+8`].join(""),
-    ["GMT", "Compatible"].join("-")
+    ["GMT", "Compatible"].join("-"),
+    ["No", "Game"].join(""),
+    ["no", "game"].join(""),
+    ["no", "game", "starknet"].join("-")
   ].join("|")
 );
 
@@ -87,7 +90,7 @@ describe("website content invariants", () => {
   });
 
   test("projects have required case study fields and real evidence links", () => {
-    assert.equal(projects.length, 3);
+    assert.equal(projects.length, 4);
 
     for (const project of projects) {
       assert.ok(project.title.length > 0);

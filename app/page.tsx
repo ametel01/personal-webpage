@@ -2,9 +2,10 @@ import {
   ArrowRight,
   ArrowUpRight,
   BriefcaseBusiness,
+  ClipboardList,
   Code2,
+  Coins,
   Crosshair,
-  Gamepad2,
   GitBranch,
   Layers3,
   Mail,
@@ -52,7 +53,8 @@ const personJsonLdScript = JSON.stringify(personJsonLd).replace(/</g, "\\u003c")
 const projectIcons = {
   ShieldCheck,
   Network,
-  Gamepad2
+  ClipboardList,
+  Coins
 } satisfies Record<Project["icon"], typeof ShieldCheck>;
 
 const factIcons = [Crosshair, Code2, Layers3, Sparkles] as const;
@@ -149,7 +151,7 @@ export default function Home() {
                 <ArrowRight aria-hidden="true" size={16} strokeWidth={2.4} />
               </Link>
             </div>
-            <div className="mt-4 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+            <div className="mt-4 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
               {projects.map((project) => (
                 <ProjectCard key={project.slug} project={project} />
               ))}

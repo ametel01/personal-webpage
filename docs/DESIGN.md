@@ -71,7 +71,8 @@ Do not use:
 
 /work/voyager-verifier
 /work/aggsandbox
-/work/nogame
+/work/scopepilot
+/work/horizon-starknet
 
 /about
   Professional narrative and headshot
@@ -313,12 +314,13 @@ Visual style:
 
 ## 10. Selected Work
 
-Use three cards in v1:
+Use four cards in v1:
 
 ```text
 Voyager Verifier
 AggSandbox
-NoGame
+ScopePilot
+Horizon Protocol
 ```
 
 Do not mention Open Maintainer.
@@ -346,18 +348,17 @@ Recommended icons:
 ```text
 Voyager Verifier: ShieldCheck or FileCode
 AggSandbox: Network or GitBranch
-NoGame: Gamepad2 or Boxes
+ScopePilot: ClipboardList or FileText
+Horizon Protocol: Coins or ChartNoAxesCombined
 ```
 
 Card grid:
 
 ```text
-Desktop: 3 columns
+Desktop: 4 columns
 Tablet: 2 columns
 Mobile: 1 column
 ```
-
-Do not create empty space for a fourth card.
 
 ## 11. Technical Focus
 

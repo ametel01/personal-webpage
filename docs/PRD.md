@@ -74,8 +74,11 @@ Avoid:
 /work/aggsandbox
   AggSandbox case study
 
-/work/nogame
-  NoGame case study
+/work/scopepilot
+  ScopePilot case study
+
+/work/horizon-starknet
+  Horizon Protocol case study
 
 /about
   Professional narrative, headshot, working style, links
@@ -187,17 +190,18 @@ Do not include Go anywhere in v1.
 
 ## 5. Selected Work
 
-V1 uses three strong case studies only:
+V1 uses four strong case studies only:
 
 ```text
 1. Voyager Verifier
 2. AggSandbox
-3. NoGame
+3. ScopePilot
+4. Horizon Protocol
 ```
 
 Do not mention Open Maintainer. It is incomplete and not suitable as proof.
 
-Do not force a fourth project. Add x402 Starknet, Horizon Starknet, or another project only later if it has real evidence and defensible technical substance.
+Do not add another project unless it has real evidence and defensible technical substance.
 
 Each homepage project card must include:
 
@@ -225,11 +229,18 @@ Cross-chain infrastructure experiments using LayerZero, AggLayer concepts, and e
 Proof: Cross-chain protocol experiments with executable contracts and scripts.
 ```
 
-NoGame:
+ScopePilot:
 
 ```text
-Starknet MMO prototype with contracts, frontend systems, and game logic.
-Proof: Playable Starknet MMO prototype with contracts and frontend systems.
+Agency proposal configurator for scope, pricing, approvals, revisions, and client delivery.
+Proof: Live product with public user documentation for proposal and change-order workflows.
+```
+
+Horizon Protocol:
+
+```text
+Starknet yield tokenization protocol with SY/PT/YT assets, AMM markets, router flows, frontend, and indexer.
+Proof: Alpha mainnet deployment with live SplitYield product and documented Starknet contract addresses.
 ```
 
 ## 6. Project Case Study Template
@@ -400,7 +411,8 @@ Nethermind
 Selected Projects
 Voyager Verifier
 AggSandbox
-NoGame
+ScopePilot
+Horizon Protocol
 
 Skills
 Backend & infrastructure
@@ -599,7 +611,8 @@ Requirements:
 - Final production domain and canonical URL
 - Exact evidence links for Voyager Verifier
 - Exact evidence links for AggSandbox
-- Exact evidence links for NoGame
+- Exact evidence links for ScopePilot
+- Exact evidence links for Horizon Protocol
 - Exact structured resume transcription
 - Whether Writing / Notes ships in v1
 - Final static Open Graph image design

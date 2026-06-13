@@ -42,17 +42,6 @@ export const resume = {
         "Developed components for ZK infrastructure, including Groth16 verification and Ethereum-to-Starknet data proving systems.",
         "Built internal AI-assisted engineering workflows focused on automation, validation, and developer productivity."
       ]
-    },
-    {
-      company: "NoGame",
-      role: "Lead Developer",
-      dates: "Jan 2022 - Present",
-      summary: "Founder and lead engineer of a fully on-chain MMO prototype.",
-      bullets: [
-        "Designed and implemented backend services, frontend applications, APIs, smart contracts, game systems, and infrastructure.",
-        "Built React and TypeScript user interfaces, analytics systems, and blockchain integrations.",
-        "Owned architecture, product design, implementation, deployment, and operation."
-      ]
     }
   ],
   selectedProjects: projects.map((project) => ({

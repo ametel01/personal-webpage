@@ -306,21 +306,23 @@ Tasks:
   - correctness-sensitive hero body
   - `View Work`, `GitHub`, `LinkedIn`
 - Build credibility summary panel.
-- Build Selected Work with three cards:
+- Build Selected Work with four cards:
   - Voyager Verifier
   - AggSandbox
-  - NoGame
+  - ScopePilot
+  - Horizon Protocol
 - Use recommended project icons where they fit:
   - Voyager Verifier: `ShieldCheck` or `FileCode`
   - AggSandbox: `Network` or `GitBranch`
-  - NoGame: `Gamepad2` or `Boxes`
+  - ScopePilot: `ClipboardList` or `FileText`
+  - Horizon Protocol: `Coins` or `ChartNoAxesCombined`
 - Build Technical Focus.
 - Build Experience Snapshot.
 - Build flat dark Proof Bar.
 - Build compact Contact section.
 - Use meaningful `lucide-react` icons where useful.
 - Implement responsive layout targets:
-  - desktop: two-column hero, three-column selected work, four-column proof bar
+  - desktop: two-column hero, four-column selected work, four-column proof bar
   - tablet: stacked hero, two-column selected work, two-column proof bar
   - mobile: one-column selected work, one-column technical focus, one-column proof bar, stacked hero actions and summary facts
 
@@ -329,7 +331,7 @@ Acceptance criteria:
 - Homepage follows the required section order.
 - No headshot appears on the homepage.
 - No screenshots, diagrams, fake metrics, or code snippets appear.
-- Selected Work has exactly three cards.
+- Selected Work has exactly four cards.
 - Homepage Technical Focus uses exactly the four PRD groups: Backend & infrastructure, Developer tooling, Blockchain systems, Product engineering.
 - AWS is not shown in homepage Technical Focus.
 - Contact uses visible `alex-metelli@gmx.com` mailto link plus LinkedIn and GitHub only.
@@ -369,7 +371,8 @@ Tasks:
 - Build `/work` as a curated index only.
 - Build `/work/voyager-verifier`.
 - Build `/work/aggsandbox`.
-- Build `/work/nogame`.
+- Build `/work/scopepilot`.
+- Build `/work/horizon-starknet`.
 - Use the case-study template:
   - title
   - short description
@@ -596,7 +599,8 @@ Browser verification:
 - `/work`
 - `/work/voyager-verifier`
 - `/work/aggsandbox`
-- `/work/nogame`
+- `/work/scopepilot`
+- `/work/horizon-starknet`
 - `/about`
 - `/resume`
 - `/resume.pdf`
@@ -705,7 +709,7 @@ The product is final and deployable when:
 - Every route in the PRD exists and is non-placeholder.
 - Writing / Notes is excluded unless a finished technical note exists.
 - Homepage is evidence-first and matches the positioning.
-- Selected Work includes exactly Voyager Verifier, AggSandbox, and NoGame.
+- Selected Work includes exactly Voyager Verifier, AggSandbox, ScopePilot, and Horizon Protocol.
 - `/about` uses the professional headshot.
 - `/resume` is rendered from structured content.
 - `/resume.pdf` is available.
