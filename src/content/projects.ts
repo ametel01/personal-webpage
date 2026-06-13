@@ -155,7 +155,7 @@ export const projects: readonly Project[] = [
         },
         {
           label: "User documentation",
-          href: "https://github.com/ametel01/scopepilot/tree/main/documentation"
+          href: "https://scopepilot.launchingfoundry.xyz/docs"
         }
       ]
     }
