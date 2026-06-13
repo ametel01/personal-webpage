@@ -1,4 +1,5 @@
 import type { AnchorHTMLAttributes, HTMLAttributes, ReactNode } from "react";
+import { TechIcon } from "@/components/tech-icons";
 
 type ElementProps<T extends HTMLElement> = HTMLAttributes<T> & {
   children: ReactNode;
@@ -57,13 +58,11 @@ type TagListProps = {
 
 export function TagList({ items, ariaLabel = "Technologies" }: TagListProps) {
   return (
-    <ul className="flex flex-wrap gap-1.5" aria-label={ariaLabel}>
+    <ul className="tech-tag-list" aria-label={ariaLabel}>
       {items.map((item) => (
-        <li
-          className="rounded-[6px] bg-[var(--color-tag-bg)] px-2 py-0.5 text-[length:var(--text-xs)] font-semibold text-[var(--color-tag-text)]"
-          key={item}
-        >
-          {item}
+        <li className="tech-tag" key={item}>
+          <TechIcon name={item} />
+          <span>{item}</span>
         </li>
       ))}
     </ul>

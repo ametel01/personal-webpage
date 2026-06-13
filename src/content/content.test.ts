@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { describe, test } from "node:test";
+import { getTechVisual } from "@/components/tech-icons";
 import { profile, technicalFocusGroups } from "@/content/profile";
 import { getProject, isProjectSlug, projectSlugs, projects } from "@/content/projects";
 import { resume } from "@/content/resume";
@@ -153,6 +154,38 @@ describe("website content invariants", () => {
     );
 
     assert.equal(JSON.stringify(technicalFocusGroups).includes("AWS"), false);
+  });
+
+  test("technology icon registry covers public stack terms", () => {
+    const expectedIconizedTerms = [
+      "TypeScript",
+      "Rust",
+      "Python",
+      "Solidity",
+      "Cairo",
+      "Starknet",
+      "Docker",
+      "PostgreSQL",
+      "Redis",
+      "Linux",
+      "Node.js",
+      "React",
+      "Next.js",
+      "Bun",
+      "Astro",
+      "Cloudflare Workers",
+      "AWS Console",
+      "CloudWatch",
+      "LayerZero",
+      "AggLayer",
+      "Apibara",
+      "EVM",
+      "DeFi"
+    ];
+
+    for (const term of expectedIconizedTerms) {
+      assert.ok(getTechVisual(term), `${term} should have a technology visual`);
+    }
   });
 
   test("global CSS keeps documented layout and proof bar invariants", () => {

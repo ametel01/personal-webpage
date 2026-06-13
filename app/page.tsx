@@ -126,7 +126,14 @@ export default function Home() {
                           {fact.label}
                         </dt>
                         <dd className="text-[length:var(--text-sm)] leading-6 text-[var(--color-text)] max-[560px]:col-start-2">
-                          {fact.value}
+                          {fact.label === "Tech" ? (
+                            <TagList
+                              items={fact.value.split(" · ")}
+                              ariaLabel="Core technologies"
+                            />
+                          ) : (
+                            fact.value
+                          )}
                         </dd>
                       </div>
                     );

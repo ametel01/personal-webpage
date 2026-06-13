@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
-import { Container, ExternalLink, Section } from "@/components/primitives";
+import { Container, ExternalLink, Section, TagList } from "@/components/primitives";
 import { getProject, isProjectSlug, projectSlugs } from "@/content/projects";
 import { createPageMetadata } from "@/lib/metadata";
 
@@ -80,7 +80,9 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
             <dl className="mt-10 grid gap-4 md:grid-cols-3">
               <MetadataItem label="Role" value={project.metadata.role} />
-              <MetadataItem label="Stack" value={project.metadata.stack.join(" · ")} />
+              <MetadataItem label="Stack">
+                <TagList items={project.metadata.stack} ariaLabel={`${project.title} stack`} />
+              </MetadataItem>
               <MetadataItem label="Current state" value={project.metadata.currentState} />
             </dl>
           </Container>
@@ -178,14 +180,22 @@ const caseStudySections = [
   }
 ] as const;
 
-function MetadataItem({ label, value }: { label: string; value: string }) {
+function MetadataItem({
+  label,
+  value,
+  children
+}: {
+  label: string;
+  value?: string;
+  children?: ReactNode;
+}) {
   return (
     <div className="border border-[var(--color-border)] bg-white p-5 shadow-[var(--shadow-card)]">
       <dt className="text-[length:var(--text-xs)] font-bold uppercase text-[var(--color-text-soft)]">
         {label}
       </dt>
       <dd className="mt-2 text-[length:var(--text-sm)] font-semibold leading-6 text-[var(--color-text)]">
-        {value}
+        {children ?? value}
       </dd>
     </div>
   );
