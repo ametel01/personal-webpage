@@ -165,6 +165,34 @@ describe("website content invariants", () => {
     assert.doesNotMatch(proofBand.groups.body, /gradient\(/);
   });
 
+  test("Next config applies conservative global security headers", async () => {
+    const { default: nextConfig } = await import("../../next.config");
+    const getHeaderRoutes = nextConfig.headers;
+
+    if (typeof getHeaderRoutes !== "function") {
+      assert.fail("nextConfig.headers must be defined");
+    }
+
+    const headerRoutes = await getHeaderRoutes();
+    const [globalRoute] = headerRoutes;
+
+    assert.equal(headerRoutes.length, 1);
+    assert.equal(globalRoute?.source, "/(.*)");
+
+    const headersByKey = new Map(
+      globalRoute?.headers.map((header) => [header.key, header.value]) ?? []
+    );
+
+    assert.equal(headersByKey.get("X-Content-Type-Options"), "nosniff");
+    assert.equal(headersByKey.get("Referrer-Policy"), "strict-origin-when-cross-origin");
+    assert.equal(headersByKey.get("X-Frame-Options"), "DENY");
+    assert.equal(
+      headersByKey.get("Permissions-Policy"),
+      "camera=(), microphone=(), geolocation=()"
+    );
+    assert.equal(headersByKey.has("Content-Security-Policy"), false);
+  });
+
   test("primary header navigation matches the v1 route contract", () => {
     assert.deepStrictEqual(
       primaryNavItems.map((item) => [item.label, item.href]),
