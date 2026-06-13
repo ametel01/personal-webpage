@@ -27,6 +27,8 @@ bun run build
 
 The GitHub Actions CI workflow runs the same lint, typecheck, test, and build gates on
 pull requests and pushes to `main`.
+CI uses Bun 1.3.13. Use the same major/minor locally when investigating CI-only
+install or test failures.
 
 ## Vercel Deployment
 
