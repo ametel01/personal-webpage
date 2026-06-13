@@ -305,6 +305,9 @@ function ProjectCard({ project }: { project: Project }) {
       <p className="mt-1.5 line-clamp-2 text-[length:var(--text-sm)] leading-5 text-[var(--color-text)]">
         {project.valueStatement}
       </p>
+      <p className="mt-2 border-l border-[var(--color-border)] pl-3 text-[length:var(--text-xs)] font-semibold leading-5 text-[var(--color-text)]">
+        Proof: {project.proof}
+      </p>
       <div className="mt-2.5">
         <TagList items={project.tags.slice(0, 4)} ariaLabel={`${project.title} technologies`} />
       </div>

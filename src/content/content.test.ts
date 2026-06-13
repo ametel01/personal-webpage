@@ -63,6 +63,17 @@ function collectText(node: unknown): string {
     return node.map(collectText).join(" ");
   }
 
+  if (node && typeof node === "object" && "type" in node && "props" in node) {
+    const element = node as {
+      type?: unknown;
+      props?: Record<string, unknown>;
+    };
+
+    if (typeof element.type === "function") {
+      return collectText(element.type(element.props ?? {}));
+    }
+  }
+
   if (node && typeof node === "object" && "props" in node) {
     const props = (node as { props?: Record<string, unknown> }).props;
 
@@ -232,10 +243,14 @@ describe("website content invariants", () => {
       import("../../app/resume/page")
     ]);
 
-    assert.match(
-      collectText(HomePage()),
-      /Backend systems\. Developer tooling\. Blockchain infrastructure\./
-    );
+    const homeText = collectText(HomePage());
+
+    assert.match(homeText, /Backend systems\. Developer tooling\. Blockchain infrastructure\./);
+
+    for (const project of projects) {
+      assert.match(homeText, new RegExp(`Proof:\\s+${escapeRegExp(project.proof)}`));
+    }
+
     assert.match(
       collectText(WorkPage()),
       /Focused case studies with concrete engineering evidence\./
@@ -308,3 +323,7 @@ describe("website content invariants", () => {
     assert.equal(String(robotsConfig.sitemap).endsWith("/sitemap.xml"), true);
   });
 });
+
+function escapeRegExp(value: string) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
