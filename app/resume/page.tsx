@@ -1,8 +1,61 @@
-import { ArrowUpRight, Download, Mail } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
+import {
+  ArrowUpRight,
+  Blocks,
+  Box,
+  BriefcaseBusiness,
+  CalendarDays,
+  ClipboardList,
+  CodeXml,
+  Coins,
+  Download,
+  FileText,
+  Globe2,
+  Mail,
+  MonitorCog,
+  Network,
+  ServerCog,
+  ShieldCheck,
+  SquareTerminal,
+  Workflow
+} from "lucide-react";
 import type { Metadata } from "next";
-import { Container, ExternalLink, PageHeader, Section, TagList } from "@/components/primitives";
+import Image from "next/image";
+import type { ReactNode } from "react";
+import { Container, ExternalLink, Section, TagList } from "@/components/primitives";
 import { resume } from "@/content/resume";
 import { createPageMetadata } from "@/lib/metadata";
+
+type ResumeLinkLabel = (typeof resume.links)[number]["label"];
+type ResumePdfLink = (typeof resume.links)[number] & { resumeLabel: string };
+
+const factIcons: Record<string, LucideIcon> = {
+  Box,
+  Calendar: CalendarDays,
+  Globe: Globe2,
+  MonitorCog
+};
+
+const projectIcons: Record<string, LucideIcon> = {
+  ClipboardList,
+  Coins,
+  Network,
+  ShieldCheck
+};
+
+const skillIcons: Record<string, LucideIcon> = {
+  Blocks,
+  ServerCog,
+  SquareTerminal,
+  Workflow
+};
+
+const resumeLinkIcons: Partial<Record<ResumeLinkLabel, LucideIcon>> = {
+  GitHub: CodeXml,
+  LinkedIn: BriefcaseBusiness
+};
+
+const resumePdfLink = resume.links.find((link): link is ResumePdfLink => "resumeLabel" in link);
 
 export const metadata: Metadata = createPageMetadata({
   title: "Resume",
@@ -13,80 +66,96 @@ export const metadata: Metadata = createPageMetadata({
 
 export default function ResumePage() {
   return (
-    <main>
-      <Section>
+    <main className="resume-page">
+      <Section className="resume-hero-section">
         <Container>
-          <div className="grid gap-10 lg:grid-cols-[0.72fr_1fr]">
-            <PageHeader
-              eyebrow="Resume"
-              title={resume.heading.name}
-              description={resume.heading.summary}
-            />
-            <div className="self-end">
-              <p className="text-[length:var(--text-xl)] font-semibold text-[var(--color-text)]">
-                {resume.heading.role}
-              </p>
-              <div className="mt-6 flex flex-wrap gap-3 max-[520px]:flex-col">
+          <div className="resume-hero-grid">
+            <header className="resume-hero-copy">
+              <p className="resume-section-kicker">Software Engineer</p>
+              <h1>{resume.heading.name}</h1>
+              <p className="resume-role">{resume.heading.role}</p>
+              <p className="resume-summary">{resume.heading.summary}</p>
+              <div className="resume-cta-row">
                 {resume.links.map((link) => (
                   <ResumeLink key={link.label} href={link.href} label={link.label} />
                 ))}
               </div>
-            </div>
+            </header>
+
+            <aside className="resume-facts-card" aria-label="Resume summary facts">
+              {resume.heroFacts.map((fact) => {
+                const Icon = factIcons[fact.icon] ?? FileText;
+
+                return (
+                  <div className="resume-fact-row" key={fact.label}>
+                    <span className="resume-icon-badge">
+                      <Icon aria-hidden="true" />
+                    </span>
+                    <div>
+                      <h2>{fact.label}</h2>
+                      {"stack" in fact ? (
+                        <TagList items={fact.stack} ariaLabel={`${fact.label} technologies`} />
+                      ) : (
+                        <p>{fact.detail}</p>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </aside>
           </div>
         </Container>
       </Section>
 
-      <Section muted>
+      <Section muted className="resume-body-section">
         <Container>
           <ResumeSection title="Experience">
-            <div className="grid gap-5">
+            <div className="resume-experience-list">
               {resume.experience.map((entry) => (
-                <article
-                  className="border border-[var(--color-border)] bg-white p-6 shadow-[var(--shadow-card)]"
-                  key={`${entry.company}-${entry.role}`}
-                >
-                  <div className="grid gap-2 md:grid-cols-[1fr_auto]">
-                    <div>
-                      <h3 className="text-[length:var(--text-xl)] font-semibold text-[var(--color-text)]">
-                        {entry.company}
-                      </h3>
-                      <p className="mt-1 text-[length:var(--text-sm)] font-bold text-[var(--color-accent)]">
-                        {entry.role}
-                      </p>
-                    </div>
-                    <p className="text-[length:var(--text-sm)] font-semibold text-[var(--color-text-muted)]">
-                      {entry.dates}
-                    </p>
+                <article className="resume-experience-card" key={`${entry.company}-${entry.role}`}>
+                  <div className="resume-timeline" aria-hidden="true">
+                    <span />
                   </div>
-                  <p className="mt-4 text-[length:var(--text-md)] leading-7 text-[var(--color-text-muted)]">
-                    {entry.summary}
-                  </p>
-                  <ul className="mt-5 grid gap-3 text-[length:var(--text-sm)] leading-6 text-[var(--color-text-muted)]">
-                    {entry.bullets.map((bullet) => (
-                      <li className="pl-4 before:mr-3 before:content-['-']" key={bullet}>
-                        {bullet}
-                      </li>
-                    ))}
-                  </ul>
+                  <div className="resume-company-block">
+                    <span className="resume-company-logo-frame" aria-hidden="true">
+                      <Image
+                        className="resume-company-logo"
+                        src="/images/nethermind-logo-horizontal-light.svg"
+                        alt=""
+                        width="478"
+                        height="81"
+                        unoptimized
+                      />
+                    </span>
+                    <div>
+                      <h3>{entry.company}</h3>
+                      <p>{entry.role}</p>
+                    </div>
+                  </div>
+                  <div className="resume-experience-detail">
+                    <div className="resume-experience-header">
+                      <p>{entry.summary}</p>
+                      <time>{entry.dates}</time>
+                    </div>
+                    <ul className="resume-bullet-list">
+                      {entry.bullets.map((bullet) => (
+                        <li key={bullet}>{bullet}</li>
+                      ))}
+                    </ul>
+                  </div>
                 </article>
               ))}
             </div>
           </ResumeSection>
 
           <ResumeSection title="Selected Projects">
-            <div className="grid gap-5 md:grid-cols-3">
+            <div className="resume-project-grid">
               {resume.selectedProjects.map((project) => (
-                <article
-                  className="border border-[var(--color-border)] bg-white p-5 shadow-[var(--shadow-card)]"
-                  key={project.title}
-                >
-                  <h3 className="text-[length:var(--text-lg)] font-semibold text-[var(--color-text)]">
-                    {project.title}
-                  </h3>
-                  <p className="mt-3 text-[length:var(--text-sm)] leading-6 text-[var(--color-text-muted)]">
-                    {project.description}
-                  </p>
-                  <div className="mt-4">
+                <article className="resume-project-card" key={project.title}>
+                  <ProjectIcon icon={project.icon} />
+                  <h3>{project.title}</h3>
+                  <p>{project.description}</p>
+                  <div className="resume-project-stack">
                     <TagList items={project.stack} ariaLabel={`${project.title} stack`} />
                   </div>
                 </article>
@@ -95,13 +164,14 @@ export default function ResumePage() {
           </ResumeSection>
 
           <ResumeSection title="Skills">
-            <div className="grid gap-4 md:grid-cols-2">
+            <div className="resume-skills-panel">
               {resume.skills.map((skill) => (
-                <div className="border-l border-[var(--color-border)] pl-5" key={skill.group}>
-                  <h3 className="text-[length:var(--text-lg)] font-semibold text-[var(--color-text)]">
+                <div className="resume-skill-group" key={skill.group}>
+                  <h3>
+                    <SkillIcon icon={skill.icon} />
                     {skill.group}
                   </h3>
-                  <div className="mt-4">
+                  <div className="resume-skill-tags">
                     <TagList items={skill.items} ariaLabel={`${skill.group} skills`} />
                   </div>
                 </div>
@@ -110,15 +180,22 @@ export default function ResumePage() {
           </ResumeSection>
 
           <ResumeSection title="Education / Certifications">
-            <div className="grid gap-4">
+            <div className="resume-education-list">
               {resume.education.map((item) => (
-                <div className="border-l border-[var(--color-border)] pl-5" key={item.credential}>
-                  <h3 className="text-[length:var(--text-lg)] font-semibold text-[var(--color-text)]">
-                    {item.credential}
-                  </h3>
-                  <p className="mt-2 text-[length:var(--text-sm)] font-semibold text-[var(--color-text-muted)]">
-                    {item.institution}
-                  </p>
+                <div className="resume-education-card" key={item.credential}>
+                  <span className="resume-education-icon">
+                    <Image
+                      className="resume-education-logo"
+                      src={item.logo}
+                      alt={item.logoAlt}
+                      width="180"
+                      height="91"
+                    />
+                  </span>
+                  <div>
+                    <h3>{item.credential}</h3>
+                    <p>{item.institution}</p>
+                  </div>
                 </div>
               ))}
             </div>
@@ -129,21 +206,35 @@ export default function ResumePage() {
   );
 }
 
-function ResumeSection({ title, children }: { title: string; children: React.ReactNode }) {
+function ResumeSection({ title, children }: { title: string; children: ReactNode }) {
   return (
-    <section className="mb-14 last:mb-0">
-      <h2 className="mb-6 text-[length:var(--text-2xl)] font-semibold text-[var(--color-text)]">
-        {title}
-      </h2>
+    <section className="resume-section">
+      <h2>{title}</h2>
       {children}
     </section>
   );
 }
 
+function ProjectIcon({ icon }: { icon: string }) {
+  const Icon = projectIcons[icon] ?? FileText;
+
+  return (
+    <span className={`resume-project-icon resume-project-icon-${icon}`} aria-hidden="true">
+      <Icon aria-hidden="true" />
+    </span>
+  );
+}
+
+function SkillIcon({ icon }: { icon: string }) {
+  const Icon = skillIcons[icon] ?? FileText;
+
+  return <Icon aria-hidden="true" size={17} strokeWidth={2.25} />;
+}
+
 function ResumeLink({ href, label }: { href: string; label: string }) {
   if (href.startsWith("mailto:")) {
     return (
-      <a className="button button-secondary max-[520px]:w-full" href={href}>
+      <a className="button button-secondary resume-cta" href={href}>
         <Mail aria-hidden="true" size={17} strokeWidth={2.3} />
         {label}
       </a>
@@ -152,16 +243,18 @@ function ResumeLink({ href, label }: { href: string; label: string }) {
 
   if (href.endsWith(".pdf")) {
     return (
-      <a className="button max-[520px]:w-full" href={href}>
+      <a className="button resume-cta" href={href}>
         <Download aria-hidden="true" size={17} strokeWidth={2.3} />
-        {label}
+        {resumePdfLink?.href === href ? resumePdfLink.resumeLabel : label}
       </a>
     );
   }
 
+  const Icon = resumeLinkIcons[label as ResumeLinkLabel] ?? ArrowUpRight;
+
   return (
-    <ExternalLink className="button button-secondary max-[520px]:w-full" href={href}>
-      <ArrowUpRight aria-hidden="true" size={17} strokeWidth={2.3} />
+    <ExternalLink className="button button-secondary resume-cta" href={href}>
+      <Icon aria-hidden="true" size={17} strokeWidth={2.3} />
       {label}
     </ExternalLink>
   );

@@ -147,6 +147,23 @@ describe("website content invariants", () => {
     );
   });
 
+  test("resume exposes redesigned summary facts without dropping route-critical content", () => {
+    assert.deepStrictEqual(
+      resume.heroFacts.map((fact) => fact.label),
+      ["5 Years of Experience", "Core Stack", "Domains", "Location"]
+    );
+
+    assert.ok(resume.heroFacts.some((fact) => fact.detail.includes("AI tooling")));
+    assert.ok(resume.heroFacts.some((fact) => fact.detail.includes("Remote-friendly")));
+    assert.ok(resume.links.some((link) => link.label === "Download PDF"));
+    assert.ok(
+      resume.links.some(
+        (link) => "resumeLabel" in link && link.resumeLabel === "Download Resume (PDF)"
+      )
+    );
+    assert.equal(resume.selectedProjects.length, 4);
+  });
+
   test("homepage technical focus keeps the exact PRD groups", () => {
     assert.deepStrictEqual(
       technicalFocusGroups.map((group) => group.title),
@@ -332,7 +349,11 @@ describe("website content invariants", () => {
       collectText(AboutPage()),
       /Engineering work built around correctness, clarity, and delivery\./
     );
-    assert.match(collectText(ResumePage()), /Alex Metelli/);
+    const resumeText = collectText(ResumePage());
+
+    assert.match(resumeText, /Alex Metelli/);
+    assert.match(resumeText, /5 Years of Experience/);
+    assert.match(resumeText, /Download Resume \(PDF\)/);
   });
 
   test("dynamic project route generation and metadata cover every selected project", async () => {

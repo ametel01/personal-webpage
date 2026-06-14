@@ -1,4 +1,4 @@
-import { Download } from "lucide-react";
+import { BriefcaseBusiness, CodeXml, Download, FileText, Mail } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
@@ -10,22 +10,26 @@ const footerLinks = [
   {
     label: "Email",
     href: `mailto:${site.email}`,
-    external: false
+    external: false,
+    icon: Mail
   },
   {
     label: "GitHub",
     href: site.githubUrl,
-    external: true
+    external: true,
+    icon: CodeXml
   },
   {
     label: "LinkedIn",
     href: site.linkedinUrl,
-    external: true
+    external: true,
+    icon: BriefcaseBusiness
   },
   {
     label: "Resume",
     href: site.resumePath,
-    external: false
+    external: false,
+    icon: FileText
   }
 ] as const;
 
@@ -104,17 +108,13 @@ function SiteFooter() {
             {footerLinks.map((item) => (
               <li key={item.label}>
                 {item.external ? (
-                  <ExternalLink
-                    className="rounded-[6px] px-3 py-2 text-[length:var(--text-sm)] font-semibold text-[var(--color-text-muted)] hover:bg-[var(--color-primary-soft)] hover:text-[var(--color-primary)]"
-                    href={item.href}
-                  >
+                  <ExternalLink className="footer-link" href={item.href}>
+                    <item.icon aria-hidden="true" size={17} strokeWidth={2.2} />
                     {item.label}
                   </ExternalLink>
                 ) : (
-                  <Link
-                    className="rounded-[6px] px-3 py-2 text-[length:var(--text-sm)] font-semibold text-[var(--color-text-muted)] hover:bg-[var(--color-primary-soft)] hover:text-[var(--color-primary)]"
-                    href={item.href}
-                  >
+                  <Link className="footer-link" href={item.href}>
+                    <item.icon aria-hidden="true" size={17} strokeWidth={2.2} />
                     {item.label}
                   </Link>
                 )}

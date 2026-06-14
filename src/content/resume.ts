@@ -23,7 +23,31 @@ export const resume = {
     },
     {
       label: "Download PDF",
+      resumeLabel: "Download Resume (PDF)",
       href: profile.links.resumePdf
+    }
+  ],
+  heroFacts: [
+    {
+      label: "5 Years of Experience",
+      detail: "Backend systems · Dev tools · Blockchain · AI tooling",
+      icon: "Calendar"
+    },
+    {
+      label: "Core Stack",
+      detail: "Rust, TypeScript, Python, Solidity, Cairo, Docker, AWS",
+      icon: "MonitorCog",
+      stack: ["Rust", "TypeScript", "Python", "Solidity", "Docker", "AWS Console"]
+    },
+    {
+      label: "Domains",
+      detail: "Blockchain infrastructure, Developer Tooling, AI-assisted Engineering",
+      icon: "Box"
+    },
+    {
+      label: "Location",
+      detail: "Remote-friendly",
+      icon: "Globe"
     }
   ],
   experience: [
@@ -47,11 +71,13 @@ export const resume = {
   selectedProjects: projects.map((project) => ({
     title: project.title,
     description: project.shortDescription,
-    stack: project.metadata.stack
+    stack: project.metadata.stack,
+    icon: project.icon
   })),
   skills: [
     {
       group: "Backend & infrastructure",
+      icon: "ServerCog",
       items: [
         "Node.js",
         "REST APIs",
@@ -64,6 +90,7 @@ export const resume = {
     },
     {
       group: "Developer tooling",
+      icon: "SquareTerminal",
       items: [
         "CLI tools",
         "Engineering automation",
@@ -73,6 +100,7 @@ export const resume = {
     },
     {
       group: "Blockchain systems",
+      icon: "Blocks",
       items: [
         "Starknet",
         "Ethereum",
@@ -86,6 +114,7 @@ export const resume = {
     },
     {
       group: "Product engineering",
+      icon: "Workflow",
       items: [
         "React",
         "TypeScript",
@@ -100,7 +129,9 @@ export const resume = {
   education: [
     {
       credential: "BSc Data Science and Computing",
-      institution: "Birkbeck, University of London"
+      institution: "Birkbeck, University of London",
+      logo: "/images/birkbeck-logo-cropped.jpg",
+      logoAlt: "Birkbeck, University of London logo"
     }
   ]
 } as const;
