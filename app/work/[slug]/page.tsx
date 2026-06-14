@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
 import { Container, ExternalLink, Section, TagList } from "@/components/primitives";
+import { ProjectIcon } from "@/components/project-icon";
 import { getProject, isProjectSlug, projectSlugs } from "@/content/projects";
 import { createPageMetadata } from "@/lib/metadata";
 
@@ -66,14 +67,13 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
               <ArrowLeft aria-hidden="true" size={16} strokeWidth={2.4} />
               Work
             </Link>
-            <header className="max-w-4xl">
-              <p className="text-[length:var(--text-sm)] font-bold uppercase text-[var(--color-text-muted)]">
-                Case Study
-              </p>
-              <h1 className="hero-title mt-4 text-[var(--color-text)]">{project.title}</h1>
-              <p className="mt-6 text-[length:var(--text-lg)] leading-8 text-[var(--color-text-muted)]">
-                {project.shortDescription}
-              </p>
+            <header className="page-header project-detail-header max-w-4xl">
+              <div>
+                <p className="page-eyebrow text-[var(--color-text-muted)]">Case Study</p>
+                <h1 className="hero-title page-title">{project.title}</h1>
+                <p className="page-description">{project.shortDescription}</p>
+              </div>
+              <ProjectIcon className="project-detail-logo" icon={project.icon} size="large" />
             </header>
 
             <dl className="mt-10 grid gap-4 md:grid-cols-3">
@@ -202,12 +202,10 @@ function MetadataItem({
 function CaseSection({ id, title, children }: { id: string; title: string; children: ReactNode }) {
   return (
     <section
-      className="border-l border-[var(--color-border)] py-1 pl-6 text-[length:var(--text-md)] leading-8 text-[var(--color-text-muted)]"
+      className="body-copy case-section-copy border-l border-[var(--color-border)] py-1 pl-6"
       id={id}
     >
-      <h2 className="mb-3 text-[length:var(--text-xl)] font-semibold text-[var(--color-text)]">
-        {title}
-      </h2>
+      <h2 className="card-title mb-3">{title}</h2>
       {children}
     </section>
   );

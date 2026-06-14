@@ -3,13 +3,18 @@ export type EvidenceLink = {
   href: string;
 };
 
+export type ProjectIconAsset = {
+  alt: string;
+  src: string;
+};
+
 export type Project = {
   slug: "voyager-verifier" | "aggsandbox" | "scopepilot" | "horizon-starknet";
   title: string;
   shortDescription: string;
   valueStatement: string;
   proof: string;
-  icon: "ShieldCheck" | "Network" | "ClipboardList" | "Coins";
+  icon: ProjectIconAsset;
   tags: readonly string[];
   metadata: {
     role: string;
@@ -36,7 +41,10 @@ export const projects: readonly Project[] = [
     valueStatement:
       "Starknet contract verification tooling with compiler integration and status tracking.",
     proof: "Built for Starknet verification workflows at Nethermind.",
-    icon: "ShieldCheck",
+    icon: {
+      alt: "Nethermind",
+      src: "/icons/nethermind.svg"
+    },
     tags: ["Rust", "Starknet", "Cairo", "Scarb", "AWS Console", "CloudWatch"],
     metadata: {
       role: "Software Engineer at Nethermind",
@@ -80,7 +88,10 @@ export const projects: readonly Project[] = [
     valueStatement:
       "Cross-chain infrastructure experiments using LayerZero, AggLayer concepts, and executable contract scripts.",
     proof: "Cross-chain protocol experiments with executable contracts and scripts.",
-    icon: "Network",
+    icon: {
+      alt: "AggLayer",
+      src: "/icons/agglayer.svg"
+    },
     tags: ["Rust", "Docker", "Solidity", "AggLayer", "LayerZero", "EVM"],
     metadata: {
       role: "Software Engineer at Nethermind",
@@ -124,7 +135,10 @@ export const projects: readonly Project[] = [
     valueStatement:
       "Agency proposal configurator for scope, pricing, approvals, revisions, and client delivery.",
     proof: "Live product with public user documentation for proposal and change-order workflows.",
-    icon: "ClipboardList",
+    icon: {
+      alt: "ScopePilot",
+      src: "/icons/scopepilot.svg"
+    },
     tags: ["TypeScript", "Astro", "Cloudflare Workers", "Bun", "PostgreSQL", "Product workflows"],
     metadata: {
       role: "Independent product engineer",
@@ -169,7 +183,10 @@ export const projects: readonly Project[] = [
       "Starknet yield tokenization protocol with SY/PT/YT assets, AMM markets, router flows, frontend, and indexer.",
     proof:
       "Alpha mainnet deployment with live SplitYield product and documented Starknet contract addresses.",
-    icon: "Coins",
+    icon: {
+      alt: "SplitYield",
+      src: "/icons/horizon-protocol.png"
+    },
     tags: ["Cairo", "Starknet", "TypeScript", "Next.js", "Apibara", "PostgreSQL", "DeFi"],
     metadata: {
       role: "Independent protocol engineer",

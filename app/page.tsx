@@ -2,20 +2,17 @@ import {
   ArrowRight,
   ArrowUpRight,
   BriefcaseBusiness,
-  ClipboardList,
   Code2,
-  Coins,
   Crosshair,
   GitBranch,
   Layers3,
   Mail,
-  Network,
-  ShieldCheck,
   Sparkles,
   UsersRound
 } from "lucide-react";
 import Link from "next/link";
 import { Container, ExternalLink, Section, TagList } from "@/components/primitives";
+import { ProjectIcon } from "@/components/project-icon";
 import {
   experienceSnapshot,
   profile,
@@ -50,13 +47,6 @@ const personJsonLd = {
 
 const personJsonLdScript = JSON.stringify(personJsonLd).replace(/</g, "\\u003c");
 
-const projectIcons = {
-  ShieldCheck,
-  Network,
-  ClipboardList,
-  Coins
-} satisfies Record<Project["icon"], typeof ShieldCheck>;
-
 const factIcons = [Crosshair, Code2, Layers3, Sparkles] as const;
 const proofIcons = [BriefcaseBusiness, Code2, GitBranch, UsersRound] as const;
 
@@ -69,29 +59,25 @@ export default function Home() {
           <Container>
             <div className="grid items-start gap-14 lg:grid-cols-[minmax(0,1.22fr)_minmax(430px,0.78fr)]">
               <div>
-                <p className="text-[length:var(--text-sm)] font-bold uppercase tracking-[0.12em] text-[var(--color-accent)]">
-                  {profile.hero.role}
-                </p>
-                <h1 className="hero-title home-hero-title mt-5 text-[var(--color-text)]">
+                <p className="page-eyebrow">{profile.hero.role}</p>
+                <h1 className="hero-title home-hero-title text-[var(--color-text)]">
                   {profile.hero.headline}
                 </h1>
-                <p className="mt-5 max-w-[620px] text-[length:var(--text-md)] leading-7 text-[var(--color-text)]">
-                  {profile.hero.body}
-                </p>
+                <p className="page-description home-hero-description">{profile.hero.body}</p>
                 <div className="mt-6 flex flex-wrap items-center gap-8 max-[520px]:flex-col max-[520px]:items-stretch">
                   <a className="button max-[520px]:w-full" href="#selected-work">
                     View My Work
                     <ArrowRight aria-hidden="true" size={17} strokeWidth={2.3} />
                   </a>
                   <ExternalLink
-                    className="inline-flex items-center gap-2 text-[length:var(--text-md)] font-medium text-[var(--color-text)] hover:text-[var(--color-accent)] max-[520px]:justify-center"
+                    className="home-social-link inline-flex items-center gap-2 max-[520px]:justify-center"
                     href={profile.links.github}
                   >
                     GitHub
                     <ArrowUpRight aria-hidden="true" size={16} strokeWidth={2.3} />
                   </ExternalLink>
                   <ExternalLink
-                    className="inline-flex items-center gap-2 text-[length:var(--text-md)] font-medium text-[var(--color-text)] hover:text-[var(--color-accent)] max-[520px]:justify-center"
+                    className="home-social-link inline-flex items-center gap-2 max-[520px]:justify-center"
                     href={profile.links.linkedin}
                   >
                     LinkedIn
@@ -104,9 +90,7 @@ export default function Home() {
                 className="border-l border-[var(--color-border)] pl-14 max-[1024px]:border-l-0 max-[1024px]:border-t max-[1024px]:pl-0 max-[1024px]:pt-8"
                 aria-label="Credibility summary"
               >
-                <p className="max-w-[560px] text-[length:var(--text-md)] leading-7 text-[var(--color-text)]">
-                  {profile.summary}
-                </p>
+                <p className="body-copy home-summary-copy">{profile.summary}</p>
                 <dl className="mt-7 grid gap-5 max-[720px]:gap-4">
                   {profile.facts.map((fact, index) => {
                     const Icon = factIcons[index] ?? Crosshair;
@@ -147,9 +131,7 @@ export default function Home() {
         <section id="selected-work" className="work-band">
           <Container>
             <div className="flex items-center justify-between gap-6">
-              <p className="text-[length:var(--text-sm)] font-bold uppercase tracking-[0.08em] text-[var(--color-text)]">
-                Selected Work
-              </p>
+              <p className="section-eyebrow text-[var(--color-text)]">Selected Work</p>
               <Link
                 className="inline-flex items-center gap-2 text-[length:var(--text-sm)] font-medium text-[var(--color-accent)] hover:text-[var(--color-accent-hover)]"
                 href="/work"
@@ -201,9 +183,7 @@ export default function Home() {
                 className="border border-[var(--color-border)] bg-white p-6 shadow-[var(--shadow-card)]"
                 key={group.title}
               >
-                <h3 className="text-[length:var(--text-xl)] font-semibold text-[var(--color-text)]">
-                  {group.title}
-                </h3>
+                <h3 className="card-title">{group.title}</h3>
                 <div className="mt-5">
                   <TagList items={group.items} ariaLabel={`${group.title} skills`} />
                 </div>
@@ -223,12 +203,8 @@ export default function Home() {
             <div className="grid gap-5">
               {experienceSnapshot.map((item) => (
                 <div className="border-l border-[var(--color-border)] pl-6" key={item.title}>
-                  <h3 className="text-[length:var(--text-xl)] font-semibold text-[var(--color-text)]">
-                    {item.title}
-                  </h3>
-                  <p className="mt-2 text-[length:var(--text-md)] leading-7 text-[var(--color-text-muted)]">
-                    {item.body}
-                  </p>
+                  <h3 className="card-title">{item.title}</h3>
+                  <p className="body-copy mt-2">{item.body}</p>
                 </div>
               ))}
             </div>
@@ -241,9 +217,7 @@ export default function Home() {
           <div className="grid gap-8 lg:grid-cols-[0.85fr_1fr]">
             <SectionHeading label="Contact" title="Remote engineering and focused consulting." />
             <div>
-              <p className="max-w-2xl text-[length:var(--text-lg)] leading-8 text-[var(--color-text-muted)]">
-                {profile.contact}
-              </p>
+              <p className="page-description max-w-2xl">{profile.contact}</p>
               <div className="mt-7 flex flex-wrap gap-3 max-[520px]:flex-col">
                 <a className="button max-[520px]:w-full" href={`mailto:${profile.email}`}>
                   <Mail aria-hidden="true" size={17} strokeWidth={2.3} />
@@ -283,35 +257,21 @@ function SectionHeading({
 }) {
   return (
     <div className="max-w-3xl">
-      <p className="text-[length:var(--text-sm)] font-bold uppercase text-[var(--color-text-muted)]">
-        {label}
-      </p>
-      <h2 className="text-balance mt-3 text-[length:var(--text-3xl)] font-semibold leading-[var(--leading-snug)] text-[var(--color-text)] max-[720px]:text-[length:var(--text-2xl)]">
-        {title}
-      </h2>
-      {description ? (
-        <p className="mt-4 text-[length:var(--text-md)] leading-7 text-[var(--color-text-muted)]">
-          {description}
-        </p>
-      ) : null}
+      <p className="section-eyebrow text-[var(--color-text-muted)]">{label}</p>
+      <h2 className="section-title">{title}</h2>
+      {description ? <p className="body-copy mt-4">{description}</p> : null}
     </div>
   );
 }
 
 function ProjectCard({ project }: { project: Project }) {
-  const Icon = projectIcons[project.icon];
-
   return (
-    <article className="avoid-break flex min-h-[190px] flex-col rounded-[6px] border border-[var(--color-border)] bg-white p-3.5 shadow-[var(--shadow-card)] transition hover:-translate-y-0.5 hover:border-[var(--color-accent)]">
-      <span className="flex size-9 items-center justify-center rounded-[6px] bg-[var(--color-primary)] text-white shadow-[var(--shadow-button)]">
-        <Icon aria-hidden="true" size={17} strokeWidth={2.2} />
-      </span>
-      <h3 className="mt-2.5 text-[length:var(--text-md)] font-bold text-[var(--color-text)]">
-        {project.title}
-      </h3>
-      <p className="mt-1.5 line-clamp-2 text-[length:var(--text-sm)] leading-5 text-[var(--color-text)]">
-        {project.valueStatement}
-      </p>
+    <article className="home-project-card avoid-break">
+      <div className="home-project-card-header">
+        <h3 className="card-title home-project-title">{project.title}</h3>
+        <ProjectIcon icon={project.icon} size="home" />
+      </div>
+      <p className="body-copy home-project-summary mt-1.5 line-clamp-2">{project.valueStatement}</p>
       <p className="mt-2 border-l border-[var(--color-border)] pl-3 text-[length:var(--text-xs)] font-semibold leading-5 text-[var(--color-text)]">
         Proof: {project.proof}
       </p>

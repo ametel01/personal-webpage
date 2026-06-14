@@ -5,7 +5,6 @@ import {
   CalendarDays,
   ClipboardList,
   CodeXml,
-  Coins,
   Database,
   FileText,
   Network,
@@ -15,6 +14,7 @@ import {
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Container, ExternalLink, Section, TagList } from "@/components/primitives";
+import { ProjectIcon } from "@/components/project-icon";
 import { type Project, projects } from "@/content/projects";
 import { createPageMetadata } from "@/lib/metadata";
 import { site } from "@/lib/site";
@@ -25,13 +25,6 @@ export const metadata: Metadata = createPageMetadata({
     "Selected engineering case studies by Alex Metelli across product systems, Starknet verification, cross-chain infrastructure, and DeFi yield infrastructure.",
   path: "/work"
 });
-
-const projectIcons = {
-  ShieldCheck,
-  Network,
-  ClipboardList,
-  Coins
-} satisfies Record<Project["icon"], typeof ShieldCheck>;
 
 const projectCategories = {
   "voyager-verifier": "Developer Tooling",
@@ -218,7 +211,7 @@ function FeaturedProjectCard({ project }: { project: Project }) {
   return (
     <article className="work-featured-card">
       <div className="work-featured-icon">
-        <ProjectIcon project={project} size="large" />
+        <ProjectIcon icon={project.icon} size="large" />
       </div>
       <div className="work-featured-main">
         <div className="work-title-row">
@@ -259,7 +252,7 @@ function SupportingProjectCard({ project }: { project: Project }) {
   return (
     <article className="work-project-card">
       <div className="work-project-heading">
-        <ProjectIcon project={project} />
+        <ProjectIcon icon={project.icon} />
         <span className="work-category-badge">{projectCategories[project.slug]}</span>
       </div>
       <h2>{project.title}</h2>
@@ -313,21 +306,5 @@ function WorkCallout() {
         </Link>
       </div>
     </aside>
-  );
-}
-
-function ProjectIcon({
-  project,
-  size = "default"
-}: {
-  project: Project;
-  size?: "default" | "large";
-}) {
-  const Icon = projectIcons[project.icon];
-
-  return (
-    <span className={["work-project-icon", `work-project-icon-${size}`].join(" ")}>
-      <Icon aria-hidden="true" size={size === "large" ? 54 : 25} strokeWidth={2.1} />
-    </span>
   );
 }

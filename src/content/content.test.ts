@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { describe, test } from "node:test";
 import { getTechVisual } from "@/components/tech-icons";
 import { profile, technicalFocusGroups } from "@/content/profile";
@@ -129,6 +129,24 @@ describe("website content invariants", () => {
         assert.match(link.href, /^https:\/\//);
         assert.equal(link.href.includes("example.com"), false);
       }
+    }
+  });
+
+  test("selected projects use local brand icon assets", () => {
+    const expectedIcons = {
+      "voyager-verifier": "/icons/nethermind.svg",
+      aggsandbox: "/icons/agglayer.svg",
+      scopepilot: "/icons/scopepilot.svg",
+      "horizon-starknet": "/icons/horizon-protocol.png"
+    } satisfies Record<(typeof expectedSlugs)[number], string>;
+
+    for (const project of projects) {
+      assert.equal(project.icon.src, expectedIcons[project.slug]);
+      assert.ok(project.icon.alt.length > 0);
+      assert.ok(
+        existsSync(new URL(`../../public${project.icon.src}`, import.meta.url)),
+        `${project.icon.src} should exist in public assets`
+      );
     }
   });
 

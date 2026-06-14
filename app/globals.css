@@ -33,6 +33,12 @@
   --hero-title-size: clamp(3rem, 4.45vw, 4.25rem);
   --hero-title-size-mobile: clamp(2.45rem, 12vw, 3.65rem);
   --hero-title-weight: 850;
+  --heading-letter-spacing: -0.035em;
+  --kicker-letter-spacing: 0.025em;
+  --lead-text-color: #53617a;
+  --lead-text-size: clamp(1rem, 1.2vw, 1.12rem);
+  --lead-text-weight: 560;
+  --lead-line-height: 1.6;
 
   --font-sans:
     Inter, Geist, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
@@ -130,11 +136,13 @@ button {
   text-wrap: balance;
 }
 
-.page-eyebrow {
+.page-eyebrow,
+.section-eyebrow {
   margin: 0 0 1.15rem;
   color: var(--color-accent);
   font-size: var(--text-sm);
   font-weight: 850;
+  letter-spacing: var(--kicker-letter-spacing);
   line-height: 1;
   text-transform: uppercase;
 }
@@ -147,10 +155,35 @@ button {
 .page-description {
   max-width: 720px;
   margin: 1.45rem 0 0;
+  color: var(--lead-text-color);
+  font-size: var(--lead-text-size);
+  font-weight: var(--lead-text-weight);
+  line-height: var(--lead-line-height);
+}
+
+.section-title,
+.card-title {
+  margin: 0;
+  color: var(--color-text);
+  font-weight: 850;
+  letter-spacing: var(--heading-letter-spacing);
+  line-height: 1.08;
+  text-wrap: balance;
+}
+
+.section-title {
+  font-size: var(--text-3xl);
+}
+
+.card-title {
+  font-size: var(--text-xl);
+}
+
+.body-copy {
   color: var(--color-text-muted);
-  font-size: var(--text-lg);
-  font-weight: 500;
-  line-height: 1.75;
+  font-size: var(--text-sm);
+  font-weight: var(--lead-text-weight);
+  line-height: 1.55;
 }
 
 .hero-section {
@@ -159,6 +192,60 @@ button {
 
 .home-hero-title {
   max-width: 760px;
+}
+
+.home-hero-description {
+  max-width: 620px;
+}
+
+.home-summary-copy {
+  max-width: 560px;
+  color: var(--color-text);
+}
+
+.home-social-link {
+  color: var(--color-text);
+  font-size: var(--text-md);
+  font-weight: var(--lead-text-weight);
+  line-height: 1;
+}
+
+.home-social-link:hover {
+  color: var(--color-accent);
+}
+
+.home-project-title {
+  font-size: var(--text-md);
+}
+
+.home-project-summary {
+  color: var(--color-text);
+}
+
+.home-project-card {
+  display: flex;
+  min-height: 190px;
+  flex-direction: column;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  background: #ffffff;
+  box-shadow: var(--shadow-card);
+  padding: 0.95rem;
+  transition:
+    border-color 160ms ease,
+    transform 160ms ease;
+}
+
+.home-project-card:hover {
+  border-color: var(--color-accent);
+  transform: translateY(-2px);
+}
+
+.home-project-card-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 44px;
+  gap: 0.9rem;
+  align-items: start;
 }
 
 .section-tight {
@@ -175,6 +262,10 @@ button {
   border-top: 1px solid var(--color-border);
   background: #ffffff;
   padding-block: clamp(0.85rem, 1.2vw, 1rem) clamp(0.9rem, 1.35vw, 1.15rem);
+}
+
+.work-band .section-eyebrow {
+  margin: 0;
 }
 
 .proof-band {
@@ -356,6 +447,61 @@ button {
   line-height: 1;
 }
 
+.project-logo {
+  display: inline-grid;
+  width: 48px;
+  height: 48px;
+  flex: 0 0 auto;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid rgba(218, 228, 243, 0.95);
+  border-radius: 12px;
+  background: linear-gradient(145deg, #ffffff 0%, #eef5ff 100%);
+  box-shadow: 0 10px 22px rgba(35, 83, 170, 0.12);
+}
+
+.project-logo-image {
+  display: block;
+  width: 76%;
+  height: 76%;
+  object-fit: contain;
+}
+
+.project-logo-home {
+  width: 44px;
+  height: 44px;
+  justify-self: end;
+  border-radius: 10px;
+}
+
+.project-logo-large {
+  width: 106px;
+  height: 106px;
+  border-radius: 18px;
+}
+
+.project-logo-resume {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+}
+
+.project-logo-large .project-logo-image {
+  width: 70%;
+  height: 70%;
+}
+
+.project-detail-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: clamp(1.25rem, 4vw, 3rem);
+  align-items: start;
+}
+
+.project-detail-logo {
+  margin-top: 0.2rem;
+}
+
 .footer-link {
   display: inline-flex;
   align-items: center;
@@ -481,7 +627,8 @@ button {
   color: var(--color-text);
   font-size: var(--text-lg);
   font-weight: 850;
-  line-height: 1.22;
+  letter-spacing: var(--heading-letter-spacing);
+  line-height: 1.08;
 }
 
 .about-card-rule {
@@ -495,9 +642,10 @@ button {
 
 .about-card p {
   margin: 0.9rem 0 0;
-  color: #23314d;
-  font-size: 0.8rem;
-  line-height: 1.37;
+  color: #465570;
+  font-size: var(--text-sm);
+  font-weight: var(--lead-text-weight);
+  line-height: 1.55;
 }
 
 .about-profile-card {
@@ -549,14 +697,16 @@ button {
   color: var(--color-text);
   font-size: var(--text-sm);
   font-weight: 850;
-  line-height: 1.25;
+  letter-spacing: var(--heading-letter-spacing);
+  line-height: 1.08;
 }
 
 .about-summary-row p {
   margin: 0.35rem 0 0;
-  color: #34425d;
+  color: #465570;
   font-size: var(--text-sm);
-  line-height: 1.36;
+  font-weight: var(--lead-text-weight);
+  line-height: 1.55;
 }
 
 .about-values-section {
@@ -568,7 +718,8 @@ button {
   color: var(--color-text);
   font-size: var(--text-xl);
   font-weight: 850;
-  line-height: 1.18;
+  letter-spacing: var(--heading-letter-spacing);
+  line-height: 1.08;
 }
 
 .about-values-grid {
@@ -592,14 +743,16 @@ button {
   color: var(--color-text);
   font-size: var(--text-base);
   font-weight: 850;
-  line-height: 1.25;
+  letter-spacing: var(--heading-letter-spacing);
+  line-height: 1.08;
 }
 
 .about-value-card p {
   margin: 0.35rem 0 0;
-  color: #34425d;
+  color: #465570;
   font-size: var(--text-sm);
-  line-height: 1.42;
+  font-weight: var(--lead-text-weight);
+  line-height: 1.55;
 }
 
 .about-cta-row {
@@ -731,7 +884,7 @@ button {
   color: var(--resume-blue);
   font-size: var(--text-sm);
   font-weight: 850;
-  letter-spacing: 0.02em;
+  letter-spacing: var(--kicker-letter-spacing);
   line-height: 1;
   text-transform: uppercase;
 }
@@ -745,16 +898,18 @@ button {
   margin: 1.4rem 0 0;
   color: var(--color-text);
   font-size: var(--text-xl);
-  font-weight: 800;
-  line-height: 1.28;
+  font-weight: 850;
+  letter-spacing: var(--heading-letter-spacing);
+  line-height: 1.08;
 }
 
 .resume-summary {
   max-width: 640px;
   margin: 1.65rem 0 0;
-  color: var(--color-text-muted);
-  font-size: var(--text-lg);
-  line-height: 1.8;
+  color: var(--lead-text-color);
+  font-size: var(--lead-text-size);
+  font-weight: var(--lead-text-weight);
+  line-height: var(--lead-line-height);
 }
 
 .resume-cta-row {
@@ -806,15 +961,16 @@ button {
   margin: 0 0 0.35rem;
   color: var(--color-text);
   font-size: var(--text-base);
-  font-weight: 800;
-  line-height: 1.25;
+  font-weight: 850;
+  letter-spacing: var(--heading-letter-spacing);
+  line-height: 1.08;
 }
 
 .resume-fact-row p {
   margin: 0;
   color: var(--color-text-muted);
   font-size: var(--text-sm);
-  font-weight: 650;
+  font-weight: var(--lead-text-weight);
   line-height: 1.55;
 }
 
@@ -844,7 +1000,7 @@ button {
   color: var(--resume-blue);
   font-size: var(--text-base);
   font-weight: 850;
-  letter-spacing: 0.02em;
+  letter-spacing: var(--kicker-letter-spacing);
   line-height: 1;
   text-transform: uppercase;
 }
@@ -917,8 +1073,9 @@ button {
   margin: 0;
   color: var(--color-text);
   font-size: var(--text-xl);
-  font-weight: 800;
-  line-height: 1.2;
+  font-weight: 850;
+  letter-spacing: var(--heading-letter-spacing);
+  line-height: 1.08;
 }
 
 .resume-company-block p {
@@ -926,7 +1083,7 @@ button {
   color: var(--resume-blue);
   font-size: var(--text-sm);
   font-weight: 800;
-  line-height: 1.35;
+  line-height: 1.2;
 }
 
 .resume-experience-detail {
@@ -945,15 +1102,15 @@ button {
   margin: 0;
   color: var(--color-text);
   font-size: var(--text-sm);
-  font-weight: 650;
-  line-height: 1.8;
+  font-weight: var(--lead-text-weight);
+  line-height: 1.55;
 }
 
 .resume-experience-header time {
   color: var(--color-text-muted);
   font-size: var(--text-sm);
   font-weight: 800;
-  line-height: 1.8;
+  line-height: 1.55;
   white-space: nowrap;
 }
 
@@ -964,7 +1121,8 @@ button {
   padding: 0;
   color: var(--color-text-muted);
   font-size: var(--text-sm);
-  line-height: 1.65;
+  font-weight: var(--lead-text-weight);
+  line-height: 1.55;
   list-style: none;
 }
 
@@ -1001,51 +1159,21 @@ button {
   padding: 1.55rem 1.45rem;
 }
 
-.resume-project-icon {
-  display: inline-grid;
-  width: 54px;
-  height: 54px;
-  place-items: center;
-  border-radius: 50%;
-  color: #ffffff;
-  box-shadow: 0 12px 22px rgba(15, 23, 42, 0.12);
-}
-
-.resume-project-icon svg {
-  width: 25px;
-  height: 25px;
-  stroke-width: 2.2;
-}
-
-.resume-project-icon-ShieldCheck {
-  background: #05070d;
-}
-
-.resume-project-icon-Network {
-  background: #1f59d1;
-}
-
-.resume-project-icon-ClipboardList {
-  background: #5954f0;
-}
-
-.resume-project-icon-Coins {
-  background: #176f6d;
-}
-
 .resume-project-card h3 {
   margin: 1.35rem 0 0;
   color: var(--color-text);
   font-size: var(--text-lg);
-  font-weight: 800;
-  line-height: 1.25;
+  font-weight: 850;
+  letter-spacing: var(--heading-letter-spacing);
+  line-height: 1.08;
 }
 
 .resume-project-card p {
   margin: 0.65rem 0 0;
   color: var(--color-text-muted);
   font-size: var(--text-sm);
-  line-height: 1.72;
+  font-weight: var(--lead-text-weight);
+  line-height: 1.55;
 }
 
 .resume-project-stack {
@@ -1080,7 +1208,8 @@ button {
   color: var(--color-text);
   font-size: var(--text-base);
   font-weight: 850;
-  line-height: 1.25;
+  letter-spacing: var(--heading-letter-spacing);
+  line-height: 1.08;
 }
 
 .resume-skill-group h3 svg {
@@ -1133,14 +1262,16 @@ button {
   color: var(--color-text);
   font-size: var(--text-lg);
   font-weight: 850;
-  line-height: 1.3;
+  letter-spacing: var(--heading-letter-spacing);
+  line-height: 1.08;
 }
 
 .resume-education-card p {
   margin: 0.45rem 0 0;
   color: var(--color-text-muted);
   font-size: var(--text-sm);
-  font-weight: 700;
+  font-weight: var(--lead-text-weight);
+  line-height: 1.55;
 }
 
 @media (max-width: 1080px) {
@@ -1198,12 +1329,26 @@ button {
     width: min(100% - 32px, var(--container));
   }
 
+  .section-title {
+    font-size: var(--text-2xl);
+  }
+
   .section {
     padding-block: clamp(3.5rem, 12vw, 5rem);
   }
 
   .hero-section {
     padding-block: clamp(3rem, 12vw, 4.5rem);
+  }
+
+  .project-detail-header {
+    grid-template-columns: 1fr;
+  }
+
+  .project-detail-logo {
+    width: 64px;
+    height: 64px;
+    order: -1;
   }
 
   .proof-item {
@@ -1226,7 +1371,7 @@ button {
 
   .resume-summary {
     font-size: var(--text-base);
-    line-height: 1.7;
+    line-height: var(--lead-line-height);
   }
 
   .resume-cta-row {
@@ -1341,6 +1486,10 @@ button {
     linear-gradient(180deg, #ffffff 0%, #ffffff 66%, #fbfdff 100%);
 }
 
+.case-section-copy {
+  font-size: var(--text-md);
+}
+
 .work-showcase-section {
   padding-block: clamp(2rem, 4vw, 3rem) clamp(2.4rem, 4vw, 3rem);
 }
@@ -1362,7 +1511,7 @@ button {
   color: var(--work-blue);
   font-size: var(--text-sm);
   font-weight: 850;
-  letter-spacing: 0.025em;
+  letter-spacing: var(--kicker-letter-spacing);
   line-height: 1;
   text-transform: uppercase;
 }
@@ -1376,10 +1525,10 @@ button {
 .work-hero-copy > p:last-child {
   max-width: 750px;
   margin: 1.25rem 0 0;
-  color: var(--work-blue-muted);
-  font-size: clamp(1rem, 1.2vw, 1.12rem);
-  font-weight: 560;
-  line-height: 1.6;
+  color: var(--lead-text-color);
+  font-size: var(--lead-text-size);
+  font-weight: var(--lead-text-weight);
+  line-height: var(--lead-line-height);
 }
 
 .work-visual {
@@ -1512,7 +1661,7 @@ button {
 
 .work-metric-icon,
 .work-callout-icon,
-.work-project-icon {
+.work-page .project-logo {
   display: inline-grid;
   place-items: center;
   background: linear-gradient(145deg, #f8fbff 0%, #eaf2ff 100%);
@@ -1572,18 +1721,6 @@ button {
   justify-content: center;
 }
 
-.work-project-icon {
-  width: 48px;
-  height: 48px;
-  border-radius: 10px;
-}
-
-.work-project-icon-large {
-  width: 106px;
-  height: 106px;
-  border-radius: 18px;
-}
-
 .work-featured-main {
   min-width: 0;
 }
@@ -1628,7 +1765,7 @@ button {
   margin: 0;
   color: var(--work-blue-ink);
   font-weight: 850;
-  letter-spacing: -0.035em;
+  letter-spacing: var(--heading-letter-spacing);
   line-height: 1.08;
 }
 
@@ -1642,7 +1779,7 @@ button {
   color: #3d4a63;
   font-size: var(--text-base);
   font-style: italic;
-  font-weight: 560;
+  font-weight: var(--lead-text-weight);
   line-height: 1.55;
 }
 
@@ -1777,7 +1914,7 @@ button {
   margin: 0.55rem 0 0;
   color: #465570;
   font-size: var(--text-sm);
-  font-weight: 560;
+  font-weight: var(--lead-text-weight);
   line-height: 1.55;
 }
 

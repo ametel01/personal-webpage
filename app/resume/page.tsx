@@ -5,17 +5,13 @@ import {
   Box,
   BriefcaseBusiness,
   CalendarDays,
-  ClipboardList,
   CodeXml,
-  Coins,
   Download,
   FileText,
   Globe2,
   Mail,
   MonitorCog,
-  Network,
   ServerCog,
-  ShieldCheck,
   SquareTerminal,
   Workflow
 } from "lucide-react";
@@ -23,6 +19,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import type { ReactNode } from "react";
 import { Container, ExternalLink, Section, TagList } from "@/components/primitives";
+import { ProjectIcon } from "@/components/project-icon";
 import { resume } from "@/content/resume";
 import { createPageMetadata } from "@/lib/metadata";
 
@@ -34,13 +31,6 @@ const factIcons: Record<string, LucideIcon> = {
   Calendar: CalendarDays,
   Globe: Globe2,
   MonitorCog
-};
-
-const projectIcons: Record<string, LucideIcon> = {
-  ClipboardList,
-  Coins,
-  Network,
-  ShieldCheck
 };
 
 const skillIcons: Record<string, LucideIcon> = {
@@ -152,7 +142,7 @@ export default function ResumePage() {
             <div className="resume-project-grid">
               {resume.selectedProjects.map((project) => (
                 <article className="resume-project-card" key={project.title}>
-                  <ProjectIcon icon={project.icon} />
+                  <ProjectIcon icon={project.icon} size="resume" />
                   <h3>{project.title}</h3>
                   <p>{project.description}</p>
                   <div className="resume-project-stack">
@@ -212,16 +202,6 @@ function ResumeSection({ title, children }: { title: string; children: ReactNode
       <h2>{title}</h2>
       {children}
     </section>
-  );
-}
-
-function ProjectIcon({ icon }: { icon: string }) {
-  const Icon = projectIcons[icon] ?? FileText;
-
-  return (
-    <span className={`resume-project-icon resume-project-icon-${icon}`} aria-hidden="true">
-      <Icon aria-hidden="true" />
-    </span>
   );
 }
 
