@@ -72,7 +72,7 @@ export default function Home() {
                 <p className="text-[length:var(--text-sm)] font-bold uppercase tracking-[0.12em] text-[var(--color-accent)]">
                   {profile.hero.role}
                 </p>
-                <h1 className="home-hero-title text-balance mt-5 text-[var(--color-text)]">
+                <h1 className="hero-title home-hero-title mt-5 text-[var(--color-text)]">
                   {profile.hero.headline}
                 </h1>
                 <p className="mt-5 max-w-[620px] text-[length:var(--text-md)] leading-7 text-[var(--color-text)]">

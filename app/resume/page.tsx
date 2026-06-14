@@ -72,7 +72,7 @@ export default function ResumePage() {
           <div className="resume-hero-grid">
             <header className="resume-hero-copy">
               <p className="resume-section-kicker">Software Engineer</p>
-              <h1>{resume.heading.name}</h1>
+              <h1 className="hero-title">{resume.heading.name}</h1>
               <p className="resume-role">{resume.heading.role}</p>
               <p className="resume-summary">{resume.heading.summary}</p>
               <div className="resume-cta-row">

@@ -1,6 +1,9 @@
+"use client";
+
 import { BriefcaseBusiness, CodeXml, Download, FileText, Mail } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
 import { Container, ExternalLink } from "@/components/primitives";
 import { primaryNavItems } from "@/lib/navigation";
@@ -44,9 +47,11 @@ export function SiteShell({ children }: { children: ReactNode }) {
 }
 
 function SiteHeader() {
+  const pathname = usePathname();
+
   return (
     <header className="sticky top-0 z-20 border-b border-[var(--color-border)] bg-white/95 backdrop-blur">
-      <Container className="flex min-h-16 items-center justify-between gap-8">
+      <Container className="site-shell-container flex min-h-16 items-center justify-between gap-8">
         <Link
           aria-label="Alex Metelli home"
           className="flex min-w-0 items-center gap-6 font-semibold text-[var(--color-text)]"
@@ -70,7 +75,8 @@ function SiteHeader() {
             {primaryNavItems.map((item) => (
               <li key={item.href}>
                 <Link
-                  className="text-[length:var(--text-sm)] font-medium text-[var(--color-text)] hover:text-[var(--color-accent)]"
+                  aria-current={isActivePath(pathname, item.href) ? "page" : undefined}
+                  className="nav-link"
                   href={item.href}
                 >
                   {item.label}
@@ -88,10 +94,14 @@ function SiteHeader() {
   );
 }
 
+function isActivePath(pathname: string, href: string) {
+  return pathname === href || pathname.startsWith(`${href}/`);
+}
+
 function SiteFooter() {
   return (
     <footer className="border-t border-[var(--color-border-soft)] bg-white">
-      <Container className="flex items-center justify-between gap-6 py-8 max-[720px]:flex-col max-[720px]:items-start">
+      <Container className="site-shell-container flex items-center justify-between gap-6 py-8 max-[720px]:flex-col max-[720px]:items-start">
         <div>
           <p className="text-[length:var(--text-sm)] font-semibold text-[var(--color-text)]">
             {site.name}

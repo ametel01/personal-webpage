@@ -91,7 +91,7 @@ function WorkHero() {
     <header className="work-hero">
       <div className="work-hero-copy">
         <p className="work-eyebrow">Selected Work</p>
-        <h1>Engineering case studies with real technical depth.</h1>
+        <h1 className="hero-title">Engineering case studies with real technical depth.</h1>
         <p>
           Backend, blockchain infrastructure, developer tooling, and product engineering projects
           with concrete evidence, tradeoffs, and outcomes.

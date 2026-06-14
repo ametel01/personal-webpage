@@ -77,20 +77,10 @@ type PageHeaderProps = {
 
 export function PageHeader({ eyebrow, title, description }: PageHeaderProps) {
   return (
-    <header className="max-w-3xl">
-      {eyebrow ? (
-        <p className="mb-4 text-[length:var(--text-sm)] font-bold uppercase text-[var(--color-text-muted)]">
-          {eyebrow}
-        </p>
-      ) : null}
-      <h1 className="text-balance text-[length:var(--text-4xl)] font-semibold leading-[var(--leading-tight)] text-[var(--color-text)] max-[720px]:text-[length:var(--text-3xl)]">
-        {title}
-      </h1>
-      {description ? (
-        <p className="mt-5 text-[length:var(--text-lg)] leading-8 text-[var(--color-text-muted)]">
-          {description}
-        </p>
-      ) : null}
+    <header className="page-header">
+      {eyebrow ? <p className="page-eyebrow">{eyebrow}</p> : null}
+      <h1 className="hero-title page-title">{title}</h1>
+      {description ? <p className="page-description">{description}</p> : null}
     </header>
   );
 }

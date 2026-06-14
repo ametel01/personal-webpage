@@ -70,9 +70,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
               <p className="text-[length:var(--text-sm)] font-bold uppercase text-[var(--color-text-muted)]">
                 Case Study
               </p>
-              <h1 className="text-balance mt-4 text-[length:var(--text-5xl)] font-semibold leading-[var(--leading-tight)] text-[var(--color-text)] max-[900px]:text-[length:var(--text-4xl)] max-[520px]:text-[length:var(--text-3xl)]">
-                {project.title}
-              </h1>
+              <h1 className="hero-title mt-4 text-[var(--color-text)]">{project.title}</h1>
               <p className="mt-6 text-[length:var(--text-lg)] leading-8 text-[var(--color-text-muted)]">
                 {project.shortDescription}
               </p>
