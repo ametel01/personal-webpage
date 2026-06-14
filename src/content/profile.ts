@@ -47,7 +47,66 @@ export const profile = {
     style:
       "I work well in remote, async teams and can adapt my schedule across time zones when collaboration needs it.",
     lookingFor:
-      "I am open to remote software engineering roles and selected consulting work with concrete technical scope."
+      "I am open to remote software engineering roles and selected consulting work with concrete technical scope.",
+    capabilityChips: [
+      {
+        label: "5+ years",
+        icon: "calendar"
+      },
+      {
+        label: "Backend systems",
+        icon: "server"
+      },
+      {
+        label: "Developer tooling",
+        icon: "code"
+      },
+      {
+        label: "Blockchain infra",
+        icon: "cube"
+      },
+      {
+        label: "Remote-friendly",
+        icon: "globe"
+      }
+    ],
+    focusCards: [
+      {
+        title: "What I work on",
+        body: "I work across APIs, contract tooling, infrastructure automation, Starknet systems, cross-chain experiments, and AI-assisted engineering workflows.",
+        icon: "code"
+      },
+      {
+        title: "How I work",
+        body: "I work well in remote, async teams and can adapt my schedule across time zones when collaboration needs it.",
+        icon: "team"
+      },
+      {
+        title: "What I am looking for",
+        sidebarTitle: "What I'm looking for",
+        body: "I am open to remote software engineering roles and selected consulting work with concrete technical scope.",
+        sidebarBody:
+          "Open to remote software engineering roles and selected consulting work with concrete technical scope.",
+        icon: "target"
+      }
+    ],
+    values: [
+      {
+        title: "Correctness",
+        body: "Build systems that are reliable, predictable, and easy to reason about.",
+        icon: "shield"
+      },
+      {
+        title: "Clarity",
+        body: "Write code and docs that reduce complexity and help teams move faster.",
+        icon: "list"
+      },
+      {
+        title: "Delivery",
+        body: "Ship practical solutions with focus, pace, and attention to long-term impact.",
+        icon: "rocket"
+      }
+    ]
   }
 } as const;
 

@@ -38,6 +38,48 @@ test.describe("public routes", () => {
     ).toBeVisible();
   });
 
+  test("about page renders redesigned content sections", async ({ page }) => {
+    await page.goto("/about");
+
+    for (const label of [
+      "5+ years",
+      "Backend systems",
+      "Developer tooling",
+      "Blockchain infra",
+      "Remote-friendly"
+    ]) {
+      await expect(page.locator(".about-chip").filter({ hasText: label })).toBeVisible();
+    }
+
+    await expect(page.locator(".about-focus-grid").getByText("What I work on")).toBeVisible();
+    await expect(page.locator(".about-focus-grid").getByText("How I work")).toBeVisible();
+    await expect(
+      page.locator(".about-focus-grid").getByText("What I am looking for")
+    ).toBeVisible();
+
+    await expect(page.getByRole("heading", { name: "What matters to me" })).toBeVisible();
+
+    for (const value of ["Correctness", "Clarity", "Delivery"]) {
+      await expect(page.locator(".about-values-grid").getByText(value)).toBeVisible();
+    }
+  });
+
+  for (const viewport of [
+    { width: 1440, height: 1000 },
+    { width: 390, height: 900 }
+  ]) {
+    test(`about page avoids horizontal overflow at ${viewport.width}px`, async ({ page }) => {
+      await page.setViewportSize(viewport);
+      await page.goto("/about");
+
+      const overflowsHorizontally = await page.evaluate(
+        () => document.documentElement.scrollWidth > window.innerWidth + 1
+      );
+
+      expect(overflowsHorizontally).toBe(false);
+    });
+  }
+
   test("new-tab links include noreferrer", async ({ page }) => {
     await page.goto("/");
 

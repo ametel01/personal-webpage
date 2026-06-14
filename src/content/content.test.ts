@@ -25,6 +25,10 @@ const forbiddenPattern = new RegExp(
   ].join("|")
 );
 
+function escapeRegExp(value: string) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
 async function importMetadataWithEnv(env: Record<string, string | undefined>) {
   const processEnv = process.env as Record<string, string | undefined>;
   const previousNodeEnv = process.env.NODE_ENV;
@@ -147,6 +151,37 @@ describe("website content invariants", () => {
     );
   });
 
+  test("about page exposes structured redesigned content", () => {
+    assert.deepStrictEqual(
+      profile.about.capabilityChips.map((chip) => chip.label),
+      ["5+ years", "Backend systems", "Developer tooling", "Blockchain infra", "Remote-friendly"]
+    );
+
+    assert.deepStrictEqual(
+      profile.about.focusCards.map((card) => card.title),
+      ["What I work on", "How I work", "What I am looking for"]
+    );
+
+    assert.deepStrictEqual(
+      profile.about.values.map((value) => value.title),
+      ["Correctness", "Clarity", "Delivery"]
+    );
+
+    for (const collection of [
+      profile.about.capabilityChips,
+      profile.about.focusCards,
+      profile.about.values
+    ]) {
+      for (const item of collection) {
+        assert.ok(item.icon.length > 0);
+      }
+    }
+
+    for (const card of [...profile.about.focusCards, ...profile.about.values]) {
+      assert.ok(card.body.length > 24);
+    }
+  });
+
   test("resume exposes redesigned summary facts without dropping route-critical content", () => {
     assert.deepStrictEqual(
       resume.heroFacts.map((fact) => fact.label),
@@ -213,6 +248,23 @@ describe("website content invariants", () => {
     assert.ok(proofBand?.groups?.body);
     assert.match(proofBand.groups.body, /background:\s*var\(--color-dark\);/);
     assert.doesNotMatch(proofBand.groups.body, /gradient\(/);
+  });
+
+  test("global CSS centralizes public hero title typography", () => {
+    const heroTitle = globalCss.match(/\.hero-title\s*{(?<body>[^}]*)}/);
+
+    assert.ok(heroTitle?.groups?.body);
+    assert.match(heroTitle.groups.body, /font-size:\s*var\(--hero-title-size\);/);
+    assert.match(heroTitle.groups.body, /font-weight:\s*var\(--hero-title-weight\);/);
+    assert.match(heroTitle.groups.body, /letter-spacing:\s*-0\.055em;/);
+    assert.match(heroTitle.groups.body, /line-height:\s*0\.96;/);
+
+    for (const selector of [".page-title", ".resume-hero-copy h1", ".work-hero h1"]) {
+      const rule = globalCss.match(new RegExp(`${escapeRegExp(selector)}\\s*{(?<body>[^}]*)}`));
+
+      assert.ok(rule?.groups?.body, `${selector} CSS rule should exist`);
+      assert.doesNotMatch(rule.groups.body, /font-size:|font-weight:|letter-spacing:|line-height:/);
+    }
   });
 
   test("Next config applies conservative global security headers", async () => {
@@ -428,7 +480,3 @@ describe("website content invariants", () => {
     assert.equal(String(robotsConfig.sitemap).endsWith("/sitemap.xml"), true);
   });
 });
-
-function escapeRegExp(value: string) {
-  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-}

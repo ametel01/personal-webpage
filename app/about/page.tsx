@@ -1,7 +1,23 @@
-import { ArrowUpRight, FileText, Mail } from "lucide-react";
+import {
+  BriefcaseBusiness,
+  CalendarDays,
+  Code2,
+  CodeXml,
+  FileText,
+  Globe2,
+  ListChecks,
+  Mail,
+  Package,
+  Rocket,
+  Server,
+  ShieldCheck,
+  Target,
+  UsersRound
+} from "lucide-react";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import type { ReactNode } from "react";
 import { Container, ExternalLink, PageHeader, Section } from "@/components/primitives";
 import { profile } from "@/content/profile";
 import { createPageMetadata } from "@/lib/metadata";
@@ -13,78 +29,200 @@ export const metadata: Metadata = createPageMetadata({
   path: "/about"
 });
 
+const chipIcons = {
+  calendar: CalendarDays,
+  server: Server,
+  code: Code2,
+  cube: Package,
+  globe: Globe2
+} satisfies Record<string, typeof CalendarDays>;
+
+const aboutIcons = {
+  code: CodeXml,
+  team: UsersRound,
+  target: Target,
+  shield: ShieldCheck,
+  list: ListChecks,
+  rocket: Rocket
+} satisfies Record<string, typeof CodeXml>;
+
 export default function AboutPage() {
   return (
-    <main>
-      <Section>
-        <Container>
-          <div className="grid items-start gap-12 lg:grid-cols-[minmax(0,0.9fr)_360px]">
-            <div>
+    <main className="about-page">
+      <Section className="about-section">
+        <Container className="about-container">
+          <div className="about-hero-grid">
+            <div className="about-hero-copy">
               <PageHeader
                 eyebrow="About"
                 title="Engineering work built around correctness, clarity, and delivery."
                 description={profile.about.narrative}
               />
-              <div className="mt-10 grid gap-8">
-                <AboutBlock title="What I work on">{profile.about.work}</AboutBlock>
-                <AboutBlock title="How I work">{profile.about.style}</AboutBlock>
-                <AboutBlock title="What I am looking for">{profile.about.lookingFor}</AboutBlock>
-              </div>
-              <div className="mt-10 flex flex-wrap gap-3 max-[520px]:flex-col">
-                <a className="button max-[520px]:w-full" href={`mailto:${profile.email}`}>
-                  <Mail aria-hidden="true" size={17} strokeWidth={2.3} />
-                  Email
-                </a>
-                <ExternalLink
-                  className="button button-secondary max-[520px]:w-full"
-                  href={profile.links.github}
-                >
-                  <ArrowUpRight aria-hidden="true" size={17} strokeWidth={2.3} />
-                  GitHub
-                </ExternalLink>
-                <ExternalLink
-                  className="button button-secondary max-[520px]:w-full"
-                  href={profile.links.linkedin}
-                >
-                  <ArrowUpRight aria-hidden="true" size={17} strokeWidth={2.3} />
-                  LinkedIn
-                </ExternalLink>
-                <Link
-                  className="button button-secondary max-[520px]:w-full"
-                  href={profile.links.resume}
-                >
-                  <FileText aria-hidden="true" size={17} strokeWidth={2.3} />
-                  Resume
-                </Link>
+
+              <ul className="about-chip-list" aria-label="About summary">
+                {profile.about.capabilityChips.map((chip) => (
+                  <AboutChip icon={chip.icon} key={chip.label}>
+                    {chip.label}
+                  </AboutChip>
+                ))}
+              </ul>
+
+              <div className="about-focus-grid">
+                {profile.about.focusCards.map((card) => (
+                  <AboutCard
+                    body={card.body}
+                    icon={card.icon}
+                    key={card.title}
+                    title={card.title}
+                  />
+                ))}
               </div>
             </div>
-            <figure className="max-w-[360px] justify-self-end max-[1024px]:justify-self-start">
-              <Image
-                alt={profile.about.imageAlt}
-                className="aspect-square w-full border border-[var(--color-border)] object-cover shadow-[var(--shadow-card)]"
-                height={720}
-                priority
-                sizes="(max-width: 720px) 80vw, 360px"
-                src={profile.about.image}
-                width={720}
-              />
-            </figure>
+
+            <aside className="about-profile-card" aria-label="Profile summary">
+              <figure className="about-portrait-frame">
+                <Image
+                  alt={profile.about.imageAlt}
+                  className="about-portrait"
+                  height={720}
+                  priority
+                  sizes="(max-width: 720px) 88vw, 360px"
+                  src={profile.about.image}
+                  width={720}
+                />
+              </figure>
+              <div className="about-profile-summary">
+                {profile.about.focusCards.map((card) => (
+                  <ProfileSummaryRow
+                    body={"sidebarBody" in card ? card.sidebarBody : card.body}
+                    icon={card.icon}
+                    key={card.title}
+                    title={"sidebarTitle" in card ? card.sidebarTitle : card.title}
+                  />
+                ))}
+              </div>
+            </aside>
           </div>
+
+          <section className="about-values-section" aria-labelledby="about-values-title">
+            <h2 id="about-values-title">What matters to me</h2>
+            <div className="about-values-grid">
+              {profile.about.values.map((value) => (
+                <ValueCard
+                  body={value.body}
+                  icon={value.icon}
+                  key={value.title}
+                  title={value.title}
+                />
+              ))}
+            </div>
+          </section>
+
+          <nav className="about-cta-row" aria-label="Contact links">
+            <a className="button about-cta-primary" href={`mailto:${profile.email}`}>
+              <Mail aria-hidden="true" size={18} strokeWidth={2.3} />
+              Email
+            </a>
+            <ExternalLink className="button button-secondary about-cta" href={profile.links.github}>
+              <CodeXml aria-hidden="true" size={18} strokeWidth={2.3} />
+              GitHub
+            </ExternalLink>
+            <ExternalLink
+              className="button button-secondary about-cta"
+              href={profile.links.linkedin}
+            >
+              <BriefcaseBusiness aria-hidden="true" size={18} strokeWidth={2.3} />
+              LinkedIn
+            </ExternalLink>
+            <Link className="button button-secondary about-cta" href={profile.links.resume}>
+              <FileText aria-hidden="true" size={18} strokeWidth={2.3} />
+              Resume
+            </Link>
+          </nav>
         </Container>
       </Section>
     </main>
   );
 }
 
-function AboutBlock({ title, children }: { title: string; children: string }) {
+function AboutChip({ children, icon }: { children: ReactNode; icon: keyof typeof chipIcons }) {
+  const Icon = chipIcons[icon];
+
   return (
-    <section className="border-l border-[var(--color-border)] pl-6">
-      <h2 className="text-[length:var(--text-xl)] font-semibold text-[var(--color-text)]">
-        {title}
-      </h2>
-      <p className="mt-3 text-[length:var(--text-md)] leading-8 text-[var(--color-text-muted)]">
-        {children}
-      </p>
-    </section>
+    <li className="about-chip">
+      <Icon aria-hidden="true" size={17} strokeWidth={2.1} />
+      <span>{children}</span>
+    </li>
+  );
+}
+
+function AboutCard({
+  body,
+  icon,
+  title
+}: {
+  body: string;
+  icon: keyof typeof aboutIcons;
+  title: string;
+}) {
+  const Icon = aboutIcons[icon];
+
+  return (
+    <article className="about-card">
+      <span className="about-icon-badge">
+        <Icon aria-hidden="true" size={25} strokeWidth={2.05} />
+      </span>
+      <h2>{title}</h2>
+      <span className="about-card-rule" aria-hidden="true" />
+      <p>{body}</p>
+    </article>
+  );
+}
+
+function ProfileSummaryRow({
+  body,
+  icon,
+  title
+}: {
+  body: string;
+  icon: keyof typeof aboutIcons;
+  title: string;
+}) {
+  const Icon = aboutIcons[icon];
+
+  return (
+    <article className="about-summary-row">
+      <span className="about-summary-icon">
+        <Icon aria-hidden="true" size={24} strokeWidth={2.05} />
+      </span>
+      <div>
+        <h3>{title}</h3>
+        <p>{body}</p>
+      </div>
+    </article>
+  );
+}
+
+function ValueCard({
+  body,
+  icon,
+  title
+}: {
+  body: string;
+  icon: keyof typeof aboutIcons;
+  title: string;
+}) {
+  const Icon = aboutIcons[icon];
+
+  return (
+    <article className="about-value-card">
+      <span className="about-icon-badge">
+        <Icon aria-hidden="true" size={27} strokeWidth={2.05} />
+      </span>
+      <div>
+        <h3>{title}</h3>
+        <p>{body}</p>
+      </div>
+    </article>
   );
 }
