@@ -341,10 +341,21 @@ describe("website content invariants", () => {
       assert.match(homeText, new RegExp(`Proof:\\s+${escapeRegExp(project.proof)}`));
     }
 
-    assert.match(
-      collectText(WorkPage()),
-      /Focused case studies with concrete engineering evidence\./
-    );
+    const workText = collectText(WorkPage());
+
+    assert.match(workText, /Engineering case studies with real technical depth\./);
+    assert.match(workText, /4 Case studies/);
+    assert.match(workText, /5\+ Years experience/);
+    assert.match(workText, /Backend \+ infra Core focus/);
+    assert.match(workText, /Blockchain \+ AI tooling Domain expertise/);
+    assert.equal(workText.match(/Featured/g)?.length, 1);
+    assert.match(workText, /Read full case study/);
+    assert.match(workText, /View GitHub/);
+    assert.match(workText, /View resume/);
+
+    for (const project of projects) {
+      assert.match(workText, new RegExp(project.title));
+    }
     assert.match(
       collectText(AboutPage()),
       /Engineering work built around correctness, clarity, and delivery\./
