@@ -58,7 +58,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   return (
     <main>
       <article>
-        <Section>
+        <Section className="project-detail-hero-section">
           <Container>
             <Link className="case-back-link" href="/work">
               <ArrowLeft aria-hidden="true" size={16} strokeWidth={2.4} />
@@ -83,7 +83,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
           </Container>
         </Section>
 
-        <Section muted>
+        <Section className="case-body-section" muted>
           <Container>
             <div className="case-study-layout">
               <nav aria-label={`${project.title} case study sections`}>

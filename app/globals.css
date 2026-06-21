@@ -898,12 +898,17 @@ button {
   height: 70%;
 }
 
+.project-detail-hero-section {
+  padding-block: clamp(2.35rem, 4.2vw, 3.5rem) clamp(2.2rem, 3.8vw, 3.25rem);
+}
+
 .project-detail-header {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 52rem) auto;
   gap: clamp(1.25rem, 4vw, 3rem);
   align-items: start;
-  max-width: 56rem;
+  max-width: none;
+  justify-content: space-between;
 }
 
 .project-detail-logo {
@@ -915,20 +920,20 @@ button {
 }
 
 .case-back-link {
-  margin-bottom: 2rem;
+  margin-bottom: 1.35rem;
 }
 
 .case-metadata-grid {
   display: grid;
-  gap: 1rem;
-  margin-top: 2.5rem;
+  gap: 0.75rem;
+  margin-top: 2rem;
 }
 
 .case-metadata-card {
   border: 1px solid var(--color-border);
   background: #ffffff;
   box-shadow: var(--shadow-card);
-  padding: 1.25rem;
+  padding: 1rem;
 }
 
 .case-metadata-label {
@@ -940,16 +945,20 @@ button {
 }
 
 .case-metadata-value {
-  margin-top: 0.5rem;
+  margin-top: 0.45rem;
   color: var(--color-text);
   font-size: var(--text-sm);
   font-weight: 600;
   line-height: 1.5rem;
 }
 
+.case-body-section {
+  padding-block: clamp(2.1rem, 4vw, 3.1rem) clamp(2.75rem, 5vw, 4.25rem);
+}
+
 .case-study-layout {
   display: grid;
-  gap: 3rem;
+  gap: clamp(1.5rem, 3vw, 2.25rem);
 }
 
 .case-study-nav-list {
@@ -969,7 +978,7 @@ button {
 
 .case-study-content {
   display: grid;
-  gap: 2.5rem;
+  gap: 1rem;
 }
 
 .case-evidence-list,
@@ -984,13 +993,15 @@ button {
 }
 
 .case-section {
+  display: grid;
+  gap: 0.75rem;
   border-left: 1px solid var(--color-border);
   font-size: var(--text-md);
-  padding: 0.25rem 0 0.25rem 1.5rem;
+  padding: 0.75rem 0 0.75rem 1.25rem;
 }
 
 .case-section .card-title {
-  margin-bottom: 0.75rem;
+  margin-bottom: 0;
 }
 
 .case-bullet-list li {
@@ -1004,13 +1015,52 @@ button {
 
 @media (min-width: 768px) {
   .case-metadata-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.35fr) minmax(0, 0.95fr);
   }
 }
 
 @media (min-width: 1024px) {
   .case-study-layout {
-    grid-template-columns: 260px minmax(0, 1fr);
+    grid-template-columns: 220px minmax(0, 1fr);
+  }
+
+  .case-section {
+    grid-template-columns: minmax(9rem, 0.28fr) minmax(0, 1fr);
+    gap: clamp(1.25rem, 3vw, 2rem);
+  }
+}
+
+@media (max-width: 1023px) {
+  .case-study-layout,
+  .case-study-layout > nav,
+  .case-study-content {
+    min-width: 0;
+  }
+
+  .case-study-nav-list {
+    position: static;
+    display: flex;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    gap: 0.5rem;
+    overflow-x: auto;
+    padding-bottom: 0.35rem;
+  }
+
+  .case-study-nav-list li {
+    flex: 0 0 auto;
+  }
+
+  .case-study-nav-list a {
+    display: inline-flex;
+    min-height: 34px;
+    align-items: center;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    background: #ffffff;
+    padding: 0.42rem 0.62rem;
+    white-space: nowrap;
   }
 }
 
@@ -1952,6 +2002,14 @@ button {
 
   .hero-section {
     padding-block: clamp(3rem, 12vw, 4.5rem);
+  }
+
+  .project-detail-hero-section {
+    padding-block: 2rem 2.25rem;
+  }
+
+  .case-body-section {
+    padding-block: 2.05rem 3rem;
   }
 
   .project-detail-header {

@@ -32,6 +32,10 @@ type MonogramVisual = {
 type AssetVisual = {
   kind: "asset";
   src: string;
+  width?: number;
+  height?: number;
+  displayWidth?: string;
+  displayHeight?: string;
 };
 
 type TechVisual = AssetVisual | LogoVisual | MonogramVisual;
@@ -81,6 +85,13 @@ const assetVisuals = {
   EVM: {
     src: "/icons/ethereum-evm.png"
   },
+  Go: {
+    src: "/icons/go.png",
+    width: 96,
+    height: 40,
+    displayWidth: "28px",
+    displayHeight: "12px"
+  },
   LayerZero: {
     src: "/icons/layerzero.png"
   },
@@ -111,7 +122,6 @@ const monogramVisuals = {
   Ed25519: { letters: "ED", color: "#4338ca" },
   "Engineering automation": { letters: "EA", color: "#64748b" },
   "Event-driven systems": { letters: "EV", color: "#0891b2" },
-  Go: { letters: "GO", color: "#00add8" },
   "Human-in-the-loop systems": { letters: "HI", color: "#7c2d12" },
   Hyperlane: { letters: "HL", color: "#f97316" },
   "Local-first": { letters: "LF", color: "#475569" },
@@ -179,9 +189,24 @@ export function TechIcon({ name }: { name: string }) {
   }
 
   if (visual.kind === "asset") {
+    const assetStyle =
+      visual.displayWidth || visual.displayHeight
+        ? ({
+            width: visual.displayWidth,
+            height: visual.displayHeight,
+            flexBasis: visual.displayWidth
+          } as CSSProperties)
+        : undefined;
+
     return (
-      <span aria-hidden="true" className="tech-icon tech-icon-asset">
-        <Image alt="" height={24} src={visual.src} unoptimized width={24} />
+      <span aria-hidden="true" className="tech-icon tech-icon-asset" style={assetStyle}>
+        <Image
+          alt=""
+          height={visual.height ?? 24}
+          src={visual.src}
+          unoptimized
+          width={visual.width ?? 24}
+        />
       </span>
     );
   }

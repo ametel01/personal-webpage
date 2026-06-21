@@ -288,6 +288,23 @@ describe("website content invariants", () => {
     }
   });
 
+  test("Go uses the local wide logo asset", () => {
+    const visual = getTechVisual("Go");
+
+    assert.equal(visual?.kind, "asset");
+
+    if (visual?.kind !== "asset") {
+      assert.fail("Go should resolve to a local asset visual");
+    }
+
+    assert.equal(visual.src, "/icons/go.png");
+    assert.equal(visual.width, 96);
+    assert.equal(visual.height, 40);
+    assert.equal(visual.displayWidth, "28px");
+    assert.equal(visual.displayHeight, "12px");
+    assert.ok(existsSync(new URL("../../public/icons/go.png", import.meta.url)));
+  });
+
   test("global CSS keeps documented layout and proof bar invariants", () => {
     assert.match(globalCss, /--container:\s*1180px;/);
 
