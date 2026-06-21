@@ -1,0 +1,10 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "redirects": [
+    {
+      "source": "/agentreceipt/install.sh",
+      "destination": "https://raw.githubusercontent.com/ametel01/agentreceipt/main/scripts/install.sh",
+      "permanent": false
+    }
+  ]
+}
