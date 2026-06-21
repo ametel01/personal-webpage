@@ -57,59 +57,38 @@ export default function Home() {
       <div className="intro-page">
         <Section className="hero-section">
           <Container>
-            <div className="grid items-start gap-14 lg:grid-cols-[minmax(0,1.22fr)_minmax(430px,0.78fr)]">
+            <div className="home-hero-grid">
               <div>
                 <p className="page-eyebrow">{profile.hero.role}</p>
-                <h1 className="hero-title home-hero-title text-[var(--color-text)]">
-                  {profile.hero.headline}
-                </h1>
+                <h1 className="hero-title home-hero-title">{profile.hero.headline}</h1>
                 <p className="page-description home-hero-description">{profile.hero.body}</p>
-                <div className="mt-6 flex flex-wrap items-center gap-8 max-[520px]:flex-col max-[520px]:items-stretch">
-                  <a className="button max-[520px]:w-full" href="#selected-work">
+                <div className="home-hero-actions">
+                  <a className="button" href="#selected-work">
                     View My Work
                     <ArrowRight aria-hidden="true" size={17} strokeWidth={2.3} />
                   </a>
-                  <ExternalLink
-                    className="home-social-link inline-flex items-center gap-2 max-[520px]:justify-center"
-                    href={profile.links.github}
-                  >
+                  <ExternalLink className="home-social-link" href={profile.links.github}>
                     GitHub
                     <ArrowUpRight aria-hidden="true" size={16} strokeWidth={2.3} />
                   </ExternalLink>
-                  <ExternalLink
-                    className="home-social-link inline-flex items-center gap-2 max-[520px]:justify-center"
-                    href={profile.links.linkedin}
-                  >
+                  <ExternalLink className="home-social-link" href={profile.links.linkedin}>
                     LinkedIn
                     <ArrowUpRight aria-hidden="true" size={16} strokeWidth={2.3} />
                   </ExternalLink>
                 </div>
               </div>
 
-              <aside
-                className="border-l border-[var(--color-border)] pl-14 max-[1024px]:border-l-0 max-[1024px]:border-t max-[1024px]:pl-0 max-[1024px]:pt-8"
-                aria-label="Credibility summary"
-              >
+              <aside className="home-credibility-panel" aria-label="Credibility summary">
                 <p className="body-copy home-summary-copy">{profile.summary}</p>
-                <dl className="mt-7 grid gap-5 max-[720px]:gap-4">
+                <dl className="home-fact-list">
                   {profile.facts.map((fact, index) => {
                     const Icon = factIcons[index] ?? Crosshair;
 
                     return (
-                      <div
-                        key={fact.label}
-                        className="grid grid-cols-[24px_88px_1fr] items-center gap-4 max-[560px]:grid-cols-[24px_1fr] max-[560px]:gap-y-1"
-                      >
-                        <Icon
-                          aria-hidden="true"
-                          className="text-[var(--color-text)]"
-                          size={21}
-                          strokeWidth={2.2}
-                        />
-                        <dt className="text-[length:var(--text-sm)] font-bold text-[var(--color-text)]">
-                          {fact.label}
-                        </dt>
-                        <dd className="text-[length:var(--text-sm)] leading-6 text-[var(--color-text)] max-[560px]:col-start-2">
+                      <div key={fact.label} className="home-fact-row">
+                        <Icon aria-hidden="true" size={21} strokeWidth={2.2} />
+                        <dt className="home-fact-label">{fact.label}</dt>
+                        <dd className="home-fact-value">
                           {fact.label === "Tech" ? (
                             <TagList
                               items={fact.value.split(" · ")}
@@ -130,17 +109,14 @@ export default function Home() {
 
         <section id="selected-work" className="work-band">
           <Container>
-            <div className="flex items-center justify-between gap-6">
-              <p className="section-eyebrow text-[var(--color-text)]">Selected Work</p>
-              <Link
-                className="inline-flex items-center gap-2 text-[length:var(--text-sm)] font-medium text-[var(--color-accent)] hover:text-[var(--color-accent-hover)]"
-                href="/work"
-              >
+            <div className="work-band-header">
+              <p className="section-eyebrow">Selected Work</p>
+              <Link className="section-text-link" href="/work">
                 View all projects
                 <ArrowRight aria-hidden="true" size={16} strokeWidth={2.4} />
               </Link>
             </div>
-            <div className="mt-4 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+            <div className="home-project-grid">
               {projects.map((project) => (
                 <ProjectCard key={project.slug} project={project} />
               ))}
@@ -150,7 +126,7 @@ export default function Home() {
 
         <section className="proof-band" aria-label="Proof summary">
           <Container>
-            <dl className="grid gap-0 md:grid-cols-2 xl:grid-cols-4">
+            <dl className="proof-grid">
               {proofBarItems.map((item, index) => {
                 const Icon = proofIcons[index] ?? BriefcaseBusiness;
 
@@ -158,10 +134,8 @@ export default function Home() {
                   <div className="proof-item" key={item.label}>
                     <Icon aria-hidden="true" size={22} strokeWidth={2.1} />
                     <div>
-                      <dt className="text-[length:var(--text-xs)] text-white/82">{item.label}</dt>
-                      <dd className="mt-0.5 text-[length:var(--text-sm)] font-bold text-white">
-                        {item.value}
-                      </dd>
+                      <dt className="proof-label">{item.label}</dt>
+                      <dd className="proof-value">{item.value}</dd>
                     </div>
                   </div>
                 );
@@ -177,14 +151,11 @@ export default function Home() {
             label="Technical Focus"
             title="Backend depth with tooling and blockchain systems."
           />
-          <div className="mt-10 grid gap-4 md:grid-cols-2">
+          <div className="home-focus-grid">
             {technicalFocusGroups.map((group) => (
-              <div
-                className="border border-[var(--color-border)] bg-white p-6 shadow-[var(--shadow-card)]"
-                key={group.title}
-              >
+              <div className="home-focus-card" key={group.title}>
                 <h3 className="card-title">{group.title}</h3>
-                <div className="mt-5">
+                <div className="home-focus-tags">
                   <TagList items={group.items} ariaLabel={`${group.title} skills`} />
                 </div>
               </div>
@@ -195,16 +166,16 @@ export default function Home() {
 
       <Section id="experience" muted>
         <Container>
-          <div className="grid gap-10 lg:grid-cols-[0.7fr_1fr]">
+          <div className="home-experience-grid">
             <SectionHeading
               label="Experience Snapshot"
               title="Professional delivery and independent technical work."
             />
-            <div className="grid gap-5">
+            <div className="home-experience-list">
               {experienceSnapshot.map((item) => (
-                <div className="border-l border-[var(--color-border)] pl-6" key={item.title}>
+                <div className="home-experience-item" key={item.title}>
                   <h3 className="card-title">{item.title}</h3>
-                  <p className="body-copy mt-2">{item.body}</p>
+                  <p className="body-copy home-experience-copy">{item.body}</p>
                 </div>
               ))}
             </div>
@@ -214,26 +185,20 @@ export default function Home() {
 
       <Section id="contact">
         <Container>
-          <div className="grid gap-8 lg:grid-cols-[0.85fr_1fr]">
+          <div className="home-contact-grid">
             <SectionHeading label="Contact" title="Remote engineering and focused consulting." />
             <div>
-              <p className="page-description max-w-2xl">{profile.contact}</p>
-              <div className="mt-7 flex flex-wrap gap-3 max-[520px]:flex-col">
-                <a className="button max-[520px]:w-full" href={`mailto:${profile.email}`}>
+              <p className="page-description home-contact-description">{profile.contact}</p>
+              <div className="home-contact-actions">
+                <a className="button" href={`mailto:${profile.email}`}>
                   <Mail aria-hidden="true" size={17} strokeWidth={2.3} />
                   {profile.email}
                 </a>
-                <ExternalLink
-                  className="button button-secondary max-[520px]:w-full"
-                  href={profile.links.linkedin}
-                >
+                <ExternalLink className="button button-secondary" href={profile.links.linkedin}>
                   <ArrowUpRight aria-hidden="true" size={17} strokeWidth={2.3} />
                   LinkedIn
                 </ExternalLink>
-                <ExternalLink
-                  className="button button-secondary max-[520px]:w-full"
-                  href={profile.links.github}
-                >
+                <ExternalLink className="button button-secondary" href={profile.links.github}>
                   <ArrowUpRight aria-hidden="true" size={17} strokeWidth={2.3} />
                   GitHub
                 </ExternalLink>
@@ -256,10 +221,10 @@ function SectionHeading({
   description?: string;
 }) {
   return (
-    <div className="max-w-3xl">
-      <p className="section-eyebrow text-[var(--color-text-muted)]">{label}</p>
+    <div className="section-heading">
+      <p className="section-eyebrow">{label}</p>
       <h2 className="section-title">{title}</h2>
-      {description ? <p className="body-copy mt-4">{description}</p> : null}
+      {description ? <p className="body-copy section-heading-description">{description}</p> : null}
     </div>
   );
 }
@@ -271,17 +236,12 @@ function ProjectCard({ project }: { project: Project }) {
         <h3 className="card-title home-project-title">{project.title}</h3>
         <ProjectIcon icon={project.icon} size="home" />
       </div>
-      <p className="body-copy home-project-summary mt-1.5 line-clamp-2">{project.valueStatement}</p>
-      <p className="mt-2 border-l border-[var(--color-border)] pl-3 text-[length:var(--text-xs)] font-semibold leading-5 text-[var(--color-text)]">
-        Proof: {project.proof}
-      </p>
-      <div className="mt-2.5">
+      <p className="body-copy home-project-summary">{project.valueStatement}</p>
+      <p className="home-project-proof">Proof: {project.proof}</p>
+      <div className="home-project-tags">
         <TagList items={project.tags.slice(0, 4)} ariaLabel={`${project.title} technologies`} />
       </div>
-      <Link
-        className="mt-auto inline-flex items-center gap-2 pt-3 text-[length:var(--text-sm)] font-bold text-[var(--color-accent)] hover:text-[var(--color-accent-hover)]"
-        href={`/work/${project.slug}`}
-      >
+      <Link className="home-project-link" href={`/work/${project.slug}`}>
         View Project
         <ArrowRight aria-hidden="true" size={16} strokeWidth={2.4} />
       </Link>

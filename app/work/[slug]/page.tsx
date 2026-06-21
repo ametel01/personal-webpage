@@ -60,23 +60,20 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
       <article>
         <Section>
           <Container>
-            <Link
-              className="mb-8 inline-flex items-center gap-2 text-[length:var(--text-sm)] font-bold text-[var(--color-accent)] hover:text-[var(--color-accent-hover)]"
-              href="/work"
-            >
+            <Link className="case-back-link" href="/work">
               <ArrowLeft aria-hidden="true" size={16} strokeWidth={2.4} />
               Work
             </Link>
-            <header className="page-header project-detail-header max-w-4xl">
+            <header className="page-header project-detail-header">
               <div>
-                <p className="page-eyebrow text-[var(--color-text-muted)]">Case Study</p>
+                <p className="page-eyebrow project-detail-eyebrow">Case Study</p>
                 <h1 className="hero-title page-title">{project.title}</h1>
                 <p className="page-description">{project.shortDescription}</p>
               </div>
               <ProjectIcon className="project-detail-logo" icon={project.icon} size="large" />
             </header>
 
-            <dl className="mt-10 grid gap-4 md:grid-cols-3">
+            <dl className="case-metadata-grid">
               <MetadataItem label="Role" value={project.metadata.role} />
               <MetadataItem label="Stack">
                 <TagList items={project.metadata.stack} ariaLabel={`${project.title} stack`} />
@@ -88,19 +85,17 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
         <Section muted>
           <Container>
-            <div className="grid gap-12 lg:grid-cols-[260px_minmax(0,1fr)]">
+            <div className="case-study-layout">
               <nav aria-label={`${project.title} case study sections`}>
-                <ol className="sticky top-24 grid gap-2 text-[length:var(--text-sm)] font-semibold text-[var(--color-text-muted)]">
+                <ol className="case-study-nav-list">
                   {caseStudySections.map((section) => (
                     <li key={section.id}>
-                      <a className="hover:text-[var(--color-accent)]" href={`#${section.id}`}>
-                        {section.label}
-                      </a>
+                      <a href={`#${section.id}`}>{section.label}</a>
                     </li>
                   ))}
                 </ol>
               </nav>
-              <div className="grid gap-10">
+              <div className="case-study-content">
                 <CaseSection id="overview" title="Overview">
                   <p>{project.caseStudy.overview}</p>
                 </CaseSection>
@@ -121,13 +116,10 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                 </CaseSection>
                 <CaseSection id="evidence" title="Evidence">
                   {project.caseStudy.evidence.length > 0 ? (
-                    <ul className="grid gap-3">
+                    <ul className="case-evidence-list">
                       {project.caseStudy.evidence.map((link) => (
                         <li key={link.href}>
-                          <ExternalLink
-                            className="inline-flex items-center gap-2 font-bold text-[var(--color-accent)] hover:text-[var(--color-accent-hover)]"
-                            href={link.href}
-                          >
+                          <ExternalLink className="case-evidence-link" href={link.href}>
                             {link.label}
                             <ArrowUpRight aria-hidden="true" size={16} strokeWidth={2.4} />
                           </ExternalLink>
@@ -188,24 +180,17 @@ function MetadataItem({
   children?: ReactNode;
 }) {
   return (
-    <div className="border border-[var(--color-border)] bg-white p-5 shadow-[var(--shadow-card)]">
-      <dt className="text-[length:var(--text-xs)] font-bold uppercase text-[var(--color-text-soft)]">
-        {label}
-      </dt>
-      <dd className="mt-2 text-[length:var(--text-sm)] font-semibold leading-6 text-[var(--color-text)]">
-        {children ?? value}
-      </dd>
+    <div className="case-metadata-card">
+      <dt className="case-metadata-label">{label}</dt>
+      <dd className="case-metadata-value">{children ?? value}</dd>
     </div>
   );
 }
 
 function CaseSection({ id, title, children }: { id: string; title: string; children: ReactNode }) {
   return (
-    <section
-      className="body-copy case-section-copy border-l border-[var(--color-border)] py-1 pl-6"
-      id={id}
-    >
-      <h2 className="card-title mb-3">{title}</h2>
+    <section className="body-copy case-section" id={id}>
+      <h2 className="card-title">{title}</h2>
       {children}
     </section>
   );
@@ -213,11 +198,9 @@ function CaseSection({ id, title, children }: { id: string; title: string; child
 
 function BulletList({ items }: { items: readonly string[] }) {
   return (
-    <ul className="grid gap-3">
+    <ul className="case-bullet-list">
       {items.map((item) => (
-        <li className="pl-4 before:mr-3 before:content-['-']" key={item}>
-          {item}
-        </li>
+        <li key={item}>{item}</li>
       ))}
     </ul>
   );

@@ -88,7 +88,7 @@ Tasks:
 - Add `bun.lock` by running `bun install`.
 - Add Next.js App Router structure.
 - Add TypeScript config with strict settings.
-- Add Tailwind config and global CSS entry.
+- Add centralized global CSS entry.
 - Add Biome config.
 - Add `.gitignore` for `node_modules`, `.next`, `out`, coverage, logs, and local env files.
 - Add base scripts:
@@ -105,9 +105,6 @@ Tasks:
   - `@vercel/analytics`
 - Install required dev dependencies:
   - `typescript`
-  - `tailwindcss`
-  - `postcss`
-  - `@tailwindcss/postcss` if using Tailwind v4
   - `@biomejs/biome`
 
 Acceptance criteria:

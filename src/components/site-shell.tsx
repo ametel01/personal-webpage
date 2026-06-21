@@ -50,13 +50,9 @@ function SiteHeader() {
   const pathname = usePathname();
 
   return (
-    <header className="sticky top-0 z-20 border-b border-[var(--color-border)] bg-white/95 backdrop-blur">
-      <Container className="site-shell-container flex min-h-16 items-center justify-between gap-8">
-        <Link
-          aria-label="Alex Metelli home"
-          className="flex min-w-0 items-center gap-6 font-semibold text-[var(--color-text)]"
-          href="/"
-        >
+    <header className="site-header">
+      <Container className="site-shell-container site-header-inner">
+        <Link aria-label="Alex Metelli home" className="site-brand-link" href="/">
           <Image
             className="site-logo-mark"
             src="/images/logo-mark.png"
@@ -66,12 +62,10 @@ function SiteHeader() {
             priority
             aria-hidden="true"
           />
-          <span className="truncate text-[length:var(--text-sm)] font-bold uppercase tracking-[0.02em] max-[620px]:hidden">
-            Alex Metelli
-          </span>
+          <span className="site-brand-name">Alex Metelli</span>
         </Link>
-        <nav className="flex items-center gap-7 max-[760px]:gap-3" aria-label="Primary navigation">
-          <ul className="flex items-center gap-5 max-[760px]:gap-3">
+        <nav className="site-primary-nav" aria-label="Primary navigation">
+          <ul className="site-nav-list">
             {primaryNavItems.map((item) => (
               <li key={item.href}>
                 <Link
@@ -100,21 +94,16 @@ function isActivePath(pathname: string, href: string) {
 
 function SiteFooter() {
   return (
-    <footer className="border-t border-[var(--color-border-soft)] bg-white">
-      <Container className="site-shell-container flex items-center justify-between gap-6 py-8 max-[720px]:flex-col max-[720px]:items-start">
+    <footer className="site-footer">
+      <Container className="site-shell-container site-footer-inner">
         <div>
-          <p className="text-[length:var(--text-sm)] font-semibold text-[var(--color-text)]">
-            {site.name}
-          </p>
-          <a
-            className="mt-1 inline-flex text-[length:var(--text-sm)] text-[var(--color-text-muted)] hover:text-[var(--color-accent)]"
-            href={`mailto:${site.email}`}
-          >
+          <p className="site-footer-name">{site.name}</p>
+          <a className="site-footer-email" href={`mailto:${site.email}`}>
             {site.email}
           </a>
         </div>
         <nav aria-label="Footer navigation">
-          <ul className="flex flex-wrap gap-1">
+          <ul className="site-footer-links">
             {footerLinks.map((item) => (
               <li key={item.label}>
                 {item.external ? (
