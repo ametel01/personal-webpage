@@ -71,7 +71,7 @@ export function createPageMetadata({
 }
 
 export const homeTitle =
-  "Alex Metelli - Software Engineer | Backend, Developer Tooling, Blockchain Infrastructure";
+  "Alex Metelli - Software Engineer | Backend, Developer Infrastructure, AI Tooling";
 
 export const homeMetadata = createPageMetadata({
   title: homeTitle,

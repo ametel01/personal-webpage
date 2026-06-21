@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" role="img" aria-label="AgentReceipt">
+  <rect width="96" height="96" rx="22" fill="#071a2f"/>
+  <path d="M27 20h35l11 11v45H27z" fill="#f8fbff"/>
+  <path d="M62 20v12h11" fill="#dbeafe"/>
+  <path d="M38 43h22M38 53h18M38 63h12" stroke="#0f3b74" stroke-width="5" stroke-linecap="round"/>
+  <path d="m33 76 7-5 7 5 7-5 7 5 7-5v9H33z" fill="#bfdbfe"/>
+  <circle cx="31" cy="31" r="10" fill="#22c55e"/>
+  <path d="m26 31 3 3 7-8" fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

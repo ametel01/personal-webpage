@@ -22,20 +22,23 @@ import { site } from "@/lib/site";
 export const metadata: Metadata = createPageMetadata({
   title: "Selected Work",
   description:
-    "Selected engineering case studies by Alex Metelli across product systems, Starknet verification, cross-chain infrastructure, and DeFi yield infrastructure.",
+    "Selected engineering case studies by Alex Metelli across AI tooling, developer infrastructure, product systems, Starknet verification, and cross-chain infrastructure.",
   path: "/work"
 });
 
 const projectCategories = {
-  "voyager-verifier": "Developer Tooling",
-  aggsandbox: "Cross-chain Infra",
+  agentreceipt: "AI Tooling",
+  "skills-doctor": "Agent Tooling",
+  ritualai: "AI Workflows",
   scopepilot: "Product Engineering",
+  aggsandbox: "Cross-chain Infra",
+  "voyager-verifier": "Developer Tooling",
   "horizon-starknet": "DeFi"
 } satisfies Record<Project["slug"], string>;
 
 const metrics = [
   {
-    value: "4",
+    value: "7",
     label: "Case studies",
     icon: ClipboardList
   },
@@ -86,8 +89,8 @@ function WorkHero() {
         <p className="work-eyebrow">Selected Work</p>
         <h1 className="hero-title">Engineering case studies with real technical depth.</h1>
         <p>
-          Backend, blockchain infrastructure, developer tooling, and product engineering projects
-          with concrete evidence, tradeoffs, and outcomes.
+          AI tooling, backend infrastructure, developer tooling, blockchain systems, and product
+          engineering projects with concrete evidence, tradeoffs, and outcomes.
         </p>
       </div>
       <TechnicalHeroVisual />
@@ -226,7 +229,7 @@ function FeaturedProjectCard({ project }: { project: Project }) {
               <BriefcaseBusiness aria-hidden="true" size={14} strokeWidth={2.2} />
               Role
             </span>
-            <strong>Lead Backend Engineer</strong>
+            <strong>{project.metadata.role}</strong>
           </div>
           <div>
             <span>

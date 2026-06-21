@@ -19,7 +19,12 @@ import {
   proofBarItems,
   technicalFocusGroups
 } from "@/content/profile";
-import { type Project, projects } from "@/content/projects";
+import {
+  type OpenSourceContribution,
+  openSourceContributions,
+  type Project,
+  projects
+} from "@/content/projects";
 import { getAbsoluteUrl, homeMetadata } from "@/lib/metadata";
 
 export const metadata = homeMetadata;
@@ -34,6 +39,8 @@ const personJsonLd = {
   sameAs: [profile.links.github, profile.links.linkedin],
   knowsAbout: [
     "backend systems",
+    "AI tooling",
+    "agent workflows",
     "developer tooling",
     "blockchain infrastructure",
     "Starknet",
@@ -119,6 +126,22 @@ export default function Home() {
             <div className="home-project-grid">
               {projects.map((project) => (
                 <ProjectCard key={project.slug} project={project} />
+              ))}
+            </div>
+          </Container>
+        </section>
+
+        <section className="open-source-band" aria-label="Open source contributions">
+          <Container>
+            <div className="open-source-header">
+              <SectionHeading
+                label="Open Source Contributions"
+                title="Merged work across data systems, Starknet tooling, and developer infrastructure."
+              />
+            </div>
+            <div className="open-source-grid">
+              {openSourceContributions.map((contribution) => (
+                <ContributionCard contribution={contribution} key={contribution.project} />
               ))}
             </div>
           </Container>
@@ -245,6 +268,24 @@ function ProjectCard({ project }: { project: Project }) {
         View Project
         <ArrowRight aria-hidden="true" size={16} strokeWidth={2.4} />
       </Link>
+    </article>
+  );
+}
+
+function ContributionCard({ contribution }: { contribution: OpenSourceContribution }) {
+  return (
+    <article className="open-source-card avoid-break">
+      <div className="open-source-card-header">
+        <div>
+          <p className="open-source-status">{contribution.status}</p>
+          <h3 className="card-title open-source-title">{contribution.project}</h3>
+        </div>
+        <ExternalLink className="open-source-link" href={contribution.href}>
+          <ArrowUpRight aria-hidden="true" size={16} strokeWidth={2.4} />
+          <span className="sr-only">View {contribution.project}</span>
+        </ExternalLink>
+      </div>
+      <p className="body-copy open-source-summary">{contribution.summary}</p>
     </article>
   );
 }

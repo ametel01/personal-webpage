@@ -8,4 +8,4 @@ export const site = {
 } as const;
 
 export const defaultDescription =
-  "Alex Metelli is a software engineer focused on backend systems, developer tooling, blockchain infrastructure, Starknet tooling, and AI-assisted engineering workflows.";
+  "Alex Metelli is a software engineer focused on backend systems, developer infrastructure, AI tooling, agent workflows, Starknet tooling, and correctness-sensitive software.";

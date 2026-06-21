@@ -13,11 +13,12 @@ export const profile = {
   hero: {
     eyebrow: site.name,
     role: site.role,
-    headline: "Backend systems. Developer tooling. Blockchain infrastructure.",
-    body: "I build backend systems, developer tools, and blockchain infrastructure for teams working on correctness-sensitive software."
+    headline:
+      "I build backend systems and developer tools for AI-assisted, correctness-sensitive engineering workflows.",
+    body: "Backend/platform engineer building local-first AI tooling, developer infrastructure, and blockchain systems where provenance, observability, and correctness matter."
   },
   summary:
-    "Previously at Nethermind, working on Starknet tooling, verification workflows, cross-chain infrastructure, and developer experience automation.",
+    "Previously at Nethermind, now focused on AI-assisted software development tooling, agent workflows, Starknet tooling, verification workflows, and developer infrastructure.",
   facts: [
     {
       label: "Focus",
@@ -37,13 +38,13 @@ export const profile = {
     }
   ],
   contact:
-    "Open to remote software engineering roles focused on backend systems, developer tooling, and blockchain infrastructure. Also open to selected consulting work where the scope is technical and concrete.",
+    "Open to remote software engineering roles focused on backend systems, developer infrastructure, AI tooling, and blockchain infrastructure. Also open to selected consulting work where the scope is technical and concrete.",
   about: {
     image: "/images/professional-photo.png",
     imageAlt: "Professional portrait of Alex Metelli",
     narrative:
-      "I am a software engineer focused on backend systems, developer tooling, and blockchain infrastructure. My work is strongest where correctness, clear developer workflows, and practical delivery all matter.",
-    work: "I work across APIs, contract tooling, infrastructure automation, Starknet systems, cross-chain experiments, and AI-assisted engineering workflows.",
+      "I am a software engineer focused on backend systems, developer infrastructure, AI tooling, and blockchain infrastructure. My work is strongest where correctness, clear developer workflows, and practical delivery all matter.",
+    work: "I work across APIs, local-first CLI tools, agent workflow automation, contract tooling, infrastructure automation, Starknet systems, and cross-chain experiments.",
     style:
       "I work well in remote, async teams and can adapt my schedule across time zones when collaboration needs it.",
     lookingFor:
@@ -73,7 +74,7 @@ export const profile = {
     focusCards: [
       {
         title: "What I work on",
-        body: "I work across APIs, contract tooling, infrastructure automation, Starknet systems, cross-chain experiments, and AI-assisted engineering workflows.",
+        body: "I work across APIs, local-first CLI tools, agent workflow automation, contract tooling, infrastructure automation, Starknet systems, and cross-chain experiments.",
         icon: "code"
       },
       {
@@ -117,7 +118,13 @@ export const technicalFocusGroups = [
   },
   {
     title: "Developer tooling",
-    items: ["CLI tools", "Engineering automation", "AI-assisted engineering workflows"]
+    items: [
+      "CLI tools",
+      "Engineering automation",
+      "AI tooling",
+      "Agent workflows",
+      "AI-assisted engineering workflows"
+    ]
   },
   {
     title: "Blockchain systems",
@@ -145,7 +152,7 @@ export const experienceSnapshot = [
   },
   {
     title: "Independent / Open Source",
-    body: "Protocol experiments, full-stack product prototypes, CLI tooling, engineering automation, and AI-assisted engineering workflows."
+    body: "AI workflow tools, signed agent evidence, protocol experiments, full-stack product prototypes, CLI tooling, and engineering automation."
   }
 ] as const;
 
@@ -156,11 +163,11 @@ export const proofBarItems = [
   },
   {
     label: "Core Work",
-    value: "Backend · Infra · Tooling"
+    value: "Backend · AI Tools · Infra"
   },
   {
     label: "Open Source",
-    value: "Starknet · Cairo · Dev Tools"
+    value: "DataFusion · Starknet · Dev Tools"
   },
   {
     label: "Availability",

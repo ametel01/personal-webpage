@@ -3,19 +3,32 @@ import { existsSync, readFileSync } from "node:fs";
 import { describe, test } from "node:test";
 import { getTechVisual } from "@/components/tech-icons";
 import { profile, technicalFocusGroups } from "@/content/profile";
-import { getProject, isProjectSlug, projectSlugs, projects } from "@/content/projects";
+import {
+  getProject,
+  isProjectSlug,
+  openSourceContributions,
+  projectSlugs,
+  projects
+} from "@/content/projects";
 import { resume } from "@/content/resume";
 import type * as MetadataModule from "@/lib/metadata";
 import { createPageMetadata, getAbsoluteUrl, homeTitle } from "@/lib/metadata";
 import { primaryNavItems } from "@/lib/navigation";
 import { site } from "@/lib/site";
 
-const expectedSlugs = ["voyager-verifier", "aggsandbox", "scopepilot", "horizon-starknet"] as const;
+const expectedSlugs = [
+  "agentreceipt",
+  "skills-doctor",
+  "ritualai",
+  "scopepilot",
+  "aggsandbox",
+  "voyager-verifier",
+  "horizon-starknet"
+] as const;
 const globalCss = readFileSync(new URL("../../app/globals.css", import.meta.url), "utf8");
 const forbiddenPattern = new RegExp(
   [
     ["Open", "Maintainer"].join(" "),
-    String.raw`\b${["G", "o"].join("")}\b`,
     ["alexmetelli", "poker"].join("\\."),
     ["GMT", String.raw`\+8`].join(""),
     ["GMT", "Compatible"].join("-"),
@@ -108,7 +121,7 @@ describe("website content invariants", () => {
   });
 
   test("projects have required case study fields and real evidence links", () => {
-    assert.equal(projects.length, 4);
+    assert.equal(projects.length, 7);
 
     for (const project of projects) {
       assert.ok(project.title.length > 0);
@@ -134,9 +147,12 @@ describe("website content invariants", () => {
 
   test("selected projects use local brand icon assets", () => {
     const expectedIcons = {
-      "voyager-verifier": "/icons/nethermind.svg",
-      aggsandbox: "/icons/agglayer.svg",
+      agentreceipt: "/icons/agentreceipt.svg",
+      "skills-doctor": "/icons/skills-doctor.svg",
+      ritualai: "/icons/ritualai.svg",
       scopepilot: "/icons/scopepilot.svg",
+      aggsandbox: "/icons/agglayer.svg",
+      "voyager-verifier": "/icons/nethermind.svg",
       "horizon-starknet": "/icons/horizon-protocol.png"
     } satisfies Record<(typeof expectedSlugs)[number], string>;
 
@@ -153,6 +169,7 @@ describe("website content invariants", () => {
   test("public content excludes v1 forbidden material", () => {
     const publicContent = JSON.stringify({
       profile,
+      openSourceContributions,
       projects,
       resume,
       technicalFocusGroups
@@ -214,7 +231,7 @@ describe("website content invariants", () => {
         (link) => "resumeLabel" in link && link.resumeLabel === "Download Resume (PDF)"
       )
     );
-    assert.equal(resume.selectedProjects.length, 4);
+    assert.equal(resume.selectedProjects.length, 7);
   });
 
   test("homepage technical focus keeps the exact PRD groups", () => {
@@ -246,6 +263,19 @@ describe("website content invariants", () => {
       "Cloudflare Workers",
       "AWS Console",
       "CloudWatch",
+      "Go",
+      "CLI",
+      "AI Tooling",
+      "Developer Infrastructure",
+      "Ed25519",
+      "Static Analysis",
+      "Agent Skills",
+      "Validation",
+      "AI Workflows",
+      "Local-first",
+      "Developer Productivity",
+      "Replay",
+      "Provenance",
       "LayerZero",
       "AggLayer",
       "Apibara",
@@ -386,7 +416,7 @@ describe("website content invariants", () => {
   test("homepage title matches the required SEO title", () => {
     assert.equal(
       homeTitle,
-      "Alex Metelli - Software Engineer | Backend, Developer Tooling, Blockchain Infrastructure"
+      "Alex Metelli - Software Engineer | Backend, Developer Infrastructure, AI Tooling"
     );
   });
 
@@ -405,16 +435,25 @@ describe("website content invariants", () => {
 
     const homeText = collectText(HomePage());
 
-    assert.match(homeText, /Backend systems\. Developer tooling\. Blockchain infrastructure\./);
+    assert.match(
+      homeText,
+      /I build backend systems and developer tools for AI-assisted, correctness-sensitive engineering workflows\./
+    );
+    assert.match(homeText, /Open Source Contributions/);
+    assert.match(homeText, /Apache DataFusion/);
 
     for (const project of projects) {
       assert.match(homeText, new RegExp(`Proof:\\s+${escapeRegExp(project.proof)}`));
     }
 
+    for (const contribution of openSourceContributions) {
+      assert.match(homeText, new RegExp(escapeRegExp(contribution.project)));
+    }
+
     const workText = collectText(WorkPage());
 
     assert.match(workText, /Engineering case studies with real technical depth\./);
-    assert.match(workText, /4 Case studies/);
+    assert.match(workText, /7 Case studies/);
     assert.match(workText, /5\+ Years experience/);
     assert.match(workText, /Backend \+ infra Core focus/);
     assert.match(workText, /Blockchain \+ AI tooling Domain expertise/);
