@@ -2,13 +2,13 @@
 
 Source document: `/Users/alexmetelli/source/personal-webpage/docs/hallmark-audit.md`
 
-Current status: Step 1 complete; Step 2 next.
-Next step: Step 2 global token, typography, motion, and overflow foundation.
+Current status: Step 2 complete; Step 3 next.
+Next step: Step 3 home page section rhythm and eyebrow reduction.
 
 ## Step Checklist
 - [x] Step 0: Progress and Changelog Tracking Setup
 - [x] Step 1: Baseline Gates and Visual Reference
-- [ ] Step 2: Global Token, Typography, Motion, and Overflow Foundation
+- [x] Step 2: Global Token, Typography, Motion, and Overflow Foundation
 - [ ] Step 3: Home Page Section Rhythm and Eyebrow Reduction
 - [ ] Step 4: Quiet Portfolio Masthead
 - [ ] Step 5: Work Page Tokenization and Evidence Flattening
@@ -52,3 +52,19 @@ After each completed step, update this file with:
     - Clickable text baseline: no wrapped clickable text on all checked routes at 320px, 375px, 414px, 768px, and 1440px.
   - Commit reference: this commit.
   - Next step: Step 2 global token, typography, motion, and overflow foundation.
+- 2026-06-30: Completed Step 2 global token, typography, motion, and overflow foundation.
+  - Changes:
+    - Added display, paper/surface/ink, focus, shadow, duration, and easing tokens in `app/globals.css`.
+    - Added `overflow-x: clip` to both `html` and `body`.
+    - Applied `--font-display` to shared hero, section, and card heading styles while preserving the sans stack for body/UI text.
+    - Converted shared anchor, card, nav indicator, focus, button, and proof item styling to use the new foundation tokens.
+    - Expanded source tests to assert the Hallmark foundation token invariants.
+  - Validation:
+    - `bun run format`: passed.
+    - `bun run lint`: passed.
+    - `bun run typecheck`: passed.
+    - `bun run test`: passed, 24 tests.
+    - `NEXT_TELEMETRY_DISABLED=1 NEXT_PUBLIC_SITE_URL=http://localhost:3000 bun run test:e2e`: passed, 48 tests.
+    - `NEXT_TELEMETRY_DISABLED=1 NEXT_PUBLIC_SITE_URL=https://personal-webpage-three-woad.vercel.app bun run build`: passed.
+  - Commit reference: this commit.
+  - Next step: Step 3 home page section rhythm and eyebrow reduction.

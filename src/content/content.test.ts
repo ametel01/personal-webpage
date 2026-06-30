@@ -42,6 +42,10 @@ function escapeRegExp(value: string) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
+function cssRuleBody(selector: string) {
+  return globalCss.match(new RegExp(`${escapeRegExp(selector)}\\s*{(?<body>[^}]*)}`))?.groups?.body;
+}
+
 async function importMetadataWithEnv(env: Record<string, string | undefined>) {
   const processEnv = process.env as Record<string, string | undefined>;
   const previousNodeEnv = process.env.NODE_ENV;
@@ -316,20 +320,54 @@ describe("website content invariants", () => {
   });
 
   test("global CSS centralizes public hero title typography", () => {
-    const heroTitle = globalCss.match(/\.hero-title\s*{(?<body>[^}]*)}/);
+    const heroTitle = cssRuleBody(".hero-title");
 
-    assert.ok(heroTitle?.groups?.body);
-    assert.match(heroTitle.groups.body, /font-size:\s*var\(--hero-title-size\);/);
-    assert.match(heroTitle.groups.body, /font-weight:\s*var\(--hero-title-weight\);/);
-    assert.match(heroTitle.groups.body, /letter-spacing:\s*-0\.055em;/);
-    assert.match(heroTitle.groups.body, /line-height:\s*0\.96;/);
+    assert.ok(heroTitle);
+    assert.match(heroTitle, /font-family:\s*var\(--font-display\);/);
+    assert.match(heroTitle, /font-size:\s*var\(--hero-title-size\);/);
+    assert.match(heroTitle, /font-weight:\s*var\(--hero-title-weight\);/);
+    assert.match(heroTitle, /letter-spacing:\s*-0\.055em;/);
+    assert.match(heroTitle, /line-height:\s*0\.96;/);
+
+    const headingTitle = cssRuleBody(".section-title,\n.card-title");
+    assert.ok(headingTitle);
+    assert.match(headingTitle, /font-family:\s*var\(--font-display\);/);
 
     for (const selector of [".page-title", ".resume-hero-copy h1", ".work-hero h1"]) {
-      const rule = globalCss.match(new RegExp(`${escapeRegExp(selector)}\\s*{(?<body>[^}]*)}`));
+      const rule = cssRuleBody(selector);
 
-      assert.ok(rule?.groups?.body, `${selector} CSS rule should exist`);
-      assert.doesNotMatch(rule.groups.body, /font-size:|font-weight:|letter-spacing:|line-height:/);
+      assert.ok(rule, `${selector} CSS rule should exist`);
+      assert.doesNotMatch(rule, /font-size:|font-weight:|letter-spacing:|line-height:/);
     }
+  });
+
+  test("global CSS exposes Hallmark foundation tokens", () => {
+    const root = cssRuleBody(":root");
+    const html = cssRuleBody("html");
+    const body = cssRuleBody("body");
+    const anchor = cssRuleBody("a");
+    const focusVisible = cssRuleBody(":focus-visible");
+
+    assert.ok(root);
+    assert.match(root, /--font-display:/);
+    assert.match(root, /--color-paper:\s*oklch\(/);
+    assert.match(root, /--color-surface:\s*oklch\(/);
+    assert.match(root, /--color-ink:\s*oklch\(/);
+    assert.doesNotMatch(root, /--color-bg:\s*#ffffff;/i);
+    assert.doesNotMatch(root, /--color-surface:\s*#ffffff;/i);
+    assert.match(root, /--duration-fast:\s*160ms;/);
+    assert.match(root, /--ease-standard:\s*cubic-bezier\(/);
+    assert.match(root, /--focus-ring:\s*oklch\(/);
+
+    assert.ok(html);
+    assert.match(html, /overflow-x:\s*clip;/);
+    assert.ok(body);
+    assert.match(body, /overflow-x:\s*clip;/);
+
+    assert.ok(anchor);
+    assert.match(anchor, /var\(--duration-fast\)\s+var\(--ease-standard\)/);
+    assert.ok(focusVisible);
+    assert.match(focusVisible, /outline:\s*3px solid var\(--focus-ring\);/);
   });
 
   test("Next config applies conservative global security headers", async () => {
