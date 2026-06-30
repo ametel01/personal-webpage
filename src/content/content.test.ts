@@ -27,6 +27,7 @@ const expectedSlugs = [
 ] as const;
 const globalCss = readFileSync(new URL("../../app/globals.css", import.meta.url), "utf8");
 const homePageSource = readFileSync(new URL("../../app/page.tsx", import.meta.url), "utf8");
+const aboutPageSource = readFileSync(new URL("../../app/about/page.tsx", import.meta.url), "utf8");
 const workPageSource = readFileSync(new URL("../../app/work/page.tsx", import.meta.url), "utf8");
 const siteShellSource = readFileSync(
   new URL("../../src/components/site-shell.tsx", import.meta.url),
@@ -225,6 +226,18 @@ describe("website content invariants", () => {
     for (const card of [...profile.about.focusCards, ...profile.about.values]) {
       assert.ok(card.body.length > 24);
     }
+  });
+
+  test("about focus cards use a varied non-icon-card composition", () => {
+    const aboutCardSource = aboutPageSource.match(
+      /function AboutCard\([\s\S]*?function ProfileSummaryRow/
+    )?.[0];
+
+    assert.ok(aboutCardSource);
+    assert.doesNotMatch(aboutCardSource, /about-icon-badge/);
+    assert.match(aboutCardSource, /about-card-\$\{variant\}/);
+    assert.match(globalCss, /\.about-card-feature\s*{/);
+    assert.match(globalCss, /\.about-card-supporting\s*{/);
   });
 
   test("resume exposes redesigned summary facts without dropping route-critical content", () => {

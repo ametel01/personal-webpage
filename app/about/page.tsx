@@ -68,12 +68,12 @@ export default function AboutPage() {
               </ul>
 
               <div className="about-focus-grid">
-                {profile.about.focusCards.map((card) => (
+                {profile.about.focusCards.map((card, index) => (
                   <AboutCard
                     body={card.body}
-                    icon={card.icon}
                     key={card.title}
                     title={card.title}
+                    variant={index === 0 ? "feature" : "supporting"}
                   />
                 ))}
               </div>
@@ -158,20 +158,15 @@ function AboutChip({ children, icon }: { children: ReactNode; icon: keyof typeof
 
 function AboutCard({
   body,
-  icon,
-  title
+  title,
+  variant
 }: {
   body: string;
-  icon: keyof typeof aboutIcons;
   title: string;
+  variant: "feature" | "supporting";
 }) {
-  const Icon = aboutIcons[icon];
-
   return (
-    <article className="about-card">
-      <span className="about-icon-badge">
-        <Icon aria-hidden="true" size={25} strokeWidth={2.05} />
-      </span>
+    <article className={`about-card about-card-${variant}`}>
       <h2>{title}</h2>
       <span className="about-card-rule" aria-hidden="true" />
       <p>{body}</p>

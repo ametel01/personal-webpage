@@ -2,8 +2,8 @@
 
 Source document: `/Users/alexmetelli/source/personal-webpage/docs/hallmark-audit.md`
 
-Current status: Step 5 complete; Step 6 next.
-Next step: Step 6 about page focus layout and token cleanup.
+Current status: Step 6 complete; Step 7 next.
+Next step: Step 7 audited scope token pass and final verification.
 
 ## Step Checklist
 - [x] Step 0: Progress and Changelog Tracking Setup
@@ -12,7 +12,7 @@ Next step: Step 6 about page focus layout and token cleanup.
 - [x] Step 3: Home Page Section Rhythm and Eyebrow Reduction
 - [x] Step 4: Quiet Portfolio Masthead
 - [x] Step 5: Work Page Tokenization and Evidence Flattening
-- [ ] Step 6: About Page Focus Layout and Token Cleanup
+- [x] Step 6: About Page Focus Layout and Token Cleanup
 - [ ] Step 7: Audited Scope Token Pass and Final Verification
 
 ## Update Rule
@@ -111,3 +111,18 @@ After each completed step, update this file with:
     - `NEXT_TELEMETRY_DISABLED=1 NEXT_PUBLIC_SITE_URL=https://personal-webpage-three-woad.vercel.app bun run build`: passed.
   - Commit reference: this commit.
   - Next step: Step 6 about page focus layout and token cleanup.
+- 2026-06-30: Completed Step 6 about page focus layout and token cleanup.
+  - Changes:
+    - Reshaped the about focus area into a varied feature/supporting-card composition.
+    - Removed decorative icon badges from the focus card component while preserving profile/value icon markers.
+    - Migrated about page colors, surfaces, borders, shadows, and heading typography to shared token aliases.
+    - Added a source invariant for the varied non-icon-card focus composition.
+  - Validation:
+    - `bun run format`: passed.
+    - `bun run lint`: passed.
+    - `bun run typecheck`: passed.
+    - `bun run test`: passed, 27 tests.
+    - `NEXT_TELEMETRY_DISABLED=1 NEXT_PUBLIC_SITE_URL=http://localhost:3000 bun run test:e2e`: passed, 48 tests.
+    - `NEXT_TELEMETRY_DISABLED=1 NEXT_PUBLIC_SITE_URL=https://personal-webpage-three-woad.vercel.app bun run build`: passed.
+  - Commit reference: this commit.
+  - Next step: Step 7 audited scope token pass and final verification.
