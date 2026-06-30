@@ -170,10 +170,7 @@ export default function Home() {
 
       <Section>
         <Container>
-          <SectionHeading
-            label="Technical Focus"
-            title="Backend depth with tooling and blockchain systems."
-          />
+          <SectionHeading title="Backend depth with tooling and blockchain systems." />
           <div className="home-focus-grid">
             {technicalFocusGroups.map((group) => (
               <div className="home-focus-card" key={group.title}>
@@ -190,10 +187,7 @@ export default function Home() {
       <Section id="experience" muted>
         <Container>
           <div className="home-experience-grid">
-            <SectionHeading
-              label="Experience Snapshot"
-              title="Professional delivery and independent technical work."
-            />
+            <SectionHeading title="Professional delivery and independent technical work." />
             <div className="home-experience-list">
               {experienceSnapshot.map((item) => (
                 <div className="home-experience-item" key={item.title}>
@@ -209,7 +203,7 @@ export default function Home() {
       <Section id="contact">
         <Container>
           <div className="home-contact-grid">
-            <SectionHeading label="Contact" title="Remote engineering and focused consulting." />
+            <SectionHeading title="Remote engineering and focused consulting." />
             <div>
               <p className="page-description home-contact-description">{profile.contact}</p>
               <div className="home-contact-actions">
@@ -239,13 +233,13 @@ function SectionHeading({
   title,
   description
 }: {
-  label: string;
+  label?: string;
   title: string;
   description?: string;
 }) {
   return (
     <div className="section-heading">
-      <p className="section-eyebrow">{label}</p>
+      {label ? <p className="section-eyebrow">{label}</p> : null}
       <h2 className="section-title">{title}</h2>
       {description ? <p className="body-copy section-heading-description">{description}</p> : null}
     </div>

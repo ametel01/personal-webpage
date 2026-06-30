@@ -26,6 +26,7 @@ const expectedSlugs = [
   "horizon-starknet"
 ] as const;
 const globalCss = readFileSync(new URL("../../app/globals.css", import.meta.url), "utf8");
+const homePageSource = readFileSync(new URL("../../app/page.tsx", import.meta.url), "utf8");
 const forbiddenPattern = new RegExp(
   [
     ["Open", "Maintainer"].join(" "),
@@ -245,6 +246,11 @@ describe("website content invariants", () => {
     );
 
     assert.equal(JSON.stringify(technicalFocusGroups).includes("AWS"), false);
+  });
+
+  test("homepage section headings do not require repeated eyebrows", () => {
+    assert.doesNotMatch(homePageSource, /label="(?:Technical Focus|Experience Snapshot|Contact)"/);
+    assert.match(homePageSource, /label\?: string;/);
   });
 
   test("technology icon registry covers public stack terms", () => {

@@ -12,6 +12,7 @@ and this project adheres to semantic versioning where applicable.
 - Established progress and changelog tracking for the Hallmark audit remediation work.
 
 ### Changed
+- Reduced repeated homepage section eyebrows by making the section heading label optional.
 - Added shared display typography, OKLCH paper/surface/ink, focus, shadow, duration, and easing tokens for the audited visual system.
 
 ### Fixed

@@ -2,14 +2,14 @@
 
 Source document: `/Users/alexmetelli/source/personal-webpage/docs/hallmark-audit.md`
 
-Current status: Step 2 complete; Step 3 next.
-Next step: Step 3 home page section rhythm and eyebrow reduction.
+Current status: Step 3 complete; Step 4 next.
+Next step: Step 4 quiet portfolio masthead.
 
 ## Step Checklist
 - [x] Step 0: Progress and Changelog Tracking Setup
 - [x] Step 1: Baseline Gates and Visual Reference
 - [x] Step 2: Global Token, Typography, Motion, and Overflow Foundation
-- [ ] Step 3: Home Page Section Rhythm and Eyebrow Reduction
+- [x] Step 3: Home Page Section Rhythm and Eyebrow Reduction
 - [ ] Step 4: Quiet Portfolio Masthead
 - [ ] Step 5: Work Page Tokenization and Evidence Flattening
 - [ ] Step 6: About Page Focus Layout and Token Cleanup
@@ -68,3 +68,17 @@ After each completed step, update this file with:
     - `NEXT_TELEMETRY_DISABLED=1 NEXT_PUBLIC_SITE_URL=https://personal-webpage-three-woad.vercel.app bun run build`: passed.
   - Commit reference: this commit.
   - Next step: Step 3 home page section rhythm and eyebrow reduction.
+- 2026-06-30: Completed Step 3 home page section rhythm and eyebrow reduction.
+  - Changes:
+    - Made the home page `SectionHeading` label optional.
+    - Removed nonessential repeated eyebrows from Technical Focus, Experience Snapshot, and Contact sections.
+    - Added a source invariant preventing those removed label props from returning.
+  - Validation:
+    - `bun run format`: passed.
+    - `bun run lint`: passed.
+    - `bun run typecheck`: passed.
+    - `bun run test`: passed, 25 tests.
+    - `NEXT_TELEMETRY_DISABLED=1 NEXT_PUBLIC_SITE_URL=http://localhost:3000 bun run test:e2e`: passed, 48 tests.
+    - `NEXT_TELEMETRY_DISABLED=1 NEXT_PUBLIC_SITE_URL=https://personal-webpage-three-woad.vercel.app bun run build`: passed.
+  - Commit reference: this commit.
+  - Next step: Step 4 quiet portfolio masthead.
