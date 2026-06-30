@@ -8,4 +8,8 @@ and this project adheres to semantic versioning where applicable.
 ## [Unreleased]
 
 ### Added
+- Recorded baseline quality and viewport verification for the Hallmark audit remediation.
 - Established progress and changelog tracking for the Hallmark audit remediation work.
+
+### Fixed
+- Scoped the homepage selected-project proof e2e assertion to avoid duplicate-text strict locator failures.

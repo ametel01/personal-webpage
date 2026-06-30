@@ -2,12 +2,12 @@
 
 Source document: `/Users/alexmetelli/source/personal-webpage/docs/hallmark-audit.md`
 
-Current status: Step 0 complete; Step 1 next.
-Next step: Step 1 baseline gates and visual reference.
+Current status: Step 1 complete; Step 2 next.
+Next step: Step 2 global token, typography, motion, and overflow foundation.
 
 ## Step Checklist
 - [x] Step 0: Progress and Changelog Tracking Setup
-- [ ] Step 1: Baseline Gates and Visual Reference
+- [x] Step 1: Baseline Gates and Visual Reference
 - [ ] Step 2: Global Token, Typography, Motion, and Overflow Foundation
 - [ ] Step 3: Home Page Section Rhythm and Eyebrow Reduction
 - [ ] Step 4: Quiet Portfolio Masthead
@@ -37,3 +37,18 @@ After each completed step, update this file with:
     - `NEXT_TELEMETRY_DISABLED=1 NEXT_PUBLIC_SITE_URL=https://personal-webpage-three-woad.vercel.app bun run build`: passed.
   - Commit reference: this commit.
   - Next step: Step 1 baseline gates and visual reference, including documenting or fixing the pre-existing Playwright locator failure before visual remediation.
+- 2026-06-30: Completed Step 1 baseline gates and visual reference.
+  - Changes:
+    - Fixed the pre-existing Playwright strict-locator baseline failure by scoping the homepage selected project proof assertions to `#selected-work`.
+    - Captured baseline screenshots for `/`, `/work`, `/about`, `/resume`, and `/work/agentreceipt` at 320px, 375px, 414px, 768px, and 1440px under `test-results/hallmark-baseline/`.
+  - Validation:
+    - `bun run format`: passed.
+    - `bun run lint`: passed.
+    - `bun run typecheck`: passed.
+    - `bun run test`: passed, 23 tests.
+    - `NEXT_TELEMETRY_DISABLED=1 NEXT_PUBLIC_SITE_URL=http://localhost:3000 bun run test:e2e`: passed, 48 tests.
+    - `NEXT_TELEMETRY_DISABLED=1 NEXT_PUBLIC_SITE_URL=https://personal-webpage-three-woad.vercel.app bun run build`: passed.
+    - Viewport baseline: no root horizontal overflow on all checked routes at 320px, 375px, 414px, 768px, and 1440px.
+    - Clickable text baseline: no wrapped clickable text on all checked routes at 320px, 375px, 414px, 768px, and 1440px.
+  - Commit reference: this commit.
+  - Next step: Step 2 global token, typography, motion, and overflow foundation.

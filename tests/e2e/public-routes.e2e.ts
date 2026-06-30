@@ -24,9 +24,13 @@ test.describe("public routes", () => {
   test("homepage renders every selected project proof signal", async ({ page }) => {
     await page.goto("/");
 
+    const selectedWork = page.locator("#selected-work");
+
     for (const project of projects) {
-      await expect(page.getByText(project.title, { exact: true })).toBeVisible();
-      await expect(page.getByText(`Proof: ${project.proof}`, { exact: true })).toBeVisible();
+      await expect(selectedWork.getByText(project.title, { exact: true })).toBeVisible();
+      await expect(
+        selectedWork.getByText(`Proof: ${project.proof}`, { exact: true })
+      ).toBeVisible();
     }
   });
 
