@@ -12,6 +12,7 @@ and this project adheres to semantic versioning where applicable.
 - Established progress and changelog tracking for the Hallmark audit remediation work.
 
 ### Changed
+- Completed the audited-scope token pass for resume, case-study, footer, project-logo, proof-bar, and remaining shared surfaces.
 - Reshaped the about focus area into a varied feature/supporting-card layout and aligned its visual tokens with the shared system.
 - Flattened work page project proof evidence and tokenized the work page illustration, surfaces, shadows, and motion values.
 - Reworked the header into a quieter portfolio masthead with Resume as a regular nav route instead of a prominent CTA button.

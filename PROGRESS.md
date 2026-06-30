@@ -2,8 +2,8 @@
 
 Source document: `/Users/alexmetelli/source/personal-webpage/docs/hallmark-audit.md`
 
-Current status: Step 6 complete; Step 7 next.
-Next step: Step 7 audited scope token pass and final verification.
+Current status: Complete.
+Next step: None.
 
 ## Step Checklist
 - [x] Step 0: Progress and Changelog Tracking Setup
@@ -13,7 +13,7 @@ Next step: Step 7 audited scope token pass and final verification.
 - [x] Step 4: Quiet Portfolio Masthead
 - [x] Step 5: Work Page Tokenization and Evidence Flattening
 - [x] Step 6: About Page Focus Layout and Token Cleanup
-- [ ] Step 7: Audited Scope Token Pass and Final Verification
+- [x] Step 7: Audited Scope Token Pass and Final Verification
 
 ## Update Rule
 After each completed step, update this file with:
@@ -126,3 +126,21 @@ After each completed step, update this file with:
     - `NEXT_TELEMETRY_DISABLED=1 NEXT_PUBLIC_SITE_URL=https://personal-webpage-three-woad.vercel.app bun run build`: passed.
   - Commit reference: this commit.
   - Next step: Step 7 audited scope token pass and final verification.
+- 2026-06-30: Completed Step 7 audited scope token pass and final verification.
+  - Changes:
+    - Replaced remaining audited-scope raw pure-white surfaces and dividers with shared surface/on-dark tokens.
+    - Aliased resume page colors, borders, shadows, timeline line, and surfaces to the shared token system.
+    - Tokenized remaining case-study mobile nav, project logo, footer, proof bar, and link underline values.
+  - Validation:
+    - Raw token scan for audited files: passed, no remaining raw hex colors, `rgba(...)`, or default `ms ease` motion values in the audited file set.
+    - `bun run format`: passed.
+    - `bun run lint`: passed.
+    - `bun run typecheck`: passed.
+    - `bun run test`: passed, 27 tests.
+    - `NEXT_TELEMETRY_DISABLED=1 NEXT_PUBLIC_SITE_URL=http://localhost:3000 bun run test:e2e`: passed, 48 tests.
+    - `NEXT_TELEMETRY_DISABLED=1 NEXT_PUBLIC_SITE_URL=https://personal-webpage-three-woad.vercel.app bun run build`: passed.
+    - Final viewport verification: `/`, `/work`, `/about`, `/resume`, and `/work/agentreceipt` at 320px, 375px, 414px, 768px, and 1440px had no root horizontal overflow and no wrapped clickable text.
+    - Final composition verification: `.work-evidence-box` count was 0 on all checked routes; about focus grid rendered 3 focus cards on `/about`; the work blueprint rendered on tablet/desktop and is intentionally hidden below 560px by existing responsive CSS.
+    - Final screenshots: `test-results/hallmark-final/`.
+  - Commit reference: this commit.
+  - Next step: none.
