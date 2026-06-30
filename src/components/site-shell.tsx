@@ -1,6 +1,6 @@
 "use client";
 
-import { BriefcaseBusiness, CodeXml, Download, FileText, Mail } from "lucide-react";
+import { BriefcaseBusiness, CodeXml, FileText, Mail } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -78,10 +78,6 @@ function SiteHeader() {
               </li>
             ))}
           </ul>
-          <Link className="button button-compact" href={site.resumePath}>
-            Resume
-            <Download aria-hidden="true" size={15} strokeWidth={2.3} />
-          </Link>
         </nav>
       </Container>
     </header>

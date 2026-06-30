@@ -27,6 +27,10 @@ const expectedSlugs = [
 ] as const;
 const globalCss = readFileSync(new URL("../../app/globals.css", import.meta.url), "utf8");
 const homePageSource = readFileSync(new URL("../../app/page.tsx", import.meta.url), "utf8");
+const siteShellSource = readFileSync(
+  new URL("../../src/components/site-shell.tsx", import.meta.url),
+  "utf8"
+);
 const forbiddenPattern = new RegExp(
   [
     ["Open", "Maintainer"].join(" "),
@@ -409,9 +413,11 @@ describe("website content invariants", () => {
       primaryNavItems.map((item) => [item.label, item.href]),
       [
         ["Work", "/work"],
-        ["About", "/about"]
+        ["About", "/about"],
+        ["Resume", "/resume"]
       ]
     );
+    assert.doesNotMatch(siteShellSource, /button-compact/);
   });
 
   test("metadata helper builds canonical and Open Graph URLs from the site URL", () => {

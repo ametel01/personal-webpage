@@ -2,15 +2,15 @@
 
 Source document: `/Users/alexmetelli/source/personal-webpage/docs/hallmark-audit.md`
 
-Current status: Step 3 complete; Step 4 next.
-Next step: Step 4 quiet portfolio masthead.
+Current status: Step 4 complete; Step 5 next.
+Next step: Step 5 work page tokenization and evidence flattening.
 
 ## Step Checklist
 - [x] Step 0: Progress and Changelog Tracking Setup
 - [x] Step 1: Baseline Gates and Visual Reference
 - [x] Step 2: Global Token, Typography, Motion, and Overflow Foundation
 - [x] Step 3: Home Page Section Rhythm and Eyebrow Reduction
-- [ ] Step 4: Quiet Portfolio Masthead
+- [x] Step 4: Quiet Portfolio Masthead
 - [ ] Step 5: Work Page Tokenization and Evidence Flattening
 - [ ] Step 6: About Page Focus Layout and Token Cleanup
 - [ ] Step 7: Audited Scope Token Pass and Final Verification
@@ -82,3 +82,18 @@ After each completed step, update this file with:
     - `NEXT_TELEMETRY_DISABLED=1 NEXT_PUBLIC_SITE_URL=https://personal-webpage-three-woad.vercel.app bun run build`: passed.
   - Commit reference: this commit.
   - Next step: Step 4 quiet portfolio masthead.
+- 2026-06-30: Completed Step 4 quiet portfolio masthead.
+  - Changes:
+    - Moved Resume into the regular primary navigation route list.
+    - Removed the standalone header resume CTA button and its unused compact button styling.
+    - Softened the masthead with tokenized tinted paper, quieter brand typography, smaller logo treatment, and restrained nav state styling.
+    - Added a source invariant confirming the header no longer renders `button-compact`.
+  - Validation:
+    - `bun run format`: passed.
+    - `bun run lint`: passed.
+    - `bun run typecheck`: passed.
+    - `bun run test`: passed, 25 tests.
+    - `NEXT_TELEMETRY_DISABLED=1 NEXT_PUBLIC_SITE_URL=http://localhost:3000 bun run test:e2e`: passed, 48 tests.
+    - `NEXT_TELEMETRY_DISABLED=1 NEXT_PUBLIC_SITE_URL=https://personal-webpage-three-woad.vercel.app bun run build`: passed.
+  - Commit reference: this commit.
+  - Next step: Step 5 work page tokenization and evidence flattening.
