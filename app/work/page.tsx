@@ -105,19 +105,19 @@ function TechnicalHeroVisual() {
         <title>Decorative technical blueprint illustration</title>
         <defs>
           <linearGradient id="work-cube-top" x1="0" x2="1" y1="0" y2="1">
-            <stop offset="0" stopColor="#12336c" />
-            <stop offset="1" stopColor="#071a3b" />
+            <stop offset="0" stopColor="var(--work-cube-top-start)" />
+            <stop offset="1" stopColor="var(--work-cube-top-end)" />
           </linearGradient>
           <linearGradient id="work-cube-side" x1="0" x2="1" y1="0" y2="1">
-            <stop offset="0" stopColor="#0b2a63" />
-            <stop offset="1" stopColor="#061025" />
+            <stop offset="0" stopColor="var(--work-cube-side-start)" />
+            <stop offset="1" stopColor="var(--work-cube-side-end)" />
           </linearGradient>
           <filter id="work-soft-shadow" x="-30%" y="-30%" width="160%" height="170%">
             <feDropShadow
               dx="0"
               dy="22"
               stdDeviation="18"
-              floodColor="#082456"
+              floodColor="var(--work-shadow-blue)"
               floodOpacity="0.2"
             />
           </filter>
@@ -180,7 +180,7 @@ function TechnicalHeroVisual() {
         <g className="work-cube" filter="url(#work-soft-shadow)">
           <path d="M360 94 432 52l72 42-72 42Z" fill="url(#work-cube-top)" />
           <path d="M360 94v74l72 42v-74Z" fill="url(#work-cube-side)" />
-          <path d="M504 94v74l-72 42v-74Z" fill="#08275d" />
+          <path d="M504 94v74l-72 42v-74Z" fill="var(--work-cube-face)" />
           <path d="M360 94 432 136l72-42" />
           <path d="M432 136v74" />
           <text x="432" y="118" textAnchor="middle">
@@ -260,7 +260,7 @@ function SupportingProjectCard({ project }: { project: Project }) {
       </div>
       <h2>{project.title}</h2>
       <p className="work-project-summary">{project.shortDescription}</p>
-      <div className="work-evidence-box">
+      <div className="work-evidence-line">
         <span>
           <ShieldCheck aria-hidden="true" size={16} strokeWidth={2.1} />
           Proof / evidence

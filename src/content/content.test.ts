@@ -27,6 +27,7 @@ const expectedSlugs = [
 ] as const;
 const globalCss = readFileSync(new URL("../../app/globals.css", import.meta.url), "utf8");
 const homePageSource = readFileSync(new URL("../../app/page.tsx", import.meta.url), "utf8");
+const workPageSource = readFileSync(new URL("../../app/work/page.tsx", import.meta.url), "utf8");
 const siteShellSource = readFileSync(
   new URL("../../src/components/site-shell.tsx", import.meta.url),
   "utf8"
@@ -378,6 +379,20 @@ describe("website content invariants", () => {
     assert.match(anchor, /var\(--duration-fast\)\s+var\(--ease-standard\)/);
     assert.ok(focusVisible);
     assert.match(focusVisible, /outline:\s*3px solid var\(--focus-ring\);/);
+  });
+
+  test("work page flattens evidence and tokenizes SVG color values", () => {
+    assert.doesNotMatch(workPageSource, /work-evidence-box/);
+    assert.match(workPageSource, /work-evidence-line/);
+    assert.doesNotMatch(workPageSource, /stopColor="#/);
+    assert.doesNotMatch(workPageSource, /floodColor="#/);
+    assert.doesNotMatch(workPageSource, /fill="#/);
+    assert.doesNotMatch(globalCss, /\.work-evidence-box/);
+    assert.match(globalCss, /\.work-evidence-line\s*{/);
+    assert.match(
+      globalCss,
+      /animation:\s*work-rise var\(--work-rise-duration\).*var\(--ease-standard\)/
+    );
   });
 
   test("Next config applies conservative global security headers", async () => {
