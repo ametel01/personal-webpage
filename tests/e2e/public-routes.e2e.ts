@@ -3,6 +3,15 @@ import { projects } from "../../src/content/projects";
 
 const projectRoutes = projects.map((project) => `/work/${project.slug}`);
 const publicRoutes = ["/", "/work", ...projectRoutes, "/about", "/resume"] as const;
+const homepageFeaturedSlugs = new Set([
+  "agentreceipt",
+  "scopepilot",
+  "aggsandbox",
+  "voyager-verifier"
+]);
+const homepageFeaturedProjects = projects.filter((project) =>
+  homepageFeaturedSlugs.has(project.slug)
+);
 
 test.describe("public routes", () => {
   for (const route of publicRoutes) {
@@ -21,32 +30,44 @@ test.describe("public routes", () => {
     });
   }
 
-  test("homepage renders every selected project proof signal", async ({ page }) => {
+  test("homepage renders the curated project set with current evidence", async ({ page }) => {
     await page.goto("/");
 
     const selectedWork = page.locator("#selected-work");
 
-    for (const project of projects) {
+    await expect(selectedWork.locator(".home-project-card")).toHaveCount(4);
+
+    for (const project of homepageFeaturedProjects) {
       await expect(selectedWork.getByText(project.title, { exact: true })).toBeVisible();
       await expect(
-        selectedWork.getByText(`Proof: ${project.proof}`, { exact: true })
+        selectedWork.getByText(project.metadata.currentState, { exact: true })
       ).toBeVisible();
     }
   });
 
-  test("homepage incomplete card rows stay in normal grid flow", async ({ page }) => {
+  test("homepage project grid and contribution list stay aligned", async ({ page }) => {
     await page.setViewportSize({ width: 1220, height: 900 });
     await page.goto("/");
 
-    for (const selector of [".home-project-card", ".open-source-card"]) {
-      const cards = page.locator(selector);
-      const firstCard = await cards.first().boundingBox();
-      const lastCard = await cards.last().boundingBox();
+    const cards = page.locator(".home-project-card");
+    const cardBoxes = await Promise.all(
+      Array.from({ length: await cards.count() }, (_, index) => cards.nth(index).boundingBox())
+    );
 
-      expect(firstCard).not.toBeNull();
-      expect(lastCard).not.toBeNull();
-      expect(lastCard?.x).toBe(firstCard?.x);
-    }
+    expect(cardBoxes).toHaveLength(4);
+    expect(cardBoxes.every(Boolean)).toBe(true);
+    expect(cardBoxes[0]?.y).toBe(cardBoxes[1]?.y);
+    expect(cardBoxes[2]?.y).toBe(cardBoxes[3]?.y);
+    expect(cardBoxes[0]?.x).toBe(cardBoxes[2]?.x);
+    expect(cardBoxes[1]?.x).toBe(cardBoxes[3]?.x);
+
+    const contributionRows = page.locator(".open-source-row");
+    const firstRow = await contributionRows.first().boundingBox();
+    const lastRow = await contributionRows.last().boundingBox();
+
+    expect(firstRow).not.toBeNull();
+    expect(lastRow).not.toBeNull();
+    expect(lastRow?.x).toBe(firstRow?.x);
   });
 
   test("about page renders the portrait with alt text", async ({ page }) => {

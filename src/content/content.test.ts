@@ -25,6 +25,12 @@ const expectedSlugs = [
   "voyager-verifier",
   "horizon-starknet"
 ] as const;
+const homepageFeaturedSlugs: readonly (typeof expectedSlugs)[number][] = [
+  "agentreceipt",
+  "scopepilot",
+  "aggsandbox",
+  "voyager-verifier"
+];
 const globalCss = readFileSync(new URL("../../app/globals.css", import.meta.url), "utf8");
 const homePageSource = readFileSync(new URL("../../app/page.tsx", import.meta.url), "utf8");
 const aboutPageSource = readFileSync(new URL("../../app/about/page.tsx", import.meta.url), "utf8");
@@ -266,9 +272,15 @@ describe("website content invariants", () => {
     assert.equal(JSON.stringify(technicalFocusGroups).includes("AWS"), false);
   });
 
-  test("homepage section headings do not require repeated eyebrows", () => {
-    assert.doesNotMatch(homePageSource, /label="(?:Technical Focus|Experience Snapshot|Contact)"/);
-    assert.match(homePageSource, /label\?: string;/);
+  test("homepage keeps one direct path into a curated work set", () => {
+    assert.match(homePageSource, /Explore selected work/);
+    assert.match(homePageSource, /View all 7 case studies/);
+    assert.doesNotMatch(homePageSource, /page-eyebrow|section-eyebrow/);
+    assert.doesNotMatch(homePageSource, /technicalFocusGroups|proofBarItems/);
+
+    for (const slug of ["agentreceipt", "scopepilot", "aggsandbox", "voyager-verifier"] as const) {
+      assert.match(homePageSource, new RegExp(`"${slug}"`));
+    }
   });
 
   test("technology icon registry covers public stack terms", () => {
@@ -333,14 +345,17 @@ describe("website content invariants", () => {
     assert.ok(existsSync(new URL("../../public/icons/go.png", import.meta.url)));
   });
 
-  test("global CSS keeps documented layout and proof bar invariants", () => {
+  test("global CSS keeps documented layout and distilled homepage invariants", () => {
     assert.match(globalCss, /--container:\s*1180px;/);
+    assert.doesNotMatch(globalCss, /\.proof-band\s*{/);
 
-    const proofBand = globalCss.match(/\.proof-band\s*{(?<body>[^}]*)}/);
+    const projectGrid = cssRuleBody(".home-project-grid");
+    const openSourceRow = cssRuleBody(".open-source-row");
 
-    assert.ok(proofBand?.groups?.body);
-    assert.match(proofBand.groups.body, /background:\s*var\(--color-dark\);/);
-    assert.doesNotMatch(proofBand.groups.body, /gradient\(/);
+    assert.ok(projectGrid);
+    assert.match(projectGrid, /border-block:\s*1px solid var\(--color-border\);/);
+    assert.ok(openSourceRow);
+    assert.match(openSourceRow, /min-height:\s*72px;/);
   });
 
   test("global CSS centralizes public hero title typography", () => {
@@ -534,11 +549,15 @@ describe("website content invariants", () => {
       homeText,
       /I build backend systems and developer tools for AI-assisted, correctness-sensitive engineering workflows\./
     );
-    assert.match(homeText, /Open Source Contributions/);
+    assert.match(homeText, /Open-source contributions/);
     assert.match(homeText, /Apache DataFusion/);
 
-    for (const project of projects) {
-      assert.match(homeText, new RegExp(`Proof:\\s+${escapeRegExp(project.proof)}`));
+    for (const slug of homepageFeaturedSlugs) {
+      const project = getProject(slug);
+
+      assert.ok(project);
+      assert.match(homeText, new RegExp(escapeRegExp(project.valueStatement)));
+      assert.match(homeText, new RegExp(escapeRegExp(project.metadata.currentState)));
     }
 
     for (const contribution of openSourceContributions) {
