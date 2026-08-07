@@ -28,6 +28,16 @@
     }
   },
   "files": {
-    "includes": ["**", "!node_modules", "!.next", "!out", "!coverage", "!test-results", "!.vercel"]
+    "includes": [
+      "**",
+      "!node_modules",
+      "!.next",
+      "!out",
+      "!coverage",
+      "!test-results",
+      "!.vercel",
+      "!.agents",
+      "!.github/skills"
+    ]
   }
 }
