@@ -70,6 +70,49 @@ test.describe("public routes", () => {
     expect(lastRow?.x).toBe(firstRow?.x);
   });
 
+  test("homepage adapts across compact, touch, and wide viewports", async ({ page }) => {
+    for (const viewport of [
+      { width: 320, height: 900 },
+      { width: 667, height: 375 },
+      { width: 768, height: 1024 },
+      { width: 2560, height: 1440 }
+    ]) {
+      await page.setViewportSize(viewport);
+      await page.goto("/");
+
+      const layout = await page.evaluate(() => ({
+        documentWidth: document.documentElement.scrollWidth,
+        viewportWidth: window.innerWidth,
+        selectedWorkWidth: document.querySelector("#selected-work .container")?.clientWidth ?? 0
+      }));
+
+      expect(layout.documentWidth).toBeLessThanOrEqual(layout.viewportWidth + 1);
+
+      if (viewport.width === 320) {
+        const navLinks = page.locator(".site-primary-nav .nav-link");
+
+        for (let index = 0; index < (await navLinks.count()); index += 1) {
+          const box = await navLinks.nth(index).boundingBox();
+
+          expect(box?.width).toBeGreaterThanOrEqual(44);
+          expect(box?.height).toBeGreaterThanOrEqual(44);
+        }
+
+        const cardHeader = page.locator(".home-project-card-header").first();
+        const iconBox = await cardHeader.locator(".project-logo").boundingBox();
+        const titleBox = await cardHeader.locator(".home-project-title").boundingBox();
+
+        expect((iconBox?.y ?? 0) + (iconBox?.height ?? 0) / 2).toBeCloseTo(
+          (titleBox?.y ?? 0) + (titleBox?.height ?? 0) / 2
+        );
+      }
+
+      if (viewport.width === 2560) {
+        expect(layout.selectedWorkWidth).toBeLessThanOrEqual(1180);
+      }
+    }
+  });
+
   test("about page renders the portrait with alt text", async ({ page }) => {
     await page.goto("/about");
 
