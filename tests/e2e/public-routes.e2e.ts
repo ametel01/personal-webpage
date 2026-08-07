@@ -34,6 +34,21 @@ test.describe("public routes", () => {
     }
   });
 
+  test("homepage incomplete card rows stay in normal grid flow", async ({ page }) => {
+    await page.setViewportSize({ width: 1220, height: 900 });
+    await page.goto("/");
+
+    for (const selector of [".home-project-card", ".open-source-card"]) {
+      const cards = page.locator(selector);
+      const firstCard = await cards.first().boundingBox();
+      const lastCard = await cards.last().boundingBox();
+
+      expect(firstCard).not.toBeNull();
+      expect(lastCard).not.toBeNull();
+      expect(lastCard?.x).toBe(firstCard?.x);
+    }
+  });
+
   test("about page renders the portrait with alt text", async ({ page }) => {
     await page.goto("/about");
 
