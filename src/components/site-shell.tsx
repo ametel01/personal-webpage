@@ -39,6 +39,9 @@ const footerLinks = [
 export function SiteShell({ children }: { children: ReactNode }) {
   return (
     <>
+      <a className="skip-link" href="#main-content">
+        Skip to main content
+      </a>
       <SiteHeader />
       {children}
       <SiteFooter />
@@ -108,7 +111,7 @@ function SiteFooter() {
                     {item.label}
                   </ExternalLink>
                 ) : (
-                  <Link className="footer-link" href={item.href}>
+                  <Link className="footer-link" href={item.href} prefetch={false}>
                     <item.icon aria-hidden="true" size={17} strokeWidth={2.2} />
                     {item.label}
                   </Link>

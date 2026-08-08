@@ -20,6 +20,7 @@ test.describe("public routes", () => {
 
       expect(response?.ok()).toBe(true);
       await expect(page.locator("h1:visible")).toHaveCount(1);
+      await expect(page.locator("main#main-content")).toHaveCount(1);
       await expect(page.locator('a[href=""]')).toHaveCount(0);
 
       const overflowsHorizontally = await page.evaluate(
@@ -29,6 +30,24 @@ test.describe("public routes", () => {
       expect(overflowsHorizontally).toBe(false);
     });
   }
+
+  test("skip navigation bypasses the repeated site header", async ({ page }) => {
+    await page.goto("/");
+
+    const skipLink = page.getByRole("link", { name: "Skip to main content" });
+    const mainContent = page.locator("main#main-content");
+
+    await expect(skipLink).not.toBeInViewport();
+
+    await page.keyboard.press("Tab");
+
+    await expect(skipLink).toBeFocused();
+    await expect(skipLink).toBeInViewport();
+
+    await page.keyboard.press("Enter");
+
+    await expect(mainContent).toBeFocused();
+  });
 
   test("homepage renders the curated project set with current evidence", async ({ page }) => {
     await page.goto("/");
@@ -43,6 +62,14 @@ test.describe("public routes", () => {
         selectedWork.getByText(project.metadata.currentState, { exact: true })
       ).toBeVisible();
     }
+  });
+
+  test("deferred homepage project links navigate on demand", async ({ page }) => {
+    await page.goto("/");
+    await page.locator(".home-project-card").first().click();
+
+    await expect(page).toHaveURL("/work/agentreceipt");
+    await expect(page.getByRole("heading", { level: 1, name: "AgentReceipt" })).toBeVisible();
   });
 
   test("homepage project grid and contribution list stay aligned", async ({ page }) => {
@@ -87,6 +114,13 @@ test.describe("public routes", () => {
       }));
 
       expect(layout.documentWidth).toBeLessThanOrEqual(layout.viewportWidth + 1);
+
+      if (viewport.width === 320 || viewport.width === 667) {
+        const brandBox = await page.locator(".site-brand-link").boundingBox();
+
+        expect(brandBox?.width).toBeGreaterThanOrEqual(44);
+        expect(brandBox?.height).toBeGreaterThanOrEqual(44);
+      }
 
       if (viewport.width === 320) {
         const navLinks = page.locator(".site-primary-nav .nav-link");
@@ -140,21 +174,31 @@ test.describe("public routes", () => {
     expect(clipPath).toBe("none");
   });
 
-  test("reduced motion removes entrance delays", async ({ page }) => {
+  test("reduced motion removes decorative movement without suppressing state feedback", async ({
+    page
+  }) => {
     await page.emulateMedia({ reducedMotion: "reduce" });
     await page.goto("/");
 
     const motion = await page.evaluate(() => {
-      const styles = getComputedStyle(document.querySelector(".home-hero-title") as HTMLElement);
+      const title = getComputedStyle(document.querySelector(".home-hero-title") as HTMLElement);
+      const link = getComputedStyle(document.querySelector(".home-resume-link") as HTMLElement);
+      const skipLink = getComputedStyle(document.querySelector(".skip-link") as HTMLElement);
 
       return {
-        delay: styles.animationDelay,
-        duration: styles.animationDuration
+        animationName: title.animationName,
+        linkTransitionDuration: link.transitionDuration,
+        linkTransitionProperty: link.transitionProperty,
+        scrollBehavior: getComputedStyle(document.documentElement).scrollBehavior,
+        skipTransitionDuration: skipLink.transitionDuration
       };
     });
 
-    expect(motion.delay).toBe("0s");
-    expect(Number.parseFloat(motion.duration)).toBeLessThanOrEqual(0.001);
+    expect(motion.animationName).toBe("none");
+    expect(motion.scrollBehavior).toBe("auto");
+    expect(motion.linkTransitionProperty).toContain("color");
+    expect(Number.parseFloat(motion.linkTransitionDuration)).toBeGreaterThan(0);
+    expect(motion.skipTransitionDuration).toBe("0s");
   });
 
   test("about page renders the portrait with alt text", async ({ page }) => {

@@ -44,7 +44,7 @@ const featuredProjects = projects.filter((project) => featuredSlugs.has(project.
 
 export default function Home() {
   return (
-    <main>
+    <main id="main-content" tabIndex={-1}>
       <script type="application/ld+json">{personJsonLdScript}</script>
 
       <Section className="hero-section">
@@ -114,7 +114,7 @@ export default function Home() {
         <Container>
           <div className="home-section-header">
             <h2 className="section-title">Engineering experience</h2>
-            <Link className="section-text-link" href="/resume">
+            <Link className="section-text-link" href="/resume" prefetch={false}>
               Read full resume
               <ArrowRight aria-hidden="true" size={16} strokeWidth={2.4} />
             </Link>
@@ -151,7 +151,7 @@ export default function Home() {
 function ProjectCard({ project }: { project: Project }) {
   return (
     <article className="avoid-break">
-      <Link className="home-project-card" href={`/work/${project.slug}`}>
+      <Link className="home-project-card" href={`/work/${project.slug}`} prefetch={false}>
         <div className="home-project-card-header">
           <ProjectIcon icon={project.icon} size="home" />
           <h3 className="card-title home-project-title">{project.title}</h3>

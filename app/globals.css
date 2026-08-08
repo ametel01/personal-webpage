@@ -30,9 +30,12 @@
 
   --color-tag-bg: oklch(93.5% 0.012 255);
   --color-tag-text: oklch(32% 0.036 258);
+  --color-header-surface: oklch(98.6% 0.007 84 / 0.88);
 
   --shadow-card: 0 1px 2px oklch(18.5% 0.04 259 / 0.03), 0 12px 28px oklch(18.5% 0.04 259 / 0.035);
   --shadow-button: 0 10px 18px oklch(18.5% 0.04 259 / 0.18);
+  --shadow-project-mark: 0 10px 22px oklch(38% 0.135 263 / 0.12);
+  --shadow-project-mark-hover: 0 14px 28px oklch(38% 0.135 263 / 0.16);
   --focus-ring: oklch(52% 0.14 263 / 0.36);
   --duration-fast: 160ms;
   --duration-base: 180ms;
@@ -139,6 +142,33 @@ button {
   border-radius: 6px;
   outline: 3px solid var(--focus-ring);
   outline-offset: 4px;
+}
+
+.skip-link {
+  position: fixed;
+  top: 0.75rem;
+  inset-inline-start: 0.75rem;
+  z-index: 100;
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  border-radius: 6px;
+  background: var(--color-primary);
+  color: var(--color-on-dark);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  line-height: 1;
+  padding-inline: 1rem;
+  box-shadow: var(--shadow-button);
+  transform: translateY(calc(-100% - 1rem));
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+#main-content:focus {
+  outline: none;
 }
 
 .container {
@@ -426,7 +456,7 @@ button {
   }
 
   :where(.home-project-card:hover) .project-logo {
-    box-shadow: 0 14px 28px oklch(38% 0.135 263 / 0.16);
+    box-shadow: var(--shadow-project-mark-hover);
     transform: translateY(-2px) scale(1.025);
   }
 }
@@ -578,7 +608,7 @@ button {
   top: 0;
   z-index: 20;
   border-bottom: 1px solid var(--color-border-soft);
-  background: oklch(98.6% 0.007 84 / 0.88);
+  background: var(--color-header-surface);
   backdrop-filter: blur(14px) saturate(1.08);
 }
 
@@ -593,7 +623,7 @@ button {
 .site-brand-link {
   display: flex;
   min-height: 44px;
-  min-width: 0;
+  min-width: 44px;
   align-items: center;
   gap: 0.9rem;
   color: var(--color-text);
@@ -806,7 +836,7 @@ button {
     var(--color-surface-raised) 0%,
     var(--color-primary-soft) 100%
   );
-  box-shadow: 0 10px 22px oklch(38% 0.135 263 / 0.12);
+  box-shadow: var(--shadow-project-mark);
   transition:
     box-shadow var(--duration-base) var(--ease-standard),
     transform var(--duration-base) var(--ease-standard);
@@ -999,7 +1029,7 @@ button {
 
   .case-study-nav-list a {
     display: inline-flex;
-    min-height: 34px;
+    min-height: 44px;
     align-items: center;
     border: 1px solid var(--color-border);
     border-radius: 6px;
@@ -2139,14 +2169,39 @@ button {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-delay: 0ms !important;
-    animation-duration: 0.001ms !important;
-    animation-iteration-count: 1 !important;
-    scroll-behavior: auto !important;
-    transition-duration: 0.001ms !important;
+  html {
+    scroll-behavior: auto;
+  }
+
+  .home-hero-title,
+  .work-blueprint,
+  .work-cube,
+  .work-nodes circle {
+    animation: none !important;
+    clip-path: none;
+    filter: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .skip-link,
+  .nav-link::after {
+    transition: none;
+  }
+
+  :where(
+    .button,
+    .home-project-card,
+    .project-logo,
+    .work-primary-cta,
+    .work-project-card,
+    .work-text-cta,
+    .work-secondary-cta,
+    .lucide-arrow-right,
+    .lucide-arrow-left,
+    .lucide-arrow-up-right
+  ) {
+    transform: none !important;
   }
 }
 
@@ -2376,7 +2431,7 @@ button {
     var(--color-primary-soft) 100%
   );
   color: var(--work-blue);
-  box-shadow: 0 10px 22px oklch(38% 0.135 263 / 0.12);
+  box-shadow: var(--shadow-project-mark);
 }
 
 .work-metric-icon {
@@ -2646,8 +2701,9 @@ button {
 
 .work-text-cta {
   width: fit-content;
+  min-height: 44px;
   margin-top: auto;
-  padding-top: 1.35rem;
+  padding-block: 0.65rem;
   color: var(--work-blue-dark);
 }
 

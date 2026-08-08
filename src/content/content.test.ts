@@ -283,6 +283,25 @@ describe("website content invariants", () => {
     }
   });
 
+  test("below-fold navigation defers route prefetch", () => {
+    const projectCardLink = homePageSource.match(
+      /<Link(?<props>[^>]*className="home-project-card"[^>]*)>/
+    )?.groups?.props;
+    const footerLink = siteShellSource.match(/<Link(?<props>[^>]*className="footer-link"[^>]*)>/)
+      ?.groups?.props;
+
+    assert.ok(projectCardLink);
+    assert.match(projectCardLink, /prefetch={false}/);
+    assert.ok(footerLink);
+    assert.match(footerLink, /prefetch={false}/);
+    assert.match(
+      homePageSource,
+      /<Link className="section-text-link" href="\/resume" prefetch={false}>/
+    );
+    assert.match(homePageSource, /<Link className="home-resume-link" href="\/resume">/);
+    assert.doesNotMatch(siteShellSource, /className="nav-link"[^>]*prefetch={false}/);
+  });
+
   test("technology icon registry covers public stack terms", () => {
     const expectedIconizedTerms = [
       "TypeScript",
@@ -397,6 +416,15 @@ describe("website content invariants", () => {
     assert.match(root, /--duration-fast:\s*160ms;/);
     assert.match(root, /--ease-standard:\s*cubic-bezier\(/);
     assert.match(root, /--focus-ring:\s*oklch\(/);
+    assert.match(root, /--color-header-surface:\s*oklch\(/);
+    assert.match(root, /--shadow-project-mark:\s*0 10px 22px oklch\(/);
+    assert.match(root, /--shadow-project-mark-hover:\s*0 14px 28px oklch\(/);
+
+    const siteHeader = cssRuleBody(".site-header");
+
+    assert.ok(siteHeader);
+    assert.match(siteHeader, /background:\s*var\(--color-header-surface\);/);
+    assert.match(globalCss, /\n\.project-logo\s*{[^}]*box-shadow:\s*var\(--shadow-project-mark\);/);
 
     assert.ok(html);
     assert.match(html, /overflow-x:\s*clip;/);
@@ -426,8 +454,9 @@ describe("website content invariants", () => {
     assert.doesNotMatch(globalCss, /@keyframes\s+work-rise/);
     assert.match(
       globalCss,
-      /@media\s*\(prefers-reduced-motion:\s*reduce\)[\s\S]*animation-delay:\s*0ms !important;/
+      /@media\s*\(prefers-reduced-motion:\s*reduce\)[\s\S]*animation:\s*none !important;/
     );
+    assert.doesNotMatch(globalCss, /transition-duration:\s*0\.001ms !important/);
   });
 
   test("Next config applies conservative global security headers", async () => {
