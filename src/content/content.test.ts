@@ -118,7 +118,7 @@ describe("website content invariants", () => {
     }
   });
 
-  test("projects have required case study fields and real evidence links", () => {
+  test("projects expose the complete technical case-study structure and real links", () => {
     assert.equal(projects.length, 7);
 
     for (const project of projects) {
@@ -131,18 +131,43 @@ describe("website content invariants", () => {
       assert.ok(project.metadata.role.length > 0);
       assert.ok(project.metadata.stack.length > 0);
       assert.ok(project.metadata.currentState.length > 0);
-      assert.ok(project.caseStudy.overview.length > 0);
+      assert.ok(project.caseStudy.definition.length > 0);
       assert.ok(project.caseStudy.problem.length > 0);
       assert.ok(project.caseStudy.role.length > 0);
-      assert.ok(project.caseStudy.technicalDetails.length > 0);
+      assert.ok(project.caseStudy.architecture.length > 0);
+      assert.ok(project.caseStudy.decisions.length > 0);
+      assert.ok(project.caseStudy.hardProblems.length > 0);
       assert.ok(project.caseStudy.tradeoffs.length > 0);
       assert.ok(project.caseStudy.currentState.length > 0);
       assert.ok(project.caseStudy.evidence.length > 0);
+      assert.ok(project.caseStudy.relatedWriting.length > 0);
+      assert.match(project.caseStudy.lastUpdated, /^\d{4}-\d{2}-\d{2}$/);
 
-      for (const link of project.caseStudy.evidence) {
+      for (const link of [...project.caseStudy.evidence, ...project.caseStudy.relatedWriting]) {
         assert.match(link.href, /^https:\/\//);
         assert.equal(link.href.includes("example.com"), false);
       }
+
+      if (project.caseStudy.implementationExample) {
+        assert.ok(project.caseStudy.implementationExample.label.length > 0);
+        assert.ok(project.caseStudy.implementationExample.code.length > 0);
+      }
+
+      const caseStudyCopy = [
+        project.caseStudy.definition,
+        project.caseStudy.problem,
+        project.caseStudy.role,
+        ...project.caseStudy.architecture,
+        project.caseStudy.implementationExample?.label ?? "",
+        ...project.caseStudy.decisions,
+        ...project.caseStudy.hardProblems,
+        ...project.caseStudy.tradeoffs,
+        project.caseStudy.currentState,
+        ...project.caseStudy.evidence.map((link) => link.label),
+        ...project.caseStudy.relatedWriting.map((link) => link.label)
+      ].join(" ");
+
+      assert.doesNotMatch(caseStudyCopy, /\b(?:advanced|powerful|production-grade)\b/i);
     }
   });
 
@@ -574,9 +599,15 @@ describe("website content invariants", () => {
       assert.equal(projectNode["@id"], `https://www.ametel.dev/work/${project.slug}#project`);
       assert.deepStrictEqual(projectNode.creator, { "@id": seoEntity.personId });
       assert.deepStrictEqual(projectNode.author, { "@id": seoEntity.personId });
+      assert.equal(projectNode.dateModified, project.caseStudy.lastUpdated);
+      assert.deepStrictEqual(
+        projectNode.citation,
+        project.caseStudy.relatedWriting.map(({ href }) => href)
+      );
       assert.ok(webPage);
       assert.deepStrictEqual(webPage.isPartOf, { "@id": seoEntity.websiteId });
       assert.deepStrictEqual(webPage.mainEntity, { "@id": projectNode["@id"] });
+      assert.equal(webPage.dateModified, project.caseStudy.lastUpdated);
       assert.ok(breadcrumbs);
       assert.equal((breadcrumbs.itemListElement as unknown[]).length, 3);
 
@@ -701,7 +732,21 @@ describe("website content invariants", () => {
       const pageText = collectText(element);
 
       assert.match(pageText, new RegExp(project.title));
-      assert.match(pageText, /Case Study/);
+      for (const sectionTitle of [
+        "One-sentence definition",
+        "Problem being solved",
+        "My specific role",
+        "Architecture or implementation",
+        "Important design decisions",
+        "Hard technical problems",
+        "Tradeoffs and limitations",
+        "Current state",
+        "Verifiable evidence",
+        "Related writing",
+        "Last-updated date"
+      ]) {
+        assert.match(pageText, new RegExp(sectionTitle));
+      }
     }
   });
 

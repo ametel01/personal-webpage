@@ -128,15 +128,15 @@ test.describe("public routes", () => {
       expect(box?.height).toBeGreaterThanOrEqual(44);
     }
 
-    await page.getByRole("link", { name: "Technical details", exact: true }).click();
+    await page.getByRole("link", { name: "Architecture or implementation", exact: true }).click();
 
     const anchorLanding = await page.evaluate(() => ({
       hash: window.location.hash,
       headerBottom: document.querySelector(".site-header")?.getBoundingClientRect().bottom ?? 0,
-      targetTop: document.querySelector("#technical-details")?.getBoundingClientRect().top ?? 0
+      targetTop: document.querySelector("#architecture")?.getBoundingClientRect().top ?? 0
     }));
 
-    expect(anchorLanding.hash).toBe("#technical-details");
+    expect(anchorLanding.hash).toBe("#architecture");
     expect(anchorLanding.targetTop).toBeGreaterThan(anchorLanding.headerBottom);
   });
 

@@ -69,7 +69,6 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
             </Link>
             <header className="page-header project-detail-header">
               <div>
-                <p className="page-eyebrow project-detail-eyebrow">Case Study</p>
                 <h1 className="hero-title page-title">{project.title}</h1>
                 <p className="page-description">{project.shortDescription}</p>
               </div>
@@ -99,39 +98,53 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                 </ol>
               </nav>
               <div className="case-study-content">
-                <CaseSection id="overview" title="Overview">
-                  <p>{project.caseStudy.overview}</p>
+                <CaseSection id="definition" title="One-sentence definition">
+                  <p>{project.caseStudy.definition}</p>
                 </CaseSection>
-                <CaseSection id="problem" title="Problem">
+                <CaseSection id="problem" title="Problem being solved">
                   <p>{project.caseStudy.problem}</p>
                 </CaseSection>
-                <CaseSection id="role" title="My role">
+                <CaseSection id="role" title="My specific role">
                   <p>{project.caseStudy.role}</p>
                 </CaseSection>
-                <CaseSection id="technical-details" title="Technical details">
-                  <BulletList items={project.caseStudy.technicalDetails} />
+                <CaseSection id="architecture" title="Architecture or implementation">
+                  <BulletList items={project.caseStudy.architecture} />
+                  {project.caseStudy.implementationExample ? (
+                    <figure className="case-implementation-example">
+                      <figcaption>{project.caseStudy.implementationExample.label}</figcaption>
+                      <pre>
+                        <code>{project.caseStudy.implementationExample.code}</code>
+                      </pre>
+                    </figure>
+                  ) : null}
                 </CaseSection>
-                <CaseSection id="tradeoffs" title="Hard parts and tradeoffs">
+                <CaseSection id="design-decisions" title="Important design decisions">
+                  <BulletList items={project.caseStudy.decisions} />
+                </CaseSection>
+                <CaseSection id="hard-problems" title="Hard technical problems">
+                  <BulletList items={project.caseStudy.hardProblems} />
+                </CaseSection>
+                <CaseSection id="tradeoffs" title="Tradeoffs and limitations">
                   <BulletList items={project.caseStudy.tradeoffs} />
                 </CaseSection>
                 <CaseSection id="current-state" title="Current state">
                   <p>{project.caseStudy.currentState}</p>
                 </CaseSection>
-                <CaseSection id="evidence" title="Evidence">
-                  {project.caseStudy.evidence.length > 0 ? (
-                    <ul className="case-evidence-list">
-                      {project.caseStudy.evidence.map((link) => (
-                        <li key={link.href}>
-                          <ExternalLink className="case-evidence-link" href={link.href}>
-                            {link.label}
-                            <ArrowUpRight aria-hidden="true" size={16} strokeWidth={2.4} />
-                          </ExternalLink>
-                        </li>
-                      ))}
-                    </ul>
-                  ) : (
-                    <p>Evidence links are omitted until there is a defensible public artifact.</p>
-                  )}
+                <CaseSection id="evidence" title="Verifiable evidence">
+                  <EvidenceList links={project.caseStudy.evidence} />
+                </CaseSection>
+                <CaseSection id="related-writing" title="Related writing">
+                  <EvidenceList
+                    emptyMessage="No separate technical writing has been published for this project."
+                    links={project.caseStudy.relatedWriting}
+                  />
+                </CaseSection>
+                <CaseSection id="last-updated" title="Last-updated date">
+                  <p>
+                    <time dateTime={project.caseStudy.lastUpdated}>
+                      {formatCaseStudyDate(project.caseStudy.lastUpdated)}
+                    </time>
+                  </p>
                 </CaseSection>
               </div>
             </div>
@@ -144,24 +157,32 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
 const caseStudySections = [
   {
-    id: "overview",
-    label: "Overview"
+    id: "definition",
+    label: "Definition"
   },
   {
     id: "problem",
-    label: "Problem"
+    label: "Problem being solved"
   },
   {
     id: "role",
-    label: "My role"
+    label: "My specific role"
   },
   {
-    id: "technical-details",
-    label: "Technical details"
+    id: "architecture",
+    label: "Architecture or implementation"
+  },
+  {
+    id: "design-decisions",
+    label: "Important design decisions"
+  },
+  {
+    id: "hard-problems",
+    label: "Hard technical problems"
   },
   {
     id: "tradeoffs",
-    label: "Hard parts and tradeoffs"
+    label: "Tradeoffs and limitations"
   },
   {
     id: "current-state",
@@ -169,7 +190,15 @@ const caseStudySections = [
   },
   {
     id: "evidence",
-    label: "Evidence"
+    label: "Verifiable evidence"
+  },
+  {
+    id: "related-writing",
+    label: "Related writing"
+  },
+  {
+    id: "last-updated",
+    label: "Last-updated date"
   }
 ] as const;
 
@@ -194,7 +223,7 @@ function CaseSection({ id, title, children }: { id: string; title: string; child
   return (
     <section className="body-copy case-section" id={id}>
       <h2 className="card-title">{title}</h2>
-      {children}
+      <div className="case-section-body">{children}</div>
     </section>
   );
 }
@@ -207,4 +236,38 @@ function BulletList({ items }: { items: readonly string[] }) {
       ))}
     </ul>
   );
+}
+
+function EvidenceList({
+  links,
+  emptyMessage = "Evidence links are omitted until there is a defensible public artifact."
+}: {
+  links: readonly { label: string; href: string }[];
+  emptyMessage?: string;
+}) {
+  if (links.length === 0) {
+    return <p>{emptyMessage}</p>;
+  }
+
+  return (
+    <ul className="case-evidence-list">
+      {links.map((link) => (
+        <li key={link.href}>
+          <ExternalLink className="case-evidence-link" href={link.href}>
+            {link.label}
+            <ArrowUpRight aria-hidden="true" size={16} strokeWidth={2.4} />
+          </ExternalLink>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+const caseStudyDateFormatter = new Intl.DateTimeFormat("en", {
+  dateStyle: "long",
+  timeZone: "UTC"
+});
+
+function formatCaseStudyDate(date: string) {
+  return caseStudyDateFormatter.format(new Date(`${date}T00:00:00Z`));
 }

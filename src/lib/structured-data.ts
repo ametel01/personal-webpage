@@ -177,6 +177,8 @@ export function createProjectStructuredData(project: Project): StructuredDataGra
       about: { "@id": projectId },
       mainEntity: { "@id": projectId },
       breadcrumb: { "@id": breadcrumbId },
+      dateModified: project.caseStudy.lastUpdated,
+      citation: project.caseStudy.relatedWriting.map(({ href }) => href),
       inLanguage: "en"
     },
     {
@@ -190,6 +192,8 @@ export function createProjectStructuredData(project: Project): StructuredDataGra
       author: personReference,
       keywords: project.tags,
       mainEntityOfPage: { "@id": pageId },
+      dateModified: project.caseStudy.lastUpdated,
+      citation: project.caseStudy.relatedWriting.map(({ href }) => href),
       sameAs: project.caseStudy.evidence.map(({ href }) => href),
       ...softwareDetails
     },

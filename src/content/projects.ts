@@ -3,6 +3,11 @@ export type EvidenceLink = {
   href: string;
 };
 
+export type ImplementationExample = {
+  label: string;
+  code: string;
+};
+
 export type ProjectIconAsset = {
   alt: string;
   src: string;
@@ -39,13 +44,18 @@ export type Project = ProjectStructuredData & {
     currentState: string;
   };
   caseStudy: {
-    overview: string;
+    definition: string;
     problem: string;
     role: string;
-    technicalDetails: readonly string[];
+    architecture: readonly string[];
+    implementationExample?: ImplementationExample;
+    decisions: readonly string[];
+    hardProblems: readonly string[];
     tradeoffs: readonly string[];
     currentState: string;
     evidence: readonly EvidenceLink[];
+    relatedWriting: readonly EvidenceLink[];
+    lastUpdated: string;
   };
 };
 
@@ -75,24 +85,40 @@ export const projects: readonly Project[] = [
     metadata: {
       role: "Independent developer infrastructure engineer",
       stack: ["Go", "CLI", "Ed25519", "Developer Infrastructure", "Observability", "Replay"],
-      currentState: "Public repository with a v0.9.0 release."
+      currentState: "Public Go CLI; latest tagged release is v0.10.1."
     },
     caseStudy: {
-      overview:
-        "AgentReceipt is a local-first CLI for AI coding sessions. It records developer-agent activity, signs receipts, and produces replay/focus reports that downstream reviewers or coding-agent loops can consume.",
+      definition:
+        "AgentReceipt is a local evidence sidecar that records AI-assisted coding sessions and exposes signed, machine-readable replay and review artifacts.",
       problem:
         "AI-assisted software work is hard to review when git state, filesystem changes, instruction context, provider logs, commands, quality checks, and final patch evidence are scattered across local tools.",
-      role: "I designed and built the CLI, evidence model, local capture workflow, receipt signing, replay/focus contracts, and verifier-facing review outputs.",
-      technicalDetails: [
-        "Captures git snapshots and diffs, filesystem watcher events, instruction-file metadata, and best-effort Codex or Claude provider evidence.",
-        "Exports signed receipts, portable replay bundles, PR-ready review artifacts, and machine-readable replay/focus JSON for verifier workflows.",
-        "Reports quality gates, failed commands, patch summaries, policy checks, privacy metadata, claims, outcomes, and ranked focus tasks for agent-friendly review loops."
+      role: "I designed and implemented the Go CLI, evidence model, git and filesystem capture, Ed25519 signing, replay/focus JSON contracts, installer, and reviewer-facing outputs. The broader project provides the complete sidecar workflow; my work spans its command surface and internal evidence pipeline.",
+      architecture: [
+        "A Cobra-based Go CLI coordinates explicit start/stop sessions, a git monitor, a filesystem watcher, and best-effort Codex JSONL or Claude hook ingestion.",
+        "Observed events are hash-chained and finalized into local receipts, signatures, patch artifacts, replay reports, and compact focus queues for coding-agent loops.",
+        "The machine-facing commands are sessions, focus, replay, schema, and verify diff; human review and export commands remain separate renderers over the same captured evidence."
+      ],
+      implementationExample: {
+        label: "Capture a session, inspect the next-step queue, and verify the final patch",
+        code: "agentreceipt start --watch\n# run the AI-assisted coding session\nagentreceipt stop\nagentreceipt focus --session <id>\nagentreceipt verify diff --session <id> --against merge-base --json"
+      },
+      decisions: [
+        "The CLI runs as a sidecar instead of launching or proxying the coding agent, so teams can keep their existing terminal workflow.",
+        "Git and filesystem observations are high-confidence sources; provider logs enrich the receipt but never block finalization when their format changes or data is missing.",
+        "Raw prompts, raw tool output, and provider logs stay out of exports by default, while JSON Schema defines stable contracts for machine consumers."
+      ],
+      hardProblems: [
+        "Matching a live Codex session log to the current repository without depending on an official provider API required best-effort parsing and explicit confidence degradation.",
+        "Patch verification has to distinguish captured session activity from later workspace changes while preserving enough evidence to explain mismatches.",
+        "Replay and focus outputs have to remain deterministic and compact enough for automation while still pointing back to the underlying event evidence."
       ],
       tradeoffs: [
-        "The CLI needs enough evidence for independent review while staying local-only and avoiding prompt upload by default.",
-        "Replay and focus outputs need stable contracts for automation without turning the tool into an agent scorer, policy engine, or orchestrator."
+        "Codex live watching is the primary provider path; Claude support is currently hook-based and does not provide equivalent transcript coverage.",
+        "Risk classification is heuristic, and AgentReceipt observes rather than sandboxing, approving, denying, or enforcing team policy.",
+        "Keeping evidence local protects prompt data but leaves hosted policy distribution, GitHub App enforcement, and organization-wide controls outside the current release."
       ],
-      currentState: "The project is public on GitHub with a tagged v0.9.0 release.",
+      currentState:
+        "The public repository's latest tagged release is v0.10.1, published June 21, 2026, with Linux and macOS release artifacts. The current workflow is local-only and Codex-first.",
       evidence: [
         {
           label: "GitHub repository",
@@ -103,10 +129,21 @@ export const projects: readonly Project[] = [
           href: "https://github.com/ametel01/agentreceipt/blob/main/README.md"
         },
         {
-          label: "v0.9.0 release",
-          href: "https://github.com/ametel01/agentreceipt/releases/tag/v0.9.0"
+          label: "v0.10.1 release",
+          href: "https://github.com/ametel01/agentreceipt/releases/tag/v0.10.1"
         }
-      ]
+      ],
+      relatedWriting: [
+        {
+          label: "Replay and focus contract specifications",
+          href: "https://github.com/ametel01/agentreceipt/blob/main/docs/REPLAY_SPECS.md"
+        },
+        {
+          label: "GitHub pull-request workflow design",
+          href: "https://github.com/ametel01/agentreceipt/blob/main/docs/GITHUB_PR_WORKFLOW_DESIGN.md"
+        }
+      ],
+      lastUpdated: "2026-08-09"
     }
   },
   {
@@ -127,30 +164,69 @@ export const projects: readonly Project[] = [
     metadata: {
       role: "Independent developer tools engineer",
       stack: ["TypeScript", "Bun", "CLI", "Static Analysis", "Agent Skills"],
-      currentState: "Public repository for local Agent Skill quality audits."
+      currentState: "Public TypeScript CLI; latest tagged release is v0.6.2."
     },
     caseStudy: {
-      overview:
-        "Skills Doctor audits local Claude and Codex Agent Skills for structure, quality, references, scoring, and repair readiness.",
+      definition:
+        "Skills Doctor is a local-first TypeScript CLI that audits Claude and Codex Agent Skills and produces human-readable or machine-readable findings.",
       problem:
-        "Agent Skills can quietly degrade when frontmatter, workflow instructions, referenced files, or repair guidance drift out of shape.",
-      role: "I built the TypeScript CLI, scan model, validation checks, reporting paths, and repair handoff workflow.",
-      technicalDetails: [
-        "Scans local skill roots and validates frontmatter, workflow structure, referenced files, and quality signals.",
-        "Reports findings in both human-readable and JSON formats for interactive use and automation.",
-        "Prepares agent repair handoff only after confirmation, keeping automated remediation under explicit user control."
+        "Agent Skills can silently drift when frontmatter, trigger descriptions, workflow instructions, references, scripts, evals, security boundaries, or local and global copies stop agreeing.",
+      role: "I designed and implemented the scanner, deterministic rule catalog, score model, security incident grouping, JSON API, local usage analysis, and consent-gated agent handoff. I authored 27 merged pull requests in the public repository.",
+      architecture: [
+        "Root discovery finds project and user-level .claude/skills and .agents/skills directories, then the package scanner classifies SKILL.md, scripts, references, assets, configuration, symlinks, and executable files.",
+        "A deterministic rule engine emits quality diagnostics and security capabilities; reporters turn the same scan into terminal summaries, schema-versioned JSON, repair artifacts, or the programmatic TypeScript API.",
+        "The interactive layer can add local Codex usage evidence, select a finding subset, write a bounded handoff prompt, launch claude or codex only after confirmation, and re-scan after the agent exits."
+      ],
+      implementationExample: {
+        label: "Run a non-interactive CI audit with machine-readable output",
+        code: "npx skills-doctor@latest --yes --json --fail-on warning --fail-on-security P1 --min-score 95"
+      },
+      decisions: [
+        "Rule logic and output shape live in the CLI; the packaged Agent Skill is a thin discovery and invocation wrapper rather than a second implementation.",
+        "Security signals stay deterministic and rule-by-rule in JSON, while human output groups correlated signals into incidents for review.",
+        "Non-interactive discovery fails on ambiguous roots instead of guessing, and agent repair remains a separate, explicitly confirmed action."
+      ],
+      hardProblems: [
+        "Security checks have to connect prompt override, secret access, egress, remote execution, persistence, and approval bypass signals without presenting heuristics as proof of malicious intent.",
+        "Root discovery must handle local/global shadowing, cross-ecosystem duplicates, symlinks, hidden files, and disabled skills without silently scanning the wrong scope.",
+        "Usage analysis has to extract useful counts and context-pressure evidence from changing Codex trace formats without copying raw prompts or transcripts into reports."
       ],
       tradeoffs: [
-        "The checker has to be opinionated enough to find real workflow problems without flattening every skill into one template.",
-        "Repair readiness is separated from repair execution so users can review findings before an agent edits their skill files."
+        "Static rules can flag suspicious capabilities and weak workflow structure, but they cannot establish author intent or replace a manual security review.",
+        "The score deducts once per distinct rule rather than per repeated finding, which keeps noisy packages from dominating but intentionally compresses frequency information.",
+        "Local usage analysis is best-effort and its coverage depends on which Codex history and pressure sources are present."
       ],
-      currentState: "The project is public on GitHub.",
+      currentState:
+        "The latest tagged release is v0.6.2, published July 5, 2026. The public repository contains 27 merged pull requests authored by me and additional changes on main after the release.",
       evidence: [
         {
           label: "GitHub repository",
           href: "https://github.com/ametel01/skills-doctor"
+        },
+        {
+          label: "27 merged pull requests",
+          href: "https://github.com/ametel01/skills-doctor/pulls?q=is%3Apr+is%3Amerged+author%3Aametel01"
+        },
+        {
+          label: "v0.6.2 release",
+          href: "https://github.com/ametel01/skills-doctor/releases/tag/v0.6.2"
         }
-      ]
+      ],
+      relatedWriting: [
+        {
+          label: "Rule catalog and rationale",
+          href: "https://github.com/ametel01/skills-doctor/blob/main/docs/RULES.md"
+        },
+        {
+          label: "Programmatic API reference",
+          href: "https://github.com/ametel01/skills-doctor/blob/main/docs/API.md"
+        },
+        {
+          label: "Security scanning specification",
+          href: "https://github.com/ametel01/skills-doctor/blob/main/docs/SECURITY_SPEC.md"
+        }
+      ],
+      lastUpdated: "2026-08-09"
     }
   },
   {
@@ -171,30 +247,65 @@ export const projects: readonly Project[] = [
     metadata: {
       role: "Independent AI workflow tools engineer",
       stack: ["TypeScript", "Bun", "CLI", "AI Workflows", "Local-first"],
-      currentState: "Public repository for prompt-history workflow discovery."
+      currentState: "Published TypeScript CLI; latest tagged release is v0.3.2."
     },
     caseStudy: {
-      overview:
-        "RitualAI mines local Claude and Codex prompt history for repeated workflows, then helps convert approved candidates into reusable Agent Skills.",
+      definition:
+        "RitualAI is an interactive TypeScript CLI that finds repeated workflows in local Claude and Codex history and guides an approved candidate into a reusable SKILL.md.",
       problem:
         "Developers often repeat useful agent prompts and workflows without noticing which patterns are stable enough to turn into reusable automation.",
-      role: "I built the local scan workflow, clustering-oriented candidate flow, approval step, and SKILL.md generation path.",
-      technicalDetails: [
-        "Scans local prompt history to find recurring work patterns without requiring hosted ingestion.",
-        "Groups candidate workflows for user review before generating reusable skill instructions.",
-        "Guides approved candidates into SKILL.md workflows that can be refined and reused across future agent sessions."
+      role: "I designed and implemented history-source discovery, bounded JSON/JSONL parsing, local repeated-workflow ranking, the same-window Claude/Codex discovery handoff, duplicate-skill suppression, and guarded installation paths.",
+      architecture: [
+        "Source discovery reads supported Claude history and transcript locations plus Codex history, active sessions, and archived sessions; malformed records become diagnostics rather than stopping the scan.",
+        "The preferred path passes only discovered history paths and scoped instructions to a user-selected local claude or codex executable; a deterministic local ranker is the fallback when agent discovery is declined or unavailable.",
+        "The selected workflow continues in the same agent window, asks whether installation should be project-local or global, and writes the resulting SKILL.md only after the user confirms the target."
+      ],
+      implementationExample: {
+        label: "Start interactive discovery or inspect the latest 25 prompts",
+        code: "npx ritualai@latest\nnpx ritualai@latest prompts --limit 25"
+      },
+      decisions: [
+        "History discovery, extraction, and fallback ranking remain local; the CLI never uploads history itself.",
+        "Agent discovery is opt-in because the local claude or codex executable may call an external service according to the user's configuration.",
+        "Existing project and global skills suppress already-covered candidates, and existing skill files are never overwritten without interactive confirmation."
+      ],
+      hardProblems: [
+        "Claude and Codex store multiple evolving JSONL shapes across history, transcript, active-session, and archived-session paths, so parsing needs bounded compatibility and clear truncation diagnostics.",
+        "Repeated text is not automatically a reusable workflow; candidate ranking must reduce generic duplicates and avoid suppressing broad workflows because of short, loosely related skills.",
+        "The agent handoff must expose enough local context for semantic discovery while constraining repository inspection and file writes during the discovery phase."
       ],
       tradeoffs: [
-        "Local prompt analysis needs to surface useful patterns without exposing sensitive development history to a remote service.",
-        "The workflow keeps user approval in the loop because not every repeated prompt deserves to become a persistent skill."
+        "The local fallback is more private and deterministic but less capable of semantic grouping than an agent review.",
+        "Bounded scan caps prevent unbounded history processing but can skip older or oversized sources; the CLI reports those gaps.",
+        "Generated skills still require human judgment because repetition alone does not prove that a workflow is stable, safe, or worth maintaining."
       ],
-      currentState: "The project is public on GitHub.",
+      currentState:
+        "RitualAI is published through npm and GitHub. The latest tagged release is v0.3.2, published June 20, 2026.",
       evidence: [
         {
           label: "GitHub repository",
           href: "https://github.com/ametel01/ritualai"
+        },
+        {
+          label: "v0.3.2 release",
+          href: "https://github.com/ametel01/ritualai/releases/tag/v0.3.2"
+        },
+        {
+          label: "npm package",
+          href: "https://www.npmjs.com/package/ritualai"
         }
-      ]
+      ],
+      relatedWriting: [
+        {
+          label: "Technical specification",
+          href: "https://github.com/ametel01/ritualai/blob/main/docs/TECH_SPEC.md"
+        },
+        {
+          label: "History index and cache design spike",
+          href: "https://github.com/ametel01/ritualai/blob/main/docs/history-index-cache-spike.md"
+        }
+      ],
+      lastUpdated: "2026-08-09"
     }
   },
   {
@@ -218,22 +329,33 @@ export const projects: readonly Project[] = [
       currentState: "Live product with public documentation and deployed proposal workflows."
     },
     caseStudy: {
-      overview:
-        "ScopePilot is an agency proposal scope and pricing configurator. It supports service catalogs, pricing inputs, approvals, revisions, change orders, workspace branding, team access, reports, and private client proposal pages.",
+      definition:
+        "ScopePilot is a web application for configuring agency proposals, pricing scope, collecting approvals, and managing revisions and change orders.",
       problem:
         "Agency proposals often move across spreadsheets, documents, review threads, and client emails. That makes scope changes, pricing assumptions, approvals, and client-facing delivery difficult to keep consistent.",
-      role: "I designed and built the product workflows, application structure, documentation surface, and deployment path as an independent product engineer.",
-      technicalDetails: [
-        "Built an Astro and TypeScript web app with Bun-based development and Biome quality gates.",
-        "Implemented proposal workflows around services, pricing, clients, approvals, revisions, and change orders.",
-        "Designed Cloudflare Pages and Workers deployment paths with PostgreSQL-backed local development."
+      role: "I designed and implemented the application structure, proposal and pricing workflows, approval and revision state transitions, documentation surface, and Cloudflare deployment path. The product surface also includes workspace, team, billing, and reporting capabilities.",
+      architecture: [
+        "The application is written in TypeScript and Astro, uses Bun for development, Biome for code quality, PostgreSQL for persisted workspace and proposal data, and Cloudflare Pages and Workers for the public deployment.",
+        "The domain flow connects service catalogs and pricing inputs to versioned proposals, private client pages, approval decisions, revisions, and change orders.",
+        "Workspace branding, team access, clients, reports, and billing sit around the proposal lifecycle rather than being separate document-generation tools."
+      ],
+      decisions: [
+        "Proposal configuration keeps scope and pricing inputs structured so later revisions and change orders can refer to the same source data.",
+        "Client-facing proposal pages expose the decision surface while keeping workspace administration, team controls, and internal reporting separate.",
+        "User documentation is public even though the application repository is not linked from this case study."
+      ],
+      hardProblems: [
+        "A proposal revision has to preserve the client's prior context while making changed scope and pricing explicit enough to approve again.",
+        "Change orders need to extend an accepted proposal without collapsing the distinction between original scope and later additions.",
+        "The same pricing model must support internal configuration, a legible client presentation, and later reporting without duplicating calculations across views."
       ],
       tradeoffs: [
-        "The product has to expose enough pricing structure for operational control without turning proposal creation into a dense back-office tool.",
-        "Client-facing proposal pages need to stay simple while still reflecting internal revisions, approvals, and scope changes accurately."
+        "Structured pricing improves consistency but requires more setup than starting from an unstructured document.",
+        "The public case study can verify deployed workflows and documentation, but it cannot provide source-level evidence because no public repository is linked.",
+        "Client pages intentionally expose fewer controls than the workspace, so some operational context remains visible only to authenticated team members."
       ],
       currentState:
-        "The product is deployed publicly, and its documentation describes proposal setup, client delivery, workspace, billing, and reporting workflows.",
+        "The application and documentation both returned HTTP 200 on August 9, 2026. Public documentation covers proposal setup, client delivery, workspace, billing, and reporting workflows; no public release number is exposed.",
       evidence: [
         {
           label: "Live product",
@@ -243,7 +365,18 @@ export const projects: readonly Project[] = [
           label: "User documentation",
           href: "https://scopepilot.launchingfoundry.xyz/docs"
         }
-      ]
+      ],
+      relatedWriting: [
+        {
+          label: "Approvals, revisions, and change orders guide",
+          href: "https://scopepilot.launchingfoundry.xyz/docs/how-to-guides/handle-approvals-revisions-and-change-orders"
+        },
+        {
+          label: "Proposal margin design explanation",
+          href: "https://scopepilot.launchingfoundry.xyz/docs/explanation/how-scopepilot-protects-proposal-margin"
+        }
+      ],
+      lastUpdated: "2026-08-09"
     }
   },
   {
@@ -263,35 +396,69 @@ export const projects: readonly Project[] = [
     metadata: {
       role: "Software Engineer at Nethermind",
       stack: ["Rust", "Docker", "Solidity", "AggLayer", "LayerZero", "EVM"],
-      currentState: "Public sandbox for local cross-chain bridge and infrastructure workflows."
+      currentState: "Public Rust sandbox; latest tagged release is v0.3.0."
     },
     caseStudy: {
-      overview:
-        "AggSandbox is a local development sandbox for cross-chain infrastructure and bridge workflows. It gives developers a repeatable environment for running chains, contracts, transactions, and bridge operations.",
+      definition:
+        "AggSandbox is a Rust CLI and Docker-based development environment for running local, forked, and multi-L2 Polygon zkEVM bridge workflows.",
       problem:
         "Cross-chain systems are difficult to test because local environments need multiple networks, bridge contracts, services, transaction scripts, and clear inspection points.",
-      role: "I developed CLI and workflow pieces for local multichain infrastructure, bridge testing, transaction execution, and debugging.",
-      technicalDetails: [
-        "Built Rust CLI workflows for starting, inspecting, and operating a local cross-chain sandbox.",
-        "Worked with executable contract scripts and bridge command flows for repeatable testing.",
-        "Connected local infrastructure concepts across EVM chains, AggLayer-oriented workflows, and cross-chain messaging experiments."
+      role: "At Nethermind, I authored 49 merged pull requests across the Rust CLI, Docker and Anvil environments, contract deployment, AggKit integration, bridge and claim commands, multi-L2 mode, tests, and documentation. The broader project provides the Polygon zkEVM bridge contracts and services that the CLI orchestrates.",
+      architecture: [
+        "The Rust CLI starts and inspects Docker Compose environments containing an Anvil L1, one or more Anvil L2 chains, AggKit services, and deployed bridge contracts.",
+        "Local mode simulates the full stack, fork mode starts from real network state, and multi-L2 mode exercises bridging between multiple destination chains.",
+        "Bridge commands submit asset or message operations; status, events, bridges, and claims commands expose the intermediate state needed to diagnose the asynchronous lifecycle."
+      ],
+      implementationExample: {
+        label: "Start the sandbox, bridge an asset, and inspect the destination claim",
+        code: "aggsandbox start --detach\naggsandbox bridge asset --network-id 0 --destination-network-id 1 --amount 0.1 --token-address 0x0000000000000000000000000000000000000000\naggsandbox show claims --network-id 1"
+      },
+      decisions: [
+        "Docker Compose pins a repeatable service topology while the CLI provides one command surface for local, forked, and multi-L2 variants.",
+        "Operational inspection remains explicit through status, events, bridges, and claims instead of hiding bridge state behind a single success message.",
+        "The repository includes unit, integration, benchmark, and bridge-flow work so CLI behavior and infrastructure changes can be exercised together."
+      ],
+      hardProblems: [
+        "Multi-chain startup has to coordinate ports, network IDs, contract addresses, service health, and deployment ordering across several containers.",
+        "A bridge operation spans source submission, AggKit processing, proof or claim availability, and destination execution, so failures need to preserve enough identifiers for follow-up commands.",
+        "Fork and multi-L2 modes change the surrounding network assumptions while the CLI still needs stable command semantics and deterministic tests."
       ],
       tradeoffs: [
-        "The sandbox needed to hide setup complexity without hiding the details developers need when bridge operations fail.",
-        "Local reproducibility mattered more than presenting a polished product abstraction."
+        "The Docker stack improves reproducibility but requires Docker, Rust, Make, multiple ports, and enough local resources for several chains and services.",
+        "Local simulations help reproduce bridge workflows but do not reproduce every timing, availability, or finality condition of public networks.",
+        "The CLI reduces setup steps without removing the need to understand network IDs, token addresses, transaction hashes, and claim state."
       ],
       currentState:
-        "The project is public under Nethermind with repository documentation and external AggLayer documentation.",
+        "The public Nethermind repository's latest tagged release is v0.3.0, published July 6, 2025. I authored 49 merged pull requests; main includes changes after that release.",
       evidence: [
         {
           label: "GitHub repository",
           href: "https://github.com/NethermindEth/aggsandbox"
         },
         {
-          label: "AggLayer documentation",
-          href: "https://docs.agglayer.dev/agglayer/developer-tools/aggsandbox/installation/"
+          label: "49 merged pull requests",
+          href: "https://github.com/NethermindEth/aggsandbox/pulls?q=is%3Apr+is%3Amerged+author%3Aametel01"
+        },
+        {
+          label: "v0.3.0 release",
+          href: "https://github.com/NethermindEth/aggsandbox/releases/tag/v0.3.0"
         }
-      ]
+      ],
+      relatedWriting: [
+        {
+          label: "Architecture overview",
+          href: "https://github.com/NethermindEth/aggsandbox/blob/main/docs/overview.md"
+        },
+        {
+          label: "Bridge operations guide",
+          href: "https://github.com/NethermindEth/aggsandbox/blob/main/docs/bridge-operations.md"
+        },
+        {
+          label: "CLI reference",
+          href: "https://github.com/NethermindEth/aggsandbox/blob/main/docs/cli-reference.md"
+        }
+      ],
+      lastUpdated: "2026-08-09"
     }
   },
   {
@@ -311,35 +478,73 @@ export const projects: readonly Project[] = [
     metadata: {
       role: "Software Engineer at Nethermind",
       stack: ["Rust", "Starknet", "Cairo", "Scarb", "AWS Console", "CloudWatch"],
-      currentState: "Open-source verifier tooling maintained under Nethermind."
+      currentState: "Public Rust verifier; latest tagged release is v2.3.1."
     },
     caseStudy: {
-      overview:
-        "Voyager Verifier is contract verification tooling for the Voyager Starknet block explorer. It helps developers submit verification data, track status, and diagnose compiler or metadata issues.",
+      definition:
+        "Voyager Verifier is a Rust CLI and reusable library for submitting Starknet contract classes to the Voyager block explorer for source verification.",
       problem:
         "Contract verification workflows are sensitive to compiler versions, package metadata, network selection, and explorer API behavior. Small mismatches can create confusing failures for developers.",
-      role: "I maintained and improved verification workflows, compiler compatibility, metadata validation, status handling, and developer diagnostics.",
-      technicalDetails: [
-        "Integrated compiler and package metadata handling for Starknet verification flows.",
-        "Improved status tracking and error reporting around verifier API responses.",
-        "Used cloud logs and operational tooling to debug production verification failures."
+      role: "At Nethermind, I authored 27 merged pull requests covering file and source resolution, Scarb.lock support, network selection, API payload migration, config and history, batch verification, status reporting, Dojo support, releases, documentation, and extraction of the public voyager-verifier library.",
+      architecture: [
+        "A Rust workspace separates the standalone voyager CLI from the reusable voyager-verifier crate; the CLI is distributed through asdf and GitHub release artifacts.",
+        "The verification pipeline resolves Scarb workspace metadata and source files, selects the Starknet network and endpoint, builds the Voyager API payload, submits the job, and exposes status and history commands.",
+        "Users can run an interactive wizard, pass flags directly, or define multiple contracts in .voyager.toml for batch verification."
+      ],
+      implementationExample: {
+        label: "Submit one contract class from the command line",
+        code: "voyager verify --network mainnet \\\n  --class-hash <YOUR_CLASS_HASH> \\\n  --contract-name <CONTRACT_NAME>"
+      },
+      decisions: [
+        "The first-run wizard and direct CLI flags share one verification pipeline, while .voyager.toml supports repeatable batch and workspace flows.",
+        "The verifier logic is available as a public Rust library so Starknet Foundry and other tools can integrate without shelling out to the CLI.",
+        "Proc-macro source handling was removed for security, and source collection stays explicit enough to explain which files enter a verification request."
+      ],
+      hardProblems: [
+        "Cairo and Scarb releases change compiler output, metadata, lockfile expectations, and workspace layout; verification must match the deployed class without silently accepting the wrong build context.",
+        "Source collection has to include the contract and required dependencies while handling workspaces, test files, lock files, Dojo layouts, and path-related errors with actionable diagnostics.",
+        "Moving the Voyager API client from multipart form data to JSON and extracting a public library required compatibility across the CLI, external integrations, releases, and production service behavior."
       ],
       tradeoffs: [
-        "The tooling needed to stay strict enough for correctness while still giving developers actionable diagnostics.",
-        "Compatibility work had to account for evolving Starknet, Cairo, and Scarb versions without masking real verification errors."
+        "Strict compiler, metadata, and source checks reject mismatched projects earlier but require users to reproduce the original build inputs closely.",
+        "The CLI targets Voyager's verification API; other explorers need their own adapters even though the source-resolution library is reusable.",
+        "Verification status depends on an external explorer service, so the CLI can improve diagnostics and history but cannot eliminate remote availability or processing delays."
       ],
       currentState:
-        "The project is public under Nethermind and has release artifacts and documentation.",
+        "The public Nethermind repository's latest tagged release is v2.3.1, published June 30, 2026. The repository contains 27 merged pull requests authored by me, official mdBook documentation, a standalone CLI, and a crates.io library.",
       evidence: [
         {
           label: "GitHub repository",
           href: "https://github.com/NethermindEth/voyager-verifier"
         },
         {
-          label: "Release notes",
-          href: "https://github.com/NethermindEth/voyager-verifier/releases"
+          label: "27 merged pull requests",
+          href: "https://github.com/NethermindEth/voyager-verifier/pulls?q=is%3Apr+is%3Amerged+author%3Aametel01"
+        },
+        {
+          label: "v2.3.1 release",
+          href: "https://github.com/NethermindEth/voyager-verifier/releases/tag/v2.3.1"
+        },
+        {
+          label: "Official documentation",
+          href: "https://nethermindeth.github.io/voyager-verifier/"
         }
-      ]
+      ],
+      relatedWriting: [
+        {
+          label: "File collection reference",
+          href: "https://nethermindeth.github.io/voyager-verifier/reference/file-collection/"
+        },
+        {
+          label: "Batch verification guide",
+          href: "https://nethermindeth.github.io/voyager-verifier/advanced/batch-verification.html"
+        },
+        {
+          label: "Starknet Foundry integration notes",
+          href: "https://github.com/NethermindEth/voyager-verifier/blob/main/FOUNDRY_INTEGRATION.md"
+        }
+      ],
+      lastUpdated: "2026-08-09"
     }
   },
   {
@@ -352,7 +557,7 @@ export const projects: readonly Project[] = [
     valueStatement:
       "Starknet yield tokenization protocol with SY/PT/YT assets, AMM markets, router flows, frontend, and indexer.",
     proof:
-      "Alpha mainnet deployment with live SplitYield product and documented Starknet contract addresses.",
+      "Source-available protocol with a v1.0.0 release, documented Starknet mainnet addresses, and reproducible contract build instructions.",
     icon: {
       alt: "SplitYield",
       src: "/icons/horizon-protocol.png"
@@ -361,35 +566,73 @@ export const projects: readonly Project[] = [
     metadata: {
       role: "Independent protocol engineer",
       stack: ["Cairo", "Starknet", "TypeScript", "Next.js", "Apibara", "PostgreSQL"],
-      currentState: "Alpha mainnet deployment on Starknet with a live SplitYield interface."
+      currentState: "Alpha mainnet deployment; latest tagged release is v1.0.0."
     },
     caseStudy: {
-      overview:
-        "Horizon Protocol is a Pendle-style yield tokenization protocol for Starknet. It separates yield-bearing assets into standardized yield, principal, and yield tokens, with AMM markets, factories, router operations, oracle integration, contracts, frontend, and indexer pieces.",
+      definition:
+        "Horizon Protocol is a source-available Starknet protocol that splits yield-bearing assets into standardized yield, principal, and yield tokens with PT/SY markets.",
       problem:
-        "Yield tokenization needs protocol contracts, market creation, routing, oracle-aware pricing, frontend flows, and indexed data to stay aligned. Each layer has to expose enough detail for advanced DeFi users without creating unsafe or confusing product paths.",
-      role: "I built across the protocol, frontend, and indexing surfaces, connecting Cairo contracts, TypeScript product flows, and data infrastructure into a live alpha.",
-      technicalDetails: [
-        "Implemented Starknet protocol pieces for standardized yield, principal, and yield token flows.",
-        "Built product and router flows around markets, factories, AMM interactions, and documented deployed addresses.",
-        "Connected a Next.js frontend and Bun-based Apibara indexer with PostgreSQL-backed data workflows."
+        "Yield tokenization requires contract accounting, time-dependent market pricing, router slippage checks, frontend transactions, oracle health, and indexed events to agree across several runtimes.",
+      role: "I designed and implemented work across the Cairo contracts, deployment scripts, Next.js frontend, Apibara/PostgreSQL indexer, integration documentation, and operational hardening. I authored 46 merged pull requests in the public repository; external libraries provide Starknet, OpenZeppelin, Pragma, Apibara, and frontend primitives.",
+      architecture: [
+        "Cairo contracts implement standardized-yield wrappers, PT and YT token accounting, factories, PT/SY markets, a router with minimum-output parameters, upgrade roles, and Pragma oracle integration.",
+        "The Next.js and React frontend builds transaction flows from the shared contract interfaces, while a Bun-based Apibara DNA indexer writes Starknet events into PostgreSQL.",
+        "The documented indexer schema contains 54 event tables and 23 views, including nine materialized views for market statistics, positions, and yield history."
+      ],
+      implementationExample: {
+        label: "Router entry point for swapping standardized yield into principal tokens",
+        code: "fn buy_pt_from_sy(\n  market: ContractAddress,\n  receiver: ContractAddress,\n  sy_in: u256,\n  min_pt_out: u256\n)"
+      },
+      decisions: [
+        "The Router is the recommended integration entry point and requires minimum-output values so slippage constraints travel with each operation.",
+        "Protocol state changes emit explicit events that the indexer projects into query-oriented tables and views instead of making the frontend reconstruct history from RPC calls.",
+        "Token amounts use 18-decimal WAD fixed-point arithmetic, and core contracts are owner-upgradeable to support fixes during the alpha stage."
+      ],
+      hardProblems: [
+        "PT pricing converges toward the underlying asset at expiry, so AMM math, implied rates, rounding, and low-liquidity behavior change materially as time remaining approaches zero.",
+        "Contract ABI and event changes have to propagate through deployment artifacts, the indexer, database views, frontend transaction builders, and tests without leaving a cross-layer mismatch.",
+        "Frontend actions depend on chain head, RPC, oracle, indexer, and database health; unknown or stale state needs to disable or degrade operations rather than appear current."
       ],
       tradeoffs: [
-        "Alpha DeFi infrastructure needs clear current-state language because live contracts are useful evidence but do not imply a completed risk or audit posture.",
-        "The protocol surface has to balance composable contract primitives with a frontend that makes tokenized yield operations legible."
+        "The contracts are not audited, there is no active bug bounty, and the documented alpha does not include a pause function or upgrade timelock.",
+        "Owner upgradeability creates a path to fix alpha software but also concentrates authority and introduces upgrade risk.",
+        "WAD arithmetic can lose precision at extreme values; public-network, oracle, bridge, liquidity, and underlying-asset risks remain outside the protocol's direct control."
       ],
       currentState:
-        "The repository documents an alpha mainnet deployment on Starknet Mainnet, and the SplitYield product is publicly reachable.",
+        "The latest tagged release is v1.0.0. The repository documents an unaudited Starknet mainnet alpha deployed December 23, 2025; its listed market expired January 17, 2026. The former splityield.org frontend returned HTTP 404 on August 9, 2026, so this page does not present it as a current deployment.",
       evidence: [
-        {
-          label: "Live SplitYield product",
-          href: "https://splityield.org/"
-        },
         {
           label: "GitHub repository",
           href: "https://github.com/ametel01/horizon-starknet"
+        },
+        {
+          label: "46 merged pull requests",
+          href: "https://github.com/ametel01/horizon-starknet/pulls?q=is%3Apr+is%3Amerged+author%3Aametel01"
+        },
+        {
+          label: "v1.0.0 release",
+          href: "https://github.com/ametel01/horizon-starknet/releases/tag/v1.0.0"
+        },
+        {
+          label: "Documented mainnet addresses",
+          href: "https://github.com/ametel01/horizon-starknet/blob/main/README.md#mainnet-deployment-starknet-mainnet"
         }
-      ]
+      ],
+      relatedWriting: [
+        {
+          label: "Compressed protocol specification",
+          href: "https://github.com/ametel01/horizon-starknet/blob/main/docs/HORIZON-SPEC-COMPRESSED.md"
+        },
+        {
+          label: "AMM curve notes",
+          href: "https://github.com/ametel01/horizon-starknet/blob/main/docs/PENDLE_AMM_CURVE.md"
+        },
+        {
+          label: "Indexer architecture",
+          href: "https://github.com/ametel01/horizon-starknet/blob/main/docs/APIBARA.md"
+        }
+      ],
+      lastUpdated: "2026-08-09"
     }
   }
 ] as const;

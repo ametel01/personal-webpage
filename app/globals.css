@@ -890,10 +890,6 @@ button {
   margin-top: 0.2rem;
 }
 
-.project-detail-eyebrow {
-  color: var(--color-text-muted);
-}
-
 .case-back-link {
   margin-bottom: 1.35rem;
 }
@@ -973,6 +969,10 @@ button {
 }
 
 .case-evidence-link {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 0.45rem;
   line-height: 1.35;
 }
 
@@ -989,6 +989,13 @@ button {
   margin-bottom: 0;
 }
 
+.case-section-body {
+  display: grid;
+  max-width: 75ch;
+  min-width: 0;
+  gap: 0.9rem;
+}
+
 .case-bullet-list li {
   padding-left: 1rem;
 }
@@ -996,6 +1003,35 @@ button {
 .case-bullet-list li::before {
   margin-right: 0.75rem;
   content: "-";
+}
+
+.case-implementation-example {
+  min-width: 0;
+  margin-top: 0.35rem;
+}
+
+.case-implementation-example figcaption {
+  margin-bottom: 0.65rem;
+  color: var(--color-text);
+  font-size: var(--text-xs);
+  font-weight: 750;
+  line-height: 1.45;
+}
+
+.case-implementation-example pre {
+  max-width: 100%;
+  margin: 0;
+  overflow-x: auto;
+  border-radius: 12px;
+  background: var(--color-dark);
+  color: var(--color-on-dark);
+  font-size: var(--text-sm);
+  line-height: 1.65;
+  padding: 1rem 1.1rem;
+}
+
+.case-implementation-example code {
+  font-family: ui-monospace, "SFMono-Regular", Consolas, "Liberation Mono", monospace;
 }
 
 @media (min-width: 768px) {
@@ -1006,7 +1042,7 @@ button {
 
 @media (min-width: 1024px) {
   .case-study-layout {
-    grid-template-columns: 220px minmax(0, 1fr);
+    grid-template-columns: 250px minmax(0, 1fr);
   }
 
   .case-section {
