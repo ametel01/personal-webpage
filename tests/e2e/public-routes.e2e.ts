@@ -113,6 +113,50 @@ test.describe("public routes", () => {
     }
   });
 
+  test("homepage uses one bounded editorial entrance", async ({ page }) => {
+    await page.goto("/");
+
+    const motion = await page.evaluate(() => {
+      const title = getComputedStyle(document.querySelector(".home-hero-title") as HTMLElement);
+
+      return {
+        titleName: title.animationName,
+        titleDuration: title.animationDuration
+      };
+    });
+
+    expect(motion.titleName).toBe("home-headline-unmask");
+    expect(motion.titleDuration).toBe("0.72s");
+  });
+
+  test("homepage releases the headline mask after its entrance", async ({ page }) => {
+    await page.goto("/");
+    await page.waitForTimeout(800);
+
+    const clipPath = await page
+      .locator(".home-hero-title")
+      .evaluate((title) => getComputedStyle(title).clipPath);
+
+    expect(clipPath).toBe("none");
+  });
+
+  test("reduced motion removes entrance delays", async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.goto("/");
+
+    const motion = await page.evaluate(() => {
+      const styles = getComputedStyle(document.querySelector(".home-hero-title") as HTMLElement);
+
+      return {
+        delay: styles.animationDelay,
+        duration: styles.animationDuration
+      };
+    });
+
+    expect(motion.delay).toBe("0s");
+    expect(Number.parseFloat(motion.duration)).toBeLessThanOrEqual(0.001);
+  });
+
   test("about page renders the portrait with alt text", async ({ page }) => {
     await page.goto("/about");
 

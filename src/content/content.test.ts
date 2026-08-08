@@ -417,9 +417,16 @@ describe("website content invariants", () => {
     assert.doesNotMatch(workPageSource, /fill="#/);
     assert.doesNotMatch(globalCss, /\.work-evidence-box/);
     assert.match(globalCss, /\.work-evidence-line\s*{/);
+  });
+
+  test("motion stays authored, bounded, and reduced-motion safe", () => {
+    assert.match(globalCss, /@keyframes\s+home-headline-unmask/);
+    assert.match(globalCss, /@keyframes\s+work-blueprint-develop/);
+    assert.match(globalCss, /@keyframes\s+work-cube-lock/);
+    assert.doesNotMatch(globalCss, /@keyframes\s+work-rise/);
     assert.match(
       globalCss,
-      /animation:\s*work-rise var\(--work-rise-duration\).*var\(--ease-standard\)/
+      /@media\s*\(prefers-reduced-motion:\s*reduce\)[\s\S]*animation-delay:\s*0ms !important;/
     );
   });
 

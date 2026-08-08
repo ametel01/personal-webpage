@@ -37,6 +37,7 @@
   --duration-fast: 160ms;
   --duration-base: 180ms;
   --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-arrival: cubic-bezier(0.16, 1, 0.3, 1);
 
   --hero-title-size: clamp(3rem, 4.45vw, 4.25rem);
   --hero-title-size-mobile: clamp(2.45rem, 12vw, 3.65rem);
@@ -230,6 +231,7 @@ button {
   color: var(--color-text);
   font-size: clamp(3rem, 4.15vw, 4rem);
   letter-spacing: -0.04em;
+  animation: home-headline-unmask 720ms var(--ease-arrival) backwards;
 }
 
 .home-hero-description {
@@ -386,6 +388,47 @@ button {
 .open-source-row:hover .open-source-title,
 .open-source-row:hover .open-source-action {
   color: var(--color-accent-hover);
+}
+
+:where(
+    .button,
+    .home-resume-link,
+    .home-project-link,
+    .open-source-action,
+    .section-text-link,
+    .case-back-link,
+    .case-evidence-link,
+    .work-text-cta
+  )
+  :where(.lucide-arrow-right, .lucide-arrow-left, .lucide-arrow-up-right) {
+  transition: transform var(--duration-fast) var(--ease-arrival);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  :where(
+      .button,
+      .home-resume-link,
+      .home-project-card,
+      .section-text-link,
+      .case-back-link,
+      .case-evidence-link
+    ):hover
+    .lucide-arrow-right {
+    transform: translateX(3px);
+  }
+
+  :where(.case-back-link):hover .lucide-arrow-left {
+    transform: translateX(-3px);
+  }
+
+  :where(.open-source-row, .case-evidence-link):hover .lucide-arrow-up-right {
+    transform: translate(2px, -2px);
+  }
+
+  :where(.home-project-card:hover) .project-logo {
+    box-shadow: 0 14px 28px oklch(38% 0.135 263 / 0.16);
+    transform: translateY(-2px) scale(1.025);
+  }
 }
 
 .home-section-header,
@@ -667,6 +710,11 @@ button {
   transform: translateY(-2px);
 }
 
+.button:active {
+  transform: translateY(0) scale(0.985);
+  transition-duration: 100ms;
+}
+
 @media (hover: none), (pointer: coarse) {
   .button:hover {
     transform: none;
@@ -759,6 +807,9 @@ button {
     var(--color-primary-soft) 100%
   );
   box-shadow: 0 10px 22px oklch(38% 0.135 263 / 0.12);
+  transition:
+    box-shadow var(--duration-base) var(--ease-standard),
+    transform var(--duration-base) var(--ease-standard);
 }
 
 .project-logo-image {
@@ -2091,6 +2142,7 @@ button {
   *,
   *::before,
   *::after {
+    animation-delay: 0ms !important;
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
     scroll-behavior: auto !important;
@@ -2125,8 +2177,6 @@ button {
   --work-shadow-blue: var(--color-primary);
   --work-shadow-card: var(--shadow-card);
   --work-shadow-strong: var(--shadow-button);
-  --work-rise-fast: 520ms;
-  --work-rise-duration: 620ms;
   background:
     radial-gradient(circle at 74% 10%, var(--work-hero-glow), transparent 28rem),
     linear-gradient(180deg, var(--color-bg) 0%, var(--color-bg) 66%, var(--work-blue-wash) 100%);
@@ -2149,7 +2199,6 @@ button {
 
 .work-hero-copy {
   max-width: 760px;
-  animation: work-rise var(--work-rise-fast) var(--ease-standard) both;
 }
 
 .work-eyebrow {
@@ -2180,7 +2229,6 @@ button {
 .work-visual {
   position: relative;
   min-height: 310px;
-  animation: work-rise var(--work-rise-duration) 90ms var(--ease-standard) both;
 }
 
 .work-visual::before {
@@ -2200,6 +2248,7 @@ button {
   max-width: 620px;
   height: auto;
   margin-inline: auto;
+  animation: work-blueprint-develop 720ms 80ms var(--ease-arrival) both;
 }
 
 .work-map-lines path,
@@ -2264,6 +2313,18 @@ button {
   fill: var(--work-cube-face);
 }
 
+.work-cube {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: work-cube-lock 560ms 330ms var(--ease-arrival) both;
+}
+
+.work-nodes circle {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: work-node-resolve 420ms 480ms var(--ease-arrival) both;
+}
+
 .work-cube path:nth-child(n + 4) {
   fill: none;
 }
@@ -2285,7 +2346,6 @@ button {
   margin: clamp(1.7rem, 3.5vw, 2.5rem) 0 1.35rem;
   padding: 0;
   list-style: none;
-  animation: work-rise var(--work-rise-duration) 150ms var(--ease-standard) both;
 }
 
 .work-metrics li {
@@ -2363,7 +2423,6 @@ button {
   margin-top: 1.25rem;
   border-radius: 12px;
   padding: clamp(1.5rem, 3vw, 2rem) clamp(1.45rem, 3vw, 2.1rem);
-  animation: work-rise var(--work-rise-duration) 220ms var(--ease-standard) both;
 }
 
 .work-featured-icon {
@@ -2528,7 +2587,6 @@ button {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1.25rem;
   margin-top: 1.25rem;
-  animation: work-rise var(--work-rise-duration) 300ms var(--ease-standard) both;
 }
 
 .work-project-card {
@@ -2609,7 +2667,6 @@ button {
     linear-gradient(135deg, var(--color-primary-soft), var(--work-panel-strong)),
     radial-gradient(circle at 12% 20%, var(--work-visual-glow), transparent 18rem);
   padding: 1.55rem 1.75rem;
-  animation: work-rise var(--work-rise-duration) 380ms var(--ease-standard) both;
 }
 
 .work-callout-block {
@@ -2658,15 +2715,55 @@ button {
   background: var(--work-blue-line);
 }
 
-@keyframes work-rise {
+@keyframes home-headline-unmask {
   from {
-    opacity: 0;
-    transform: translateY(14px);
+    clip-path: inset(0 100% 0 0);
+    filter: blur(6px);
+    transform: translateX(-0.035em);
+  }
+
+  to {
+    clip-path: inset(0);
+    filter: blur(0);
+    transform: translateX(0);
+  }
+}
+
+@keyframes work-blueprint-develop {
+  from {
+    clip-path: inset(0 100% 0 0);
+    filter: blur(5px) saturate(0.65);
+  }
+
+  to {
+    clip-path: inset(0);
+    filter: blur(0) saturate(1);
+  }
+}
+
+@keyframes work-cube-lock {
+  from {
+    opacity: 0.35;
+    filter: blur(3px);
+    transform: translateY(-14px) scale(0.92);
   }
 
   to {
     opacity: 1;
-    transform: translateY(0);
+    filter: blur(0);
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes work-node-resolve {
+  from {
+    opacity: 0.2;
+    transform: scale(0.55);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
   }
 }
 
