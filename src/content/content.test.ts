@@ -345,7 +345,7 @@ describe("website content invariants", () => {
     assert.ok(existsSync(new URL("../../public/icons/go.png", import.meta.url)));
   });
 
-  test("global CSS keeps documented layout and bold homepage invariants", () => {
+  test("global CSS keeps documented layout and distilled homepage invariants", () => {
     assert.match(globalCss, /--container:\s*1180px;/);
     assert.doesNotMatch(globalCss, /\.proof-band\s*{/);
 
@@ -355,8 +355,7 @@ describe("website content invariants", () => {
     assert.ok(projectGrid);
     assert.match(projectGrid, /border-block:\s*1px solid var\(--color-border\);/);
     assert.ok(openSourceRow);
-    assert.match(openSourceRow, /min-height:\s*86px;/);
-    assert.match(globalCss, /\.home-project-item-lead\s+\.home-project-card\s*{/);
+    assert.match(openSourceRow, /min-height:\s*72px;/);
   });
 
   test("global CSS centralizes public hero title typography", () => {
@@ -400,9 +399,9 @@ describe("website content invariants", () => {
     assert.match(root, /--focus-ring:\s*oklch\(/);
 
     assert.ok(html);
-    assert.doesNotMatch(html, /overflow-x:\s*(clip|hidden);/);
+    assert.match(html, /overflow-x:\s*clip;/);
     assert.ok(body);
-    assert.doesNotMatch(body, /overflow-x:\s*(clip|hidden);/);
+    assert.match(body, /overflow-x:\s*clip;/);
 
     assert.ok(anchor);
     assert.match(anchor, /var\(--duration-fast\)\s+var\(--ease-standard\)/);

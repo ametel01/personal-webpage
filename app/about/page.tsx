@@ -48,7 +48,7 @@ const aboutIcons = {
 
 export default function AboutPage() {
   return (
-    <main className="about-page" id="main-content" tabIndex={-1}>
+    <main className="about-page">
       <Section className="about-section">
         <Container className="about-container">
           <div className="about-hero-grid">

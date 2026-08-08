@@ -64,7 +64,7 @@ export default function WorkPage() {
   const supportingProjects = projects.slice(1);
 
   return (
-    <main className="work-page" id="main-content" tabIndex={-1}>
+    <main className="work-page">
       <Section className="work-showcase-section">
         <Container>
           <WorkHero />
