@@ -13,9 +13,8 @@ export const profile = {
   hero: {
     eyebrow: site.name,
     role: site.role,
-    headline:
-      "I build backend systems and developer tools for AI-assisted, correctness-sensitive engineering workflows.",
-    body: "Backend/platform engineer building local-first AI tooling, developer infrastructure, and blockchain systems where provenance, observability, and correctness matter."
+    headline: "I build backend systems and developer tools for AI-assisted engineering.",
+    body: "My work spans local-first AI tooling, developer infrastructure, and blockchain systems where provenance, observability, and correctness matter."
   },
   summary:
     "Previously at Nethermind, now focused on AI-assisted software development tooling, agent workflows, Starknet tooling, verification workflows, and developer infrastructure.",
@@ -38,7 +37,7 @@ export const profile = {
     }
   ],
   contact:
-    "Open to remote software engineering roles focused on backend systems, developer infrastructure, AI tooling, and blockchain infrastructure. Also open to selected consulting work where the scope is technical and concrete.",
+    "I am open to remote software engineering roles in backend systems, developer infrastructure, AI tooling, and blockchain infrastructure, plus selected consulting projects with clear technical scope.",
   about: {
     image: "/images/professional-photo.png",
     imageAlt: "Professional portrait of Alex Metelli",

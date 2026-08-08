@@ -273,7 +273,7 @@ describe("website content invariants", () => {
   });
 
   test("homepage keeps one direct path into a curated work set", () => {
-    assert.match(homePageSource, /Explore selected work/);
+    assert.match(homePageSource, /Review selected work/);
     assert.match(homePageSource, /View all 7 case studies/);
     assert.doesNotMatch(homePageSource, /page-eyebrow|section-eyebrow/);
     assert.doesNotMatch(homePageSource, /technicalFocusGroups|proofBarItems/);
@@ -547,7 +547,7 @@ describe("website content invariants", () => {
 
     assert.match(
       homeText,
-      /I build backend systems and developer tools for AI-assisted, correctness-sensitive engineering workflows\./
+      /I build backend systems and developer tools for AI-assisted engineering\./
     );
     assert.match(homeText, /Open-source contributions/);
     assert.match(homeText, /Apache DataFusion/);

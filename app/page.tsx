@@ -54,11 +54,11 @@ export default function Home() {
             <p className="page-description home-hero-description">{profile.hero.body}</p>
             <div className="home-hero-actions">
               <a className="button" href="#selected-work">
-                Explore selected work
+                Review selected work
                 <ArrowRight aria-hidden="true" size={17} strokeWidth={2.3} />
               </a>
               <Link className="home-resume-link" href="/resume">
-                Read resume
+                View experience
                 <ArrowRight aria-hidden="true" size={16} strokeWidth={2.3} />
               </Link>
             </div>
@@ -90,7 +90,7 @@ export default function Home() {
               Open-source contributions
             </h2>
             <p className="body-copy">
-              Merged work across data systems and developer infrastructure.
+              Merged contributions to data systems and developer infrastructure.
             </p>
           </div>
           <ul className="open-source-list">
@@ -113,7 +113,7 @@ export default function Home() {
       <Section id="experience">
         <Container>
           <div className="home-section-header">
-            <h2 className="section-title">Professional and independent delivery</h2>
+            <h2 className="section-title">Engineering experience</h2>
             <Link className="section-text-link" href="/resume">
               Read full resume
               <ArrowRight aria-hidden="true" size={16} strokeWidth={2.4} />
@@ -133,12 +133,12 @@ export default function Home() {
       <Section id="contact" muted>
         <Container>
           <div className="home-contact-grid">
-            <h2 className="section-title">Remote engineering and focused consulting</h2>
+            <h2 className="section-title">Discuss a role or consulting project</h2>
             <div>
               <p className="page-description home-contact-description">{profile.contact}</p>
               <a className="button home-contact-action" href={`mailto:${profile.email}`}>
                 <Mail aria-hidden="true" size={17} strokeWidth={2.3} />
-                {profile.email}
+                Email Alex
               </a>
             </div>
           </div>
