@@ -2,36 +2,15 @@ import { ArrowRight, ArrowUpRight, Mail } from "lucide-react";
 import Link from "next/link";
 import { Container, ExternalLink, Section } from "@/components/primitives";
 import { ProjectIcon } from "@/components/project-icon";
+import { StructuredData } from "@/components/structured-data";
 import { experienceSnapshot, profile } from "@/content/profile";
 import { openSourceContributions, type Project, projects } from "@/content/projects";
-import { getAbsoluteUrl, homeMetadata } from "@/lib/metadata";
+import { homeMetadata } from "@/lib/metadata";
+import { createHomepageStructuredData } from "@/lib/structured-data";
 
 export const metadata = homeMetadata;
 
-const personJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Person",
-  name: profile.name,
-  jobTitle: profile.role,
-  url: getAbsoluteUrl("/"),
-  email: `mailto:${profile.email}`,
-  sameAs: [profile.links.github, profile.links.linkedin],
-  knowsAbout: [
-    "backend systems",
-    "AI tooling",
-    "agent workflows",
-    "developer tooling",
-    "blockchain infrastructure",
-    "Starknet",
-    "Cairo",
-    "Solidity",
-    "TypeScript",
-    "Rust",
-    "Python"
-  ]
-} as const;
-
-const personJsonLdScript = JSON.stringify(personJsonLd).replace(/</g, "\\u003c");
+const homepageStructuredData = createHomepageStructuredData();
 
 const featuredSlugs = new Set<Project["slug"]>([
   "agentreceipt",
@@ -45,7 +24,7 @@ const featuredProjects = projects.filter((project) => featuredSlugs.has(project.
 export default function Home() {
   return (
     <main id="main-content" tabIndex={-1}>
-      <script type="application/ld+json">{personJsonLdScript}</script>
+      <StructuredData data={homepageStructuredData} />
 
       <Section className="hero-section">
         <Container>

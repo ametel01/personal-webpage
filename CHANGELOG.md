@@ -8,6 +8,7 @@ and this project adheres to semantic versioning where applicable.
 ## [Unreleased]
 
 ### Added
+- Added one connected JSON-LD graph for Alex Metelli, the website, the work index, and every project case study.
 - Recorded baseline quality and viewport verification for the Hallmark audit remediation.
 - Established progress and changelog tracking for the Hallmark audit remediation work.
 

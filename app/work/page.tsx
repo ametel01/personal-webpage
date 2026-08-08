@@ -15,9 +15,11 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Container, ExternalLink, Section, TagList } from "@/components/primitives";
 import { ProjectIcon } from "@/components/project-icon";
+import { StructuredData } from "@/components/structured-data";
 import { type Project, projects } from "@/content/projects";
 import { createPageMetadata } from "@/lib/metadata";
 import { site } from "@/lib/site";
+import { createWorkStructuredData } from "@/lib/structured-data";
 
 export const metadata: Metadata = createPageMetadata({
   title: "Selected Work",
@@ -59,12 +61,15 @@ const metrics = [
   }
 ] as const;
 
+const workStructuredData = createWorkStructuredData(projects);
+
 export default function WorkPage() {
   const featuredProject = projects[0];
   const supportingProjects = projects.slice(1);
 
   return (
     <main className="work-page" id="main-content" tabIndex={-1}>
+      <StructuredData data={workStructuredData} />
       <Section className="work-showcase-section">
         <Container>
           <WorkHero />

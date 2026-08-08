@@ -8,7 +8,17 @@ export type ProjectIconAsset = {
   src: string;
 };
 
-export type Project = {
+type ProjectStructuredData =
+  | {
+      schemaType: "SoftwareSourceCode" | "CreativeWork";
+      applicationCategory?: never;
+    }
+  | {
+      schemaType: "SoftwareApplication";
+      applicationCategory: string;
+    };
+
+export type Project = ProjectStructuredData & {
   slug:
     | "agentreceipt"
     | "skills-doctor"
@@ -50,6 +60,7 @@ export const projects: readonly Project[] = [
   {
     slug: "agentreceipt",
     title: "AgentReceipt",
+    schemaType: "SoftwareSourceCode",
     shortDescription:
       "Local-first Go CLI for recording AI coding sessions and producing verifier-ready replay evidence.",
     valueStatement:
@@ -101,6 +112,7 @@ export const projects: readonly Project[] = [
   {
     slug: "skills-doctor",
     title: "Skills Doctor",
+    schemaType: "SoftwareSourceCode",
     shortDescription:
       "TypeScript CLI for auditing Claude/Codex Agent Skills for quality, structure, scoring, and repair readiness.",
     valueStatement:
@@ -144,6 +156,7 @@ export const projects: readonly Project[] = [
   {
     slug: "ritualai",
     title: "RitualAI",
+    schemaType: "SoftwareSourceCode",
     shortDescription:
       "TypeScript CLI that scans local Claude/Codex prompt history and turns repeated workflows into reusable skills.",
     valueStatement:
@@ -187,6 +200,8 @@ export const projects: readonly Project[] = [
   {
     slug: "scopepilot",
     title: "ScopePilot",
+    schemaType: "SoftwareApplication",
+    applicationCategory: "BusinessApplication",
     shortDescription:
       "Agency proposal configurator for scope, pricing, approvals, revisions, and client delivery.",
     valueStatement:
@@ -234,6 +249,7 @@ export const projects: readonly Project[] = [
   {
     slug: "aggsandbox",
     title: "AggSandbox",
+    schemaType: "SoftwareSourceCode",
     shortDescription:
       "Cross-chain infrastructure experiments using LayerZero, AggLayer concepts, and executable contract scripts.",
     valueStatement:
@@ -281,6 +297,7 @@ export const projects: readonly Project[] = [
   {
     slug: "voyager-verifier",
     title: "Voyager Verifier",
+    schemaType: "SoftwareSourceCode",
     shortDescription:
       "Starknet contract verification tooling with compiler integration and status tracking.",
     valueStatement:
@@ -328,6 +345,8 @@ export const projects: readonly Project[] = [
   {
     slug: "horizon-starknet",
     title: "Horizon Protocol",
+    schemaType: "SoftwareApplication",
+    applicationCategory: "FinanceApplication",
     shortDescription:
       "Starknet yield tokenization protocol with SY/PT/YT assets, AMM markets, router flows, frontend, and indexer.",
     valueStatement:

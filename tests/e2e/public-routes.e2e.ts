@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { expect, type Page, test } from "@playwright/test";
 import { projects } from "../../src/content/projects";
 
 const projectRoutes = projects.map((project) => `/work/${project.slug}`);
@@ -12,6 +12,16 @@ const homepageFeaturedSlugs = new Set([
 const homepageFeaturedProjects = projects.filter((project) =>
   homepageFeaturedSlugs.has(project.slug)
 );
+
+type StructuredDataGraph = {
+  "@graph": Record<string, unknown>[];
+};
+
+async function readStructuredData(page: Page): Promise<StructuredDataGraph> {
+  return page.locator('script[type="application/ld+json"]').evaluate((script) => {
+    return JSON.parse(script.textContent ?? "") as StructuredDataGraph;
+  });
+}
 
 test.describe("public routes", () => {
   for (const route of publicRoutes) {
@@ -61,6 +71,39 @@ test.describe("public routes", () => {
       await expect(
         selectedWork.getByText(project.metadata.currentState, { exact: true })
       ).toBeVisible();
+    }
+  });
+
+  test("structured data connects the homepage, work index, and every project", async ({ page }) => {
+    await page.goto("/");
+    const homepageGraph = await readStructuredData(page);
+
+    expect(homepageGraph["@graph"].map((node) => node["@type"])).toEqual([
+      "Person",
+      "WebSite",
+      "ProfilePage"
+    ]);
+    expect(homepageGraph["@graph"][0]?.["@id"]).toBe("https://www.ametel.dev/#alex-metelli");
+
+    await page.goto("/work");
+    const workGraph = await readStructuredData(page);
+
+    expect(workGraph["@graph"].some((node) => node["@type"] === "BreadcrumbList")).toBe(true);
+    expect(workGraph["@graph"][0]?.author).toEqual({
+      "@id": "https://www.ametel.dev/#alex-metelli"
+    });
+
+    for (const project of projects) {
+      await page.goto(`/work/${project.slug}`);
+      const projectGraph = await readStructuredData(page);
+      const projectNode = projectGraph["@graph"].find(
+        (node) => node["@type"] === project.schemaType
+      );
+
+      expect(projectNode?.creator).toEqual({
+        "@id": "https://www.ametel.dev/#alex-metelli"
+      });
+      expect(projectGraph["@graph"].some((node) => node["@type"] === "BreadcrumbList")).toBe(true);
     }
   });
 

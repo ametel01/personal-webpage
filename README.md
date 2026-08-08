@@ -32,7 +32,7 @@ install or test failures.
 
 ## Vercel Deployment
 
-Production URL: https://personal-webpage-three-woad.vercel.app
+Canonical production URL: https://www.ametel.dev/
 
 Use Bun for install and build:
 
@@ -41,12 +41,6 @@ Install Command: bun install
 Build Command: bun run build
 ```
 
-Required production environment variable:
-
-```text
-NEXT_PUBLIC_SITE_URL=https://personal-webpage-three-woad.vercel.app
-```
-
-Set `NEXT_PUBLIC_SITE_URL` for production builds so metadata, sitemap, and robots URLs use
-the public site origin. Local development and tests fall back to `http://localhost:3000`
-when the variable is not set.
+Canonical metadata, sitemap, robots, and structured-data URLs are sourced from the reusable
+SEO entity configuration in `src/lib/seo.ts` so previews and production builds describe the
+same public identity.

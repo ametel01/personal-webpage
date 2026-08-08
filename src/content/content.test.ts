@@ -13,10 +13,17 @@ import {
   projects
 } from "@/content/projects";
 import { resume } from "@/content/resume";
-import type * as MetadataModule from "@/lib/metadata";
 import { createPageMetadata, getAbsoluteUrl, homeTitle } from "@/lib/metadata";
 import { primaryNavItems } from "@/lib/navigation";
+import { seoEntity } from "@/lib/seo";
 import { site } from "@/lib/site";
+import {
+  createHomepageStructuredData,
+  createProjectStructuredData,
+  createWorkStructuredData,
+  type StructuredDataGraph,
+  serializeStructuredData
+} from "@/lib/structured-data";
 
 const expectedSlugs = [
   "agentreceipt",
@@ -61,38 +68,6 @@ function cssRuleBody(selector: string) {
   return globalCss.match(new RegExp(`${escapeRegExp(selector)}\\s*{(?<body>[^}]*)}`))?.groups?.body;
 }
 
-async function importMetadataWithEnv(env: Record<string, string | undefined>) {
-  const processEnv = process.env as Record<string, string | undefined>;
-  const previousNodeEnv = process.env.NODE_ENV;
-  const previousSiteUrl = process.env.NEXT_PUBLIC_SITE_URL;
-
-  try {
-    for (const [key, value] of Object.entries(env)) {
-      if (value === undefined) {
-        delete processEnv[key];
-      } else {
-        processEnv[key] = value;
-      }
-    }
-
-    return (await import(
-      `../lib/metadata.ts?case=${crypto.randomUUID()}`
-    )) as typeof MetadataModule;
-  } finally {
-    if (previousNodeEnv === undefined) {
-      delete processEnv.NODE_ENV;
-    } else {
-      processEnv.NODE_ENV = previousNodeEnv;
-    }
-
-    if (previousSiteUrl === undefined) {
-      delete processEnv.NEXT_PUBLIC_SITE_URL;
-    } else {
-      processEnv.NEXT_PUBLIC_SITE_URL = previousSiteUrl;
-    }
-  }
-}
-
 function collectText(node: unknown): string {
   if (typeof node === "string" || typeof node === "number") {
     return String(node);
@@ -129,6 +104,10 @@ function collectText(node: unknown): string {
   return "";
 }
 
+function getGraphNode(graph: StructuredDataGraph, type: string) {
+  return graph["@graph"].find((node) => node["@type"] === type);
+}
+
 describe("website content invariants", () => {
   test("selected projects expose the expected slugs and routes", () => {
     assert.deepStrictEqual([...projectSlugs], [...expectedSlugs]);
@@ -144,6 +123,9 @@ describe("website content invariants", () => {
 
     for (const project of projects) {
       assert.ok(project.title.length > 0);
+      assert.ok(
+        ["SoftwareSourceCode", "SoftwareApplication", "CreativeWork"].includes(project.schemaType)
+      );
       assert.ok(project.shortDescription.length > 0);
       assert.ok(project.proof.length > 0);
       assert.ok(project.metadata.role.length > 0);
@@ -511,7 +493,7 @@ describe("website content invariants", () => {
   });
 
   test("metadata helper builds canonical and Open Graph URLs from the site URL", () => {
-    assert.equal(getAbsoluteUrl("/work"), "http://localhost:3000/work");
+    assert.equal(getAbsoluteUrl("/work"), "https://www.ametel.dev/work");
 
     const metadata = createPageMetadata({
       title: "Selected Work",
@@ -524,50 +506,103 @@ describe("website content invariants", () => {
 
     const openGraph = metadata.openGraph as { title?: unknown; url?: unknown } | undefined;
     assert.equal(openGraph?.title, "Selected Work | Alex Metelli");
-    assert.equal(openGraph?.url, "http://localhost:3000/work");
+    assert.equal(openGraph?.url, "https://www.ametel.dev/work");
   });
 
-  test("metadata helper uses localhost outside production when no site URL is configured", async () => {
-    const metadata = await importMetadataWithEnv({
-      NODE_ENV: "test",
-      NEXT_PUBLIC_SITE_URL: undefined
+  test("SEO entity configuration owns the stable public identity", () => {
+    assert.equal(seoEntity.personId, "https://www.ametel.dev/#alex-metelli");
+    assert.equal(seoEntity.canonicalUrl, "https://www.ametel.dev/");
+    assert.equal(seoEntity.name, site.name);
+    assert.equal(seoEntity.occupation, site.role);
+    assert.equal(seoEntity.description.length > 0, true);
+    assert.equal(seoEntity.image, "https://www.ametel.dev/images/professional-photo.png");
+    assert.deepStrictEqual(seoEntity.sameAs, [site.githubUrl, site.linkedinUrl]);
+    assert.ok(seoEntity.skills.includes("Developer infrastructure"));
+  });
+
+  test("homepage structured data connects the Person, WebSite, and ProfilePage", () => {
+    const graph = createHomepageStructuredData();
+    const person = getGraphNode(graph, "Person");
+    const website = getGraphNode(graph, "WebSite");
+    const profilePage = getGraphNode(graph, "ProfilePage");
+
+    assert.ok(person);
+    assert.equal(person["@id"], seoEntity.personId);
+    assert.equal(person.description, seoEntity.description);
+    assert.equal(person.image, seoEntity.image);
+    assert.deepStrictEqual(person.mainEntityOfPage, { "@id": seoEntity.profilePageId });
+    assert.deepStrictEqual(person.knowsAbout, seoEntity.skills);
+    assert.deepStrictEqual(person.sameAs, seoEntity.sameAs);
+    assert.deepStrictEqual(person.alumniOf, {
+      "@type": "CollegeOrUniversity",
+      name: seoEntity.alumniOf
     });
 
-    assert.equal(metadata.getAbsoluteUrl("/work"), "http://localhost:3000/work");
+    assert.ok(website);
+    assert.equal(website["@id"], seoEntity.websiteId);
+    assert.deepStrictEqual(website.author, { "@id": seoEntity.personId });
+
+    assert.ok(profilePage);
+    assert.equal(profilePage["@id"], seoEntity.profilePageId);
+    assert.deepStrictEqual(profilePage.mainEntity, { "@id": seoEntity.personId });
+    assert.deepStrictEqual(profilePage.isPartOf, { "@id": seoEntity.websiteId });
   });
 
-  test("metadata helper uses the configured site URL", async () => {
-    const metadata = await importMetadataWithEnv({
-      NODE_ENV: "production",
-      NEXT_PUBLIC_SITE_URL: "https://personal-webpage-three-woad.vercel.app"
-    });
+  test("work structured data connects the project index and breadcrumbs", () => {
+    const graph = createWorkStructuredData(projects);
+    const collectionPage = getGraphNode(graph, "CollectionPage");
+    const itemList = getGraphNode(graph, "ItemList");
+    const breadcrumbs = getGraphNode(graph, "BreadcrumbList");
 
-    assert.equal(
-      metadata.getAbsoluteUrl("/work"),
-      "https://personal-webpage-three-woad.vercel.app/work"
-    );
+    assert.ok(collectionPage);
+    assert.deepStrictEqual(collectionPage.author, { "@id": seoEntity.personId });
+    assert.deepStrictEqual(collectionPage.isPartOf, { "@id": seoEntity.websiteId });
+    assert.ok(itemList);
+    assert.equal(itemList.numberOfItems, projects.length);
+    assert.ok(breadcrumbs);
+    assert.equal((breadcrumbs.itemListElement as unknown[]).length, 2);
   });
 
-  test("metadata helper requires a site URL for production", async () => {
-    await assert.rejects(
-      () =>
-        importMetadataWithEnv({
-          NODE_ENV: "production",
-          NEXT_PUBLIC_SITE_URL: undefined
-        }),
-      /NEXT_PUBLIC_SITE_URL/
-    );
+  test("every case study describes its project, creator, website, and breadcrumbs", () => {
+    for (const project of projects) {
+      const graph = createProjectStructuredData(project);
+      const projectNode = getGraphNode(graph, project.schemaType);
+      const webPage = getGraphNode(graph, "WebPage");
+      const breadcrumbs = getGraphNode(graph, "BreadcrumbList");
+
+      assert.ok(projectNode, `${project.title} should expose ${project.schemaType}`);
+      assert.equal(projectNode["@id"], `https://www.ametel.dev/work/${project.slug}#project`);
+      assert.deepStrictEqual(projectNode.creator, { "@id": seoEntity.personId });
+      assert.deepStrictEqual(projectNode.author, { "@id": seoEntity.personId });
+      assert.ok(webPage);
+      assert.deepStrictEqual(webPage.isPartOf, { "@id": seoEntity.websiteId });
+      assert.deepStrictEqual(webPage.mainEntity, { "@id": projectNode["@id"] });
+      assert.ok(breadcrumbs);
+      assert.equal((breadcrumbs.itemListElement as unknown[]).length, 3);
+
+      if (project.schemaType === "SoftwareSourceCode") {
+        assert.match(String(projectNode.codeRepository), /^https:\/\/github\.com\//);
+        assert.ok((projectNode.programmingLanguage as string[]).length > 0);
+      }
+
+      if (project.schemaType === "SoftwareApplication") {
+        assert.equal(projectNode.applicationCategory, project.applicationCategory);
+        assert.equal(projectNode.operatingSystem, "Web");
+      }
+    }
   });
 
-  test("metadata helper rejects invalid configured site URLs", async () => {
-    await assert.rejects(
-      () =>
-        importMetadataWithEnv({
-          NODE_ENV: "test",
-          NEXT_PUBLIC_SITE_URL: "not a url"
-        }),
-      /NEXT_PUBLIC_SITE_URL/
-    );
+  test("structured data serialization escapes script-breaking characters", () => {
+    const graph: StructuredDataGraph = {
+      "@context": "https://schema.org",
+      "@graph": [{ "@type": "Thing", name: "</script>\u2028\u2029" }]
+    };
+    const serialized = serializeStructuredData(graph);
+
+    assert.doesNotMatch(serialized, /<\/script>/);
+    assert.match(serialized, /\\u003c\/script>/);
+    assert.match(serialized, /\\u2028/);
+    assert.match(serialized, /\\u2029/);
   });
 
   test("homepage title matches the required SEO title", () => {

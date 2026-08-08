@@ -5,8 +5,10 @@ import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
 import { Container, ExternalLink, Section, TagList } from "@/components/primitives";
 import { ProjectIcon } from "@/components/project-icon";
+import { StructuredData } from "@/components/structured-data";
 import { getProject, isProjectSlug, projectSlugs } from "@/content/projects";
 import { createPageMetadata } from "@/lib/metadata";
+import { createProjectStructuredData } from "@/lib/structured-data";
 
 type ProjectPageProps = {
   params: Promise<{
@@ -57,6 +59,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
   return (
     <main id="main-content" tabIndex={-1}>
+      <StructuredData data={createProjectStructuredData(project)} />
       <article>
         <Section className="project-detail-hero-section">
           <Container>
