@@ -44,12 +44,12 @@ const featuredProjects = projects.filter((project) => featuredSlugs.has(project.
 
 export default function Home() {
   return (
-    <main>
+    <main className="home-page" id="main-content" tabIndex={-1}>
       <script type="application/ld+json">{personJsonLdScript}</script>
 
-      <Section className="hero-section">
-        <Container>
-          <div className="home-hero">
+      <Section className="hero-section home-hero-section">
+        <Container className="home-hero-layout">
+          <div className="home-hero-main">
             <h1 className="hero-title home-hero-title">{profile.hero.headline}</h1>
             <p className="page-description home-hero-description">{profile.hero.body}</p>
             <div className="home-hero-actions">
@@ -63,6 +63,20 @@ export default function Home() {
               </Link>
             </div>
           </div>
+          <aside className="home-proof-ledger" aria-label="Engineering profile">
+            <div className="home-proof-intro">
+              <p className="home-proof-role">{profile.role}</p>
+              <p className="home-proof-summary">{profile.summary}</p>
+            </div>
+            <dl className="home-proof-facts">
+              {profile.facts.map((fact) => (
+                <div className="home-proof-fact" key={fact.label}>
+                  <dt>{fact.label}</dt>
+                  <dd>{fact.value}</dd>
+                </div>
+              ))}
+            </dl>
+          </aside>
         </Container>
       </Section>
 
@@ -76,8 +90,8 @@ export default function Home() {
             </Link>
           </div>
           <div className="home-project-grid">
-            {featuredProjects.map((project) => (
-              <ProjectCard key={project.slug} project={project} />
+            {featuredProjects.map((project, index) => (
+              <ProjectCard featured={index === 0} key={project.slug} project={project} />
             ))}
           </div>
         </Container>
@@ -130,7 +144,7 @@ export default function Home() {
         </Container>
       </Section>
 
-      <Section id="contact" muted>
+      <Section className="home-contact-section" id="contact">
         <Container>
           <div className="home-contact-grid">
             <h2 className="section-title">Discuss a role or consulting project</h2>
@@ -148,21 +162,29 @@ export default function Home() {
   );
 }
 
-function ProjectCard({ project }: { project: Project }) {
+function ProjectCard({ featured, project }: { featured: boolean; project: Project }) {
   return (
-    <article className="avoid-break">
+    <article
+      className={`avoid-break home-project-item${featured ? " home-project-item-lead" : ""}`}
+    >
       <Link className="home-project-card" href={`/work/${project.slug}`}>
         <div className="home-project-card-header">
           <ProjectIcon icon={project.icon} size="home" />
-          <h3 className="card-title home-project-title">{project.title}</h3>
+          <p className="home-project-role">{project.metadata.role}</p>
         </div>
+        <h3 className="card-title home-project-title">{project.title}</h3>
         <p className="body-copy home-project-summary">{project.valueStatement}</p>
-        <p className="home-project-state">{project.metadata.currentState}</p>
-        <p className="home-project-tags">{project.tags.slice(0, 3).join(" · ")}</p>
-        <span className="home-project-link">
-          {project.title} case study
-          <ArrowRight aria-hidden="true" size={16} strokeWidth={2.4} />
-        </span>
+        {featured ? <p className="home-project-proof">{project.proof}</p> : null}
+        <div className="home-project-footer">
+          <div>
+            <p className="home-project-state">{project.metadata.currentState}</p>
+            <p className="home-project-tags">{project.tags.slice(0, 3).join(" · ")}</p>
+          </div>
+          <span className="home-project-link">
+            Read case study
+            <ArrowRight aria-hidden="true" size={16} strokeWidth={2.4} />
+          </span>
+        </div>
       </Link>
     </article>
   );

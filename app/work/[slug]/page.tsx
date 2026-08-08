@@ -56,7 +56,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   }
 
   return (
-    <main>
+    <main id="main-content" tabIndex={-1}>
       <article>
         <Section className="project-detail-hero-section">
           <Container>

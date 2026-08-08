@@ -20,6 +20,7 @@ test.describe("public routes", () => {
 
       expect(response?.ok()).toBe(true);
       await expect(page.locator("h1:visible")).toHaveCount(1);
+      await expect(page.locator("main#main-content")).toHaveCount(1);
       await expect(page.locator('a[href=""]')).toHaveCount(0);
 
       const overflowsHorizontally = await page.evaluate(
@@ -45,7 +46,7 @@ test.describe("public routes", () => {
     }
   });
 
-  test("homepage project grid and contribution list stay aligned", async ({ page }) => {
+  test("homepage project hierarchy and contribution list stay aligned", async ({ page }) => {
     await page.setViewportSize({ width: 1220, height: 900 });
     await page.goto("/");
 
@@ -56,10 +57,11 @@ test.describe("public routes", () => {
 
     expect(cardBoxes).toHaveLength(4);
     expect(cardBoxes.every(Boolean)).toBe(true);
-    expect(cardBoxes[0]?.y).toBe(cardBoxes[1]?.y);
-    expect(cardBoxes[2]?.y).toBe(cardBoxes[3]?.y);
-    expect(cardBoxes[0]?.x).toBe(cardBoxes[2]?.x);
-    expect(cardBoxes[1]?.x).toBe(cardBoxes[3]?.x);
+    expect(cardBoxes[0]?.width).toBeGreaterThan(cardBoxes[1]?.width ?? 0);
+    expect(cardBoxes[0]?.height).toBeGreaterThan(cardBoxes[1]?.height ?? 0);
+    expect(cardBoxes[1]?.x).toBe(cardBoxes[2]?.x);
+    expect(cardBoxes[2]?.x).toBe(cardBoxes[3]?.x);
+    expect(cardBoxes[1]?.y).toBeLessThan(cardBoxes[2]?.y ?? 0);
 
     const contributionRows = page.locator(".open-source-row");
     const firstRow = await contributionRows.first().boundingBox();
@@ -100,10 +102,10 @@ test.describe("public routes", () => {
 
         const cardHeader = page.locator(".home-project-card-header").first();
         const iconBox = await cardHeader.locator(".project-logo").boundingBox();
-        const titleBox = await cardHeader.locator(".home-project-title").boundingBox();
+        const roleBox = await cardHeader.locator(".home-project-role").boundingBox();
 
         expect((iconBox?.y ?? 0) + (iconBox?.height ?? 0) / 2).toBeCloseTo(
-          (titleBox?.y ?? 0) + (titleBox?.height ?? 0) / 2
+          (roleBox?.y ?? 0) + (roleBox?.height ?? 0) / 2
         );
       }
 
@@ -111,6 +113,69 @@ test.describe("public routes", () => {
         expect(layout.selectedWorkWidth).toBeLessThanOrEqual(1180);
       }
     }
+  });
+
+  test("keyboard users can bypass the repeated site navigation", async ({ page }) => {
+    await page.goto("/");
+
+    const skipLink = page.getByRole("link", { name: "Skip to main content" });
+
+    await page.keyboard.press("Tab");
+    await expect(skipLink).toBeFocused();
+    await expect(skipLink).toBeVisible();
+    await skipLink.press("Enter");
+
+    await expect(page).toHaveURL(/#main-content$/);
+    await expect(page.locator("main#main-content")).toBeFocused();
+  });
+
+  test("unknown routes provide a useful recovery state", async ({ page }) => {
+    await page.setViewportSize({ width: 320, height: 900 });
+
+    const response = await page.goto("/work/not-a-project");
+
+    expect(response?.status()).toBe(404);
+    await expect(
+      page.getByRole("heading", { name: "This page is not part of the portfolio." })
+    ).toBeVisible();
+    await expect(page.getByRole("link", { name: "Review selected work" })).toHaveAttribute(
+      "href",
+      "/work"
+    );
+    await expect(page.getByRole("link", { name: "Email Alex" })).toHaveAttribute(
+      "href",
+      /^mailto:/
+    );
+
+    const overflowsHorizontally = await page.evaluate(
+      () => document.documentElement.scrollWidth > window.innerWidth + 1
+    );
+
+    expect(overflowsHorizontally).toBe(false);
+  });
+
+  test("homepage tolerates expanded and right-to-left text without horizontal overflow", async ({
+    page
+  }) => {
+    await page.setViewportSize({ width: 320, height: 900 });
+    await page.goto("/");
+
+    await page.evaluate(() => {
+      document.documentElement.dir = "rtl";
+
+      for (const element of document.querySelectorAll(
+        ".home-project-role, .open-source-title, .home-proof-fact dd, .site-footer-email"
+      )) {
+        element.textContent =
+          "مهندسة-البنية-التحتية-والمنصات-لأنظمة-موزعة-شديدة-الحساسية-للصحة-والتوثيق";
+      }
+    });
+
+    const overflowsHorizontally = await page.evaluate(
+      () => document.documentElement.scrollWidth > window.innerWidth + 1
+    );
+
+    expect(overflowsHorizontally).toBe(false);
   });
 
   test("about page renders the portrait with alt text", async ({ page }) => {

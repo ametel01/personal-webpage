@@ -56,7 +56,7 @@ export const metadata: Metadata = createPageMetadata({
 
 export default function ResumePage() {
   return (
-    <main className="resume-page">
+    <main className="resume-page" id="main-content" tabIndex={-1}>
       <Section className="resume-hero-section">
         <Container>
           <div className="resume-hero-grid">
