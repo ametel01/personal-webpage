@@ -72,6 +72,31 @@ test.describe("public routes", () => {
     await expect(page.getByRole("heading", { level: 1, name: "AgentReceipt" })).toBeVisible();
   });
 
+  test("desktop case-study navigation exposes generous hit areas", async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.goto("/work/agentreceipt");
+
+    const sectionLinks = page.locator(".case-study-nav-list a");
+
+    for (let index = 0; index < (await sectionLinks.count()); index += 1) {
+      const box = await sectionLinks.nth(index).boundingBox();
+
+      expect(box?.width).toBeGreaterThanOrEqual(44);
+      expect(box?.height).toBeGreaterThanOrEqual(44);
+    }
+
+    await page.getByRole("link", { name: "Technical details", exact: true }).click();
+
+    const anchorLanding = await page.evaluate(() => ({
+      hash: window.location.hash,
+      headerBottom: document.querySelector(".site-header")?.getBoundingClientRect().bottom ?? 0,
+      targetTop: document.querySelector("#technical-details")?.getBoundingClientRect().top ?? 0
+    }));
+
+    expect(anchorLanding.hash).toBe("#technical-details");
+    expect(anchorLanding.targetTop).toBeGreaterThan(anchorLanding.headerBottom);
+  });
+
   test("homepage project grid and contribution list stay aligned", async ({ page }) => {
     await page.setViewportSize({ width: 1220, height: 900 });
     await page.goto("/");
