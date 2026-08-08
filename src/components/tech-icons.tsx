@@ -40,6 +40,8 @@ type AssetVisual = {
 
 type TechVisual = AssetVisual | LogoVisual | MonogramVisual;
 
+const rasterAssetPattern = /\.(?:avif|jpe?g|png|webp)$/i;
+
 const logoVisuals = {
   Astro: siAstro,
   Bun: siBun,
@@ -189,6 +191,7 @@ export function TechIcon({ name }: { name: string }) {
   }
 
   if (visual.kind === "asset") {
+    const isRasterAsset = rasterAssetPattern.test(visual.src);
     const assetStyle =
       visual.displayWidth || visual.displayHeight
         ? ({
@@ -204,7 +207,7 @@ export function TechIcon({ name }: { name: string }) {
           alt=""
           height={visual.height ?? 24}
           src={visual.src}
-          unoptimized
+          unoptimized={!isRasterAsset}
           width={visual.width ?? 24}
         />
       </span>

@@ -1,7 +1,9 @@
 import assert from "node:assert/strict";
 import { existsSync, readFileSync } from "node:fs";
 import { describe, test } from "node:test";
-import { getTechVisual } from "@/components/tech-icons";
+import { createElement } from "react";
+import { renderToStaticMarkup } from "react-dom/server";
+import { getTechVisual, TechIcon } from "@/components/tech-icons";
 import { profile, technicalFocusGroups } from "@/content/profile";
 import {
   getProject,
@@ -362,6 +364,15 @@ describe("website content invariants", () => {
     assert.equal(visual.displayWidth, "28px");
     assert.equal(visual.displayHeight, "12px");
     assert.ok(existsSync(new URL("../../public/icons/go.png", import.meta.url)));
+  });
+
+  test("raster technology assets use image optimization while SVG assets stay direct", () => {
+    const rasterMarkup = renderToStaticMarkup(createElement(TechIcon, { name: "CloudWatch" }));
+    const vectorMarkup = renderToStaticMarkup(createElement(TechIcon, { name: "AggLayer" }));
+
+    assert.match(rasterMarkup, /\/_next\/image\?url=%2Ficons%2Fcloudwatch\.png/);
+    assert.doesNotMatch(vectorMarkup, /\/_next\/image\?/);
+    assert.match(vectorMarkup, /src="\/icons\/agglayer\.svg"/);
   });
 
   test("global CSS keeps documented layout and distilled homepage invariants", () => {
