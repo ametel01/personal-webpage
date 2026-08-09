@@ -322,20 +322,26 @@ test.describe("public routes", () => {
       "Blockchain infra",
       "Remote-friendly"
     ]) {
-      await expect(page.locator(".about-chip").filter({ hasText: label })).toBeVisible();
+      await expect(
+        page.locator(".about-capability-index").getByText(label, { exact: true })
+      ).toBeVisible();
     }
 
-    await expect(page.locator(".about-focus-grid").getByText("What I work on")).toBeVisible();
-    await expect(page.locator(".about-focus-grid").getByText("How I work")).toBeVisible();
-    await expect(
-      page.locator(".about-focus-grid").getByText("What I am looking for")
-    ).toBeVisible();
+    const interview = page.locator(".about-interview");
+    await expect(interview.getByRole("heading", { name: "What I work on" })).toBeVisible();
+    await expect(interview.getByRole("heading", { name: "How I work" })).toBeVisible();
+    await expect(interview.getByRole("heading", { name: "What I am looking for" })).toBeVisible();
+    await expect(interview.locator(".about-waypoint")).toHaveCount(3);
 
-    await expect(page.getByRole("heading", { name: "What matters to me" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Working principles" })).toBeVisible();
 
     for (const value of ["Correctness", "Clarity", "Delivery"]) {
-      await expect(page.locator(".about-values-grid").getByText(value)).toBeVisible();
+      await expect(
+        page.locator(".about-principles").getByRole("heading", { name: value })
+      ).toBeVisible();
     }
+
+    await expect(page.locator(".about-contact-register a")).toHaveCount(4);
   });
 
   for (const viewport of [

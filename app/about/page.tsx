@@ -1,24 +1,16 @@
 import {
   BriefcaseBusiness,
-  CalendarDays,
-  Code2,
   CodeXml,
   FileText,
-  Globe2,
   ListChecks,
   Mail,
-  Package,
   Rocket,
-  Server,
-  ShieldCheck,
-  Target,
-  UsersRound
+  ShieldCheck
 } from "lucide-react";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import type { ReactNode } from "react";
-import { Container, ExternalLink, PageHeader, Section } from "@/components/primitives";
+import { Container, ExternalLink, Section } from "@/components/primitives";
 import { profile } from "@/content/profile";
 import { createPageMetadata } from "@/lib/metadata";
 
@@ -29,195 +21,146 @@ export const metadata: Metadata = createPageMetadata({
   path: "/about"
 });
 
-const chipIcons = {
-  calendar: CalendarDays,
-  server: Server,
-  code: Code2,
-  cube: Package,
-  globe: Globe2
-} satisfies Record<string, typeof CalendarDays>;
-
-const aboutIcons = {
-  code: CodeXml,
-  team: UsersRound,
-  target: Target,
+const valueIcons = {
   shield: ShieldCheck,
   list: ListChecks,
   rocket: Rocket
-} satisfies Record<string, typeof CodeXml>;
+} satisfies Record<string, typeof ShieldCheck>;
 
 export default function AboutPage() {
   return (
     <main className="about-page" id="main-content" tabIndex={-1}>
-      <Section className="about-section">
-        <Container className="about-container">
-          <div className="about-hero-grid">
-            <div className="about-hero-copy">
-              <PageHeader
-                eyebrow="About"
-                title="Engineering work built around correctness, clarity, and delivery."
-                description={profile.about.narrative}
-              />
+      <script id="impeccable-about-direction-contract" type="application/json">
+        {JSON.stringify({
+          thesis:
+            "A portrait and capability rail opens into a sequential account of engineering practice, refusing the generic biography card grid.",
+          ownWorld:
+            "Warm paper, navy ink, editorial serif hierarchy, a single blue waypoint path, square portrait geometry, and fine rules inherited from Home, Work, and Writing.",
+          story:
+            "An engineering manager understands Alex's focus, working style, availability, principles, and direct paths to inspect or discuss the work.",
+          firstViewport:
+            "A tall portrait and five-part capability index sit beside a large engineering thesis and three numbered answers connected by one vertical blue path.",
+          form: "Waypoint interview field; approved comp about-interview-c; seed 642b9290.",
+          finish:
+            "unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, and DESIGN.md"
+        })}
+      </script>
 
-              <ul className="about-chip-list" aria-label="About summary">
-                {profile.about.capabilityChips.map((chip) => (
-                  <AboutChip icon={chip.icon} key={chip.label}>
-                    {chip.label}
-                  </AboutChip>
-                ))}
-              </ul>
+      <Section className="about-field-section">
+        <Container className="about-field-container">
+          <div className="about-field-layout">
+            <IdentityRail />
 
-              <div className="about-focus-grid">
-                {profile.about.focusCards.map((card, index) => (
-                  <AboutCard
-                    body={card.body}
-                    key={card.title}
-                    title={card.title}
-                    variant={index === 0 ? "feature" : "supporting"}
-                  />
-                ))}
-              </div>
+            <div className="about-reading-field">
+              <header className="about-intro">
+                <h1>Engineering work built around correctness, clarity, and delivery.</h1>
+                <p>{profile.about.narrative}</p>
+              </header>
+
+              <section className="about-interview" aria-label="Engineering practice">
+                <ol>
+                  {profile.about.focusCards.map((item, index) => (
+                    <li key={item.title}>
+                      <span className="about-waypoint" aria-hidden="true">
+                        {index + 1}
+                      </span>
+                      <article>
+                        <h2>{item.title}</h2>
+                        <p>{item.body}</p>
+                      </article>
+                    </li>
+                  ))}
+                </ol>
+              </section>
+
+              <WorkingPrinciples />
+              <ContactRegister />
             </div>
-
-            <aside className="about-profile-card" aria-label="Profile summary">
-              <figure className="about-portrait-frame">
-                <Image
-                  alt={profile.about.imageAlt}
-                  className="about-portrait"
-                  height={720}
-                  priority
-                  sizes="(max-width: 720px) 88vw, 360px"
-                  src={profile.about.image}
-                  width={720}
-                />
-              </figure>
-              <div className="about-profile-summary">
-                {profile.about.focusCards.map((card) => (
-                  <ProfileSummaryRow
-                    body={"sidebarBody" in card ? card.sidebarBody : card.body}
-                    icon={card.icon}
-                    key={card.title}
-                    title={"sidebarTitle" in card ? card.sidebarTitle : card.title}
-                  />
-                ))}
-              </div>
-            </aside>
           </div>
-
-          <section className="about-values-section" aria-labelledby="about-values-title">
-            <h2 id="about-values-title">What matters to me</h2>
-            <div className="about-values-grid">
-              {profile.about.values.map((value) => (
-                <ValueCard
-                  body={value.body}
-                  icon={value.icon}
-                  key={value.title}
-                  title={value.title}
-                />
-              ))}
-            </div>
-          </section>
-
-          <nav className="about-cta-row" aria-label="Contact links">
-            <a className="button about-cta-primary" href={`mailto:${profile.email}`}>
-              <Mail aria-hidden="true" size={18} strokeWidth={2.3} />
-              Email
-            </a>
-            <ExternalLink className="button button-secondary about-cta" href={profile.links.github}>
-              <CodeXml aria-hidden="true" size={18} strokeWidth={2.3} />
-              GitHub
-            </ExternalLink>
-            <ExternalLink
-              className="button button-secondary about-cta"
-              href={profile.links.linkedin}
-            >
-              <BriefcaseBusiness aria-hidden="true" size={18} strokeWidth={2.3} />
-              LinkedIn
-            </ExternalLink>
-            <Link className="button button-secondary about-cta" href={profile.links.resume}>
-              <FileText aria-hidden="true" size={18} strokeWidth={2.3} />
-              Resume
-            </Link>
-          </nav>
         </Container>
       </Section>
     </main>
   );
 }
 
-function AboutChip({ children, icon }: { children: ReactNode; icon: keyof typeof chipIcons }) {
-  const Icon = chipIcons[icon];
-
+function IdentityRail() {
   return (
-    <li className="about-chip">
-      <Icon aria-hidden="true" size={17} strokeWidth={2.1} />
-      <span>{children}</span>
-    </li>
+    <aside className="about-identity-rail" aria-labelledby="about-identity-title">
+      <figure className="about-identity-figure">
+        <div className="about-portrait-frame">
+          <Image
+            alt={profile.about.imageAlt}
+            className="about-portrait"
+            height={900}
+            priority
+            sizes="(max-width: 640px) 100vw, (max-width: 1120px) 40vw, 330px"
+            src={profile.about.image}
+            width={720}
+          />
+        </div>
+        <figcaption>
+          <strong id="about-identity-title">{profile.name}</strong>
+          <span>{profile.role}</span>
+        </figcaption>
+      </figure>
+
+      <section className="about-capability-index" aria-labelledby="about-capability-title">
+        <h2 id="about-capability-title">Engineering range</h2>
+        <ol>
+          {profile.about.capabilityChips.map((item, index) => (
+            <li key={item.label}>
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <span>{item.label}</span>
+            </li>
+          ))}
+        </ol>
+      </section>
+    </aside>
   );
 }
 
-function AboutCard({
-  body,
-  title,
-  variant
-}: {
-  body: string;
-  title: string;
-  variant: "feature" | "supporting";
-}) {
+function WorkingPrinciples() {
   return (
-    <article className={`about-card about-card-${variant}`}>
-      <h2>{title}</h2>
-      <span className="about-card-rule" aria-hidden="true" />
-      <p>{body}</p>
-    </article>
+    <section className="about-principles" aria-labelledby="about-principles-title">
+      <h2 id="about-principles-title">Working principles</h2>
+      <ul>
+        {profile.about.values.map((value) => {
+          const Icon = valueIcons[value.icon];
+
+          return (
+            <li key={value.title}>
+              <Icon aria-hidden="true" size={24} strokeWidth={1.8} />
+              <div>
+                <h3>{value.title}</h3>
+                <p>{value.body}</p>
+              </div>
+            </li>
+          );
+        })}
+      </ul>
+    </section>
   );
 }
 
-function ProfileSummaryRow({
-  body,
-  icon,
-  title
-}: {
-  body: string;
-  icon: keyof typeof aboutIcons;
-  title: string;
-}) {
-  const Icon = aboutIcons[icon];
-
+function ContactRegister() {
   return (
-    <article className="about-summary-row">
-      <span className="about-summary-icon">
-        <Icon aria-hidden="true" size={24} strokeWidth={2.05} />
-      </span>
-      <div>
-        <h3>{title}</h3>
-        <p>{body}</p>
-      </div>
-    </article>
-  );
-}
-
-function ValueCard({
-  body,
-  icon,
-  title
-}: {
-  body: string;
-  icon: keyof typeof aboutIcons;
-  title: string;
-}) {
-  const Icon = aboutIcons[icon];
-
-  return (
-    <article className="about-value-card">
-      <span className="about-icon-badge">
-        <Icon aria-hidden="true" size={27} strokeWidth={2.05} />
-      </span>
-      <div>
-        <h3>{title}</h3>
-        <p>{body}</p>
-      </div>
-    </article>
+    <nav className="about-contact-register" aria-label="Contact and profile links">
+      <a href={`mailto:${profile.email}`}>
+        <Mail aria-hidden="true" size={18} strokeWidth={2} />
+        Email
+      </a>
+      <ExternalLink href={profile.links.github}>
+        <CodeXml aria-hidden="true" size={18} strokeWidth={2} />
+        GitHub
+      </ExternalLink>
+      <ExternalLink href={profile.links.linkedin}>
+        <BriefcaseBusiness aria-hidden="true" size={18} strokeWidth={2} />
+        LinkedIn
+      </ExternalLink>
+      <Link href={profile.links.resume}>
+        <FileText aria-hidden="true" size={18} strokeWidth={2} />
+        Resume
+      </Link>
+    </nav>
   );
 }

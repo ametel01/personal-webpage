@@ -144,7 +144,7 @@ components:
 
 This system feels like a carefully maintained engineering fieldbook: warm paper carries precise navy ink, restrained blue marks the paths worth following, and serif headings give evidence enough gravity to be read rather than skimmed as marketing. It is calm, technical, and editorial, with the interface serving the work instead of competing with it.
 
-The density is generous at the page level and compact inside proof-bearing elements. Thin rules, small labels, structured grids, and modest tonal shifts establish hierarchy. The writing surface established the clearest expression of the world; the homepage extends it into a proof ledger, while the Work index turns the same vocabulary into a continuous evidence register with one expanded specimen and six comparable records.
+The density is generous at the page level and compact inside proof-bearing elements. Thin rules, small labels, structured grids, and modest tonal shifts establish hierarchy. The writing surface established the clearest expression of the world; the homepage extends it into a proof ledger, the Work index turns the same vocabulary into a continuous evidence register, the About surface translates it into an identity rail beside a sequential waypoint interview, and the Resume surface opens a compact identity deck into one continuous career proof register.
 
 **Key Characteristics:**
 
@@ -229,11 +229,15 @@ The homepage uses the same broad-column-to-waypoint relationship without cloning
 
 The Work index uses a narrow sticky thesis and seven-project directory beside a continuous register. The desktop split is roughly 31% for the rail and the remaining width for evidence, with a fluid 2.75–5rem gap. At 1120px the rail becomes static and the directory becomes a two-column grid; at 720px it becomes a horizontal, touch-scrollable directory with fixed-width entries. The featured specimen pairs a broad project plate with a narrower proof rail and keeps a 570px minimum height on wide screens. At 860px the proof rail stacks below as two columns; at 720px it becomes one column and the remaining project rows collapse from four aligned evidence columns into compact vertical records. The two closing evidence paths stack at the same mobile breakpoint.
 
+The About surface uses the 1328px wide-container relationship to place a 280–330px sticky identity rail beside a reading field capped at 900px, with 64px outer gutters and a fluid 3.5–6.75rem gap. At 1120px the surface returns to the standard container with 24px gutters: the rail becomes a static, two-column intro plate above the reading field. At 720px the gutters reduce to 16px, the portrait-and-index plate compacts, the three principles stack, and the four contact paths become two columns. At 430px those contact paths become a single left-aligned register. Reading order remains portrait and five-part capability index, thesis, all three connected answers, principles, then contact paths.
+
+The Resume surface opens with a two-column identity deck: name and position occupy the narrower column, while a concise summary, PDF action, conversation path, and professional profiles occupy the broader column. A four-column evidence index spans the container below. The career proof register then pairs a 220px sticky section index with one continuous record, separated by a single blue path. At 1080px the masthead and register stack, the index becomes a four-column horizontal band, and the blue path disappears. At 760px the fact index becomes two columns, the section index becomes touch-scrollable, and experience and project records compact without changing reading order. At 520px actions and facts become single-column, profile links remain three equal targets, and project metadata moves beneath each project record.
+
 **The Full-Width Field Rule.** Page bands span the viewport; containers constrain their content. Do not place entire sections inside ornamental cards.
 
 ## Elevation & Depth
 
-The system is structurally flat first. Hairline borders, paper tones, grids, and whitespace create most depth. A very low ambient card shadow appears on evidence panels; stronger shadows are reserved for dark buttons and small project marks. Writing surfaces, homepage proof ledgers, and the entire Work evidence register use no shadow at all, allowing blue borders, contour paths, measurement ticks, and rules to carry hierarchy.
+The system is structurally flat first. Hairline borders, paper tones, grids, and whitespace create most depth. A very low ambient card shadow appears on evidence panels; stronger shadows are reserved for dark buttons and small project marks. Writing surfaces, homepage proof ledgers, the entire Work evidence register, the About identity-and-interview field, and the Resume career proof register use no shadow at all, allowing blue paths and rules to carry hierarchy.
 
 ### Shadow Vocabulary
 
@@ -245,11 +249,11 @@ The system is structurally flat first. Hairline borders, paper tones, grids, and
 
 **The Rule-Before-Shadow Rule.** Establish hierarchy with a one-pixel border or tonal field before introducing elevation.
 
-**The Proof Ledger Stays Flat Rule.** Featured guides, homepage case files, Work specimens, proof rails, project register rows, waypoint indices, contribution rows, callouts, and reading content use no shadow.
+**The Proof Ledger Stays Flat Rule.** Featured guides, homepage case files, Work specimens, proof rails, project register rows, waypoint indices, About identity and interview regions, Resume identity and career records, contribution rows, callouts, and reading content use no shadow.
 
 ## Shapes
 
-The default editorial geometry is square or gently rounded. Full reading regions, Work specimens, proof rails, and row lists remain square; controls use a 6–7px radius; ordinary panels use 8–10px; featured cards and project marks may reach 12–18px. Pills are limited to badges and active-line terminals, while circles identify waypoints, timeline nodes, or compact icon marks.
+The default editorial geometry is square or gently rounded. Full reading regions, Work specimens, proof rails, row lists, the About portrait frame, and Resume fact and career records remain square; controls use a 6–7px radius; ordinary panels use 8–10px; featured cards and project marks may reach 12–18px. The About portrait holds a 4:5 crop on wide and mobile layouts and opens to 5:4 only in the intermediate intro plate. Pills are limited to badges and active-line terminals, while circles identify waypoints, timeline nodes, or compact icon marks.
 
 Borders are one pixel and cool gray unless a blue border communicates selection, feature status, or a path relationship. Content should not be clipped into novelty silhouettes.
 
@@ -307,6 +311,30 @@ The remaining six projects continue as one rule-separated register. Wide records
 
 Only the featured specimen contours animate on Work arrival: six paths resolve over 1080ms with 45ms stagger steps and the established arrival easing. Directional arrows use the fast state easing and move 4px on hover. Reduced motion renders every contour resolved immediately and removes arrow transitions.
 
+### About Identity Rail
+
+The About surface begins with a professional identity rail, not a biography card. A square-edged portrait, name, role, and five numbered capability entries form one factual plate separated from the reading field by a single hairline rule. The rail is sticky on wide screens, becomes a static portrait-and-index intro plate at 1120px, and keeps every capability visible at smaller sizes.
+
+The portrait and capability index share one visual hierarchy but remain semantic figure and section content. Number labels use evidence blue; the supporting copy stays in muted navy. No background panel, rounded wrapper, badge cloud, or shadow should make the rail read as a profile card.
+
+### About Waypoint Interview Field
+
+The reading field opens with one editorial thesis and then answers three questions in order: what Alex works on, how he works, and what he is looking for. A single 1px evidence-blue path connects three filled circular waypoints; each answer ends with a hairline rule except the last. The path arrives once over 720ms with the established arrival easing (`cubic-bezier(0.16, 1, 0.3, 1)`). Reduced motion removes the animation and renders the complete path immediately.
+
+Three rule-separated working principles and a four-path contact register close the sequence without becoming cards. Contact targets are at least 52px high, use evidence blue for action, and respond with only a blueprint wash and deeper blue text. At 720px principles stack and contact paths become two columns; at 430px contact paths become one left-aligned list.
+
+### Resume Identity Deck
+
+The Resume opens as a compact identity deck rather than a generic hero card. Name and professional position sit beside a factual summary, a filled PDF-download action, a blue conversation path, and rule-separated professional-profile links. Four evidence fields immediately follow in one square, full-width register so an engineering manager can scan range before entering the chronological record.
+
+The deck stays flat and uses only hairline rules to separate actions and evidence. PDF download remains the primary action, while the conversation and profile paths stay quieter. On narrow screens the two columns stack, actions become full-width at 520px, and no identity or evidence content is removed.
+
+### Resume Career Proof Register
+
+Experience, seven selected projects, skills, and education form one continuous record beside a sticky section index. A single 1px evidence-blue path marks the record on wide screens; it arrives once over 840ms with the established arrival easing and renders complete immediately under reduced motion. Section boundaries, experience bullets, project entries, skill groups, and education use square rule-separated rows rather than individual cards.
+
+Project rows align mark, serif title and summary, technology evidence, and case-study action. Hover introduces only a quiet blueprint wash; directional arrows move 4px with the fast state easing. The record closes by repeating the PDF action after the full evidence sequence, giving a decisive exit without interrupting verification.
+
 ## Do's and Don'ts
 
 ### Do:
@@ -319,12 +347,18 @@ Only the featured specimen contours animate on Work arrival: six paths resolve o
 - **Do** use a featured case file and rule-separated ledgers when a homepage needs to establish one lead proof and several adjacent evidence paths.
 - **Do** keep all seven projects reachable in the Work directory and preserve role, current state, technology, proof, and case-study access in the register.
 - **Do** let one expanded Work specimen establish depth, then use compact rule-separated records for comparison.
+- **Do** keep the About portrait and all five capability entries beside the thesis on wide screens, then preserve their factual order when the rail becomes an intro plate.
+- **Do** connect all three About answers with one blue waypoint path and resolve that path immediately when reduced motion is requested.
+- **Do** keep the Resume identity deck, four-field evidence index, and career proof register in one continuous scan from positioning to downloadable proof.
+- **Do** preserve the Resume section index, all seven selected projects, PDF action, conversation path, and factual evidence when the register compacts.
 
 ### Don't:
 
 - **Don't** turn the writing index into a generic reverse-chronological blog feed; preserve the featured-guide atlas and adjacent evidence paths.
 - **Don't** turn the homepage into a uniform portfolio card grid; preserve the hierarchy between the featured case file, engineering index, and supporting ledgers.
 - **Don't** turn the Work index into a generic portfolio card grid; preserve the sticky directory, expanded proof specimen, and continuous project register.
+- **Don't** turn the About surface into biography, value, or contact cards; preserve the identity rail, sequential interview, and flat rule geometry.
+- **Don't** turn the Resume into a stack of employer, project, skill, or education cards; preserve the flat career register and its square rule-separated records.
 - **Don't** introduce glassmorphism, particles, typing effects, fake terminals, decorative code blocks, heavy gradients, or dashboard chrome.
 - **Don't** use blue as ambient decoration or scatter multiple competing accents through a surface.
 - **Don't** nest cards or wrap full page sections in decorative containers.

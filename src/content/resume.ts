@@ -69,6 +69,7 @@ export const resume = {
     }
   ],
   selectedProjects: projects.map((project) => ({
+    slug: project.slug,
     title: project.title,
     description: project.shortDescription,
     stack: project.metadata.stack,

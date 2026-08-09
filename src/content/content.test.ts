@@ -317,16 +317,15 @@ describe("website content invariants", () => {
     }
   });
 
-  test("about focus cards use a varied non-icon-card composition", () => {
-    const aboutCardSource = aboutPageSource.match(
-      /function AboutCard\([\s\S]*?function ProfileSummaryRow/
-    )?.[0];
-
-    assert.ok(aboutCardSource);
-    assert.doesNotMatch(aboutCardSource, /about-icon-badge/);
-    assert.match(aboutCardSource, /about-card-\$\{variant\}/);
-    assert.match(globalCss, /\.about-card-feature\s*{/);
-    assert.match(globalCss, /\.about-card-supporting\s*{/);
+  test("about page uses a waypoint interview and flat evidence registers", () => {
+    assert.match(aboutPageSource, /className="about-identity-rail"/);
+    assert.match(aboutPageSource, /className="about-interview"/);
+    assert.match(aboutPageSource, /className="about-waypoint"/);
+    assert.match(aboutPageSource, /className="about-principles"/);
+    assert.match(aboutPageSource, /className="about-contact-register"/);
+    assert.doesNotMatch(aboutPageSource, /about-card/);
+    assert.match(globalCss, /\.about-interview ol::before\s*{/);
+    assert.match(globalCss, /@keyframes about-path-arrive\s*{/);
   });
 
   test("resume exposes redesigned summary facts without dropping route-critical content", () => {
