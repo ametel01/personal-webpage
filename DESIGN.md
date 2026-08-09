@@ -123,6 +123,17 @@ components:
     rounded: "0"
     padding: "clamp(1.65rem, 3vw, 2.25rem)"
     height: "460px"
+  work-featured-specimen:
+    backgroundColor: "{colors.paper}"
+    textColor: "{colors.ink}"
+    rounded: "0"
+    padding: "clamp(4.25rem, 6vw, 5.4rem) clamp(2rem, 4vw, 3.2rem) 2.6rem"
+    height: "570px"
+  work-project-register-row:
+    backgroundColor: "{colors.paper}"
+    textColor: "{colors.ink}"
+    rounded: "0"
+    padding: "clamp(2rem, 3.5vw, 2.8rem) 0"
 ---
 
 # Design System: Alex Metelli Personal Website
@@ -133,7 +144,7 @@ components:
 
 This system feels like a carefully maintained engineering fieldbook: warm paper carries precise navy ink, restrained blue marks the paths worth following, and serif headings give evidence enough gravity to be read rather than skimmed as marketing. It is calm, technical, and editorial, with the interface serving the work instead of competing with it.
 
-The density is generous at the page level and compact inside proof-bearing elements. Thin rules, small labels, structured grids, and modest tonal shifts establish hierarchy. The writing surface established the clearest expression of the world; the homepage extends it into a proof ledger, linking one inspectable case file to a four-waypoint engineering index before continuing through project, contribution, writing, and experience evidence.
+The density is generous at the page level and compact inside proof-bearing elements. Thin rules, small labels, structured grids, and modest tonal shifts establish hierarchy. The writing surface established the clearest expression of the world; the homepage extends it into a proof ledger, while the Work index turns the same vocabulary into a continuous evidence register with one expanded specimen and six comparable records.
 
 **Key Characteristics:**
 
@@ -141,7 +152,7 @@ The density is generous at the page level and compact inside proof-bearing eleme
 - Deep navy text with a single restrained blue path for actions, topics, and active state.
 - Strong Georgia-led display hierarchy paired with compact Inter/Geist/system sans text.
 - Hairline rules and grid relationships as the primary organizing devices.
-- Evidence-first cards and rows with restrained depth and no decorative excess.
+- Evidence-first cards, square specimens, and rule-separated rows with restrained depth and no decorative excess.
 - Motion limited to short state feedback and authored arrival moments, with reduced-motion fallbacks.
 
 ## Colors
@@ -216,11 +227,13 @@ The writing index uses a roughly two-thirds featured guide beside a narrow topic
 
 The homepage uses the same broad-column-to-waypoint relationship without cloning the writing surface. A roughly two-thirds featured case file leads into a narrow engineering index through one blue bridge. At 980px the pair stacks, the bridge disappears, and the waypoint line stays vertical. Project ledger rows collapse from four aligned evidence columns into compact stacked records below 760px; the writing and experience split stacks at the same compact composition while retaining its dividing rule.
 
+The Work index uses a narrow sticky thesis and seven-project directory beside a continuous register. The desktop split is roughly 31% for the rail and the remaining width for evidence, with a fluid 2.75–5rem gap. At 1120px the rail becomes static and the directory becomes a two-column grid; at 720px it becomes a horizontal, touch-scrollable directory with fixed-width entries. The featured specimen pairs a broad project plate with a narrower proof rail and keeps a 570px minimum height on wide screens. At 860px the proof rail stacks below as two columns; at 720px it becomes one column and the remaining project rows collapse from four aligned evidence columns into compact vertical records. The two closing evidence paths stack at the same mobile breakpoint.
+
 **The Full-Width Field Rule.** Page bands span the viewport; containers constrain their content. Do not place entire sections inside ornamental cards.
 
 ## Elevation & Depth
 
-The system is structurally flat first. Hairline borders, paper tones, grids, and whitespace create most depth. A very low ambient card shadow appears on evidence panels; stronger shadows are reserved for dark buttons and small project marks. Writing surfaces and homepage proof ledgers use no shadow at all, allowing blue borders, contour paths, and rules to carry hierarchy.
+The system is structurally flat first. Hairline borders, paper tones, grids, and whitespace create most depth. A very low ambient card shadow appears on evidence panels; stronger shadows are reserved for dark buttons and small project marks. Writing surfaces, homepage proof ledgers, and the entire Work evidence register use no shadow at all, allowing blue borders, contour paths, measurement ticks, and rules to carry hierarchy.
 
 ### Shadow Vocabulary
 
@@ -232,11 +245,11 @@ The system is structurally flat first. Hairline borders, paper tones, grids, and
 
 **The Rule-Before-Shadow Rule.** Establish hierarchy with a one-pixel border or tonal field before introducing elevation.
 
-**The Proof Ledger Stays Flat Rule.** Featured guides, homepage case files, waypoint indices, project rows, contribution rows, callouts, and reading content use no shadow.
+**The Proof Ledger Stays Flat Rule.** Featured guides, homepage case files, Work specimens, proof rails, project register rows, waypoint indices, contribution rows, callouts, and reading content use no shadow.
 
 ## Shapes
 
-The default editorial geometry is square or gently rounded. Full reading regions and row lists remain square; controls use a 6–7px radius; ordinary panels use 8–10px; featured cards and project marks may reach 12–18px. Pills are limited to badges and active-line terminals, while circles identify waypoints, timeline nodes, or compact icon marks.
+The default editorial geometry is square or gently rounded. Full reading regions, Work specimens, proof rails, and row lists remain square; controls use a 6–7px radius; ordinary panels use 8–10px; featured cards and project marks may reach 12–18px. Pills are limited to badges and active-line terminals, while circles identify waypoints, timeline nodes, or compact icon marks.
 
 Borders are one pixel and cool gray unless a blue border communicates selection, feature status, or a path relationship. Content should not be clipped into novelty silhouettes.
 
@@ -284,6 +297,16 @@ Writing and experience share one split proof region instead of separate cards. T
 
 Only one authored trace animates on homepage arrival: the featured case-file contours draw once with the arrival easing, while arrows use short state motion. Reduced motion renders the trace resolved immediately and removes nonessential transitions.
 
+### Work Evidence Register
+
+The Work index is a continuous specimen book, not a portfolio card gallery. A sticky thesis rail presents all seven projects as a numbered directory. The first entry is the only selected state: blue serif text, a fine blue inset rule, and a quiet blueprint hover wash. On intermediate widths the directory becomes a two-column grid; on mobile it becomes a horizontal scroller without hiding any project.
+
+The featured project is an expanded, square evidence specimen with blue block rules, a plate number, six fine provenance contours, factual state and role fields, transparent technology tags, one case-study action, and a square proof rail. The rail contains four rule-separated annotations with line icons and concise factual copy. A small measurement rule closes the plate; registration marks are structural atmosphere and always remain decorative to assistive technology.
+
+The remaining six projects continue as one rule-separated register. Wide records align number, serif title and summary, role and state, technology tags, proof, and case-study action. Compact records preserve that reading order as a vertical evidence stack, keep the 44px action target, and may visually reduce the repeated action label while retaining its accessible name. The final GitHub and resume paths form a flat two-column close that stacks into one column on mobile.
+
+Only the featured specimen contours animate on Work arrival: six paths resolve over 1080ms with 45ms stagger steps and the established arrival easing. Directional arrows use the fast state easing and move 4px on hover. Reduced motion renders every contour resolved immediately and removes arrow transitions.
+
 ## Do's and Don'ts
 
 ### Do:
@@ -294,11 +317,14 @@ Only one authored trace animates on homepage arrival: the featured case-file con
 - **Do** keep technical prose within a 65–75ch measure and turn wide space into useful navigation or calm margins.
 - **Do** use authored SVG linework only when it explains structure, as the writing contours and work blueprint do.
 - **Do** use a featured case file and rule-separated ledgers when a homepage needs to establish one lead proof and several adjacent evidence paths.
+- **Do** keep all seven projects reachable in the Work directory and preserve role, current state, technology, proof, and case-study access in the register.
+- **Do** let one expanded Work specimen establish depth, then use compact rule-separated records for comparison.
 
 ### Don't:
 
 - **Don't** turn the writing index into a generic reverse-chronological blog feed; preserve the featured-guide atlas and adjacent evidence paths.
 - **Don't** turn the homepage into a uniform portfolio card grid; preserve the hierarchy between the featured case file, engineering index, and supporting ledgers.
+- **Don't** turn the Work index into a generic portfolio card grid; preserve the sticky directory, expanded proof specimen, and continuous project register.
 - **Don't** introduce glassmorphism, particles, typing effects, fake terminals, decorative code blocks, heavy gradients, or dashboard chrome.
 - **Don't** use blue as ambient decoration or scatter multiple competing accents through a surface.
 - **Don't** nest cards or wrap full page sections in decorative containers.

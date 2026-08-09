@@ -483,7 +483,7 @@ describe("website content invariants", () => {
     assert.ok(headingTitle);
     assert.match(headingTitle, /font-family:\s*var\(--font-display\);/);
 
-    for (const selector of [".page-title", ".resume-hero-copy h1", ".work-hero h1"]) {
+    for (const selector of [".page-title", ".resume-hero-copy h1"]) {
       const rule = cssRuleBody(selector);
 
       assert.ok(rule, `${selector} CSS rule should exist`);
@@ -529,26 +529,34 @@ describe("website content invariants", () => {
     assert.match(focusVisible, /outline:\s*3px solid var\(--focus-ring\);/);
   });
 
-  test("work page flattens evidence and tokenizes SVG color values", () => {
-    assert.doesNotMatch(workPageSource, /work-evidence-box/);
-    assert.match(workPageSource, /work-evidence-line/);
-    assert.doesNotMatch(workPageSource, /stopColor="#/);
-    assert.doesNotMatch(workPageSource, /floodColor="#/);
+  test("work page exposes a flat evidence register with a featured proof specimen", () => {
+    assert.match(workPageSource, /work-project-index/);
+    assert.match(workPageSource, /work-featured-specimen/);
+    assert.match(workPageSource, /work-proof-rail/);
+    assert.match(workPageSource, /work-record-evidence/);
+    assert.match(workPageSource, /work-specimen-traces/);
     assert.doesNotMatch(workPageSource, /fill="#/);
-    assert.doesNotMatch(globalCss, /\.work-evidence-box/);
-    assert.match(globalCss, /\.work-evidence-line\s*{/);
+    assert.doesNotMatch(globalCss, /\.work-featured-card\s*{/);
+    assert.match(globalCss, /\.work-featured-specimen\s*{/);
+    assert.match(globalCss, /\.work-project-record\s*{/);
+    assert.match(globalCss, /\.work-index-intro h1\s*{/);
   });
 
   test("motion stays authored, bounded, and reduced-motion safe", () => {
     assert.match(globalCss, /@keyframes\s+home-headline-unmask/);
-    assert.match(globalCss, /@keyframes\s+work-blueprint-develop/);
-    assert.match(globalCss, /@keyframes\s+work-cube-lock/);
+    assert.match(globalCss, /@keyframes\s+work-traces-resolve/);
+    assert.doesNotMatch(globalCss, /@keyframes\s+work-blueprint-develop/);
+    assert.doesNotMatch(globalCss, /@keyframes\s+work-cube-lock/);
     assert.doesNotMatch(globalCss, /@keyframes\s+work-rise/);
     assert.match(
       globalCss,
       /@media\s*\(prefers-reduced-motion:\s*reduce\)[\s\S]*animation:\s*none !important;/
     );
     assert.doesNotMatch(globalCss, /transition-duration:\s*0\.001ms !important/);
+    assert.match(
+      globalCss,
+      /@media\s*\(prefers-reduced-motion:\s*reduce\)[\s\S]*\.work-specimen-traces path\s*{[^}]*animation:\s*none;/
+    );
   });
 
   test("Next config applies conservative global security headers", async () => {
@@ -751,19 +759,26 @@ describe("website content invariants", () => {
 
     const workText = collectText(WorkPage());
 
-    assert.match(workText, /Engineering case studies with real technical depth\./);
-    assert.match(workText, /7 Case studies/);
-    assert.match(workText, /5\+ Years experience/);
-    assert.match(workText, /Backend \+ infra Core focus/);
-    assert.match(workText, /Blockchain \+ AI tooling Domain expertise/);
-    assert.equal(workText.match(/Featured/g)?.length, 1);
-    assert.match(workText, /Read full case study/);
+    assert.match(workText, /Work that leaves an evidence trail\./);
+    assert.match(workText, /Evidence register/);
+    assert.match(workText, /Seven case-study plates/);
+    assert.match(workText, /Evidence on record/);
+    assert.match(workText, /Read the case study/);
     assert.match(workText, /View GitHub/);
     assert.match(workText, /View resume/);
 
     for (const project of projects) {
       assert.match(workText, new RegExp(project.title));
+      assert.match(workText, new RegExp(escapeRegExp(project.metadata.currentState)));
     }
+
+    for (const project of projects.slice(1)) {
+      assert.match(workText, new RegExp(escapeRegExp(project.proof)));
+    }
+
+    assert.match(workText, /Git, filesystem, instruction, and provider evidence/);
+    assert.match(workText, /Signed receipts emit deterministic replay and focus JSON/);
+    assert.match(workText, /Quality gates, policy checks, and ranked agent-review tasks/);
     assert.match(
       collectText(AboutPage()),
       /Engineering work built around correctness, clarity, and delivery\./

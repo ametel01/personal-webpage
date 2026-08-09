@@ -140,6 +140,41 @@ test.describe("public routes", () => {
     expect(anchorLanding.targetTop).toBeGreaterThan(anchorLanding.headerBottom);
   });
 
+  test("work evidence register preserves directory navigation and mobile action targets", async ({
+    page
+  }) => {
+    await page.setViewportSize({ width: 900, height: 900 });
+    await page.goto("/work");
+
+    const intermediateColumns = await page
+      .locator(".work-project-index ol")
+      .evaluate((index) => getComputedStyle(index).gridTemplateColumns.split(" ").length);
+
+    expect(intermediateColumns).toBe(2);
+    await expect(page.locator(".work-project-index a")).toHaveCount(projects.length);
+
+    await page.setViewportSize({ width: 390, height: 900 });
+
+    const mobileLayout = await page.evaluate(() => ({
+      documentWidth: document.documentElement.scrollWidth,
+      viewportWidth: window.innerWidth
+    }));
+
+    expect(mobileLayout.documentWidth).toBeLessThanOrEqual(mobileLayout.viewportWidth + 1);
+
+    const recordLinks = page.locator(".work-record-link");
+
+    for (let index = 0; index < (await recordLinks.count()); index += 1) {
+      const box = await recordLinks.nth(index).boundingBox();
+
+      expect(box?.width).toBeGreaterThanOrEqual(44);
+      expect(box?.height).toBeGreaterThanOrEqual(44);
+    }
+
+    await page.locator('.work-project-index a[href="#skills-doctor"]').click();
+    await expect(page).toHaveURL(/#skills-doctor$/);
+  });
+
   test("homepage project grid and contribution list stay aligned", async ({ page }) => {
     await page.setViewportSize({ width: 1220, height: 900 });
     await page.goto("/");
