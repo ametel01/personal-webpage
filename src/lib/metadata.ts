@@ -16,14 +16,32 @@ export function createPageMetadata({
   title,
   description,
   path,
-  absoluteTitle = false
+  absoluteTitle = false,
+  publishedTime,
+  modifiedTime
 }: {
   title: string;
   description: string;
   path: string;
   absoluteTitle?: boolean;
+  publishedTime?: string;
+  modifiedTime?: string;
 }): Metadata {
   const fullTitle = absoluteTitle ? title : `${title} | ${site.name}`;
+  const sharedOpenGraph = {
+    title: fullTitle,
+    description,
+    url: getAbsoluteUrl(path),
+    siteName: site.name,
+    images: [
+      {
+        url: "/og.png",
+        width: 1200,
+        height: 630,
+        alt: `${site.name} - ${site.role}`
+      }
+    ]
+  };
 
   return {
     title: absoluteTitle ? { absolute: title } : title,
@@ -31,21 +49,18 @@ export function createPageMetadata({
     alternates: {
       canonical: path
     },
-    openGraph: {
-      title: fullTitle,
-      description,
-      url: getAbsoluteUrl(path),
-      siteName: site.name,
-      images: [
-        {
-          url: "/og.png",
-          width: 1200,
-          height: 630,
-          alt: `${site.name} - ${site.role}`
+    openGraph: publishedTime
+      ? {
+          ...sharedOpenGraph,
+          type: "article",
+          publishedTime,
+          modifiedTime,
+          authors: [site.name]
         }
-      ],
-      type: "website"
-    },
+      : {
+          ...sharedOpenGraph,
+          type: "website"
+        },
     twitter: {
       card: "summary_large_image",
       title: fullTitle,

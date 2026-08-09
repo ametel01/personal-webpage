@@ -4,6 +4,10 @@ export const primaryNavItems = [
     href: "/work"
   },
   {
+    label: "Writing",
+    href: "/writing"
+  },
+  {
     label: "About",
     href: "/about"
   },

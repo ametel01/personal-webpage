@@ -13,6 +13,13 @@ import {
   projects
 } from "@/content/projects";
 import { resume } from "@/content/resume";
+import {
+  getRelatedWriting,
+  getWritingArticle,
+  isWritingSlug,
+  writingArticles,
+  writingSlugs
+} from "@/content/writing";
 import { createPageMetadata, getAbsoluteUrl, homeTitle } from "@/lib/metadata";
 import { primaryNavItems } from "@/lib/navigation";
 import { seoEntity } from "@/lib/seo";
@@ -21,6 +28,8 @@ import {
   createHomepageStructuredData,
   createProjectStructuredData,
   createWorkStructuredData,
+  createWritingArticleStructuredData,
+  createWritingIndexStructuredData,
   type StructuredDataGraph,
   serializeStructuredData
 } from "@/lib/structured-data";
@@ -46,6 +55,14 @@ const aboutPageSource = readFileSync(new URL("../../app/about/page.tsx", import.
 const workPageSource = readFileSync(new URL("../../app/work/page.tsx", import.meta.url), "utf8");
 const siteShellSource = readFileSync(
   new URL("../../src/components/site-shell.tsx", import.meta.url),
+  "utf8"
+);
+const writingIndexSource = readFileSync(
+  new URL("../../app/writing/page.tsx", import.meta.url),
+  "utf8"
+);
+const writingArticleSource = readFileSync(
+  new URL("../../app/writing/[slug]/page.tsx", import.meta.url),
   "utf8"
 );
 const forbiddenPattern = new RegExp(
@@ -109,6 +126,63 @@ function getGraphNode(graph: StructuredDataGraph, type: string) {
 }
 
 describe("website content invariants", () => {
+  test("technical writing exposes complete static article routes", () => {
+    assert.equal(writingArticles.length, 4);
+    assert.equal(writingSlugs.length, 4);
+
+    for (const article of writingArticles) {
+      assert.equal(isWritingSlug(article.slug), true);
+      assert.equal(getWritingArticle(article.slug)?.title, article.title);
+      assert.match(article.slug, /^[a-z0-9]+(?:-[a-z0-9]+)*$/);
+      assert.ok(article.title.length > 20);
+      assert.ok(article.description.length > 80);
+      assert.ok(article.searchQuestions.length >= 3);
+      assert.ok(article.keyPoints.length >= 4);
+      assert.ok(article.sections.length >= 4);
+      assert.match(article.publishedAt, /^2026-\d{2}-\d{2}$/);
+      assert.match(article.updatedAt, /^2026-\d{2}-\d{2}$/);
+      assert.ok(article.readingMinutes >= 5);
+      assert.match(article.relatedProject.href, /^\/work\/[a-z0-9-]+$/);
+
+      for (const section of article.sections) {
+        assert.match(section.id, /^[a-z0-9]+(?:-[a-z0-9]+)*$/);
+        assert.ok(section.paragraphs.length >= 2);
+        assert.ok(section.items && section.items.length >= 4);
+      }
+
+      assert.equal(getRelatedWriting(article).length, 3);
+    }
+  });
+
+  test("writing routes include the approved reading and wayfinding structure", () => {
+    assert.match(writingIndexSource, /writing-atlas-layout/);
+    assert.match(writingIndexSource, /FeaturedWritingCard/);
+    assert.match(writingIndexSource, /TopicAtlas/);
+    assert.match(writingArticleSource, /ArticleTableOfContents/);
+    assert.match(writingArticleSource, /writing-key-points/);
+    assert.match(writingArticleSource, /generateStaticParams/);
+    assert.ok(primaryNavItems.some((item) => item.href === "/writing"));
+  });
+
+  test("writing structured data describes the index and each technical article", () => {
+    const indexGraph = createWritingIndexStructuredData(writingArticles);
+    const collectionPage = getGraphNode(indexGraph, "CollectionPage");
+    const itemList = getGraphNode(indexGraph, "ItemList");
+
+    assert.equal(collectionPage?.url, getAbsoluteUrl("/writing"));
+    assert.equal(itemList?.numberOfItems, writingArticles.length);
+
+    for (const article of writingArticles) {
+      const graph = createWritingArticleStructuredData(article);
+      const techArticle = getGraphNode(graph, "TechArticle");
+
+      assert.equal(techArticle?.headline, article.title);
+      assert.equal(techArticle?.datePublished, article.publishedAt);
+      assert.equal(techArticle?.dateModified, article.updatedAt);
+      assert.equal(techArticle?.articleSection, article.topic);
+    }
+  });
+
   test("selected projects expose the expected slugs and routes", () => {
     assert.deepStrictEqual([...projectSlugs], [...expectedSlugs]);
 
@@ -505,11 +579,12 @@ describe("website content invariants", () => {
     assert.equal(headersByKey.has("Content-Security-Policy"), false);
   });
 
-  test("primary header navigation matches the v1 route contract", () => {
+  test("primary header navigation matches the public route contract", () => {
     assert.deepStrictEqual(
       primaryNavItems.map((item) => [item.label, item.href]),
       [
         ["Work", "/work"],
+        ["Writing", "/writing"],
         ["About", "/about"],
         ["Resume", "/resume"]
       ]
@@ -658,10 +733,7 @@ describe("website content invariants", () => {
 
     const homeText = collectText(HomePage());
 
-    assert.match(
-      homeText,
-      /I build backend systems and developer tools for AI-assisted engineering\./
-    );
+    assert.match(homeText, /Backend and platform systems, built to be inspected\./);
     assert.match(homeText, /Open-source contributions/);
     assert.match(homeText, /Apache DataFusion/);
 
@@ -766,7 +838,9 @@ describe("website content invariants", () => {
         "/resume",
         "/resume.pdf",
         "/work",
-        ...expectedSlugs.map((slug) => `/work/${slug}`)
+        ...expectedSlugs.map((slug) => `/work/${slug}`),
+        "/writing",
+        ...writingSlugs.map((slug) => `/writing/${slug}`)
       ].sort()
     );
 

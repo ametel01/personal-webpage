@@ -1,4 +1,5 @@
 import type { Project } from "@/content/projects";
+import type { WritingArticle } from "@/content/writing";
 import { getCanonicalUrl, seoEntity } from "@/lib/seo";
 import { site } from "@/lib/site";
 
@@ -22,6 +23,10 @@ function createGraph(...nodes: JsonLdNode[]): StructuredDataGraph {
 
 function getProjectId(project: Project) {
   return `${getCanonicalUrl(`/work/${project.slug}`)}#project`;
+}
+
+function getWritingArticleId(article: WritingArticle) {
+  return `${getCanonicalUrl(`/writing/${article.slug}`)}#article`;
 }
 
 function getProgrammingLanguages(project: Project) {
@@ -201,6 +206,93 @@ export function createProjectStructuredData(project: Project): StructuredDataGra
       { name: "Home", url: seoEntity.canonicalUrl },
       { name: "Work", url: getCanonicalUrl("/work") },
       { name: project.title, url: pageUrl }
+    ])
+  );
+}
+
+export function createWritingIndexStructuredData(
+  articles: readonly WritingArticle[]
+): StructuredDataGraph {
+  const writingUrl = getCanonicalUrl("/writing");
+  const pageId = `${writingUrl}#collection-page`;
+  const itemListId = `${writingUrl}#article-list`;
+  const breadcrumbId = `${writingUrl}#breadcrumb`;
+
+  return createGraph(
+    {
+      "@type": "CollectionPage",
+      "@id": pageId,
+      url: writingUrl,
+      name: `Technical Writing — ${seoEntity.name}`,
+      description:
+        "Practical technical guides on AI systems, developer infrastructure, blockchain systems, and product workflows.",
+      isPartOf: websiteReference,
+      author: personReference,
+      mainEntity: { "@id": itemListId },
+      breadcrumb: { "@id": breadcrumbId },
+      inLanguage: "en"
+    },
+    {
+      "@type": "ItemList",
+      "@id": itemListId,
+      name: `${seoEntity.name} technical writing`,
+      numberOfItems: articles.length,
+      itemListElement: articles.map((article, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: article.title,
+        item: { "@id": getWritingArticleId(article) }
+      }))
+    },
+    createBreadcrumbs(writingUrl, breadcrumbId, [
+      { name: "Home", url: seoEntity.canonicalUrl },
+      { name: "Writing", url: writingUrl }
+    ])
+  );
+}
+
+export function createWritingArticleStructuredData(article: WritingArticle): StructuredDataGraph {
+  const pageUrl = getCanonicalUrl(`/writing/${article.slug}`);
+  const pageId = `${pageUrl}#webpage`;
+  const articleId = getWritingArticleId(article);
+  const breadcrumbId = `${pageUrl}#breadcrumb`;
+
+  return createGraph(
+    {
+      "@type": "WebPage",
+      "@id": pageId,
+      url: pageUrl,
+      name: `${article.title} — ${seoEntity.name}`,
+      description: article.description,
+      isPartOf: websiteReference,
+      author: personReference,
+      about: { "@id": articleId },
+      mainEntity: { "@id": articleId },
+      breadcrumb: { "@id": breadcrumbId },
+      datePublished: article.publishedAt,
+      dateModified: article.updatedAt,
+      inLanguage: "en"
+    },
+    {
+      "@type": "TechArticle",
+      "@id": articleId,
+      headline: article.title,
+      description: article.description,
+      url: pageUrl,
+      author: personReference,
+      publisher: personReference,
+      isPartOf: websiteReference,
+      mainEntityOfPage: { "@id": pageId },
+      articleSection: article.topic,
+      keywords: [article.topic, ...article.searchQuestions],
+      datePublished: article.publishedAt,
+      dateModified: article.updatedAt,
+      inLanguage: "en"
+    },
+    createBreadcrumbs(pageUrl, breadcrumbId, [
+      { name: "Home", url: seoEntity.canonicalUrl },
+      { name: "Writing", url: getCanonicalUrl("/writing") },
+      { name: article.title, url: pageUrl }
     ])
   );
 }

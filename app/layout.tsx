@@ -44,6 +44,29 @@ export default function RootLayout({
   return (
     <html lang="en" data-scroll-behavior="smooth">
       <body>
+        {/*
+          THESIS: Technical answers form a navigable evidence atlas, refusing the generic reverse-chronological blog feed.
+          OWN-WORLD: Warm paper, navy ink, restrained blue paths, serif reading hierarchy, and precise hairline rules.
+          STORY: A search visitor finds one answer, understands the implementation tradeoffs, and follows adjacent evidence.
+          FIRST VIEWPORT: Large title above a two-thirds featured guide bridged to a four-topic rail; article rows continue below.
+          FORM: Topic atlas, ordered candidate 7; seed 1eecc62e.
+          FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, and DESIGN.md
+        */}
+        <script id="impeccable-direction-contract" type="application/json">
+          {JSON.stringify({
+            thesis:
+              "Technical answers form a navigable evidence atlas, refusing the generic reverse-chronological blog feed.",
+            ownWorld:
+              "Warm paper, navy ink, restrained blue paths, serif reading hierarchy, and precise hairline rules.",
+            story:
+              "A search visitor finds one answer, understands the implementation tradeoffs, and follows adjacent evidence.",
+            firstViewport:
+              "Large title above a two-thirds featured guide bridged to a four-topic rail; article rows continue below.",
+            form: "Topic atlas, ordered candidate 7; seed 1eecc62e.",
+            finish:
+              "unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, and DESIGN.md"
+          })}
+        </script>
         <SiteShell>{children}</SiteShell>
         <Analytics />
       </body>
