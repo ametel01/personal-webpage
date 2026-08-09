@@ -1,0 +1,555 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-08-09T00:13:49Z",
+  "title": "Design System: Alex Metelli Personal Website",
+  "extensions": {
+    "colorMeta": {
+      "paper": {
+        "role": "neutral",
+        "displayName": "Warm Paper",
+        "canonical": "oklch(98.6% 0.007 84)",
+        "tonalRamp": [
+          "oklch(15% 0.007 84)",
+          "oklch(27% 0.007 84)",
+          "oklch(39% 0.007 84)",
+          "oklch(51% 0.007 84)",
+          "oklch(63% 0.007 84)",
+          "oklch(75% 0.007 84)",
+          "oklch(87% 0.007 84)",
+          "oklch(95% 0.007 84)"
+        ]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Quiet Surface",
+        "canonical": "oklch(97.2% 0.009 84)",
+        "tonalRamp": [
+          "oklch(15% 0.009 84)",
+          "oklch(27% 0.009 84)",
+          "oklch(39% 0.009 84)",
+          "oklch(51% 0.009 84)",
+          "oklch(63% 0.009 84)",
+          "oklch(75% 0.009 84)",
+          "oklch(87% 0.009 84)",
+          "oklch(95% 0.009 84)"
+        ]
+      },
+      "surface-raised": {
+        "role": "neutral",
+        "displayName": "Raised Paper",
+        "canonical": "oklch(99.1% 0.005 84)",
+        "tonalRamp": [
+          "oklch(15% 0.005 84)",
+          "oklch(27% 0.005 84)",
+          "oklch(39% 0.005 84)",
+          "oklch(51% 0.005 84)",
+          "oklch(63% 0.005 84)",
+          "oklch(75% 0.005 84)",
+          "oklch(87% 0.005 84)",
+          "oklch(95% 0.005 84)"
+        ]
+      },
+      "surface-muted": {
+        "role": "neutral",
+        "displayName": "Muted Paper",
+        "canonical": "oklch(95.8% 0.01 86)",
+        "tonalRamp": [
+          "oklch(15% 0.01 86)",
+          "oklch(27% 0.01 86)",
+          "oklch(39% 0.01 86)",
+          "oklch(51% 0.01 86)",
+          "oklch(63% 0.01 86)",
+          "oklch(75% 0.01 86)",
+          "oklch(87% 0.01 86)",
+          "oklch(95% 0.01 86)"
+        ]
+      },
+      "on-dark": {
+        "role": "neutral",
+        "displayName": "Warm Paper on Dark",
+        "canonical": "oklch(98.6% 0.007 84)",
+        "tonalRamp": [
+          "oklch(15% 0.007 84)",
+          "oklch(27% 0.007 84)",
+          "oklch(39% 0.007 84)",
+          "oklch(51% 0.007 84)",
+          "oklch(63% 0.007 84)",
+          "oklch(75% 0.007 84)",
+          "oklch(87% 0.007 84)",
+          "oklch(95% 0.007 84)"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Navy Ink",
+        "canonical": "oklch(18.5% 0.04 259)",
+        "tonalRamp": [
+          "oklch(15% 0.04 259)",
+          "oklch(27% 0.04 259)",
+          "oklch(39% 0.04 259)",
+          "oklch(51% 0.04 259)",
+          "oklch(63% 0.04 259)",
+          "oklch(75% 0.04 259)",
+          "oklch(87% 0.04 259)",
+          "oklch(95% 0.04 259)"
+        ]
+      },
+      "ink-muted": {
+        "role": "neutral",
+        "displayName": "Muted Ink",
+        "canonical": "oklch(43.5% 0.035 258)",
+        "tonalRamp": [
+          "oklch(15% 0.035 258)",
+          "oklch(27% 0.035 258)",
+          "oklch(39% 0.035 258)",
+          "oklch(51% 0.035 258)",
+          "oklch(63% 0.035 258)",
+          "oklch(75% 0.035 258)",
+          "oklch(87% 0.035 258)",
+          "oklch(95% 0.035 258)"
+        ]
+      },
+      "ink-soft": {
+        "role": "neutral",
+        "displayName": "Soft Ink",
+        "canonical": "oklch(52% 0.03 257)",
+        "tonalRamp": [
+          "oklch(15% 0.03 257)",
+          "oklch(27% 0.03 257)",
+          "oklch(39% 0.03 257)",
+          "oklch(51% 0.03 257)",
+          "oklch(63% 0.03 257)",
+          "oklch(75% 0.03 257)",
+          "oklch(87% 0.03 257)",
+          "oklch(95% 0.03 257)"
+        ]
+      },
+      "border": {
+        "role": "neutral",
+        "displayName": "Cool Rule",
+        "canonical": "oklch(87.5% 0.012 255)",
+        "tonalRamp": [
+          "oklch(15% 0.012 255)",
+          "oklch(27% 0.012 255)",
+          "oklch(39% 0.012 255)",
+          "oklch(51% 0.012 255)",
+          "oklch(63% 0.012 255)",
+          "oklch(75% 0.012 255)",
+          "oklch(87% 0.012 255)",
+          "oklch(95% 0.012 255)"
+        ]
+      },
+      "border-soft": {
+        "role": "neutral",
+        "displayName": "Soft Rule",
+        "canonical": "oklch(92.8% 0.009 255)",
+        "tonalRamp": [
+          "oklch(15% 0.009 255)",
+          "oklch(27% 0.009 255)",
+          "oklch(39% 0.009 255)",
+          "oklch(51% 0.009 255)",
+          "oklch(63% 0.009 255)",
+          "oklch(75% 0.009 255)",
+          "oklch(87% 0.009 255)",
+          "oklch(95% 0.009 255)"
+        ]
+      },
+      "primary": {
+        "role": "primary",
+        "displayName": "Deep Engineering Navy",
+        "canonical": "oklch(23% 0.068 258)",
+        "tonalRamp": [
+          "oklch(15% 0.068 258)",
+          "oklch(27% 0.068 258)",
+          "oklch(39% 0.068 258)",
+          "oklch(51% 0.068 258)",
+          "oklch(63% 0.068 258)",
+          "oklch(75% 0.068 258)",
+          "oklch(87% 0.068 258)",
+          "oklch(95% 0.068 258)"
+        ]
+      },
+      "primary-hover": {
+        "role": "primary",
+        "displayName": "Resolved Navy",
+        "canonical": "oklch(29% 0.08 258)",
+        "tonalRamp": [
+          "oklch(15% 0.08 258)",
+          "oklch(27% 0.08 258)",
+          "oklch(39% 0.08 258)",
+          "oklch(51% 0.08 258)",
+          "oklch(63% 0.08 258)",
+          "oklch(75% 0.08 258)",
+          "oklch(87% 0.08 258)",
+          "oklch(95% 0.08 258)"
+        ]
+      },
+      "primary-soft": {
+        "role": "primary",
+        "displayName": "Blueprint Wash",
+        "canonical": "oklch(94.5% 0.024 259)",
+        "tonalRamp": [
+          "oklch(15% 0.024 259)",
+          "oklch(27% 0.024 259)",
+          "oklch(39% 0.024 259)",
+          "oklch(51% 0.024 259)",
+          "oklch(63% 0.024 259)",
+          "oklch(75% 0.024 259)",
+          "oklch(87% 0.024 259)",
+          "oklch(95% 0.024 259)"
+        ]
+      },
+      "accent": {
+        "role": "secondary",
+        "displayName": "Evidence Blue",
+        "canonical": "oklch(38% 0.135 263)",
+        "tonalRamp": [
+          "oklch(15% 0.135 263)",
+          "oklch(27% 0.135 263)",
+          "oklch(39% 0.135 263)",
+          "oklch(51% 0.135 263)",
+          "oklch(63% 0.135 263)",
+          "oklch(75% 0.135 263)",
+          "oklch(87% 0.135 263)",
+          "oklch(95% 0.135 263)"
+        ]
+      },
+      "accent-hover": {
+        "role": "secondary",
+        "displayName": "Evidence Blue Deep",
+        "canonical": "oklch(31% 0.12 263)",
+        "tonalRamp": [
+          "oklch(15% 0.12 263)",
+          "oklch(27% 0.12 263)",
+          "oklch(39% 0.12 263)",
+          "oklch(51% 0.12 263)",
+          "oklch(63% 0.12 263)",
+          "oklch(75% 0.12 263)",
+          "oklch(87% 0.12 263)",
+          "oklch(95% 0.12 263)"
+        ]
+      },
+      "dark": {
+        "role": "neutral",
+        "displayName": "Dark Foundation",
+        "canonical": "oklch(18.5% 0.04 259)",
+        "tonalRamp": [
+          "oklch(15% 0.04 259)",
+          "oklch(27% 0.04 259)",
+          "oklch(39% 0.04 259)",
+          "oklch(51% 0.04 259)",
+          "oklch(63% 0.04 259)",
+          "oklch(75% 0.04 259)",
+          "oklch(87% 0.04 259)",
+          "oklch(95% 0.04 259)"
+        ]
+      },
+      "dark-muted": {
+        "role": "neutral",
+        "displayName": "Muted Dark Foundation",
+        "canonical": "oklch(23.5% 0.045 259)",
+        "tonalRamp": [
+          "oklch(15% 0.045 259)",
+          "oklch(27% 0.045 259)",
+          "oklch(39% 0.045 259)",
+          "oklch(51% 0.045 259)",
+          "oklch(63% 0.045 259)",
+          "oklch(75% 0.045 259)",
+          "oklch(87% 0.045 259)",
+          "oklch(95% 0.045 259)"
+        ]
+      },
+      "tag-bg": {
+        "role": "neutral",
+        "displayName": "Technical Tag Wash",
+        "canonical": "oklch(93.5% 0.012 255)",
+        "tonalRamp": [
+          "oklch(15% 0.012 255)",
+          "oklch(27% 0.012 255)",
+          "oklch(39% 0.012 255)",
+          "oklch(51% 0.012 255)",
+          "oklch(63% 0.012 255)",
+          "oklch(75% 0.012 255)",
+          "oklch(87% 0.012 255)",
+          "oklch(95% 0.012 255)"
+        ]
+      },
+      "tag-text": {
+        "role": "neutral",
+        "displayName": "Technical Tag Ink",
+        "canonical": "oklch(32% 0.036 258)",
+        "tonalRamp": [
+          "oklch(15% 0.036 258)",
+          "oklch(27% 0.036 258)",
+          "oklch(39% 0.036 258)",
+          "oklch(51% 0.036 258)",
+          "oklch(63% 0.036 258)",
+          "oklch(75% 0.036 258)",
+          "oklch(87% 0.036 258)",
+          "oklch(95% 0.036 258)"
+        ]
+      },
+      "header-surface": {
+        "role": "neutral",
+        "displayName": "Translucent Paper",
+        "canonical": "oklch(98.6% 0.007 84 / 0.88)",
+        "tonalRamp": [
+          "oklch(15% 0.007 84 / 0.88)",
+          "oklch(27% 0.007 84 / 0.88)",
+          "oklch(39% 0.007 84 / 0.88)",
+          "oklch(51% 0.007 84 / 0.88)",
+          "oklch(63% 0.007 84 / 0.88)",
+          "oklch(75% 0.007 84 / 0.88)",
+          "oklch(87% 0.007 84 / 0.88)",
+          "oklch(95% 0.007 84 / 0.88)"
+        ]
+      },
+      "focus-ring": {
+        "role": "secondary",
+        "displayName": "Visible Focus Blue",
+        "canonical": "oklch(52% 0.14 263 / 0.36)",
+        "tonalRamp": [
+          "oklch(15% 0.14 263 / 0.36)",
+          "oklch(27% 0.14 263 / 0.36)",
+          "oklch(39% 0.14 263 / 0.36)",
+          "oklch(51% 0.14 263 / 0.36)",
+          "oklch(63% 0.14 263 / 0.36)",
+          "oklch(75% 0.14 263 / 0.36)",
+          "oklch(87% 0.14 263 / 0.36)",
+          "oklch(95% 0.14 263 / 0.36)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Primary page and hero statements." },
+      "editorial-display": {
+        "displayName": "Editorial Display",
+        "purpose": "Writing index and article titles."
+      },
+      "headline": { "displayName": "Headline", "purpose": "Major section headings." },
+      "title": { "displayName": "Title", "purpose": "Project, card, and evidence headings." },
+      "lead": { "displayName": "Lead", "purpose": "Page descriptions and positioning copy." },
+      "body": { "displayName": "Body", "purpose": "Interface copy and long-form reading." },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Topics, kickers, metadata, and compact evidence labels."
+      },
+      "code": { "displayName": "Code", "purpose": "Real implementation examples only." }
+    },
+    "shadows": [
+      {
+        "name": "card-ambient",
+        "value": "0 1px 2px oklch(18.5% 0.04 259 / 0.03), 0 12px 28px oklch(18.5% 0.04 259 / 0.035)",
+        "purpose": "Quiet lift for project, resume, and profile panels."
+      },
+      {
+        "name": "button-authority",
+        "value": "0 10px 18px oklch(18.5% 0.04 259 / 0.18)",
+        "purpose": "Compact depth beneath filled primary actions."
+      },
+      {
+        "name": "project-mark",
+        "value": "0 10px 22px oklch(38% 0.135 263 / 0.12)",
+        "purpose": "Restrained blue cast beneath project marks."
+      },
+      {
+        "name": "project-mark-hover",
+        "value": "0 14px 28px oklch(38% 0.135 263 / 0.16)",
+        "purpose": "Hover lift for project marks on precise pointing devices."
+      }
+    ],
+    "motion": [
+      {
+        "name": "duration-fast",
+        "value": "160ms",
+        "purpose": "Links, focus-adjacent feedback, and small state transitions."
+      },
+      {
+        "name": "duration-base",
+        "value": "180ms",
+        "purpose": "Cards, arrows, and component state transitions."
+      },
+      {
+        "name": "ease-standard",
+        "value": "cubic-bezier(0.2, 0, 0, 1)",
+        "purpose": "Default state-change easing."
+      },
+      {
+        "name": "ease-arrival",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Short authored arrival and directional motion."
+      },
+      {
+        "name": "writing-contours-resolve",
+        "value": "900ms 120ms cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "One-time contour draw-in on the featured writing guide; removed under reduced motion."
+      },
+      {
+        "name": "homepage-trace-resolve",
+        "value": "900ms 120ms cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "The homepage's single authored arrival: featured case-file traces draw once and render resolved under reduced motion."
+      }
+    ],
+    "breakpoints": [
+      { "name": "compact", "value": "430px" },
+      { "name": "narrow", "value": "560px" },
+      { "name": "brand-collapse", "value": "620px" },
+      { "name": "mobile", "value": "720px" },
+      { "name": "homepage-ledger-stack", "value": "760px" },
+      { "name": "reading-stack", "value": "820px" },
+      { "name": "homepage-atlas-stack", "value": "980px" },
+      { "name": "content-grid", "value": "1024px" },
+      { "name": "wide-shell", "value": "1120px" },
+      { "name": "four-column", "value": "1280px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The authoritative filled action used for primary internal paths.",
+      "html": "<a class=\"ds-button-primary\" href=\"#\">View work <svg aria-hidden=\"true\" viewBox=\"0 0 24 24\"><path d=\"M5 12h14M13 6l6 6-6 6\"/></svg></a>",
+      "css": ".ds-button-primary { display: inline-flex; min-height: 44px; align-items: center; justify-content: center; gap: 0.5rem; border: 1px solid var(--color-primary); border-radius: 6px; background: var(--color-primary); color: var(--color-on-dark); font-family: var(--font-sans); font-size: var(--text-sm); font-weight: 700; line-height: 1; padding: 0.68rem 1rem; box-shadow: var(--shadow-button); text-decoration: none; transition: background-color var(--duration-fast) var(--ease-standard), transform var(--duration-fast) var(--ease-standard); } .ds-button-primary svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; } .ds-button-primary:hover { background: var(--color-primary-hover); transform: translateY(-2px); } .ds-button-primary:active { transform: translateY(0) scale(0.985); } .ds-button-primary:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 4px; }"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "A quiet paper action for supporting paths such as resume access.",
+      "html": "<a class=\"ds-button-secondary\" href=\"#\">View resume</a>",
+      "css": ".ds-button-secondary { display: inline-flex; min-height: 44px; align-items: center; justify-content: center; border: 1px solid var(--color-primary); border-radius: 6px; background: var(--color-surface); color: var(--color-primary); font-family: var(--font-sans); font-size: var(--text-sm); font-weight: 700; line-height: 1; padding: 0.68rem 1rem; text-decoration: none; transition: background-color var(--duration-fast) var(--ease-standard), transform var(--duration-fast) var(--ease-standard); } .ds-button-secondary:hover { background: var(--color-primary-soft); transform: translateY(-2px); } .ds-button-secondary:active { transform: translateY(0) scale(0.985); } .ds-button-secondary:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 4px; }"
+    },
+    {
+      "name": "Technology Tag",
+      "kind": "chip",
+      "refersTo": "tech-tag",
+      "description": "A descriptive, non-interactive technology label with a meaningful mark.",
+      "html": "<span class=\"ds-tech-tag\"><svg aria-hidden=\"true\" viewBox=\"0 0 24 24\"><path d=\"m8 6-6 6 6 6M16 6l6 6-6 6\"/></svg><span>TypeScript</span></span>",
+      "css": ".ds-tech-tag { display: inline-flex; min-height: 26px; align-items: center; gap: 0.38rem; border: 1px solid transparent; border-radius: 6px; background: var(--color-tag-bg); color: var(--color-tag-text); font-family: var(--font-sans); font-size: var(--text-xs); font-weight: 700; line-height: 1.1; padding: 0.22rem 0.48rem; } .ds-tech-tag svg { width: 1.05rem; height: 1.05rem; fill: none; stroke: var(--color-accent); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }"
+    },
+    {
+      "name": "Primary Navigation",
+      "kind": "nav",
+      "description": "Sticky paper navigation with a blue current-route underline.",
+      "html": "<nav class=\"ds-nav\" aria-label=\"Primary navigation\"><a href=\"#\">Work</a><a class=\"ds-nav-current\" href=\"#\" aria-current=\"page\">Writing</a><a href=\"#\">About</a><a href=\"#\">Resume</a></nav>",
+      "css": ".ds-nav { display: flex; align-items: center; gap: clamp(0.65rem, 1.6vw, 1.15rem); border-bottom: 1px solid var(--color-border-soft); background: var(--color-header-surface); backdrop-filter: blur(14px) saturate(1.08); padding-inline: 1rem; } .ds-nav a { position: relative; display: inline-flex; min-height: 3.65rem; align-items: center; color: var(--color-ink-muted); font-family: var(--font-sans); font-size: var(--text-sm); font-weight: 620; line-height: 1; padding-inline: 0.4rem; text-decoration: none; } .ds-nav a::after { position: absolute; right: 0; bottom: -1px; left: 0; height: 3px; border-radius: 999px 999px 0 0; background: var(--color-accent); opacity: 0; transform: scaleX(0.58); transition: opacity var(--duration-fast) var(--ease-standard), transform var(--duration-fast) var(--ease-standard); content: \"\"; } .ds-nav a:hover, .ds-nav a[aria-current=\"page\"] { color: var(--color-ink); } .ds-nav a[aria-current=\"page\"]::after { opacity: 1; transform: scaleX(1); } .ds-nav a:focus-visible { border-radius: 6px; outline: 3px solid var(--focus-ring); outline-offset: 2px; }"
+    },
+    {
+      "name": "Evidence Card",
+      "kind": "card",
+      "refersTo": "surface-card",
+      "description": "A restrained raised-paper card for project or professional evidence.",
+      "html": "<article class=\"ds-evidence-card\"><p class=\"ds-evidence-label\">Developer infrastructure</p><h3>ScopePilot</h3><p>Local-first planning and review workflows for agent-assisted software delivery.</p><a href=\"#\">View project →</a></article>",
+      "css": ".ds-evidence-card { display: flex; min-height: 280px; flex-direction: column; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface-raised); color: var(--color-ink); padding: 1.55rem 1.45rem; box-shadow: var(--shadow-card); } .ds-evidence-card .ds-evidence-label { margin: 0; color: var(--color-accent); font-family: var(--font-sans); font-size: var(--text-xs); font-weight: 800; letter-spacing: 0.08em; line-height: 1.2; text-transform: uppercase; } .ds-evidence-card h3 { margin: 1rem 0 0; font-family: var(--font-display); font-size: var(--text-xl); font-weight: 850; letter-spacing: var(--heading-letter-spacing); line-height: 1.08; } .ds-evidence-card > p:not(.ds-evidence-label) { margin: 0.65rem 0 0; color: var(--color-ink-muted); font-family: var(--font-sans); font-size: var(--text-sm); line-height: 1.55; } .ds-evidence-card a { margin-top: auto; color: var(--color-accent); font-family: var(--font-sans); font-size: var(--text-sm); font-weight: 700; padding-top: 1.25rem; text-decoration: none; } .ds-evidence-card a:hover { color: var(--color-accent-hover); } .ds-evidence-card a:focus-visible { border-radius: 6px; outline: 3px solid var(--focus-ring); outline-offset: 4px; }"
+    },
+    {
+      "name": "Homepage Featured Case File",
+      "kind": "custom",
+      "refersTo": "homepage-featured-case-file",
+      "description": "The flat, blue-ruled lead proof that opens the homepage evidence ledger.",
+      "html": "<a class=\"ds-home-case\" href=\"#\"><svg class=\"ds-home-case-traces\" aria-hidden=\"true\" viewBox=\"0 0 360 520\"><g fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.2\"><path d=\"M90-24c64 55 89 93 77 143-13 55-79 69-82 130-3 57 55 83 51 142-3 50-43 80-47 127\"/><path d=\"M150-24c57 50 79 89 67 135-13 51-69 72-70 130-1 49 51 77 49 134-1 54-35 87-35 134\"/><path d=\"M210-24c49 45 68 84 57 127-13 47-60 76-58 130 2 43 47 71 47 126 1 58-27 94-23 141\"/></g></svg><span class=\"ds-home-case-copy\"><strong>AgentReceipt</strong><span class=\"ds-home-case-label\">Featured case study · Local-first AI tooling</span><span class=\"ds-home-case-summary\">Local-first Go CLI for recording AI coding sessions and producing verifier-ready replay evidence.</span><small>Public Go CLI; latest tagged release is v0.10.1.</small><span class=\"ds-home-case-action\">Read the case study →</span></span></a>",
+      "css": ".ds-home-case { position: relative; display: block; min-height: 460px; overflow: hidden; border: 1px solid var(--color-accent); background: var(--color-paper); color: var(--color-ink); text-decoration: none; isolation: isolate; transition: background-color var(--duration-base) var(--ease-standard); } .ds-home-case:hover { background: color-mix(in oklch, var(--color-primary-soft) 38%, var(--color-paper)); } .ds-home-case-copy { position: relative; z-index: 2; display: flex; min-height: 458px; max-width: 70%; flex-direction: column; align-items: flex-start; padding: clamp(1.65rem, 3vw, 2.25rem); } .ds-home-case-copy strong { font-family: var(--font-display); font-size: clamp(2.55rem, 4vw, 3.5rem); font-weight: 500; letter-spacing: -0.032em; line-height: 1.02; } .ds-home-case-label { margin-top: 0.95rem; color: var(--color-accent); font-family: var(--font-sans); font-size: var(--text-xs); font-weight: 800; letter-spacing: 0.08em; line-height: 1.25; text-transform: uppercase; } .ds-home-case-summary { max-width: 560px; margin-top: 1.2rem; color: var(--color-ink-muted); font-family: var(--font-sans); font-size: var(--text-base); line-height: 1.65; } .ds-home-case-copy small { margin-top: auto; padding-top: 1.4rem; color: var(--color-ink); font-family: var(--font-sans); font-size: var(--text-xs); font-weight: 700; line-height: 1.5; } .ds-home-case-action { min-height: 44px; margin-top: 0.8rem; color: var(--color-accent); font-family: var(--font-sans); font-size: var(--text-sm); font-weight: 750; line-height: 44px; } .ds-home-case-traces { position: absolute; z-index: 1; top: 0; right: -1px; width: 50%; height: 100%; color: color-mix(in oklch, var(--color-accent) 50%, transparent); pointer-events: none; } .ds-home-case-traces path { stroke-dasharray: 830; stroke-dashoffset: 830; animation: ds-home-trace-resolve 900ms 120ms var(--ease-arrival) forwards; } .ds-home-case:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 4px; } @keyframes ds-home-trace-resolve { to { stroke-dashoffset: 0; } } @media (prefers-reduced-motion: reduce) { .ds-home-case, .ds-home-case-traces path { animation: none; transition: none; } .ds-home-case-traces path { stroke-dashoffset: 0; } }"
+    },
+    {
+      "name": "Homepage Engineering Index",
+      "kind": "custom",
+      "description": "A four-waypoint capability index joined to the featured case file by one blue bridge.",
+      "html": "<aside class=\"ds-engineering-index\"><header><h3>Engineering index</h3><p>Four connected areas of practice, each backed by work on this site.</p></header><span class=\"ds-engineering-bridge\" aria-hidden=\"true\"></span><ol><li><strong>Developer infrastructure</strong><span>Local-first CLIs, automation, and agent workflows.</span></li><li><strong>Verification systems</strong><span>Contract artifacts, audit trails, and reproducible evidence.</span></li><li><strong>Blockchain infrastructure</strong><span>Starknet tooling, protocol systems, and cross-chain work.</span></li><li><strong>Product workflows</strong><span>Proposal, approval, revision, and delivery systems.</span></li></ol></aside>",
+      "css": ".ds-engineering-index { position: relative; min-width: 260px; background: var(--color-paper); color: var(--color-ink); font-family: var(--font-sans); padding-bottom: 0.25rem; } .ds-engineering-index header { border-bottom: 1px solid var(--color-border); padding-bottom: 1rem; } .ds-engineering-index h3 { margin: 0; color: var(--color-accent); font-size: var(--text-xs); font-weight: 800; letter-spacing: 0.08em; line-height: 1.2; text-transform: uppercase; } .ds-engineering-index header p { margin: 0.9rem 0 0; color: var(--color-ink-muted); font-size: var(--text-sm); line-height: 1.5; } .ds-engineering-bridge { position: absolute; top: 7.35rem; right: calc(100% - 7px); width: 5rem; height: 3.2rem; border-top: 1px solid var(--color-accent); border-left: 1px solid var(--color-accent); border-radius: 18px 0 0; pointer-events: none; } .ds-engineering-index ol { position: relative; display: grid; margin: 0; padding: 1.3rem 0 0 1.7rem; list-style: none; } .ds-engineering-index ol::before { position: absolute; top: 1.3rem; bottom: 1.6rem; left: 7px; width: 1px; background: color-mix(in oklch, var(--color-accent) 48%, var(--color-border)); content: \"\"; } .ds-engineering-index li { position: relative; display: grid; min-height: 44px; gap: 0.25rem; padding: 0 0 1.25rem 0.2rem; } .ds-engineering-index li::before { position: absolute; z-index: 1; top: 0.42rem; left: -1.7rem; width: 13px; height: 13px; border: 1px solid var(--color-accent); border-radius: 50%; background: var(--color-paper); content: \"\"; } .ds-engineering-index li:first-child::before { border-width: 2px; } .ds-engineering-index strong { color: var(--color-accent); font-size: var(--text-base); line-height: 1.3; } .ds-engineering-index li span { color: var(--color-ink-muted); font-size: var(--text-sm); line-height: 1.5; }"
+    },
+    {
+      "name": "Homepage Project Ledger Row",
+      "kind": "custom",
+      "description": "A flat project record that aligns title, summary, state, technology metadata, and direction.",
+      "html": "<a class=\"ds-project-ledger-row\" href=\"#\"><span class=\"ds-project-ledger-title\"><strong>ScopePilot</strong><small>TypeScript · Astro</small></span><span class=\"ds-project-ledger-summary\">Agency proposal configurator for scope, pricing, approvals, revisions, and client delivery.</span><span class=\"ds-project-ledger-meta\"><strong>Live product with public documentation and deployed proposal workflows.</strong><small>TypeScript · Astro · Cloudflare Workers</small></span><span class=\"ds-project-ledger-arrow\" aria-hidden=\"true\">→</span></a>",
+      "css": ".ds-project-ledger-row { display: grid; grid-template-columns: minmax(180px, 0.72fr) minmax(250px, 1.15fr) minmax(220px, 0.9fr) 30px; gap: clamp(1.2rem, 3vw, 2.8rem); align-items: center; min-height: 142px; border-block: 1px solid var(--color-border); color: var(--color-ink); padding-block: 1.5rem; text-decoration: none; transition: background-color var(--duration-base) var(--ease-standard); } .ds-project-ledger-row:hover { background: color-mix(in oklch, var(--color-primary-soft) 28%, transparent); } .ds-project-ledger-title, .ds-project-ledger-meta { display: grid; gap: 0.45rem; } .ds-project-ledger-title strong { font-family: var(--font-display); font-size: clamp(1.55rem, 2.35vw, 2rem); font-weight: 500; letter-spacing: -0.032em; line-height: 1.08; } .ds-project-ledger-title small { display: none; color: var(--color-accent); font-family: var(--font-sans); font-size: var(--text-xs); font-weight: 800; line-height: 1.4; } .ds-project-ledger-summary { color: var(--color-ink-muted); font-family: var(--font-sans); font-size: var(--text-sm); line-height: 1.6; } .ds-project-ledger-meta strong, .ds-project-ledger-meta small { font-family: var(--font-sans); font-size: var(--text-xs); line-height: 1.5; } .ds-project-ledger-meta strong { font-weight: 700; } .ds-project-ledger-meta small { color: var(--color-ink-soft); font-weight: 600; } .ds-project-ledger-arrow { color: var(--color-accent); font-size: 1.6rem; justify-self: end; transition: transform var(--duration-base) var(--ease-standard); } .ds-project-ledger-row:hover .ds-project-ledger-arrow { transform: translateX(4px); } .ds-project-ledger-row:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 4px; } @media (max-width: 760px) { .ds-project-ledger-row { grid-template-columns: minmax(0, 1fr) 28px; gap: 0.75rem 1rem; min-height: 0; padding-block: 1.35rem; } .ds-project-ledger-title, .ds-project-ledger-summary, .ds-project-ledger-meta { grid-column: 1; } .ds-project-ledger-title small { display: block; } .ds-project-ledger-meta small { display: none; } .ds-project-ledger-arrow { grid-column: 2; grid-row: 1 / span 3; } }"
+    },
+    {
+      "name": "Writing Featured Guide",
+      "kind": "custom",
+      "refersTo": "writing-featured-guide",
+      "description": "The square, blue-ruled lead article with authored contour paths and evidence metadata.",
+      "html": "<a class=\"ds-writing-feature\" href=\"#\"><svg class=\"ds-writing-contours\" aria-hidden=\"true\" viewBox=\"0 0 360 520\"><g fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.25\"><path d=\"M106-24c44 53 70 82 66 126-5 55-60 73-58 129 2 59 68 72 66 130-2 48-50 74-66 120-12 34-4 67 18 91\"/><path d=\"M132-24c42 48 66 80 61 122-7 53-60 75-56 131 4 54 64 70 63 128-1 51-45 78-59 124-11 35-2 66 20 91\"/><path d=\"M158-24c39 45 62 77 57 119-7 50-57 76-52 132 5 50 60 68 59 126-1 54-41 82-52 128-9 35 1 65 22 91\"/><path d=\"M184-24c38 44 58 76 52 116-7 48-53 77-47 133 6 47 56 67 55 124-1 56-36 85-46 132-7 35 4 64 25 91\"/><path d=\"M210-24c36 43 54 74 48 113-8 46-50 78-43 134 6 43 52 64 51 122-1 58-33 89-40 136-5 35 7 63 28 91\"/><path d=\"M236-24c34 42 50 72 44 110-8 44-46 79-39 134 7 41 48 62 47 121-1 59-29 92-35 140-4 35 9 62 31 91\"/><path d=\"M262-24c32 40 46 70 40 107-8 42-43 80-35 135 7 38 44 60 43 118-1 62-25 96-29 145-3 34 11 60 33 91\"/><path d=\"M288-24c30 39 42 68 36 104-8 40-39 81-31 135 7 35 40 58 39 117-1 63-21 99-23 149-1 34 13 59 35 91\"/><path d=\"M314-24c28 38 38 66 32 101-8 38-36 82-27 135 7 33 36 56 35 116-1 65-17 102-17 153 0 33 15 57 37 91\"/><path d=\"M340-24c26 36 34 64 28 98-8 36-32 83-23 136 6 30 32 53 31 113-1 68-13 107-11 158 1 32 17 56 39 91\"/></g></svg><span class=\"ds-writing-copy\"><strong>Designing audit trails for AI agent workflows</strong><span class=\"ds-writing-label\">Featured guide</span><span class=\"ds-writing-description\">A practical model for recording inputs, tool calls, outputs, and verification so an AI agent run can be inspected and reproduced.</span><span class=\"ds-writing-action\">Read the guide →</span><span class=\"ds-writing-meta\">9 min read · Aug 9, 2026</span></span></a>",
+      "css": ".ds-writing-feature { position: relative; display: block; min-height: 460px; overflow: hidden; border: 1px solid var(--color-accent); background: var(--color-paper); color: var(--color-ink); text-decoration: none; isolation: isolate; transition: background-color var(--duration-base) var(--ease-standard); } .ds-writing-feature:hover { background: color-mix(in oklch, var(--color-primary-soft) 38%, var(--color-paper)); } .ds-writing-copy { position: relative; z-index: 2; display: flex; min-height: 458px; max-width: 72%; flex-direction: column; align-items: flex-start; padding: clamp(1.65rem, 3vw, 2.25rem); } .ds-writing-copy > strong { max-width: 610px; font-family: var(--font-display); font-size: clamp(2rem, 3.1vw, 2.55rem); font-weight: 500; letter-spacing: -0.032em; line-height: 1.08; } .ds-writing-label { margin-top: 0.9rem; color: var(--color-accent); font-family: var(--font-sans); font-size: var(--text-xs); font-weight: 800; letter-spacing: 0.08em; line-height: 1.2; text-transform: uppercase; } .ds-writing-description { max-width: 560px; margin-top: 1.15rem; color: var(--color-ink-muted); font-family: var(--font-sans); font-size: var(--text-base); line-height: 1.65; } .ds-writing-action { margin-top: 0.9rem; color: var(--color-accent); font-family: var(--font-sans); font-size: var(--text-sm); font-weight: 750; } .ds-writing-meta { margin-top: auto; padding-top: 1.5rem; color: var(--color-ink-muted); font-family: var(--font-sans); font-size: var(--text-sm); line-height: 1.4; } .ds-writing-contours { position: absolute; z-index: 1; top: 0; right: -1px; width: 46%; height: 100%; color: color-mix(in oklch, var(--color-accent) 48%, transparent); pointer-events: none; } .ds-writing-feature:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 4px; }"
+    },
+    {
+      "name": "Writing Topic Atlas",
+      "kind": "custom",
+      "description": "A four-waypoint editorial rail that turns adjacent field notes into navigable evidence.",
+      "html": "<aside class=\"ds-topic-atlas\"><header><h3>Topic atlas</h3><p>Explore the current field notes by topic.</p></header><ol><li><a href=\"#\"><strong>AI systems</strong><span>Agent workflows, provenance, evaluation, and operational safeguards.</span><small>1 field note</small></a></li><li><a href=\"#\"><strong>Developer infrastructure</strong><span>Local environments, integration testing, observability, and developer experience.</span><small>1 field note</small></a></li><li><a href=\"#\"><strong>Blockchain systems</strong><span>Smart contracts, verification workflows, provenance, and failure analysis.</span><small>1 field note</small></a></li><li><a href=\"#\"><strong>Product systems</strong><span>Versioned workflows, decision records, and operational product boundaries.</span><small>1 field note</small></a></li></ol></aside>",
+      "css": ".ds-topic-atlas { position: relative; min-width: 260px; background: var(--color-paper); color: var(--color-ink); font-family: var(--font-sans); padding-bottom: 0.25rem; } .ds-topic-atlas header { border-bottom: 1px solid var(--color-border); padding-bottom: 1rem; } .ds-topic-atlas h3 { margin: 0; color: var(--color-accent); font-size: var(--text-xs); font-weight: 800; letter-spacing: 0.08em; line-height: 1.2; text-transform: uppercase; } .ds-topic-atlas header p { margin: 0.95rem 0 0; color: var(--color-ink-muted); font-size: var(--text-sm); line-height: 1.5; } .ds-topic-atlas ol { display: grid; margin: 0; padding: 1.25rem 0 0 1.7rem; list-style: none; } .ds-topic-atlas ol::before { position: absolute; top: 7.35rem; bottom: 1.8rem; left: 7px; width: 1px; background: color-mix(in oklch, var(--color-accent) 48%, var(--color-border)); content: \"\"; } .ds-topic-atlas li { position: relative; } .ds-topic-atlas li::before { position: absolute; z-index: 1; top: 0.45rem; left: -1.7rem; width: 13px; height: 13px; border: 1px solid var(--color-accent); border-radius: 50%; background: var(--color-paper); content: \"\"; } .ds-topic-atlas li:first-child::before { border-width: 2px; } .ds-topic-atlas a { display: grid; min-height: 44px; gap: 0.28rem; color: var(--color-ink); padding: 0 0 1.3rem 0.2rem; text-decoration: none; } .ds-topic-atlas strong { color: var(--color-accent); font-size: var(--text-base); font-weight: 700; line-height: 1.3; } .ds-topic-atlas span { color: var(--color-ink-muted); font-size: var(--text-sm); line-height: 1.5; } .ds-topic-atlas small { color: var(--color-ink); font-size: var(--text-xs); } .ds-topic-atlas a:hover strong { color: var(--color-accent-hover); } .ds-topic-atlas a:focus-visible { border-radius: 6px; outline: 3px solid var(--focus-ring); outline-offset: 4px; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Evidence Fieldbook",
+    "overview": "This system feels like a carefully maintained engineering fieldbook: warm paper carries precise navy ink, restrained blue marks the paths worth following, and serif headings give evidence enough gravity to be read rather than skimmed as marketing. It is calm, technical, and editorial, with the interface serving the work instead of competing with it.\n\nThe density is generous at the page level and compact inside proof-bearing elements. Thin rules, small labels, structured grids, and modest tonal shifts establish hierarchy. The writing surface established the clearest expression of the world; the homepage extends it into a proof ledger, linking one inspectable case file to a four-waypoint engineering index before continuing through project, contribution, writing, and experience evidence.",
+    "keyCharacteristics": [
+      "Warm paper and near-paper surfaces, never clinical white or dark-mode chrome.",
+      "Deep navy text with a single restrained blue path for actions, topics, and active state.",
+      "Strong Georgia-led display hierarchy paired with compact Inter/Geist/system sans text.",
+      "Hairline rules and grid relationships as the primary organizing devices.",
+      "Evidence-first cards and rows with restrained depth and no decorative excess.",
+      "Motion limited to short state feedback and authored arrival moments, with reduced-motion fallbacks."
+    ],
+    "rules": [
+      {
+        "name": "The Blue Path Rule",
+        "body": "Blue identifies navigation, action, or technical relationship; it is not ambient decoration.",
+        "section": "colors"
+      },
+      {
+        "name": "The Paper Continuity Rule",
+        "body": "Full-width sections may change paper tone, but they stay within the warm neutral family and remain visually continuous with the page.",
+        "section": "colors"
+      },
+      {
+        "name": "The Serif Means Structure Rule",
+        "body": "Use the display serif for authored hierarchy, never as a novelty treatment for metadata or controls.",
+        "section": "typography"
+      },
+      {
+        "name": "The Reading Measure Rule",
+        "body": "Explanatory content stops at roughly 65–75 characters; a wide viewport creates margins and navigation space, not wider prose.",
+        "section": "typography"
+      },
+      {
+        "name": "The Full-Width Field Rule",
+        "body": "Page bands span the viewport; containers constrain their content. Do not place entire sections inside ornamental cards.",
+        "section": "layout"
+      },
+      {
+        "name": "The Rule-Before-Shadow Rule",
+        "body": "Establish hierarchy with a one-pixel border or tonal field before introducing elevation.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Proof Ledger Stays Flat Rule",
+        "body": "Featured guides, homepage case files, waypoint indices, project rows, contribution rows, callouts, and reading content use no shadow.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Small-Corner Rule",
+        "body": "Radius softens interaction and containment; it never turns the editorial system bubbly.",
+        "section": "shapes"
+      }
+    ],
+    "dos": [
+      "Do lead with reviewable engineering evidence and let layout clarify its relationship to projects, artifacts, and adjacent writing.",
+      "Do use warm paper, navy ink, restrained blue paths, serif hierarchy, and precise hairline rules as one coherent world.",
+      "Do preserve 44px minimum interactive targets, visible keyboard focus, semantic labels, and reduced-motion behavior.",
+      "Do keep technical prose within a 65–75ch measure and turn wide space into useful navigation or calm margins.",
+      "Do use authored SVG linework only when it explains structure, as the writing contours and work blueprint do.",
+      "Do use a featured case file and rule-separated ledgers when a homepage needs to establish one lead proof and several adjacent evidence paths."
+    ],
+    "donts": [
+      "Don't turn the writing index into a generic reverse-chronological blog feed; preserve the featured-guide atlas and adjacent evidence paths.",
+      "Don't turn the homepage into a uniform portfolio card grid; preserve the hierarchy between the featured case file, engineering index, and supporting ledgers.",
+      "Don't introduce glassmorphism, particles, typing effects, fake terminals, decorative code blocks, heavy gradients, or dashboard chrome.",
+      "Don't use blue as ambient decoration or scatter multiple competing accents through a surface.",
+      "Don't nest cards or wrap full page sections in decorative containers.",
+      "Don't fabricate metrics, testimonials, customer claims, or ornamental proof.",
+      "Don't add motion that survives the reduced-motion preference or distracts from reading."
+    ]
+  }
+}
