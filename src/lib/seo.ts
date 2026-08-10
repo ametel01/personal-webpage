@@ -1,11 +1,12 @@
 import { defaultDescription, site } from "@/lib/site";
 
 const canonicalUrl = "https://www.ametel.dev/";
+const profilePageUrl = new URL("/about", canonicalUrl).toString();
 
 export const seoEntity = {
   personId: `${canonicalUrl}#alex-metelli`,
   websiteId: `${canonicalUrl}#website`,
-  profilePageId: `${canonicalUrl}#profile-page`,
+  profilePageId: `${profilePageUrl}#profile-page`,
   name: site.name,
   description: defaultDescription,
   image: new URL("/images/professional-photo.png", canonicalUrl).toString(),

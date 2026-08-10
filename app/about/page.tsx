@@ -12,9 +12,11 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { Container, ExternalLink, Section } from "@/components/primitives";
+import { StructuredData } from "@/components/structured-data";
 import { profile } from "@/content/profile";
 import { projects } from "@/content/projects";
 import { createPageMetadata } from "@/lib/metadata";
+import { createProfilePageStructuredData } from "@/lib/structured-data";
 
 export const metadata: Metadata = createPageMetadata({
   title: "About",
@@ -39,10 +41,12 @@ const supportingCaseStudySlugs = new Set([
 const supportingCaseStudies = projects.filter((project) =>
   supportingCaseStudySlugs.has(project.slug)
 );
+const profilePageStructuredData = createProfilePageStructuredData();
 
 export default function AboutPage() {
   return (
     <main className="about-page" id="main-content" tabIndex={-1}>
+      <StructuredData data={profilePageStructuredData} />
       <script id="impeccable-about-direction-contract" type="application/json">
         {JSON.stringify({
           thesis:

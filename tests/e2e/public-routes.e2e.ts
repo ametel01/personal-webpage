@@ -156,16 +156,23 @@ test.describe("public routes", () => {
     }
   });
 
-  test("structured data connects the homepage, work index, and every project", async ({ page }) => {
+  test("structured data connects the identity, profile, software, and articles", async ({
+    page
+  }) => {
     await page.goto("/");
     const homepageGraph = await readStructuredData(page);
 
-    expect(homepageGraph["@graph"].map((node) => node["@type"])).toEqual([
-      "Person",
-      "WebSite",
-      "ProfilePage"
-    ]);
+    expect(homepageGraph["@graph"].map((node) => node["@type"])).toEqual(["Person", "WebSite"]);
     expect(homepageGraph["@graph"][0]?.["@id"]).toBe("https://www.ametel.dev/#alex-metelli");
+
+    await page.goto("/about");
+    const profileGraph = await readStructuredData(page);
+    const profilePage = profileGraph["@graph"].find((node) => node["@type"] === "ProfilePage");
+
+    expect(profilePage?.["@id"]).toBe("https://www.ametel.dev/about#profile-page");
+    expect(profilePage?.mainEntity).toEqual({
+      "@id": "https://www.ametel.dev/#alex-metelli"
+    });
 
     await page.goto("/work");
     const workGraph = await readStructuredData(page);
@@ -186,6 +193,17 @@ test.describe("public routes", () => {
         "@id": "https://www.ametel.dev/#alex-metelli"
       });
       expect(projectGraph["@graph"].some((node) => node["@type"] === "BreadcrumbList")).toBe(true);
+    }
+
+    for (const article of writingArticles) {
+      await page.goto(`/writing/${article.slug}`);
+      const articleGraph = await readStructuredData(page);
+      const articleNode = articleGraph["@graph"].find((node) => node["@type"] === "TechArticle");
+
+      expect(articleNode?.author).toEqual({
+        "@id": "https://www.ametel.dev/#alex-metelli"
+      });
+      expect(articleNode?.isPartOf).toEqual({ "@id": "https://www.ametel.dev/#website" });
     }
   });
 

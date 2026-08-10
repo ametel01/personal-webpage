@@ -33,6 +33,7 @@ import { seoEntity } from "@/lib/seo";
 import { defaultDescription, professionalDescription, site } from "@/lib/site";
 import {
   createHomepageStructuredData,
+  createProfilePageStructuredData,
   createProjectStructuredData,
   createWorkStructuredData,
   createWritingArticleStructuredData,
@@ -801,6 +802,7 @@ describe("website content invariants", () => {
 
   test("SEO entity configuration owns the stable public identity", () => {
     assert.equal(seoEntity.personId, "https://www.ametel.dev/#alex-metelli");
+    assert.equal(seoEntity.profilePageId, "https://www.ametel.dev/about#profile-page");
     assert.equal(seoEntity.canonicalUrl, "https://www.ametel.dev/");
     assert.equal(seoEntity.name, site.name);
     assert.equal(seoEntity.occupation, site.role);
@@ -810,11 +812,14 @@ describe("website content invariants", () => {
     assert.ok(seoEntity.skills.includes("Developer infrastructure"));
   });
 
-  test("homepage structured data connects the Person, WebSite, and ProfilePage", () => {
+  test("structured data connects the homepage identity to the about profile page", () => {
     const graph = createHomepageStructuredData();
     const person = getGraphNode(graph, "Person");
     const website = getGraphNode(graph, "WebSite");
-    const profilePage = getGraphNode(graph, "ProfilePage");
+    const profileGraph = createProfilePageStructuredData();
+    const profilePage = getGraphNode(profileGraph, "ProfilePage");
+    const profilePerson = getGraphNode(profileGraph, "Person");
+    const breadcrumbs = getGraphNode(profileGraph, "BreadcrumbList");
 
     assert.ok(person);
     assert.equal(person["@id"], seoEntity.personId);
@@ -834,8 +839,11 @@ describe("website content invariants", () => {
 
     assert.ok(profilePage);
     assert.equal(profilePage["@id"], seoEntity.profilePageId);
+    assert.equal(profilePage.url, getAbsoluteUrl("/about"));
     assert.deepStrictEqual(profilePage.mainEntity, { "@id": seoEntity.personId });
     assert.deepStrictEqual(profilePage.isPartOf, { "@id": seoEntity.websiteId });
+    assert.equal(profilePerson?.["@id"], seoEntity.personId);
+    assert.equal((breadcrumbs?.itemListElement as unknown[]).length, 2);
   });
 
   test("work structured data connects the project index and breadcrumbs", () => {

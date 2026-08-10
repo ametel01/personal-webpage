@@ -21,6 +21,30 @@ function createGraph(...nodes: JsonLdNode[]): StructuredDataGraph {
   };
 }
 
+function createPersonNode(): JsonLdNode {
+  return {
+    "@type": "Person",
+    "@id": seoEntity.personId,
+    name: seoEntity.name,
+    description: seoEntity.description,
+    image: seoEntity.image,
+    url: seoEntity.canonicalUrl,
+    jobTitle: seoEntity.occupation,
+    hasOccupation: {
+      "@type": "Occupation",
+      name: seoEntity.occupation
+    },
+    email: `mailto:${site.email}`,
+    knowsAbout: seoEntity.skills,
+    alumniOf: {
+      "@type": "CollegeOrUniversity",
+      name: seoEntity.alumniOf
+    },
+    sameAs: seoEntity.sameAs,
+    mainEntityOfPage: { "@id": seoEntity.profilePageId }
+  };
+}
+
 function getProjectId(project: Project) {
   return `${getCanonicalUrl(`/work/${project.slug}`)}#project`;
 }
@@ -60,44 +84,29 @@ function createBreadcrumbs(
 export function createHomepageStructuredData(): StructuredDataGraph {
   const homepageUrl = seoEntity.canonicalUrl;
 
+  return createGraph(createPersonNode(), {
+    "@type": "WebSite",
+    "@id": seoEntity.websiteId,
+    url: homepageUrl,
+    name: `${seoEntity.name} — ${seoEntity.occupation}`,
+    description: seoEntity.description,
+    creator: personReference,
+    author: personReference,
+    publisher: personReference,
+    inLanguage: "en"
+  });
+}
+
+export function createProfilePageStructuredData(): StructuredDataGraph {
+  const pageUrl = getCanonicalUrl("/about");
+  const breadcrumbId = `${pageUrl}#breadcrumb`;
+
   return createGraph(
-    {
-      "@type": "Person",
-      "@id": seoEntity.personId,
-      name: seoEntity.name,
-      description: seoEntity.description,
-      image: seoEntity.image,
-      url: homepageUrl,
-      jobTitle: seoEntity.occupation,
-      hasOccupation: {
-        "@type": "Occupation",
-        name: seoEntity.occupation
-      },
-      email: `mailto:${site.email}`,
-      knowsAbout: seoEntity.skills,
-      alumniOf: {
-        "@type": "CollegeOrUniversity",
-        name: seoEntity.alumniOf
-      },
-      sameAs: seoEntity.sameAs,
-      mainEntityOfPage: { "@id": seoEntity.profilePageId }
-    },
-    {
-      "@type": "WebSite",
-      "@id": seoEntity.websiteId,
-      url: homepageUrl,
-      name: `${seoEntity.name} — ${seoEntity.occupation}`,
-      description: seoEntity.description,
-      creator: personReference,
-      author: personReference,
-      publisher: personReference,
-      inLanguage: "en"
-    },
     {
       "@type": "ProfilePage",
       "@id": seoEntity.profilePageId,
-      url: homepageUrl,
-      name: `${seoEntity.name} — ${seoEntity.occupation}`,
+      url: pageUrl,
+      name: `About ${seoEntity.name} — ${seoEntity.occupation}`,
       description: seoEntity.description,
       image: seoEntity.image,
       isPartOf: websiteReference,
@@ -105,8 +114,14 @@ export function createHomepageStructuredData(): StructuredDataGraph {
       about: personReference,
       mainEntity: personReference,
       primaryImageOfPage: seoEntity.image,
+      breadcrumb: { "@id": breadcrumbId },
       inLanguage: "en"
-    }
+    },
+    createPersonNode(),
+    createBreadcrumbs(pageUrl, breadcrumbId, [
+      { name: "Home", url: seoEntity.canonicalUrl },
+      { name: "About", url: pageUrl }
+    ])
   );
 }
 
