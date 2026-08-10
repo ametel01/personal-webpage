@@ -168,7 +168,7 @@ function FeaturedProject({ project }: { project: Project }) {
             </div>
 
             <Link className="work-case-study-link" href={`/work/${project.slug}`} prefetch={false}>
-              Read the case study
+              Explore the {project.title} case study
               <ArrowRight aria-hidden="true" size={18} strokeWidth={2.2} />
             </Link>
           </div>
@@ -238,7 +238,7 @@ function ProjectRecord({ index, project }: { index: number; project: Project }) 
       </div>
 
       <Link className="work-record-link" href={`/work/${project.slug}`} prefetch={false}>
-        <span>Read case study</span>
+        <span>Explore the {project.title} case study</span>
         <ArrowRight aria-hidden="true" size={21} strokeWidth={1.9} />
       </Link>
     </article>
@@ -256,7 +256,7 @@ function WorkClose() {
           </span>
         </span>
         <span className="work-close-action">
-          View GitHub
+          Browse Alex's GitHub repositories
           <ArrowUpRight aria-hidden="true" size={18} strokeWidth={2.1} />
         </span>
       </ExternalLink>
@@ -269,7 +269,7 @@ function WorkClose() {
           </span>
         </span>
         <span className="work-close-action">
-          View resume
+          Review Alex's engineering resume
           <ArrowRight aria-hidden="true" size={18} strokeWidth={2.1} />
         </span>
       </Link>

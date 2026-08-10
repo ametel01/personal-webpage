@@ -1,5 +1,10 @@
 import { expect, type Page, test } from "@playwright/test";
 import { projects } from "../../src/content/projects";
+import {
+  getAdjacentProjects,
+  getRelatedArticlesForProject,
+  getRelatedProjectsForArticle
+} from "../../src/content/relationships";
 import { writingArticles } from "../../src/content/writing";
 
 const projectRoutes = projects.map((project) => `/work/${project.slug}`);
@@ -82,6 +87,50 @@ test.describe("public routes", () => {
       await expect(
         page.getByText(project.metadata.currentState, { exact: true }).first()
       ).toBeVisible();
+    }
+  });
+
+  test("homepage exposes every technical article directly", async ({ page }) => {
+    await page.goto("/");
+
+    const writingSection = page.locator(".home-writing-bridge");
+    await expect(
+      writingSection.getByRole("heading", { name: "Technical writing", exact: true })
+    ).toBeVisible();
+
+    for (const article of writingArticles) {
+      await expect(
+        writingSection.getByRole("link", { name: new RegExp(article.title) })
+      ).toHaveAttribute("href", `/writing/${article.slug}`);
+    }
+  });
+
+  test("case studies close with related articles and adjacent projects", async ({ page }) => {
+    for (const project of projects) {
+      await page.goto(`/work/${project.slug}`);
+
+      const relatedWork = page.locator(".case-related-work");
+      await expect(relatedWork.getByRole("heading", { name: "Related work" })).toBeVisible();
+      await expect(relatedWork.locator('a[href^="/writing/"]')).toHaveCount(
+        getRelatedArticlesForProject(project.slug).length
+      );
+      await expect(relatedWork.locator('a[href^="/work/"]')).toHaveCount(
+        getAdjacentProjects(project.slug).length
+      );
+    }
+  });
+
+  test("technical articles expose multiple related project case studies", async ({ page }) => {
+    for (const article of writingArticles) {
+      await page.goto(`/writing/${article.slug}`);
+
+      const relatedProjects = page.locator(".writing-project-callout");
+      await expect(
+        relatedProjects.getByRole("heading", { name: "Related projects" })
+      ).toBeVisible();
+      await expect(relatedProjects.locator('a[href^="/work/"]')).toHaveCount(
+        getRelatedProjectsForArticle(article).length
+      );
     }
   });
 
@@ -359,7 +408,22 @@ test.describe("public routes", () => {
       ).toBeVisible();
     }
 
+    await expect(page.locator(".about-supporting-work a")).toHaveCount(4);
+
     await expect(page.locator(".about-contact-register a")).toHaveCount(4);
+  });
+
+  test("resume links every selected project with descriptive case-study text", async ({ page }) => {
+    await page.goto("/resume");
+
+    const projectLinks = page.locator(".resume-project-link");
+    await expect(projectLinks).toHaveCount(projects.length);
+
+    for (const project of projects) {
+      await expect(
+        page.getByRole("link", { name: `Open the ${project.title} case study` })
+      ).toHaveAttribute("href", `/work/${project.slug}`);
+    }
   });
 
   for (const viewport of [

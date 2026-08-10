@@ -154,12 +154,12 @@ export default function ResumePage() {
                         <TagList items={project.stack} ariaLabel={`${project.title} stack`} />
                       </div>
                       <Link
-                        aria-label={`Read ${project.title} case study`}
+                        aria-label={`Open the ${project.title} case study`}
                         className="resume-project-link"
                         href={`/work/${project.slug}`}
                         prefetch={false}
                       >
-                        <span>Case study</span>
+                        <span>{project.title} case study</span>
                         <ArrowRight aria-hidden="true" size={17} strokeWidth={2.2} />
                       </Link>
                     </article>

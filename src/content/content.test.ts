@@ -12,6 +12,12 @@ import {
   projectSlugs,
   projects
 } from "@/content/projects";
+import {
+  getAdjacentProjects,
+  getPrimaryProjectForArticle,
+  getRelatedArticlesForProject,
+  getRelatedProjectsForArticle
+} from "@/content/relationships";
 import { resume } from "@/content/resume";
 import {
   getRelatedWriting,
@@ -53,6 +59,14 @@ const globalCss = readFileSync(new URL("../../app/globals.css", import.meta.url)
 const homePageSource = readFileSync(new URL("../../app/page.tsx", import.meta.url), "utf8");
 const aboutPageSource = readFileSync(new URL("../../app/about/page.tsx", import.meta.url), "utf8");
 const workPageSource = readFileSync(new URL("../../app/work/page.tsx", import.meta.url), "utf8");
+const projectPageSource = readFileSync(
+  new URL("../../app/work/[slug]/page.tsx", import.meta.url),
+  "utf8"
+);
+const resumePageSource = readFileSync(
+  new URL("../../app/resume/page.tsx", import.meta.url),
+  "utf8"
+);
 const siteShellSource = readFileSync(
   new URL("../../src/components/site-shell.tsx", import.meta.url),
   "utf8"
@@ -144,6 +158,14 @@ describe("website content invariants", () => {
       assert.ok(article.readingMinutes >= 5);
       assert.match(article.relatedProject.href, /^\/work\/[a-z0-9-]+$/);
 
+      const relatedProjects = getRelatedProjectsForArticle(article);
+
+      assert.ok(relatedProjects.length >= 2);
+      assert.equal(
+        article.relatedProject.href,
+        `/work/${getPrimaryProjectForArticle(article.slug)?.slug}`
+      );
+
       for (const section of article.sections) {
         assert.match(section.id, /^[a-z0-9]+(?:-[a-z0-9]+)*$/);
         assert.ok(section.paragraphs.length >= 2);
@@ -189,6 +211,30 @@ describe("website content invariants", () => {
     for (const slug of expectedSlugs) {
       assert.equal(isProjectSlug(slug), true);
       assert.equal(getProject(slug)?.slug, slug);
+    }
+  });
+
+  test("article and project relationships cover every important work route", () => {
+    for (const article of writingArticles) {
+      const relatedProjects = getRelatedProjectsForArticle(article);
+
+      assert.ok(relatedProjects.length >= 2, `${article.slug} should link to multiple projects`);
+      assert.equal(
+        new Set(relatedProjects.map((project) => project.slug)).size,
+        relatedProjects.length
+      );
+    }
+
+    for (const project of projects) {
+      const relatedArticles = getRelatedArticlesForProject(project.slug);
+      const adjacentProjects = getAdjacentProjects(project.slug);
+
+      assert.ok(relatedArticles.length >= 1, `${project.slug} should link to a relevant article`);
+      assert.equal(adjacentProjects.length, 2);
+      assert.equal(
+        adjacentProjects.some((candidate) => candidate.slug === project.slug),
+        false
+      );
     }
   });
 
@@ -322,6 +368,7 @@ describe("website content invariants", () => {
     assert.match(aboutPageSource, /className="about-interview"/);
     assert.match(aboutPageSource, /className="about-waypoint"/);
     assert.match(aboutPageSource, /className="about-principles"/);
+    assert.match(aboutPageSource, /className="about-supporting-work"/);
     assert.match(aboutPageSource, /className="about-contact-register"/);
     assert.doesNotMatch(aboutPageSource, /about-card/);
     assert.match(globalCss, /\.about-interview ol::before\s*{/);
@@ -356,13 +403,32 @@ describe("website content invariants", () => {
 
   test("homepage keeps one direct path into a curated work set", () => {
     assert.match(homePageSource, /Review selected work/);
-    assert.match(homePageSource, /View all 7 case studies/);
+    assert.match(homePageSource, /Browse all 7 engineering case studies/);
+    assert.match(homePageSource, /id="technical-writing-title"/);
+    assert.match(homePageSource, /writingArticles\.map/);
     assert.doesNotMatch(homePageSource, /page-eyebrow|section-eyebrow/);
     assert.doesNotMatch(homePageSource, /technicalFocusGroups|proofBarItems/);
 
     for (const slug of ["agentreceipt", "scopepilot", "aggsandbox", "voyager-verifier"] as const) {
       assert.match(homePageSource, new RegExp(`"${slug}"`));
     }
+  });
+
+  test("internal evidence links use descriptive anchor text", () => {
+    const internalLinkSources = [
+      homePageSource,
+      workPageSource,
+      projectPageSource,
+      writingArticleSource,
+      aboutPageSource,
+      resumePageSource
+    ].join("\n");
+
+    assert.doesNotMatch(internalLinkSources, />\s*(?:read more|view project)\s*</i);
+    assert.match(projectPageSource, /Relevant technical articles/);
+    assert.match(projectPageSource, /Adjacent case studies/);
+    assert.match(writingArticleSource, /Related projects/);
+    assert.match(resumePageSource, /\{project\.title\} case study/);
   });
 
   test("below-fold navigation defers route prefetch", () => {
@@ -762,9 +828,9 @@ describe("website content invariants", () => {
     assert.match(workText, /Evidence register/);
     assert.match(workText, /Seven case-study plates/);
     assert.match(workText, /Evidence on record/);
-    assert.match(workText, /Read the case study/);
-    assert.match(workText, /View GitHub/);
-    assert.match(workText, /View resume/);
+    assert.match(workText, /Explore the\s+AgentReceipt\s+case study/);
+    assert.match(workText, /Browse Alex's GitHub repositories/);
+    assert.match(workText, /Review Alex's engineering resume/);
 
     for (const project of projects) {
       assert.match(workText, new RegExp(project.title));
@@ -828,8 +894,11 @@ describe("website content invariants", () => {
         "Tradeoffs and limitations",
         "Current state",
         "Verifiable evidence",
-        "Related writing",
-        "Last-updated date"
+        "Project documentation",
+        "Last-updated date",
+        "Related work",
+        "Relevant technical articles",
+        "Adjacent case studies"
       ]) {
         assert.match(pageText, new RegExp(sectionTitle));
       }

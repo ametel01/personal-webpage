@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Container, Section } from "@/components/primitives";
 import { StructuredData } from "@/components/structured-data";
+import { getRelatedProjectsForArticle } from "@/content/relationships";
 import {
   getRelatedWriting,
   getWritingArticle,
@@ -61,6 +62,7 @@ export default async function WritingArticlePage({ params }: WritingArticlePageP
   }
 
   const relatedWriting = getRelatedWriting(article);
+  const relatedProjects = getRelatedProjectsForArticle(article);
 
   return (
     <main className="writing-article-page" id="main-content" tabIndex={-1}>
@@ -134,14 +136,27 @@ export default async function WritingArticlePage({ params }: WritingArticlePageP
                   </section>
                 ))}
 
-                <aside className="writing-project-callout">
-                  <h2>Related project: {article.relatedProject.title}</h2>
-                  <p>{article.relatedProject.description}</p>
-                  <Link href={article.relatedProject.href}>
-                    Read the case study
-                    <ArrowRight aria-hidden="true" size={17} strokeWidth={2.2} />
-                  </Link>
-                </aside>
+                <section
+                  className="writing-project-callout"
+                  aria-labelledby="related-projects-title"
+                >
+                  <h2 id="related-projects-title">Related projects</h2>
+                  <p>Inspect the systems that ground this guide in implementation work.</p>
+                  <ul>
+                    {relatedProjects.map((project) => (
+                      <li key={project.slug}>
+                        <Link href={`/work/${project.slug}`} prefetch={false}>
+                          <span>{project.tags.slice(0, 3).join(" · ")}</span>
+                          <strong>{project.title}</strong>
+                          <span className="writing-project-summary">
+                            {project.shortDescription}
+                          </span>
+                          <ArrowRight aria-hidden="true" size={18} strokeWidth={2} />
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </section>
 
                 <section
                   className="writing-related-section"

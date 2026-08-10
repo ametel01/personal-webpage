@@ -1,4 +1,4 @@
-import { ArrowLeft, ArrowUpRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -6,7 +6,8 @@ import type { ReactNode } from "react";
 import { Container, ExternalLink, Section, TagList } from "@/components/primitives";
 import { ProjectIcon } from "@/components/project-icon";
 import { StructuredData } from "@/components/structured-data";
-import { getProject, isProjectSlug, projectSlugs } from "@/content/projects";
+import { getProject, isProjectSlug, type Project, projectSlugs } from "@/content/projects";
+import { getAdjacentProjects, getRelatedArticlesForProject } from "@/content/relationships";
 import { createPageMetadata } from "@/lib/metadata";
 import { createProjectStructuredData } from "@/lib/structured-data";
 
@@ -56,6 +57,9 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   if (!project) {
     notFound();
   }
+
+  const relatedArticles = getRelatedArticlesForProject(project.slug);
+  const adjacentProjects = getAdjacentProjects(project.slug);
 
   return (
     <main className="project-detail-page" id="main-content" tabIndex={-1}>
@@ -134,9 +138,9 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                 <CaseSection id="evidence" title="Verifiable evidence">
                   <EvidenceList links={project.caseStudy.evidence} />
                 </CaseSection>
-                <CaseSection id="related-writing" title="Related writing">
+                <CaseSection id="project-documentation" title="Project documentation">
                   <EvidenceList
-                    emptyMessage="No separate technical writing has been published for this project."
+                    emptyMessage="No separate public project documentation is available."
                     links={project.caseStudy.relatedWriting}
                   />
                 </CaseSection>
@@ -147,6 +151,11 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                     </time>
                   </p>
                 </CaseSection>
+                <RelatedWork
+                  adjacentProjects={adjacentProjects}
+                  project={project}
+                  relatedArticles={relatedArticles}
+                />
               </div>
             </div>
           </Container>
@@ -194,12 +203,16 @@ const caseStudySections = [
     label: "Verifiable evidence"
   },
   {
-    id: "related-writing",
-    label: "Related writing"
+    id: "project-documentation",
+    label: "Project documentation"
   },
   {
     id: "last-updated",
     label: "Last-updated date"
+  },
+  {
+    id: "related-work",
+    label: "Related work"
   }
 ] as const;
 
@@ -261,6 +274,60 @@ function EvidenceList({
         </li>
       ))}
     </ul>
+  );
+}
+
+function RelatedWork({
+  adjacentProjects,
+  project,
+  relatedArticles
+}: {
+  adjacentProjects: readonly Project[];
+  project: Project;
+  relatedArticles: ReturnType<typeof getRelatedArticlesForProject>;
+}) {
+  return (
+    <aside className="case-related-work" id="related-work" aria-labelledby="related-work-title">
+      <header>
+        <h2 id="related-work-title">Related work</h2>
+        <p>
+          Continue from {project.title} into the technical guides and adjacent systems that share
+          its engineering concerns.
+        </p>
+      </header>
+
+      <div className="case-related-work-grid">
+        <section aria-labelledby="related-articles-title">
+          <h3 id="related-articles-title">Relevant technical articles</h3>
+          <ul>
+            {relatedArticles.map((article) => (
+              <li key={article.slug}>
+                <Link href={`/writing/${article.slug}`}>
+                  <span>{article.topic}</span>
+                  <strong>{article.title}</strong>
+                  <ArrowRight aria-hidden="true" size={18} strokeWidth={2} />
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <section aria-labelledby="adjacent-projects-title">
+          <h3 id="adjacent-projects-title">Adjacent case studies</h3>
+          <ul>
+            {adjacentProjects.map((adjacentProject) => (
+              <li key={adjacentProject.slug}>
+                <Link href={`/work/${adjacentProject.slug}`} prefetch={false}>
+                  <span>{adjacentProject.metadata.role}</span>
+                  <strong>{adjacentProject.title}</strong>
+                  <ArrowRight aria-hidden="true" size={18} strokeWidth={2} />
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      </div>
+    </aside>
   );
 }
 

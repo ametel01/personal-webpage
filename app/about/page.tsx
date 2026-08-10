@@ -1,4 +1,5 @@
 import {
+  ArrowRight,
   BriefcaseBusiness,
   CodeXml,
   FileText,
@@ -12,6 +13,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Container, ExternalLink, Section } from "@/components/primitives";
 import { profile } from "@/content/profile";
+import { projects } from "@/content/projects";
 import { createPageMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = createPageMetadata({
@@ -26,6 +28,17 @@ const valueIcons = {
   list: ListChecks,
   rocket: Rocket
 } satisfies Record<string, typeof ShieldCheck>;
+
+const supportingCaseStudySlugs = new Set([
+  "agentreceipt",
+  "skills-doctor",
+  "scopepilot",
+  "horizon-starknet"
+]);
+
+const supportingCaseStudies = projects.filter((project) =>
+  supportingCaseStudySlugs.has(project.slug)
+);
 
 export default function AboutPage() {
   return (
@@ -74,6 +87,7 @@ export default function AboutPage() {
               </section>
 
               <WorkingPrinciples />
+              <SupportingCaseStudies />
               <ContactRegister />
             </div>
           </div>
@@ -137,6 +151,28 @@ function WorkingPrinciples() {
             </li>
           );
         })}
+      </ul>
+    </section>
+  );
+}
+
+function SupportingCaseStudies() {
+  return (
+    <section className="about-supporting-work" aria-labelledby="about-supporting-work-title">
+      <header>
+        <h2 id="about-supporting-work-title">Supporting case studies</h2>
+        <p>Inspect the project evidence behind the engineering range described on this page.</p>
+      </header>
+      <ul>
+        {supportingCaseStudies.map((project) => (
+          <li key={project.slug}>
+            <Link href={`/work/${project.slug}`} prefetch={false}>
+              <span>{project.tags.slice(0, 3).join(" · ")}</span>
+              <strong>{project.title}</strong>
+              <ArrowRight aria-hidden="true" size={18} strokeWidth={2} />
+            </Link>
+          </li>
+        ))}
       </ul>
     </section>
   );

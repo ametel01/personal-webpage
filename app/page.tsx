@@ -4,6 +4,7 @@ import { Container, ExternalLink, Section } from "@/components/primitives";
 import { StructuredData } from "@/components/structured-data";
 import { experienceSnapshot, profile } from "@/content/profile";
 import { openSourceContributions, type Project, projects } from "@/content/projects";
+import { writingArticles } from "@/content/writing";
 import { homeMetadata } from "@/lib/metadata";
 import { createHomepageStructuredData } from "@/lib/structured-data";
 
@@ -74,7 +75,7 @@ export default function Home() {
                 <ArrowRight aria-hidden="true" size={17} strokeWidth={2.3} />
               </a>
               <Link className="home-resume-link" href="/resume">
-                View experience
+                Review engineering experience
                 <ArrowRight aria-hidden="true" size={16} strokeWidth={2.3} />
               </Link>
             </div>
@@ -94,7 +95,7 @@ export default function Home() {
               Selected work
             </h2>
             <Link className="section-text-link" href="/work">
-              View all 7 case studies
+              Browse all 7 engineering case studies
               <ArrowRight aria-hidden="true" size={16} strokeWidth={2.4} />
             </Link>
           </div>
@@ -136,24 +137,37 @@ export default function Home() {
       <Section className="home-proof-section">
         <Container>
           <div className="home-proof-bridge">
-            <article className="home-writing-bridge">
-              <h2>Field notes on systems that can be inspected, tested, and trusted.</h2>
-              <p>
+            <section className="home-writing-bridge" aria-labelledby="technical-writing-title">
+              <div className="home-writing-header">
+                <h2 id="technical-writing-title">Technical writing</h2>
+                <Link href="/writing">
+                  Browse the writing atlas
+                  <ArrowRight aria-hidden="true" size={16} strokeWidth={2.2} />
+                </Link>
+              </div>
+              <p className="home-writing-introduction">
                 Practical guides to verification, agent workflows, developer infrastructure, and
                 product systems.
               </p>
-              <Link href="/writing">
-                Explore technical writing
-                <ArrowRight aria-hidden="true" size={17} strokeWidth={2.2} />
-              </Link>
+              <ul className="home-writing-list">
+                {writingArticles.map((article) => (
+                  <li key={article.slug}>
+                    <Link href={`/writing/${article.slug}`}>
+                      <span>{article.topic}</span>
+                      <strong>{article.title}</strong>
+                      <ArrowRight aria-hidden="true" size={17} strokeWidth={2.1} />
+                    </Link>
+                  </li>
+                ))}
+              </ul>
               <HomeTraceLines className="home-writing-traces" />
-            </article>
+            </section>
 
             <section className="home-experience" aria-labelledby="experience-title">
               <div className="home-section-header">
                 <h2 id="experience-title">Engineering experience</h2>
                 <Link className="section-text-link" href="/resume" prefetch={false}>
-                  Read full resume
+                  Review the engineering resume
                   <ArrowRight aria-hidden="true" size={16} strokeWidth={2.4} />
                 </Link>
               </div>
@@ -199,7 +213,7 @@ function FeaturedProject({ project }: { project: Project }) {
           <p className="home-featured-summary">{project.shortDescription}</p>
           <p className="home-featured-state">{project.metadata.currentState}</p>
           <span className="home-featured-action">
-            Read the case study
+            Explore the {project.title} case study
             <ArrowRight aria-hidden="true" size={18} strokeWidth={2.2} />
           </span>
         </div>
