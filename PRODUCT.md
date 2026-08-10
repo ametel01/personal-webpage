@@ -52,6 +52,8 @@ The voice is direct, technical, calm, professional, editorial, and evidence-base
 Committed public identity and contact assets include:
 
 - Name: Alex Metelli
+- Website: `https://www.ametel.dev/`
+- Short biography: “I’m a backend and blockchain infrastructure engineer with around five years of experience building protocol tooling, data systems, integrations”
 - Email: `alex-metelli@gmx.com`
 - GitHub: `https://github.com/ametel01`
 - LinkedIn: `https://uk.linkedin.com/in/alex-metelli-344169182`

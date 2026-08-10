@@ -354,6 +354,16 @@ describe("website content invariants", () => {
     );
   });
 
+  test("canonical identity uses the public website and shared short biography", () => {
+    assert.equal(site.professionalDescription, professionalDescription);
+    assert.equal(
+      professionalDescription,
+      "I’m a backend and blockchain infrastructure engineer with around five years of experience building protocol tooling, data systems, integrations"
+    );
+    assert.equal(seoEntity.canonicalUrl, "https://www.ametel.dev/");
+    assert.equal(seoEntity.description, professionalDescription);
+  });
+
   test("about page exposes structured redesigned content", () => {
     assert.deepStrictEqual(
       profile.about.capabilityChips.map((chip) => chip.label),
