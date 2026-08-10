@@ -28,6 +28,7 @@ export default defineConfig({
     },
     {
       name: "chromium-mobile",
+      testIgnore: "**/seo-retrieval.e2e.ts",
       use: {
         ...devices["Pixel 5"],
         viewport: {

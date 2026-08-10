@@ -1,4 +1,5 @@
 import { expect, type Page, test } from "@playwright/test";
+import { profile } from "../../src/content/profile";
 import { projects } from "../../src/content/projects";
 import {
   getAdjacentProjects,
@@ -382,23 +383,17 @@ test.describe("public routes", () => {
   test("about page renders redesigned content sections", async ({ page }) => {
     await page.goto("/about");
 
-    for (const label of [
-      "5+ years",
-      "Backend systems",
-      "Developer tooling",
-      "Blockchain infra",
-      "Remote-friendly"
-    ]) {
+    for (const label of profile.about.capabilityChips.map((chip) => chip.label)) {
       await expect(
         page.locator(".about-capability-index").getByText(label, { exact: true })
       ).toBeVisible();
     }
 
     const interview = page.locator(".about-interview");
-    await expect(interview.getByRole("heading", { name: "What I work on" })).toBeVisible();
-    await expect(interview.getByRole("heading", { name: "How I work" })).toBeVisible();
-    await expect(interview.getByRole("heading", { name: "What I am looking for" })).toBeVisible();
-    await expect(interview.locator(".about-waypoint")).toHaveCount(3);
+    for (const focusCard of profile.about.focusCards) {
+      await expect(interview.getByRole("heading", { name: focusCard.title })).toBeVisible();
+    }
+    await expect(interview.locator(".about-waypoint")).toHaveCount(profile.about.focusCards.length);
 
     await expect(page.getByRole("heading", { name: "Working principles" })).toBeVisible();
 
