@@ -457,7 +457,7 @@ describe("website content invariants", () => {
     assert.equal(site.professionalDescription, professionalDescription);
     assert.equal(
       professionalDescription,
-      "I’m a backend and blockchain infrastructure engineer with around five years of experience building protocol tooling, data systems, integrations"
+      "Backend and blockchain infrastructure engineer with around five years of experience building developer tools, AI workflows, data systems, and correctness-sensitive infrastructure."
     );
     assert.equal(seoEntity.canonicalUrl, "https://www.ametel.dev/");
     assert.equal(seoEntity.description, professionalDescription);

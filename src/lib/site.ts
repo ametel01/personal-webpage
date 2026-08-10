@@ -1,5 +1,5 @@
 export const professionalDescription =
-  "I’m a backend and blockchain infrastructure engineer with around five years of experience building protocol tooling, data systems, integrations";
+  "Backend and blockchain infrastructure engineer with around five years of experience building developer tools, AI workflows, data systems, and correctness-sensitive infrastructure.";
 
 export const site = {
   name: "Alex Metelli",
