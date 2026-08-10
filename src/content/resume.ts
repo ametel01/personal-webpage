@@ -2,6 +2,8 @@ import { profile } from "@/content/profile";
 import { projects } from "@/content/projects";
 
 export const resume = {
+  updatedAt: "2026-08-10",
+  pdfUpdatedAt: "2026-07-07",
   heading: {
     name: profile.name,
     role: "Software Engineer | Backend, Developer Infrastructure, AI Tooling",

@@ -1,6 +1,7 @@
 import { site } from "@/lib/site";
 
 export const profile = {
+  updatedAt: "2026-08-08",
   name: site.name,
   role: site.role,
   email: site.email,

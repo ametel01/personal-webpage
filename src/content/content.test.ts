@@ -26,6 +26,7 @@ import {
   writingArticles,
   writingSlugs
 } from "@/content/writing";
+import { createLlmsText, getCrawlPages } from "@/lib/crawl";
 import { createPageMetadata, getAbsoluteUrl, homeMetadata, homeTitle } from "@/lib/metadata";
 import { primaryNavItems } from "@/lib/navigation";
 import { seoEntity } from "@/lib/seo";
@@ -1049,11 +1050,70 @@ describe("website content invariants", () => {
       ].sort()
     );
 
+    const sitemapLastModified = new Map(
+      sitemap().map((entry) => [new URL(String(entry.url)).pathname, String(entry.lastModified)])
+    );
+    const latestProjectDate = projects
+      .map((project) => project.caseStudy.lastUpdated)
+      .sort()
+      .at(-1);
+    const latestWritingDate = writingArticles
+      .map((article) => article.updatedAt)
+      .sort()
+      .at(-1);
+    const latestHomepageDate = [profile.updatedAt, latestProjectDate, latestWritingDate]
+      .filter((date): date is string => date !== undefined)
+      .sort()
+      .at(-1);
+
+    assert.equal(sitemapLastModified.get("/about"), profile.updatedAt);
+    assert.equal(sitemapLastModified.get("/resume"), resume.updatedAt);
+    assert.equal(sitemapLastModified.get("/resume.pdf"), resume.pdfUpdatedAt);
+    assert.equal(sitemapLastModified.get("/work"), latestProjectDate);
+    assert.equal(sitemapLastModified.get("/writing"), latestWritingDate);
+    assert.equal(sitemapLastModified.get("/"), latestHomepageDate);
+
+    for (const project of projects) {
+      assert.equal(sitemapLastModified.get(`/work/${project.slug}`), project.caseStudy.lastUpdated);
+    }
+
+    for (const article of writingArticles) {
+      assert.equal(sitemapLastModified.get(`/writing/${article.slug}`), article.updatedAt);
+    }
+
+    assert.equal(sitemap().length, getCrawlPages().length);
+
     const robotsConfig = robots();
     assert.deepStrictEqual(robotsConfig.rules, {
       userAgent: "*",
       allow: "/"
     });
     assert.equal(String(robotsConfig.sitemap).endsWith("/sitemap.xml"), true);
+  });
+
+  test("llms.txt is generated from canonical project and writing content", async () => {
+    const { GET } = await import("../../app/llms.txt/route");
+    const response = GET();
+    const llmsText = await response.text();
+
+    assert.equal(response.headers.get("content-type"), "text/plain; charset=utf-8");
+    assert.equal(llmsText, createLlmsText());
+
+    for (const [label, path] of [
+      ["About", "/about"],
+      ["Resume", "/resume"],
+      ["Work", "/work"],
+      ["Writing", "/writing"]
+    ] as const) {
+      assert.match(llmsText, new RegExp(`\\[${label}\\]\\(${getAbsoluteUrl(path)}\\)`));
+    }
+
+    for (const project of projects.slice(0, 5)) {
+      assert.match(llmsText, new RegExp(`/work/${project.slug}`));
+    }
+
+    for (const article of writingArticles) {
+      assert.match(llmsText, new RegExp(`/writing/${article.slug}`));
+    }
   });
 });
