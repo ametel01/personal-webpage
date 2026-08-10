@@ -5,11 +5,34 @@ export const localCrossChainTesting = {
   title: "How to test cross-chain bridge workflows locally",
   description:
     "A repeatable method for testing deposits, message propagation, proof readiness, claims, restarts, and duplicate operations across a pinned local bridge topology.",
+  directAnswer: {
+    text: "Test a cross-chain bridge locally as an asynchronous state machine: pin the topology, submit one uniquely identified operation, and assert each owned transition through indexing, proof readiness, claim, and final state. Replace fixed sleeps with bounded polling and retain the last observed state on every timeout. A successful source transaction alone is not an end-to-end bridge test.",
+    citations: [
+      {
+        label: "AggSandbox architecture overview",
+        href: "https://github.com/NethermindEth/aggsandbox/blob/main/docs/overview.md"
+      },
+      {
+        label: "Aggkit bridge service flow",
+        href: "https://agglayer.github.io/aggkit/bridge_service.html"
+      }
+    ]
+  },
   topic: "Developer infrastructure",
   topicDescription:
     "Local environments, integration testing, observability, and failure injection.",
   publishedAt: "2026-08-05",
-  updatedAt: "2026-08-10",
+  updatedAt: "2026-08-11",
+  reviewedAt: "2026-08-11",
+  testedWith: [
+    {
+      name: "AggSandbox",
+      version: "0.1.0",
+      href: "https://github.com/NethermindEth/aggsandbox/blob/main/cli/Cargo.toml"
+    }
+  ],
+  validationScope:
+    "CLI command shapes and the state-polling harness were checked against the linked source version; this review did not run a full multi-container benchmark.",
   readingMinutes: 12,
   searchQuestions: [
     "How do you test a cross-chain bridge locally?",
@@ -22,6 +45,16 @@ export const localCrossChainTesting = {
     "Assert each transition at the component that owns it and print identifiers for the next diagnostic step.",
     "Replace fixed sleeps with bounded state polling and attach a state report to every timeout."
   ],
+  applicability: {
+    useWhen: [
+      "You are testing a bridge, message relay, or cross-domain workflow with observable intermediate states.",
+      "You need deterministic local failure injection for restarts, duplicate claims, delayed indexing, or proof readiness."
+    ],
+    avoidWhen: [
+      "You need economic, validator, or production-network guarantees that a local topology cannot reproduce.",
+      "The protocol exposes no stable identifiers or state probes; add observability before treating timing as correctness."
+    ]
+  },
   sections: [
     {
       id: "model-the-lifecycle",
@@ -136,6 +169,10 @@ export const localCrossChainTesting = {
     title: "Bridge lifecycle under test",
     description:
       "Every arrow is asynchronous and should have its own condition, deadline, and diagnostic source.",
+    source: {
+      label: "AggSandbox bridge operations guide",
+      href: "https://github.com/NethermindEth/aggsandbox/blob/main/docs/bridge-operations.md"
+    },
     steps: [
       { label: "Submit", detail: "Source transaction + bridge event" },
       { label: "Index", detail: "Deposit/message correlation" },

@@ -5,10 +5,33 @@ export const auditingAgentSkills = {
   title: "Auditing agent skills and instruction files",
   description:
     "A repeatable way to inspect SKILL.md, AGENTS.md, referenced scripts, and local overrides for structural drift, unsafe capability combinations, and instructions an agent cannot actually execute.",
+  directAnswer: {
+    text: "Audit an agent skill by first resolving the instruction files that apply to a concrete target, then validating the package graph and reviewing risky capability combinations separately from writing quality. Keep scanning read-only, preserve the exact evidence behind each finding, and make repair a distinct consented action.",
+    citations: [
+      {
+        label: "Skills Doctor rule catalog",
+        href: "https://github.com/ametel01/skills-doctor/blob/main/docs/RULES.md"
+      },
+      {
+        label: "Agent Skills specification",
+        href: "https://agentskills.io/specification"
+      }
+    ]
+  },
   topic: "AI agent systems",
   topicDescription: "Agent activity, provenance, replay, verification, and review boundaries.",
   publishedAt: "2026-08-07",
-  updatedAt: "2026-08-10",
+  updatedAt: "2026-08-11",
+  reviewedAt: "2026-08-11",
+  testedWith: [
+    {
+      name: "Skills Doctor",
+      version: "0.6.2",
+      href: "https://github.com/ametel01/skills-doctor/blob/main/package.json"
+    }
+  ],
+  validationScope:
+    "Non-interactive flags, JSON finding fields, package traversal, and consent boundaries were checked against the linked package version; no automated repair was executed.",
   readingMinutes: 12,
   searchQuestions: [
     "How do you audit an Agent Skill or SKILL.md file?",
@@ -21,6 +44,16 @@ export const auditingAgentSkills = {
     "Follow every referenced file and executable edge while keeping the scan inside the intended root.",
     "Never let an audit tool silently hand execution to another agent; repair is a distinct, consented action."
   ],
+  applicability: {
+    useWhen: [
+      "You need a repeatable pre-publish or CI review of SKILL.md, AGENTS.md, scripts, and referenced assets.",
+      "You need to distinguish deterministic package defects from capability risks and editorial quality."
+    ],
+    avoidWhen: [
+      "You only need to review ordinary application code; use the repository's code and security gates instead.",
+      "You expect a score alone to prove a skill is safe or effective without reviewing its evidence and behavior."
+    ]
+  },
   sections: [
     {
       id: "resolve-effective-instructions",
@@ -131,6 +164,10 @@ export const auditingAgentSkills = {
     title: "Instruction audit pipeline",
     description:
       "Discovery establishes effective scope before structural rules and security correlations feed a separate repair handoff.",
+    source: {
+      label: "Skills Doctor security specification",
+      href: "https://github.com/ametel01/skills-doctor/blob/main/docs/SECURITY_SPEC.md"
+    },
     steps: [
       { label: "Discover", detail: "Roots, nesting, duplicates, shadowing" },
       { label: "Resolve", detail: "Effective instruction chain" },

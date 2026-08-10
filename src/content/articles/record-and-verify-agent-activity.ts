@@ -5,10 +5,33 @@ export const recordAndVerifyAgentActivity = {
   title: "How to record and verify AI coding-agent activity",
   description:
     "A concrete, local-first workflow for capturing agent actions, binding them to repository state, signing the result, and verifying the final patch independently.",
+  directAnswer: {
+    text: "Record AI coding-agent activity as a bounded, typed evidence stream that starts from an explicit repository baseline and ends in a signed canonical receipt. Verify artifact hashes, event-chain integrity, the signature, and the final patch independently of the model or provider transcript. A valid receipt proves evidence integrity and repository correspondence, not that the code is correct.",
+    citations: [
+      {
+        label: "AgentReceipt replay contract",
+        href: "https://github.com/ametel01/agentreceipt/blob/main/docs/REPLAY_SPECS.md"
+      },
+      {
+        label: "SLSA provenance specification",
+        href: "https://slsa.dev/spec/v1.2/provenance"
+      }
+    ]
+  },
   topic: "AI agent systems",
   topicDescription: "Agent activity, provenance, replay, verification, and review boundaries.",
   publishedAt: "2026-08-10",
-  updatedAt: "2026-08-10",
+  updatedAt: "2026-08-11",
+  reviewedAt: "2026-08-11",
+  testedWith: [
+    {
+      name: "AgentReceipt",
+      version: "0.10.1",
+      href: "https://github.com/ametel01/agentreceipt/releases/tag/v0.10.1"
+    }
+  ],
+  validationScope:
+    "CLI workflow, receipt schema, replay output, and diff-verification boundaries were checked against the tagged release; provider-specific trace capture remains best-effort.",
   readingMinutes: 11,
   searchQuestions: [
     "How do you record what an AI coding agent changed?",
@@ -21,6 +44,16 @@ export const recordAndVerifyAgentActivity = {
     "Bind the receipt to the final patch and sign the canonical manifest rather than a rendered report.",
     "Run verification in a separate process that needs neither the original model nor its in-memory state."
   ],
+  applicability: {
+    useWhen: [
+      "AI-assisted changes need a portable review, handoff, audit, or policy record tied to repository state.",
+      "You can define a bounded capture policy and distinguish observed evidence from unavailable provider context."
+    ],
+    avoidWhen: [
+      "You need to capture private reasoning, secrets, or every prompt as a prerequisite for trust.",
+      "You want the receipt to replace code review, tests, security analysis, or human accountability."
+    ]
+  },
   sections: [
     {
       id: "define-the-evidence-boundary",
@@ -131,6 +164,10 @@ export const recordAndVerifyAgentActivity = {
     title: "Capture and verification boundary",
     description:
       "The recorder observes the session and creates immutable evidence; the verifier consumes only the receipt and repository state.",
+    source: {
+      label: "AgentReceipt replay contract",
+      href: "https://github.com/ametel01/agentreceipt/blob/main/docs/REPLAY_SPECS.md"
+    },
     steps: [
       { label: "Baseline", detail: "Git state + instructions" },
       { label: "Observe", detail: "Commands + files + provider events" },

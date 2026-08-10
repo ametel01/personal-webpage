@@ -51,7 +51,13 @@ export function ArticleDiagram({ diagram }: { diagram: WritingDiagram }) {
       <figcaption>
         <span>System diagram</span>
         <strong>{diagram.title}</strong>
-        <p>{diagram.description}</p>
+        <div>
+          <p>{diagram.description}</p>
+          <a href={diagram.source.href} rel="noreferrer" target="_blank">
+            Source: {diagram.source.label}
+            <ArrowUpRight aria-hidden="true" size={14} strokeWidth={2} />
+          </a>
+        </div>
       </figcaption>
       <ol>
         {diagram.steps.map((step, index) => (

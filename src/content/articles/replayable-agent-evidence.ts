@@ -5,10 +5,38 @@ export const replayableAgentEvidence = {
   title: "Designing replayable evidence for coding agents",
   description:
     "How to turn an agent session into a deterministic evidence graph that another reviewer or agent can navigate without replaying every token or trusting a transcript.",
+  directAnswer: {
+    text: "Replayable agent evidence should reconstruct the repository baseline, instructions, material actions, artifacts, final patch, and validation path without promising identical model output. Store one immutable evidence graph, then derive a chronological replay and a smaller evidence-backed focus queue for the next reviewer. Missing provider data should remain an explicit gap, not be replaced with a model-generated guess.",
+    citations: [
+      {
+        label: "AgentReceipt replay specification",
+        href: "https://github.com/ametel01/agentreceipt/blob/main/docs/REPLAY_SPECS.md"
+      },
+      {
+        label: "OpenAI Codex agent loop",
+        href: "https://openai.com/index/unrolling-the-codex-agent-loop/"
+      }
+    ]
+  },
   topic: "AI agent systems",
   topicDescription: "Agent activity, provenance, replay, verification, and review boundaries.",
   publishedAt: "2026-08-09",
-  updatedAt: "2026-08-10",
+  updatedAt: "2026-08-11",
+  reviewedAt: "2026-08-11",
+  testedWith: [
+    {
+      name: "AgentReceipt replay schema",
+      version: "v1",
+      href: "https://github.com/ametel01/agentreceipt/blob/main/docs/REPLAY_SPECS.md"
+    },
+    {
+      name: "AgentReceipt",
+      version: "0.10.1",
+      href: "https://github.com/ametel01/agentreceipt/releases/tag/v0.10.1"
+    }
+  ],
+  validationScope:
+    "The downloadable fixture, replay fields, focus queue, and unavailable-evidence behavior were checked against schema v1 and the tagged CLI release.",
   readingMinutes: 12,
   searchQuestions: [
     "What does replay mean for a nondeterministic coding agent?",
@@ -21,6 +49,16 @@ export const replayableAgentEvidence = {
     "Separate the complete evidence graph from a ranked focus queue for the next reviewer.",
     "Label nondeterministic and unavailable boundaries instead of filling them with invented certainty."
   ],
+  applicability: {
+    useWhen: [
+      "A reviewer or successor agent needs to reconstruct why a patch exists and which evidence supports it.",
+      "The complete session record is too large for a useful handoff but must remain independently inspectable."
+    ],
+    avoidWhen: [
+      "You require byte-for-byte re-execution of nondeterministic models or mutable external services.",
+      "The replay can only work with hidden process memory, the original provider account, or an unversioned transcript."
+    ]
+  },
   sections: [
     {
       id: "define-replay",
@@ -135,6 +173,10 @@ export const replayableAgentEvidence = {
     title: "One evidence graph, two review surfaces",
     description:
       "The immutable receipt remains complete; replay and focus are deterministic projections for different consumers.",
+    source: {
+      label: "AgentReceipt replay specification",
+      href: "https://github.com/ametel01/agentreceipt/blob/main/docs/REPLAY_SPECS.md"
+    },
     steps: [
       { label: "Events", detail: "Typed, hash-linked observations" },
       { label: "Artifacts", detail: "Patches, logs, snapshots, gates" },

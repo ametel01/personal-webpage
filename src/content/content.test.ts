@@ -161,14 +161,32 @@ describe("website content invariants", () => {
       assert.match(article.slug, /^[a-z0-9]+(?:-[a-z0-9]+)*$/);
       assert.ok(article.title.length > 20);
       assert.ok(article.description.length > 80);
+      const directAnswerSentenceCount = article.directAnswer.text.match(/[.!?](?:\s|$)/g)?.length;
+
+      assert.ok(
+        directAnswerSentenceCount && directAnswerSentenceCount >= 2,
+        `${article.slug} should answer the title in at least two sentences`
+      );
+      assert.ok(
+        directAnswerSentenceCount <= 4,
+        `${article.slug} direct answer should stay within four sentences`
+      );
+      assert.ok(article.directAnswer.citations.length >= 1);
       assert.ok(article.searchQuestions.length >= 3);
       assert.ok(article.keyPoints.length >= 4);
+      assert.ok(article.applicability.useWhen.length >= 2);
+      assert.ok(article.applicability.avoidWhen.length >= 2);
       assert.ok(article.sections.length >= 4);
       assert.match(article.publishedAt, /^2026-\d{2}-\d{2}$/);
       assert.match(article.updatedAt, /^2026-\d{2}-\d{2}$/);
+      assert.match(article.reviewedAt, /^2026-\d{2}-\d{2}$/);
+      assert.ok(article.updatedAt <= article.reviewedAt);
+      assert.ok(article.testedWith.length >= 1);
+      assert.ok(article.validationScope.length > 80);
       assert.ok(article.readingMinutes >= 5);
       assert.match(article.relatedProject.href, /^\/work\/[a-z0-9-]+$/);
       assert.ok(article.diagram.steps.length >= 4);
+      assert.match(article.diagram.source.href, /^https:\/\//);
       assert.ok(article.artifacts.length >= 1);
       assert.ok(article.codeExamples.length >= 1);
       assert.ok(article.decisions.length >= 3);
@@ -179,6 +197,12 @@ describe("website content invariants", () => {
         assert.ok(example.label.length > 10);
         assert.ok(example.language.length > 1);
         assert.ok(example.code.includes("\n"));
+      }
+
+      for (const software of article.testedWith) {
+        assert.ok(software.name.length > 0);
+        assert.ok(software.version.length > 0);
+        assert.match(software.href, /^https:\/\//);
       }
 
       for (const artifact of article.artifacts) {
@@ -245,6 +269,9 @@ describe("website content invariants", () => {
     assert.match(writingIndexSource, /TopicAtlas/);
     assert.match(writingArticleSource, /ArticleTableOfContents/);
     assert.match(writingArticleSource, /writing-key-points/);
+    assert.match(writingArticleSource, /writing-direct-answer/);
+    assert.match(writingArticleSource, /writing-applicability/);
+    assert.match(writingArticleSource, /writing-review-register/);
     assert.match(writingArticleSource, /ArticleDiagram/);
     assert.match(writingArticleSource, /ArticleArtifacts/);
     assert.match(writingArticleSource, /ArticleCodeExamples/);
@@ -268,6 +295,7 @@ describe("website content invariants", () => {
       const techArticle = getGraphNode(graph, "TechArticle");
 
       assert.equal(techArticle?.headline, article.title);
+      assert.equal(techArticle?.abstract, article.directAnswer.text);
       assert.equal(techArticle?.datePublished, article.publishedAt);
       assert.equal(techArticle?.dateModified, article.updatedAt);
       assert.equal(techArticle?.articleSection, article.topic);
@@ -291,7 +319,9 @@ describe("website content invariants", () => {
       assert.deepStrictEqual(
         techArticle?.citation,
         [
+          ...typedArticle.directAnswer.citations.map(({ href }) => href),
           ...bodyCitations.map(({ href }) => href),
+          typedArticle.diagram.source.href,
           ...typedArticle.artifacts.map(({ source }) => source.href),
           ...typedArticle.repositoryLinks.map(({ href }) => href)
         ].filter((href, index, references) => references.indexOf(href) === index)

@@ -5,11 +5,34 @@ export const proposalRevisions = {
   title: "Modeling proposal revisions and change orders",
   description:
     "A concrete domain model for keeping scope, pricing, approvals, revisions, and post-acceptance change orders traceable without rewriting commercial history.",
+  directAnswer: {
+    text: "Model a proposal as a long-lived conversation containing immutable issued versions, and bind every approval or rejection to the exact version and content digest reviewed. After acceptance, represent scope changes as separately approved deltas rather than editing the accepted baseline. This preserves an auditable explanation of current scope, price, and decision history.",
+    citations: [
+      {
+        label: "ScopePilot revisions and change orders",
+        href: "https://scopepilot.launchingfoundry.xyz/docs/how-to-guides/handle-approvals-revisions-and-change-orders"
+      },
+      {
+        label: "PostgreSQL transaction isolation",
+        href: "https://www.postgresql.org/docs/18/transaction-iso.html"
+      }
+    ]
+  },
   topic: "Product systems",
   topicDescription:
     "Versioned documents, approval states, pricing integrity, and operational workflows.",
   publishedAt: "2026-08-03",
-  updatedAt: "2026-08-10",
+  updatedAt: "2026-08-11",
+  reviewedAt: "2026-08-11",
+  testedWith: [
+    {
+      name: "PostgreSQL",
+      version: "18",
+      href: "https://www.postgresql.org/docs/18/index.html"
+    }
+  ],
+  validationScope:
+    "DDL, transaction boundaries, and exact-numeric guidance were checked against PostgreSQL 18 documentation; no production dataset or load benchmark is claimed.",
   readingMinutes: 11,
   searchQuestions: [
     "How should proposal revisions be versioned?",
@@ -22,6 +45,16 @@ export const proposalRevisions = {
     "Represent a change order as a delta to an accepted baseline instead of editing that baseline.",
     "Store money inputs and rounding rules, then derive totals consistently."
   ],
+  applicability: {
+    useWhen: [
+      "A proposal, quote, or statement of work can be revised before acceptance and changed again during delivery.",
+      "You need to prove which scope, price, and terms a specific actor reviewed or accepted."
+    ],
+    avoidWhen: [
+      "The document is disposable internal drafting with no approval, pricing, or audit requirement.",
+      "Your workflow cannot define who may issue, decide, expire, or supersede a version."
+    ]
+  },
   sections: [
     {
       id: "separate-identities",
@@ -136,6 +169,10 @@ export const proposalRevisions = {
     title: "Versioned proposal lifecycle",
     description:
       "Mutable authoring state becomes immutable when issued; later scope changes branch into a new version or change order.",
+    source: {
+      label: "ScopePilot workflow documentation",
+      href: "https://scopepilot.launchingfoundry.xyz/docs/how-to-guides/handle-approvals-revisions-and-change-orders"
+    },
     steps: [
       { label: "Draft", detail: "Mutable scope + pricing" },
       { label: "Issue", detail: "Immutable version snapshot" },

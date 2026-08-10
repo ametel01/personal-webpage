@@ -3506,8 +3506,17 @@ button {
   line-height: 0.98;
 }
 
+.writing-direct-answer {
+  max-width: 780px;
+  margin: 1.5rem 0 0;
+  color: var(--writing-ink);
+  font-size: clamp(1.12rem, 1.85vw, 1.4rem);
+  font-weight: 620;
+  line-height: 1.62;
+}
+
 .writing-article-topic {
-  margin-top: 0.9rem;
+  margin-top: 1.4rem;
 }
 
 .writing-article-dek {
@@ -3520,6 +3529,50 @@ button {
 
 .writing-article-hero-meta {
   margin-top: 1.6rem;
+}
+
+.writing-review-register {
+  display: grid;
+  max-width: 820px;
+  grid-template-columns: minmax(170px, 0.4fr) minmax(0, 1fr);
+  margin: 1.4rem 0 0;
+  border-block: 1px solid var(--writing-line);
+}
+
+.writing-review-register > div {
+  display: grid;
+  gap: 0.38rem;
+  align-content: start;
+  padding-block: 0.9rem;
+}
+
+.writing-review-register > div + div {
+  border-left: 1px solid var(--writing-line);
+  padding-left: 1.25rem;
+}
+
+.writing-review-register dt {
+  color: var(--writing-blue);
+  font-size: var(--text-xs);
+  font-weight: var(--label-font-weight);
+  letter-spacing: var(--label-letter-spacing);
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.writing-review-register dd {
+  margin: 0;
+  color: var(--writing-muted);
+  font-size: var(--text-sm);
+  line-height: 1.55;
+}
+
+.writing-review-register a {
+  color: var(--writing-blue);
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--writing-blue) 42%, transparent);
+  text-underline-offset: 0.18em;
 }
 
 .writing-question-strip {
@@ -3613,7 +3666,68 @@ button {
   max-width: 75ch;
 }
 
+.writing-applicability {
+  border-block: 1px solid var(--writing-blue);
+  scroll-margin-top: 5rem;
+}
+
+.writing-applicability > h2 {
+  margin: 0;
+  border-bottom: 1px solid var(--writing-line);
+  color: var(--writing-blue);
+  font-size: var(--text-sm);
+  font-weight: 800;
+  padding-block: 1rem;
+}
+
+.writing-applicability > div {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.writing-applicability section {
+  padding-block: 1.15rem 1.3rem;
+}
+
+.writing-applicability section + section {
+  border-left: 1px solid var(--writing-line);
+  padding-left: 1.4rem;
+}
+
+.writing-applicability h3 {
+  margin: 0;
+  color: var(--writing-ink);
+  font-size: var(--text-sm);
+}
+
+.writing-applicability ul {
+  display: grid;
+  gap: 0.65rem;
+  margin: 0.85rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.writing-applicability li {
+  position: relative;
+  color: var(--writing-muted);
+  font-size: var(--text-sm);
+  line-height: 1.55;
+  padding-left: 1rem;
+}
+
+.writing-applicability li::before {
+  position: absolute;
+  top: 0.62em;
+  left: 0;
+  width: 5px;
+  height: 5px;
+  border: 1px solid var(--writing-blue);
+  content: "";
+}
+
 .writing-key-points {
+  margin-top: clamp(2.5rem, 5vw, 4rem);
   border-top: 1px solid var(--writing-blue);
   border-bottom: 1px solid var(--writing-blue);
   padding-block: 1.35rem;
@@ -3766,6 +3880,16 @@ button {
   color: var(--writing-muted);
   font-size: var(--text-sm);
   line-height: 1.55;
+}
+
+.writing-process-diagram figcaption > div > a {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--writing-blue);
+  font-size: var(--text-xs);
+  font-weight: 700;
 }
 
 .writing-process-diagram ol {
@@ -4809,6 +4933,18 @@ button {
   .writing-question-strip ul,
   .writing-key-points ul {
     grid-template-columns: 1fr;
+  }
+
+  .writing-review-register,
+  .writing-applicability > div {
+    grid-template-columns: 1fr;
+  }
+
+  .writing-review-register > div + div,
+  .writing-applicability section + section {
+    border-top: 1px solid var(--writing-line);
+    border-left: 0;
+    padding-left: 0;
   }
 
   .writing-related-section a {

@@ -8,6 +8,7 @@ import { starknetContractVerification } from "@/content/articles/starknet-contra
 import type { WritingArticle, WritingTopicGroup } from "@/content/writing-shared";
 
 export type {
+  WritingApplicability,
   WritingArchitectureArtifact,
   WritingArticle,
   WritingArtifact,
@@ -26,6 +27,7 @@ export type {
   WritingSchemaArtifact,
   WritingSection,
   WritingStateMachineArtifact,
+  WritingTestedVersion,
   WritingTopic,
   WritingTopicGroup
 } from "@/content/writing-shared";

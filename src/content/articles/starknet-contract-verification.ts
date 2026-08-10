@@ -5,11 +5,34 @@ export const starknetContractVerification = {
   title: "How Starknet contract source verification works",
   description:
     "A practical explanation of how a verifier reconstructs a Cairo build, compares the resulting Starknet class, and publishes source without confusing source verification with proof verification.",
+  directAnswer: {
+    text: "Starknet source verification rebuilds a submitted Cairo workspace with the pinned Scarb and compiler context, locates the intended contract artifact, and compares its Sierra class hash—and, where applicable, compiled class hash—with the declared class. A match shows that the submitted source reproduces the onchain class identity. It does not verify the STARK proof that secures Starknet state transitions.",
+    citations: [
+      {
+        label: "Starknet state and class hashes",
+        href: "https://docs.starknet.io/learn/protocol/state"
+      },
+      {
+        label: "Scarb Starknet contract artifacts",
+        href: "https://docs.swmansion.com/scarb/docs/extensions/starknet/contract-target.html"
+      }
+    ]
+  },
   topic: "Blockchain systems",
   topicDescription:
     "Starknet contracts, reproducible builds, explorer verification, and diagnostics.",
   publishedAt: "2026-08-08",
-  updatedAt: "2026-08-10",
+  updatedAt: "2026-08-11",
+  reviewedAt: "2026-08-11",
+  testedWith: [
+    {
+      name: "Voyager Verifier",
+      version: "2.3.0",
+      href: "https://github.com/NethermindEth/voyager-verifier/releases/tag/v2.3.0"
+    }
+  ],
+  validationScope:
+    "CLI flags, workspace resolution, artifact comparison, and failure stages were checked against the tagged verifier release and official Scarb/Starknet documentation.",
   readingMinutes: 13,
   searchQuestions: [
     "How does Starknet contract source verification work?",
@@ -22,6 +45,16 @@ export const starknetContractVerification = {
     "Modern Cairo contracts produce Sierra class artifacts, while execution uses compiled CASM committed by a compiled class hash.",
     "Good verification tools report the failed build stage or mismatch class instead of returning one generic error."
   ],
+  applicability: {
+    useWhen: [
+      "You are building, operating, or debugging a Cairo contract source-verification workflow.",
+      "A class-hash mismatch needs to be traced to workspace resolution, compiler inputs, artifacts, or comparison logic."
+    ],
+    avoidWhen: [
+      "You are trying to validate Starknet block proofs, contract behavior, or application security.",
+      "You do not have the exact manifest, lockfile, source tree, target, profile, and compiler context used for declaration."
+    ]
+  },
   sections: [
     {
       id: "separate-two-kinds-of-verification",
@@ -140,6 +173,10 @@ export const starknetContractVerification = {
     title: "Starknet source-verification pipeline",
     description:
       "The service reconstructs a build and compares class identities before an explorer publishes the submitted source.",
+    source: {
+      label: "Voyager Verifier repository",
+      href: "https://github.com/NethermindEth/voyager-verifier"
+    },
     steps: [
       { label: "Resolve", detail: "Address → class hash on one network" },
       { label: "Collect", detail: "Workspace + manifest + lockfile" },

@@ -304,11 +304,13 @@ export function createWritingArticleStructuredData(article: WritingArticle): Str
   const breadcrumbId = `${pageUrl}#breadcrumb`;
   const imageUrl = getCanonicalUrl(getWritingOpenGraphImagePath(article.slug));
   const citation = [
+    ...article.directAnswer.citations.map((reference) => reference.href),
     ...article.sections.flatMap((section) =>
       section.paragraphs.flatMap((paragraph) =>
         typeof paragraph === "string" ? [] : paragraph.citations.map((reference) => reference.href)
       )
     ),
+    article.diagram.source.href,
     ...article.artifacts.map((artifact) => artifact.source.href),
     ...article.repositoryLinks.map((reference) => reference.href)
   ].filter((href, index, references) => references.indexOf(href) === index);
@@ -337,6 +339,7 @@ export function createWritingArticleStructuredData(article: WritingArticle): Str
       "@id": articleId,
       headline: article.title,
       description: article.description,
+      abstract: article.directAnswer.text,
       url: pageUrl,
       author: personReference,
       publisher: personReference,

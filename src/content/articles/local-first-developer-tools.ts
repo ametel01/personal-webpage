@@ -5,11 +5,44 @@ export const localFirstDeveloperTools = {
   title: "Local-first architecture for developer tools",
   description:
     "A systems design for CLIs that keep source, prompts, credentials, and evidence on the developer's machine while still supporting reproducible automation and optional remote coordination.",
+  directAnswer: {
+    text: "A local-first developer tool creates its primary artifact on the user's machine in a documented, portable format and keeps core inspection usable without a hosted account. Separate immutable artifacts, rebuildable indexes, and disposable caches, then make CI or cloud synchronization an adapter rather than the authority. This boundary limits what a network outage, service shutdown, or corrupted index can take away.",
+    citations: [
+      {
+        label: "Local-first software research",
+        href: "https://www.inkandswitch.com/essay/local-first/"
+      },
+      {
+        label: "AgentReceipt repository",
+        href: "https://github.com/ametel01/agentreceipt"
+      }
+    ]
+  },
   topic: "Local-first systems",
   topicDescription:
     "Developer tools that own local state, degrade safely, and expose portable artifacts.",
   publishedAt: "2026-08-06",
-  updatedAt: "2026-08-10",
+  updatedAt: "2026-08-11",
+  reviewedAt: "2026-08-11",
+  testedWith: [
+    {
+      name: "AgentReceipt",
+      version: "0.10.1",
+      href: "https://github.com/ametel01/agentreceipt/releases/tag/v0.10.1"
+    },
+    {
+      name: "Skills Doctor",
+      version: "0.6.2",
+      href: "https://github.com/ametel01/skills-doctor/blob/main/package.json"
+    },
+    {
+      name: "RitualAI",
+      version: "0.3.2",
+      href: "https://github.com/ametel01/ritualai/blob/main/package.json"
+    }
+  ],
+  validationScope:
+    "Storage boundaries and command behavior were checked against the linked project versions; the Go atomic-write example is illustrative and excludes platform-specific durability guarantees.",
   readingMinutes: 12,
   searchQuestions: [
     "What does local-first mean for a developer tool?",
@@ -22,6 +55,16 @@ export const localFirstDeveloperTools = {
     "Make remote synchronization an adapter over portable artifacts, never the only path to inspect or export them.",
     "Design locking, crash recovery, migrations, and path security before polishing the command surface."
   ],
+  applicability: {
+    useWhen: [
+      "The tool handles source, prompts, credentials, build evidence, or other data that should remain locally owned.",
+      "Core capture, inspection, verification, or export must survive offline use and hosted-service failure."
+    ],
+    avoidWhen: [
+      "A central service is the legitimate authority for shared state, access control, or real-time collaboration.",
+      "The product cannot define conflict resolution, migration, backup, and deletion semantics for local data."
+    ]
+  },
   sections: [
     {
       id: "define-the-local-authority",
@@ -136,6 +179,10 @@ export const localFirstDeveloperTools = {
     title: "Local authority with optional remote coordination",
     description:
       "Core commands read and write local portable artifacts; adapters publish copies or policy results without owning the original record.",
+    source: {
+      label: "AgentReceipt repository",
+      href: "https://github.com/ametel01/agentreceipt"
+    },
     steps: [
       { label: "Workspace", detail: "Source + instructions + tool state" },
       { label: "Local core", detail: "Capture, scan, verify, migrate" },

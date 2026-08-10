@@ -1,4 +1,4 @@
-import { ArrowLeft, ArrowRight, CalendarDays, Clock3 } from "lucide-react";
+import { ArrowLeft, ArrowRight, CalendarCheck2, CalendarDays, Clock3 } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -86,6 +86,21 @@ export default async function WritingArticlePage({ params }: WritingArticlePageP
             </Link>
             <header className="writing-article-header">
               <h1>{article.title}</h1>
+              <p className="writing-direct-answer">
+                {article.directAnswer.text}{" "}
+                <span className="writing-inline-citations">
+                  Sources:{" "}
+                  {article.directAnswer.citations.map((citation, index) => (
+                    <span key={citation.href}>
+                      {index > 0 ? ", " : null}
+                      <a href={citation.href} rel="noreferrer" target="_blank">
+                        {citation.label}
+                      </a>
+                    </span>
+                  ))}
+                  .
+                </span>
+              </p>
               <p className="writing-article-topic">{article.topic}</p>
               <p className="writing-article-dek">{article.description}</p>
               <p className="writing-article-meta writing-article-hero-meta">
@@ -100,7 +115,31 @@ export default async function WritingArticlePage({ params }: WritingArticlePageP
                     {formatWritingDate(article.publishedAt)}
                   </time>
                 </span>
+                <span>
+                  <CalendarCheck2 aria-hidden="true" size={17} strokeWidth={1.9} />
+                  Last reviewed{" "}
+                  <time dateTime={article.reviewedAt}>{formatWritingDate(article.reviewedAt)}</time>
+                </span>
               </p>
+              <dl className="writing-review-register">
+                <div>
+                  <dt>Tested with</dt>
+                  <dd>
+                    {article.testedWith.map((software, index) => (
+                      <span key={`${software.name}-${software.version}`}>
+                        {index > 0 ? ", " : null}
+                        <a href={software.href} rel="noreferrer" target="_blank">
+                          {software.name} {software.version}
+                        </a>
+                      </span>
+                    ))}
+                  </dd>
+                </div>
+                <div>
+                  <dt>Validation scope</dt>
+                  <dd>{article.validationScope}</dd>
+                </div>
+              </dl>
             </header>
             <div className="writing-question-strip">
               <p>This guide answers</p>
@@ -118,6 +157,28 @@ export default async function WritingArticlePage({ params }: WritingArticlePageP
             <div className="writing-article-layout">
               <ArticleTableOfContents article={article} />
               <div className="writing-article-content">
+                <section className="writing-applicability" id="decision-boundary">
+                  <h2>When to use this / when not to use this</h2>
+                  <div>
+                    <section>
+                      <h3>Use this when</h3>
+                      <ul>
+                        {article.applicability.useWhen.map((item) => (
+                          <li key={item}>{item}</li>
+                        ))}
+                      </ul>
+                    </section>
+                    <section>
+                      <h3>Do not use this when</h3>
+                      <ul>
+                        {article.applicability.avoidWhen.map((item) => (
+                          <li key={item}>{item}</li>
+                        ))}
+                      </ul>
+                    </section>
+                  </div>
+                </section>
+
                 <aside className="writing-key-points" aria-labelledby="key-points-title">
                   <h2 id="key-points-title">Key points</h2>
                   <ul>
@@ -240,6 +301,9 @@ function ArticleTableOfContents({ article }: { article: WritingArticle }) {
     <nav className="writing-article-toc" aria-label={`${article.title} sections`}>
       <p>In this guide</p>
       <ol>
+        <li>
+          <a href="#decision-boundary">When to use this</a>
+        </li>
         {article.sections.map((section) => (
           <li key={section.id}>
             <a href={`#${section.id}`}>{section.title}</a>

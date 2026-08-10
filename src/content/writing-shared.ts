@@ -28,10 +28,22 @@ export type WritingSection = {
 export type WritingDiagram = {
   title: string;
   description: string;
+  source: WritingCitation;
   steps: readonly {
     label: string;
     detail: string;
   }[];
+};
+
+export type WritingApplicability = {
+  useWhen: readonly string[];
+  avoidWhen: readonly string[];
+};
+
+export type WritingTestedVersion = {
+  name: string;
+  version: string;
+  href: string;
 };
 
 export type WritingCodeExample = {
@@ -158,13 +170,21 @@ export type WritingArticle = {
   slug: string;
   title: string;
   description: string;
+  directAnswer: {
+    text: string;
+    citations: readonly WritingCitation[];
+  };
   topic: WritingTopic;
   topicDescription: string;
   publishedAt: string;
   updatedAt: string;
+  reviewedAt: string;
+  testedWith: readonly WritingTestedVersion[];
+  validationScope: string;
   readingMinutes: number;
   searchQuestions: readonly string[];
   keyPoints: readonly string[];
+  applicability: WritingApplicability;
   sections: readonly WritingSection[];
   diagram: WritingDiagram;
   artifacts: readonly WritingArtifact[];
