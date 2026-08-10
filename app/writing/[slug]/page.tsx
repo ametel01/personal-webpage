@@ -21,7 +21,7 @@ import {
   type WritingParagraph,
   writingSlugs
 } from "@/content/writing";
-import { createPageMetadata } from "@/lib/metadata";
+import { createPageMetadata, getWritingOpenGraphImagePath } from "@/lib/metadata";
 import { createWritingArticleStructuredData } from "@/lib/structured-data";
 import { formatWritingDate } from "@/lib/writing";
 
@@ -52,6 +52,7 @@ export async function generateMetadata({ params }: WritingArticlePageProps): Pro
     title: article.title,
     description: article.description,
     path: `/writing/${article.slug}`,
+    imagePath: getWritingOpenGraphImagePath(article.slug),
     publishedTime: article.publishedAt,
     modifiedTime: article.updatedAt
   });

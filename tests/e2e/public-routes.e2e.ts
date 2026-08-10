@@ -176,6 +176,15 @@ test.describe("public routes", () => {
       "@id": "https://www.ametel.dev/#alex-metelli"
     });
 
+    await page.goto("/resume");
+    const resumeGraph = await readStructuredData(page);
+    const resumePage = resumeGraph["@graph"].find((node) => node["@type"] === "WebPage");
+
+    expect(resumePage?.url).toBe("https://www.ametel.dev/resume");
+    expect(resumePage?.mainEntity).toEqual({
+      "@id": "https://www.ametel.dev/#alex-metelli"
+    });
+
     await page.goto("/work");
     const workGraph = await readStructuredData(page);
 
@@ -206,7 +215,22 @@ test.describe("public routes", () => {
         "@id": "https://www.ametel.dev/#alex-metelli"
       });
       expect(articleNode?.isPartOf).toEqual({ "@id": "https://www.ametel.dev/#website" });
+      expect(articleNode?.image).toBe(
+        `https://www.ametel.dev/writing/${article.slug}/opengraph-image`
+      );
+      await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(
+        "content",
+        `https://www.ametel.dev/writing/${article.slug}/opengraph-image`
+      );
     }
+  });
+
+  test("article Open Graph images render as PNG", async ({ page }) => {
+    const article = writingArticles[0];
+    const response = await page.goto(`/writing/${article.slug}/opengraph-image`);
+
+    expect(response?.ok()).toBe(true);
+    expect(response?.headers()["content-type"]).toContain("image/png");
   });
 
   test("deferred homepage project links navigate on demand", async ({ page }) => {

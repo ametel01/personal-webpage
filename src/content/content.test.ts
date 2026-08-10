@@ -28,7 +28,13 @@ import {
   writingSlugs
 } from "@/content/writing";
 import { createLlmsText, getCrawlPages } from "@/lib/crawl";
-import { createPageMetadata, getAbsoluteUrl, homeMetadata, homeTitle } from "@/lib/metadata";
+import {
+  createPageMetadata,
+  getAbsoluteUrl,
+  getWritingOpenGraphImagePath,
+  homeMetadata,
+  homeTitle
+} from "@/lib/metadata";
 import { primaryNavItems } from "@/lib/navigation";
 import { seoEntity } from "@/lib/seo";
 import { defaultDescription, professionalDescription, site } from "@/lib/site";
@@ -36,6 +42,7 @@ import {
   createHomepageStructuredData,
   createProfilePageStructuredData,
   createProjectStructuredData,
+  createResumeStructuredData,
   createWorkStructuredData,
   createWritingArticleStructuredData,
   createWritingIndexStructuredData,
@@ -263,6 +270,7 @@ describe("website content invariants", () => {
       assert.equal(techArticle?.datePublished, article.publishedAt);
       assert.equal(techArticle?.dateModified, article.updatedAt);
       assert.equal(techArticle?.articleSection, article.topic);
+      assert.equal(techArticle?.image, getAbsoluteUrl(getWritingOpenGraphImagePath(article.slug)));
 
       const bodyCitations = typedArticle.sections.flatMap((section) =>
         section.paragraphs.flatMap((paragraph) =>
@@ -848,22 +856,34 @@ describe("website content invariants", () => {
       title: article.title,
       description: article.description,
       path: `/writing/${article.slug}`,
+      imagePath: getWritingOpenGraphImagePath(article.slug),
       publishedTime: article.publishedAt,
       modifiedTime: article.updatedAt
     });
     const openGraph = metadata.openGraph as
-      | { type?: unknown; publishedTime?: unknown; modifiedTime?: unknown; authors?: unknown }
+      | {
+          type?: unknown;
+          publishedTime?: unknown;
+          modifiedTime?: unknown;
+          authors?: unknown;
+          images?: { url?: unknown }[];
+        }
       | undefined;
 
     assert.equal(openGraph?.type, "article");
     assert.equal(openGraph?.publishedTime, article.publishedAt);
     assert.equal(openGraph?.modifiedTime, article.updatedAt);
     assert.deepStrictEqual(openGraph?.authors, [site.name]);
+    assert.equal(
+      openGraph?.images?.[0]?.url,
+      getAbsoluteUrl(getWritingOpenGraphImagePath(article.slug))
+    );
   });
 
   test("route metadata uses distinct titles and page-specific descriptions", () => {
     assert.deepStrictEqual(homeMetadata.title, { absolute: homeTitle });
     assert.match(homeTitle, / \| Alex Metelli$/);
+    assert.ok(homeTitle.length <= 60);
     assert.equal(homeMetadata.description, professionalDescription);
     assert.match(workPageSource, /title: "Selected Software Engineering Work"/);
     assert.match(projectPageSource, /`\$\{project\.title\} — Technical Case Study`/);
@@ -886,6 +906,7 @@ describe("website content invariants", () => {
 
     assert.equal(new Set(titles).size, routeMetadata.length);
     assert.equal(new Set(descriptions).size, routeMetadata.length);
+    assert.ok(String(work.description).length <= 155);
 
     for (const metadata of routeMetadata) {
       const canonical = metadata.alternates?.canonical;
@@ -944,6 +965,19 @@ describe("website content invariants", () => {
     assert.deepStrictEqual(profilePage.mainEntity, { "@id": seoEntity.personId });
     assert.deepStrictEqual(profilePage.isPartOf, { "@id": seoEntity.websiteId });
     assert.equal(profilePerson?.["@id"], seoEntity.personId);
+    assert.equal((breadcrumbs?.itemListElement as unknown[]).length, 2);
+  });
+
+  test("resume structured data describes the page, person, PDF, and breadcrumbs", () => {
+    const graph = createResumeStructuredData(resume);
+    const webPage = getGraphNode(graph, "WebPage");
+    const breadcrumbs = getGraphNode(graph, "BreadcrumbList");
+
+    assert.equal(webPage?.url, getAbsoluteUrl("/resume"));
+    assert.deepStrictEqual(webPage?.isPartOf, { "@id": seoEntity.websiteId });
+    assert.deepStrictEqual(webPage?.mainEntity, { "@id": seoEntity.personId });
+    assert.equal(webPage?.dateModified, resume.updatedAt);
+    assert.equal(webPage?.significantLink, getAbsoluteUrl("/resume.pdf"));
     assert.equal((breadcrumbs?.itemListElement as unknown[]).length, 2);
   });
 
@@ -1011,10 +1045,7 @@ describe("website content invariants", () => {
   });
 
   test("homepage title matches the required SEO title", () => {
-    assert.equal(
-      homeTitle,
-      "Software Engineer — Backend, Developer Infrastructure, and AI Tooling | Alex Metelli"
-    );
+    assert.equal(homeTitle, "Software Engineer — Backend & AI Tooling | Alex Metelli");
   });
 
   test("static page routes render route-critical content", async () => {
@@ -1161,8 +1192,16 @@ describe("website content invariants", () => {
         params: Promise.resolve({ slug: article.slug })
       });
       const openGraph = metadata.openGraph as
-        | { type?: unknown; publishedTime?: unknown; modifiedTime?: unknown; url?: unknown }
+        | {
+            type?: unknown;
+            publishedTime?: unknown;
+            modifiedTime?: unknown;
+            url?: unknown;
+            images?: { url?: unknown }[];
+          }
         | undefined;
+      const twitter = metadata.twitter as { images?: unknown } | undefined;
+      const imageUrl = getAbsoluteUrl(getWritingOpenGraphImagePath(article.slug));
 
       assert.equal(metadata.title, article.title);
       assert.equal(metadata.description, article.description);
@@ -1173,6 +1212,8 @@ describe("website content invariants", () => {
       assert.equal(openGraph?.publishedTime, article.publishedAt);
       assert.equal(openGraph?.modifiedTime, article.updatedAt);
       assert.equal(openGraph?.url, `https://www.ametel.dev/writing/${article.slug}`);
+      assert.equal(openGraph?.images?.[0]?.url, imageUrl);
+      assert.deepStrictEqual(twitter?.images, [imageUrl]);
     }
   });
 

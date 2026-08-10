@@ -297,6 +297,12 @@ Article detail supports eight typed evidence forms: receipt schema, architecture
 
 Every artifact names its form and shows a visible primary-source attribution in the header; attribution links keep a minimum 44px target. Code and wide tables live in explicitly named, keyboard-scrollable regions so horizontal overflow remains inspectable without a pointer. Article prose may also carry visible inline source links, and the closing repository register keeps implementation, specifications, and tool documentation directly reachable.
 
+### Writing Social Preview Plates
+
+Each technical article exposes a 1200 × 630 social preview generated from its canonical title, topic, and reading time. The plate carries the Writing surface into link previews with warm paper, a navy Source Serif title, restrained blue contours, a square inset frame, and one fine footer rule. Topic and reading time sit above the title; author and field-note number close the plate below it. Contours stop before the footer so structural atmosphere never competes with metadata.
+
+The article-specific preview URL is shared by Open Graph, Twitter, and `TechArticle` structured data. The generic `og.png` remains the fallback for non-article pages.
+
 ### Homepage Proof Ledger
 
 The homepage opens with one square, blue-outlined featured case file rather than a card grid. Its broad column keeps the case title, factual state, summary, and action legible while fine provenance contours occupy the right edge. One short blue bridge connects the case file to a four-waypoint engineering index; the first waypoint is double-stroked, descriptions stay factual, and the vertical path remains when the layout stacks.

@@ -138,3 +138,5 @@ export const resume = {
     }
   ]
 } as const;
+
+export type Resume = typeof resume;

@@ -1,5 +1,7 @@
 import type { Project } from "@/content/projects";
+import type { Resume } from "@/content/resume";
 import type { WritingArticle } from "@/content/writing";
+import { getWritingOpenGraphImagePath } from "@/lib/metadata";
 import { getCanonicalUrl, seoEntity } from "@/lib/seo";
 import { site } from "@/lib/site";
 
@@ -121,6 +123,35 @@ export function createProfilePageStructuredData(): StructuredDataGraph {
     createBreadcrumbs(pageUrl, breadcrumbId, [
       { name: "Home", url: seoEntity.canonicalUrl },
       { name: "About", url: pageUrl }
+    ])
+  );
+}
+
+export function createResumeStructuredData(resume: Resume): StructuredDataGraph {
+  const pageUrl = getCanonicalUrl("/resume");
+  const pageId = `${pageUrl}#webpage`;
+  const breadcrumbId = `${pageUrl}#breadcrumb`;
+
+  return createGraph(
+    {
+      "@type": "WebPage",
+      "@id": pageId,
+      url: pageUrl,
+      name: `Software Engineering Resume — ${seoEntity.name}`,
+      description: resume.heading.summary,
+      isPartOf: websiteReference,
+      author: personReference,
+      about: personReference,
+      mainEntity: personReference,
+      primaryImageOfPage: seoEntity.image,
+      breadcrumb: { "@id": breadcrumbId },
+      dateModified: resume.updatedAt,
+      significantLink: getCanonicalUrl("/resume.pdf"),
+      inLanguage: "en"
+    },
+    createBreadcrumbs(pageUrl, breadcrumbId, [
+      { name: "Home", url: seoEntity.canonicalUrl },
+      { name: "Resume", url: pageUrl }
     ])
   );
 }
@@ -271,6 +302,7 @@ export function createWritingArticleStructuredData(article: WritingArticle): Str
   const pageId = `${pageUrl}#webpage`;
   const articleId = getWritingArticleId(article);
   const breadcrumbId = `${pageUrl}#breadcrumb`;
+  const imageUrl = getCanonicalUrl(getWritingOpenGraphImagePath(article.slug));
   const citation = [
     ...article.sections.flatMap((section) =>
       section.paragraphs.flatMap((paragraph) =>
@@ -295,6 +327,8 @@ export function createWritingArticleStructuredData(article: WritingArticle): Str
       breadcrumb: { "@id": breadcrumbId },
       datePublished: article.publishedAt,
       dateModified: article.updatedAt,
+      image: imageUrl,
+      primaryImageOfPage: imageUrl,
       citation,
       inLanguage: "en"
     },
@@ -312,6 +346,7 @@ export function createWritingArticleStructuredData(article: WritingArticle): Str
       keywords: [article.topic, ...article.searchQuestions],
       datePublished: article.publishedAt,
       dateModified: article.updatedAt,
+      image: imageUrl,
       citation,
       inLanguage: "en"
     },

@@ -6,8 +6,10 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { Container, ExternalLink, Section, TagList } from "@/components/primitives";
 import { ProjectIcon } from "@/components/project-icon";
+import { StructuredData } from "@/components/structured-data";
 import { resume } from "@/content/resume";
 import { createPageMetadata } from "@/lib/metadata";
+import { createResumeStructuredData } from "@/lib/structured-data";
 
 type ResumeLinkLabel = (typeof resume.links)[number]["label"];
 type ResumePdfLink = (typeof resume.links)[number] & { resumeLabel: string };
@@ -35,9 +37,12 @@ export const metadata: Metadata = createPageMetadata({
   path: "/resume"
 });
 
+const resumeStructuredData = createResumeStructuredData(resume);
+
 export default function ResumePage() {
   return (
     <main className="resume-page" id="main-content" tabIndex={-1}>
+      <StructuredData data={resumeStructuredData} />
       <script id="impeccable-resume-direction-contract" type="application/json">
         {JSON.stringify({
           thesis:

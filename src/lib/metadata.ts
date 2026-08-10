@@ -12,10 +12,15 @@ export function getAbsoluteUrl(path: string) {
   return new URL(path, siteUrl).toString();
 }
 
+export function getWritingOpenGraphImagePath(articleSlug: string) {
+  return `/writing/${articleSlug}/opengraph-image`;
+}
+
 export function createPageMetadata({
   title,
   description,
   path,
+  imagePath = "/og.png",
   absoluteTitle = false,
   publishedTime,
   modifiedTime
@@ -23,13 +28,14 @@ export function createPageMetadata({
   title: string;
   description: string;
   path: string;
+  imagePath?: string;
   absoluteTitle?: boolean;
   publishedTime?: string;
   modifiedTime?: string;
 }): Metadata {
   const fullTitle = absoluteTitle ? title : `${title} | ${site.name}`;
   const canonicalUrl = getAbsoluteUrl(path);
-  const openGraphImageUrl = getAbsoluteUrl("/og.png");
+  const openGraphImageUrl = getAbsoluteUrl(imagePath);
   const sharedOpenGraph = {
     title: fullTitle,
     description,
@@ -72,8 +78,7 @@ export function createPageMetadata({
   };
 }
 
-export const homeTitle =
-  "Software Engineer — Backend, Developer Infrastructure, and AI Tooling | Alex Metelli";
+export const homeTitle = "Software Engineer — Backend & AI Tooling | Alex Metelli";
 
 export const homeMetadata = createPageMetadata({
   title: homeTitle,
