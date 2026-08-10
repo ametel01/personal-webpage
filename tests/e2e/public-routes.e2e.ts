@@ -131,7 +131,7 @@ test.describe("public routes", () => {
     }
   });
 
-  test("technical articles expose multiple related project case studies", async ({ page }) => {
+  test("technical articles expose relevant project case studies", async ({ page }) => {
     for (const article of writingArticles) {
       await page.goto(`/writing/${article.slug}`);
 

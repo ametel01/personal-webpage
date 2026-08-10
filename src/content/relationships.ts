@@ -16,7 +16,7 @@ const relatedProjectSlugsByArticle = {
   "auditing-agent-skills-and-instruction-files": ["skills-doctor", "agentreceipt", "ritualai"],
   "local-first-architecture-for-developer-tools": ["agentreceipt", "skills-doctor", "ritualai"],
   "how-to-test-cross-chain-bridge-workflows-locally": ["aggsandbox", "horizon-starknet"],
-  "modeling-proposal-revisions-and-change-orders": ["scopepilot", "agentreceipt"]
+  "modeling-proposal-revisions-and-change-orders": ["scopepilot"]
 } as const satisfies Record<WritingSlug, readonly Project["slug"][]>;
 
 const adjacentProjectSlugs = {

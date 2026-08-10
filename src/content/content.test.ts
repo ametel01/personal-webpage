@@ -201,7 +201,7 @@ describe("website content invariants", () => {
 
       const relatedProjects = getRelatedProjectsForArticle(article);
 
-      assert.ok(relatedProjects.length >= 2);
+      assert.ok(relatedProjects.length >= 1);
       assert.equal(
         article.relatedProject.href,
         `/work/${getPrimaryProjectForArticle(article.slug)?.slug}`
@@ -303,7 +303,7 @@ describe("website content invariants", () => {
     for (const article of writingArticles) {
       const relatedProjects = getRelatedProjectsForArticle(article);
 
-      assert.ok(relatedProjects.length >= 2, `${article.slug} should link to multiple projects`);
+      assert.ok(relatedProjects.length >= 1, `${article.slug} should link to a relevant project`);
       assert.equal(
         new Set(relatedProjects.map((project) => project.slug)).size,
         relatedProjects.length
@@ -321,6 +321,27 @@ describe("website content invariants", () => {
         false
       );
     }
+
+    assert.deepStrictEqual(
+      getRelatedArticlesForProject("agentreceipt").map((article) => article.slug),
+      [
+        "how-to-record-and-verify-ai-coding-agent-activity",
+        "designing-replayable-evidence-for-coding-agents",
+        "auditing-agent-skills-and-instruction-files",
+        "local-first-architecture-for-developer-tools"
+      ]
+    );
+    assert.deepStrictEqual(
+      getAdjacentProjects("agentreceipt").map((project) => project.slug),
+      ["skills-doctor", "ritualai"]
+    );
+    const proposalRevisions = getWritingArticle("modeling-proposal-revisions-and-change-orders");
+
+    assert.ok(proposalRevisions);
+    assert.deepStrictEqual(
+      getRelatedProjectsForArticle(proposalRevisions).map((project) => project.slug),
+      ["scopepilot"]
+    );
   });
 
   test("projects expose the complete technical case-study structure and real links", () => {
