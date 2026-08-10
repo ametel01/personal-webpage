@@ -1,8 +1,18 @@
 import { expect, type Page, test } from "@playwright/test";
 import { projects } from "../../src/content/projects";
+import { writingArticles } from "../../src/content/writing";
 
 const projectRoutes = projects.map((project) => `/work/${project.slug}`);
-const publicRoutes = ["/", "/work", ...projectRoutes, "/about", "/resume"] as const;
+const writingRoutes = writingArticles.map((article) => `/writing/${article.slug}`);
+const publicRoutes = [
+  "/",
+  "/work",
+  ...projectRoutes,
+  "/writing",
+  ...writingRoutes,
+  "/about",
+  "/resume"
+] as const;
 const homepageFeaturedSlugs = new Set([
   "agentreceipt",
   "scopepilot",
@@ -64,12 +74,13 @@ test.describe("public routes", () => {
 
     const selectedWork = page.locator("#selected-work");
 
-    await expect(selectedWork.locator(".home-project-card")).toHaveCount(4);
+    await expect(selectedWork.locator(".home-featured-link")).toHaveCount(1);
+    await expect(page.locator(".home-project-card")).toHaveCount(3);
 
     for (const project of homepageFeaturedProjects) {
-      await expect(selectedWork.getByText(project.title, { exact: true })).toBeVisible();
+      await expect(page.getByText(project.title, { exact: true }).first()).toBeVisible();
       await expect(
-        selectedWork.getByText(project.metadata.currentState, { exact: true })
+        page.getByText(project.metadata.currentState, { exact: true }).first()
       ).toBeVisible();
     }
   });
@@ -109,7 +120,7 @@ test.describe("public routes", () => {
 
   test("deferred homepage project links navigate on demand", async ({ page }) => {
     await page.goto("/");
-    await page.locator(".home-project-card").first().click();
+    await page.locator(".home-featured-link").click();
 
     await expect(page).toHaveURL("/work/agentreceipt");
     await expect(page.getByRole("heading", { level: 1, name: "AgentReceipt" })).toBeVisible();
@@ -143,8 +154,20 @@ test.describe("public routes", () => {
   test("work evidence register preserves directory navigation and mobile action targets", async ({
     page
   }) => {
-    await page.setViewportSize({ width: 900, height: 900 });
+    await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto("/work");
+
+    const desktopHeadingLines = await page.locator(".work-index-intro h1").evaluate((heading) => {
+      const styles = getComputedStyle(heading);
+
+      return Math.round(
+        heading.getBoundingClientRect().height / Number.parseFloat(styles.lineHeight)
+      );
+    });
+
+    expect(desktopHeadingLines).toBeLessThanOrEqual(3);
+
+    await page.setViewportSize({ width: 900, height: 900 });
 
     const intermediateColumns = await page
       .locator(".work-project-index ol")
@@ -175,7 +198,7 @@ test.describe("public routes", () => {
     await expect(page).toHaveURL(/#skills-doctor$/);
   });
 
-  test("homepage project grid and contribution list stay aligned", async ({ page }) => {
+  test("homepage project and contribution ledgers stay aligned", async ({ page }) => {
     await page.setViewportSize({ width: 1220, height: 900 });
     await page.goto("/");
 
@@ -184,12 +207,12 @@ test.describe("public routes", () => {
       Array.from({ length: await cards.count() }, (_, index) => cards.nth(index).boundingBox())
     );
 
-    expect(cardBoxes).toHaveLength(4);
+    expect(cardBoxes).toHaveLength(3);
     expect(cardBoxes.every(Boolean)).toBe(true);
-    expect(cardBoxes[0]?.y).toBe(cardBoxes[1]?.y);
-    expect(cardBoxes[2]?.y).toBe(cardBoxes[3]?.y);
-    expect(cardBoxes[0]?.x).toBe(cardBoxes[2]?.x);
-    expect(cardBoxes[1]?.x).toBe(cardBoxes[3]?.x);
+    expect(cardBoxes.every((box) => box?.x === cardBoxes[0]?.x)).toBe(true);
+    expect(cardBoxes.every((box) => box?.width === cardBoxes[0]?.width)).toBe(true);
+    expect(cardBoxes[1]?.y).toBeGreaterThan(cardBoxes[0]?.y ?? 0);
+    expect(cardBoxes[2]?.y).toBeGreaterThan(cardBoxes[1]?.y ?? 0);
 
     const contributionRows = page.locator(".open-source-row");
     const firstRow = await contributionRows.first().boundingBox();
@@ -213,7 +236,8 @@ test.describe("public routes", () => {
       const layout = await page.evaluate(() => ({
         documentWidth: document.documentElement.scrollWidth,
         viewportWidth: window.innerWidth,
-        selectedWorkWidth: document.querySelector("#selected-work .container")?.clientWidth ?? 0
+        selectedWorkWidth:
+          document.querySelector("#selected-work")?.closest(".container")?.clientWidth ?? 0
       }));
 
       expect(layout.documentWidth).toBeLessThanOrEqual(layout.viewportWidth + 1);
@@ -235,13 +259,11 @@ test.describe("public routes", () => {
           expect(box?.height).toBeGreaterThanOrEqual(44);
         }
 
-        const cardHeader = page.locator(".home-project-card-header").first();
-        const iconBox = await cardHeader.locator(".project-logo").boundingBox();
-        const titleBox = await cardHeader.locator(".home-project-title").boundingBox();
+        const primaryAction = await page.locator(".home-primary-action").boundingBox();
+        const featuredCaseFile = await page.locator(".home-featured-link").boundingBox();
 
-        expect((iconBox?.y ?? 0) + (iconBox?.height ?? 0) / 2).toBeCloseTo(
-          (titleBox?.y ?? 0) + (titleBox?.height ?? 0) / 2
-        );
+        expect(primaryAction?.height).toBeGreaterThanOrEqual(44);
+        expect(featuredCaseFile?.width).toBeLessThanOrEqual(viewport.width - 32);
       }
 
       if (viewport.width === 2560) {
@@ -255,26 +277,20 @@ test.describe("public routes", () => {
 
     const motion = await page.evaluate(() => {
       const title = getComputedStyle(document.querySelector(".home-hero-title") as HTMLElement);
+      const trace = getComputedStyle(
+        document.querySelector(".home-featured-traces path") as SVGPathElement
+      );
 
       return {
         titleName: title.animationName,
-        titleDuration: title.animationDuration
+        traceName: trace.animationName,
+        traceDuration: trace.animationDuration
       };
     });
 
-    expect(motion.titleName).toBe("home-headline-unmask");
-    expect(motion.titleDuration).toBe("0.72s");
-  });
-
-  test("homepage releases the headline mask after its entrance", async ({ page }) => {
-    await page.goto("/");
-    await page.waitForTimeout(800);
-
-    const clipPath = await page
-      .locator(".home-hero-title")
-      .evaluate((title) => getComputedStyle(title).clipPath);
-
-    expect(clipPath).toBe("none");
+    expect(motion.titleName).toBe("none");
+    expect(motion.traceName).toBe("home-traces-resolve");
+    expect(motion.traceDuration).toBe("0.9s");
   });
 
   test("reduced motion removes decorative movement without suppressing state feedback", async ({
@@ -284,12 +300,14 @@ test.describe("public routes", () => {
     await page.goto("/");
 
     const motion = await page.evaluate(() => {
-      const title = getComputedStyle(document.querySelector(".home-hero-title") as HTMLElement);
+      const trace = getComputedStyle(
+        document.querySelector(".home-featured-traces path") as SVGPathElement
+      );
       const link = getComputedStyle(document.querySelector(".home-resume-link") as HTMLElement);
       const skipLink = getComputedStyle(document.querySelector(".skip-link") as HTMLElement);
 
       return {
-        animationName: title.animationName,
+        animationName: trace.animationName,
         linkTransitionDuration: link.transitionDuration,
         linkTransitionProperty: link.transitionProperty,
         scrollBehavior: getComputedStyle(document.documentElement).scrollBehavior,

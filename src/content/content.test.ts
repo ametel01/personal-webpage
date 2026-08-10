@@ -542,7 +542,7 @@ describe("website content invariants", () => {
   });
 
   test("motion stays authored, bounded, and reduced-motion safe", () => {
-    assert.match(globalCss, /@keyframes\s+home-headline-unmask/);
+    assert.match(globalCss, /@keyframes\s+home-traces-resolve/);
     assert.match(globalCss, /@keyframes\s+work-traces-resolve/);
     assert.doesNotMatch(globalCss, /@keyframes\s+work-blueprint-develop/);
     assert.doesNotMatch(globalCss, /@keyframes\s+work-cube-lock/);

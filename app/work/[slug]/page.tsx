@@ -58,7 +58,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   }
 
   return (
-    <main id="main-content" tabIndex={-1}>
+    <main className="project-detail-page" id="main-content" tabIndex={-1}>
       <StructuredData data={createProjectStructuredData(project)} />
       <article>
         <Section className="project-detail-hero-section">
@@ -89,6 +89,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
           <Container>
             <div className="case-study-layout">
               <nav aria-label={`${project.title} case study sections`}>
+                <p className="case-study-nav-title">In this case study</p>
                 <ol className="case-study-nav-list">
                   {caseStudySections.map((section) => (
                     <li key={section.id}>
