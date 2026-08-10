@@ -45,21 +45,6 @@ const engineeringIndex = [
 export default function Home() {
   return (
     <main className="home-page" id="main-content" tabIndex={-1}>
-      <script id="impeccable-home-direction-contract" type="application/json">
-        {JSON.stringify({
-          thesis:
-            "One inspectable case file opens into a structured evidence ledger, refusing the generic portfolio card grid.",
-          ownWorld:
-            "Warm paper, navy ink, editorial serif hierarchy, blue provenance paths, square regions, and hairline rules inherited from writing.",
-          story:
-            "An engineering manager understands the position, inspects one substantial project, then follows adjacent project, contribution, writing, and experience evidence.",
-          firstViewport:
-            "A concise engineering thesis and two actions sit above a two-thirds AgentReceipt case file bridged to a four-waypoint engineering index.",
-          form: "Featured case file; approved comp home-proof-ledger-b; seed a1f31ee8.",
-          finish:
-            "unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, and DESIGN.md"
-        })}
-      </script>
       <StructuredData data={homepageStructuredData} />
 
       <Section className="home-hero-section">

@@ -43,21 +43,6 @@ export default function ResumePage() {
   return (
     <main className="resume-page" id="main-content" tabIndex={-1}>
       <StructuredData data={resumeStructuredData} />
-      <script id="impeccable-resume-direction-contract" type="application/json">
-        {JSON.stringify({
-          thesis:
-            "A compact identity deck opens into one continuous career proof register, refusing the generic resume card stack.",
-          ownWorld:
-            "Warm paper, navy ink, editorial serif hierarchy, restrained blue paths, square records, and precise hairline rules inherited from the site.",
-          story:
-            "An engineering manager scans Alex's position and range, verifies professional experience and projects, then downloads the PDF or starts a conversation.",
-          firstViewport:
-            "Alex's name and positioning sit beside a concise summary and primary PDF action, followed by a four-column evidence index.",
-          form: "Career proof register; ordered candidate 6; seed 5d5e2afc.",
-          finish:
-            "unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, and DESIGN.md"
-        })}
-      </script>
 
       <Section className="resume-field-section">
         <Container>

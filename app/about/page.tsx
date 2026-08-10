@@ -47,21 +47,6 @@ export default function AboutPage() {
   return (
     <main className="about-page" id="main-content" tabIndex={-1}>
       <StructuredData data={profilePageStructuredData} />
-      <script id="impeccable-about-direction-contract" type="application/json">
-        {JSON.stringify({
-          thesis:
-            "A portrait and capability rail opens into a sequential account of engineering practice, refusing the generic biography card grid.",
-          ownWorld:
-            "Warm paper, navy ink, editorial serif hierarchy, a single blue waypoint path, square portrait geometry, and fine rules inherited from Home, Work, and Writing.",
-          story:
-            "An engineering manager understands Alex's focus, working style, availability, principles, and direct paths to inspect or discuss the work.",
-          firstViewport:
-            "A tall portrait and five-part capability index sit beside a large engineering thesis and three numbered answers connected by one vertical blue path.",
-          form: "Waypoint interview field; approved comp about-interview-c; seed 642b9290.",
-          finish:
-            "unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, and DESIGN.md"
-        })}
-      </script>
 
       <Section className="about-field-section">
         <Container className="about-field-container">

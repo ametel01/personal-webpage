@@ -58,21 +58,6 @@ export default function WorkPage() {
 
   return (
     <main className="work-page" id="main-content" tabIndex={-1}>
-      <script id="impeccable-work-direction-contract" type="application/json">
-        {JSON.stringify({
-          thesis:
-            "A project index opens into a continuous evidence register, refusing the generic portfolio card grid.",
-          ownWorld:
-            "Warm paper, navy ink, editorial serif hierarchy, blue provenance contours, square plates, and fine registration rules inherited from Home and Writing.",
-          story:
-            "An engineering manager scans all seven systems, compares role, state, technology, and proof, then opens the case study that best demonstrates fit.",
-          firstViewport:
-            "A sticky thesis and seven-project index sit beside an expanded AgentReceipt specimen with a factual proof rail and case-study action.",
-          form: "Vertical evidence register with featured proof specimen; seed 0d82c2f8.",
-          finish:
-            "unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, and DESIGN.md"
-        })}
-      </script>
       <StructuredData data={workStructuredData} />
 
       <Section className="work-register-section">

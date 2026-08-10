@@ -209,6 +209,19 @@ test.describe("SEO and retrieval gates", () => {
     ).toEqual(new Set([seoEntity.personId]));
   });
 
+  test("initial HTML does not expose internal design contracts", async ({ request }) => {
+    for (const { path } of indexableHtmlPages) {
+      const html = await getInitialHtml(request, path);
+
+      expect(html, `${path} should not expose internal direction-contract payloads`).not.toMatch(
+        /<script\b[^>]*\bid=["']impeccable(?:-[^"']+)?-direction-contract["']/i
+      );
+      expect(html, `${path} should not expose internal finish instructions`).not.toContain(
+        "unreviewed and undocumented is unfinished"
+      );
+    }
+  });
+
   test("every sitemap URL resolves and its modification date matches content metadata", async ({
     request
   }) => {
