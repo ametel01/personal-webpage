@@ -139,6 +139,52 @@ export const auditingAgentSkills = {
       { label: "Repair", detail: "Consent-gated handoff + re-scan" }
     ]
   },
+  artifacts: [
+    {
+      id: "failure-taxonomy",
+      kind: "failure-taxonomy",
+      title: "A failure taxonomy for skill audits",
+      description:
+        "The categories below come from implementing Skills Doctor’s deterministic scanner. They keep authoring defects, capability risks, packaging errors, and unsafe repair behavior from collapsing into one unhelpful score.",
+      source: {
+        label: "Skills Doctor rule catalog",
+        href: "https://github.com/ametel01/skills-doctor/blob/main/docs/RULES.md"
+      },
+      cases: [
+        {
+          class: "Contract",
+          trigger: "Invalid frontmatter, vague triggers, or no executable workflow",
+          boundary: "SKILL.md",
+          disposition: "Block distribution until the package contract is valid."
+        },
+        {
+          class: "Reference integrity",
+          trigger: "Missing file, path escape, hidden executable, or broken progressive disclosure",
+          boundary: "Package tree",
+          disposition: "Resolve paths inside the package and inventory every referenced asset."
+        },
+        {
+          class: "Capability risk",
+          trigger:
+            "Secret access, network egress, remote execution, persistence, or approval bypass",
+          boundary: "Instruction + scripts",
+          disposition: "Keep raw findings; group related signals only in the human incident view."
+        },
+        {
+          class: "Evaluation gap",
+          trigger: "No realistic prompts, assertions, expected outputs, or baseline",
+          boundary: "evals",
+          disposition: "Warn or block according to skill complexity and declared behavior."
+        },
+        {
+          class: "Repair regression",
+          trigger: "The score improves while referenced workflows or scripts break",
+          boundary: "consent-gated handoff",
+          disposition: "Re-scan the same roots and run the package’s native verification gate."
+        }
+      ]
+    }
+  ],
   codeExamples: [
     {
       label: "Run a non-interactive audit suitable for CI",

@@ -1,0 +1,145 @@
+{
+  "schema_version": 1,
+  "kind": "agentreceipt.session_replay",
+  "session_id": "ar_ses_fixture_01J5Y7M8K2",
+  "generated_at": "2026-08-10T09:45:00Z",
+  "fixture": {
+    "synthetic": true,
+    "purpose": "Parser and verifier-task tests; not evidence of a real agent session"
+  },
+  "source": {
+    "agentreceipt_version": "v0.10.1",
+    "repo_root": "/workspace/example",
+    "session_state": "finalized"
+  },
+  "verification": {
+    "valid": true,
+    "event_chain_hash": "sha256:a842000000000000000000000000000000000000000000000000000000000001",
+    "diff_hash": "sha256:b71c000000000000000000000000000000000000000000000000000000000002",
+    "manifest_hash": "sha256:c992000000000000000000000000000000000000000000000000000000000003",
+    "receipt_hash": "sha256:d117000000000000000000000000000000000000000000000000000000000004",
+    "signature_valid": true,
+    "signed_by": "embedded:sha256:44ad000000000000000000000000000000000000000000000000000000000005"
+  },
+  "summary": {
+    "provider": "unavailable",
+    "duration_ms": 172000,
+    "changed_file_count": 1,
+    "command_count": 2,
+    "tests_detected": true,
+    "lint_detected": false,
+    "typecheck_detected": true,
+    "final_risk": "medium"
+  },
+  "timeline": [
+    {
+      "seq": 1,
+      "ts": "2026-08-10T09:42:08Z",
+      "type": "command.started",
+      "source": "shell-observer",
+      "confidence": "observed",
+      "evidence_refs": ["command:call_01"]
+    },
+    {
+      "seq": 2,
+      "ts": "2026-08-10T09:42:14Z",
+      "type": "command.finished",
+      "source": "shell-observer",
+      "confidence": "observed",
+      "evidence_refs": ["command:call_01", "artifact:events.jsonl"]
+    },
+    {
+      "seq": 3,
+      "ts": "2026-08-10T09:44:51Z",
+      "type": "session.finalized",
+      "source": "receipt",
+      "confidence": "verified",
+      "evidence_refs": ["artifact:diffs/final.patch", "artifact:manifest.json"]
+    }
+  ],
+  "commands": [
+    {
+      "call_id": "call_01",
+      "command": "bun run typecheck",
+      "kind": "typecheck",
+      "status": "passed",
+      "exit_code": 0,
+      "risk_signals": [],
+      "output_summary": "TypeScript completed without diagnostics",
+      "stdout_truncated": false
+    },
+    {
+      "call_id": "call_02",
+      "command": "bun test",
+      "kind": "test",
+      "status": "passed",
+      "exit_code": 0,
+      "risk_signals": [],
+      "output_summary": "One focused test file passed",
+      "stdout_truncated": false
+    }
+  ],
+  "files": [
+    {
+      "path": "src/receipt.ts",
+      "action": "modified",
+      "sensitive": false,
+      "dependency": false,
+      "present_in_final_diff": true
+    }
+  ],
+  "risks": [
+    {
+      "code": "lint_not_observed",
+      "level": "medium",
+      "confidence": "verified",
+      "command_refs": [],
+      "file_refs": ["src/receipt.ts"]
+    }
+  ],
+  "gaps": [
+    {
+      "code": "provider_trace_unavailable",
+      "detail": "No provider session met the repository and time-correlation threshold.",
+      "affects": ["intent", "prompt_provenance"]
+    }
+  ],
+  "verifier_tasks": [
+    {
+      "id": "task_01",
+      "code": "confirm_tests_for_code_changes",
+      "priority": "high",
+      "files": ["src/receipt.ts"],
+      "evidence_refs": ["command:call_02", "artifact:diffs/final.patch"],
+      "completion": "Confirm the focused test exercises the changed receipt behavior."
+    },
+    {
+      "id": "task_02",
+      "code": "run_missing_lint_gate",
+      "priority": "medium",
+      "files": ["src/receipt.ts"],
+      "evidence_refs": ["risk:lint_not_observed"],
+      "completion": "Run the repository lint command against the recorded patch."
+    }
+  ],
+  "artifacts": [
+    {
+      "ref": "artifact:events.jsonl",
+      "path": "events.jsonl",
+      "media_type": "application/x-ndjson",
+      "sha256": "sha256:e211000000000000000000000000000000000000000000000000000000000006"
+    },
+    {
+      "ref": "artifact:manifest.json",
+      "path": "manifest.json",
+      "media_type": "application/json",
+      "sha256": "sha256:c992000000000000000000000000000000000000000000000000000000000003"
+    },
+    {
+      "ref": "artifact:diffs/final.patch",
+      "path": "diffs/final.patch",
+      "media_type": "text/x-diff",
+      "sha256": "sha256:b71c000000000000000000000000000000000000000000000000000000000002"
+    }
+  ]
+}

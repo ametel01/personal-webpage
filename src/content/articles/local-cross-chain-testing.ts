@@ -144,6 +144,48 @@ export const localCrossChainTesting = {
       { label: "Assert", detail: "Final asset or application state" }
     ]
   },
+  artifacts: [
+    {
+      id: "minimal-bridge-harness",
+      kind: "implementation",
+      title: "A minimal bridge harness that never sleeps blindly",
+      description:
+        "This reduced TypeScript example captures the reusable part of the AggSandbox test strategy: correlate the source transaction, poll one owned state transition, and preserve the last observation when the deadline expires.",
+      source: {
+        label: "AggSandbox architecture overview",
+        href: "https://github.com/NethermindEth/aggsandbox/blob/main/docs/overview.md"
+      },
+      filename: "bridge-fixture.ts",
+      language: "typescript",
+      code: `type Deposit = { id: string; status: "pending" | "claimable" | "claimed" };
+
+export async function bridgeAndWait(api: BridgeApi, amount: bigint) {
+  const source = await api.bridgeAsset({ from: 0, to: 1, amount });
+  const deadline = Date.now() + 60_000;
+  let last: Deposit | undefined;
+
+  while (Date.now() < deadline) {
+    last = await api.getDeposit(source.depositId);
+    if (last.status === "claimable") {
+      return { sourceTx: source.txHash, deposit: last };
+    }
+    await api.waitForNextBlock(1);
+  }
+
+  throw new BridgeTimeout({
+    depositId: source.depositId,
+    sourceTx: source.txHash,
+    last
+  });
+}`,
+      guarantees: [
+        "The source transaction and deposit identifier remain coupled in the return value.",
+        "Readiness is a protocol state, not elapsed wall-clock time.",
+        "The loop is bounded by a deadline and one-chain block progress.",
+        "Timeouts retain the last bridge-service observation for diagnostics."
+      ]
+    }
+  ],
   codeExamples: [
     {
       label: "Start a sandbox, bridge an asset, and inspect the claim",

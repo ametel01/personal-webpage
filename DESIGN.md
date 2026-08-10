@@ -291,6 +291,12 @@ The writing index is the system's signature editorial component. A square, blue-
 
 The detail view preserves the same grammar: a restrained title deck, question strip, sticky table of contents, 75ch reading measure, blue-ruled key points and project callouts, square checklist markers, and rule-separated related writing. Contour and arrow motion use the existing arrival and standard easing, then resolve immediately when reduced motion is requested.
 
+### Writing Field Artifacts
+
+Article detail supports eight typed evidence forms: receipt schema, architecture diagram, state machine, failure taxonomy, verification pipeline, downloadable fixture, minimal implementation, and engineering comparison. Each form translates its subject into a flat, square, rule-separated composition rather than a card, while preserving the article's paper field, navy ink, and restrained blue structural accents.
+
+Every artifact names its form and shows a visible primary-source attribution in the header; attribution links keep a minimum 44px target. Code and wide tables live in explicitly named, keyboard-scrollable regions so horizontal overflow remains inspectable without a pointer. Article prose may also carry visible inline source links, and the closing repository register keeps implementation, specifications, and tool documentation directly reachable.
+
 ### Homepage Proof Ledger
 
 The homepage opens with one square, blue-outlined featured case file rather than a card grid. Its broad column keeps the case title, factual state, summary, and action legible while fine provenance contours occupy the right edge. One short blue bridge connects the case file to a four-waypoint engineering index; the first waypoint is double-stroked, descriptions stay factual, and the vertical path remains when the layout stacks.

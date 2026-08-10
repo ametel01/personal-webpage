@@ -277,6 +277,7 @@ export function createWritingArticleStructuredData(article: WritingArticle): Str
         typeof paragraph === "string" ? [] : paragraph.citations.map((reference) => reference.href)
       )
     ),
+    ...article.artifacts.map((artifact) => artifact.source.href),
     ...article.repositoryLinks.map((reference) => reference.href)
   ].filter((href, index, references) => references.indexOf(href) === index);
 

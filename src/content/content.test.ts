@@ -161,6 +161,7 @@ describe("website content invariants", () => {
       assert.ok(article.readingMinutes >= 5);
       assert.match(article.relatedProject.href, /^\/work\/[a-z0-9-]+$/);
       assert.ok(article.diagram.steps.length >= 4);
+      assert.ok(article.artifacts.length >= 1);
       assert.ok(article.codeExamples.length >= 1);
       assert.ok(article.decisions.length >= 3);
       assert.ok(article.failureCases.length >= 3);
@@ -170,6 +171,27 @@ describe("website content invariants", () => {
         assert.ok(example.label.length > 10);
         assert.ok(example.language.length > 1);
         assert.ok(example.code.includes("\n"));
+      }
+
+      for (const artifact of article.artifacts) {
+        assert.match(artifact.id, /^[a-z0-9]+(?:-[a-z0-9]+)*$/);
+        assert.ok(artifact.title.length > 20);
+        assert.ok(artifact.description.length > 80);
+        assert.match(artifact.source.href, /^https:\/\//);
+
+        if (artifact.kind === "comparison") {
+          assert.ok(artifact.columns.length >= 2);
+          assert.ok(artifact.rows.every((row) => row.values.length === artifact.columns.length));
+        }
+
+        if (artifact.kind === "download") {
+          assert.match(artifact.href, /^\/fixtures\/[a-z0-9.-]+$/);
+          assert.equal(
+            existsSync(new URL(`../../public${artifact.href}`, import.meta.url)),
+            true,
+            `${artifact.filename} should exist in public fixtures`
+          );
+        }
       }
 
       for (const link of article.repositoryLinks) {
@@ -193,6 +215,20 @@ describe("website content invariants", () => {
 
       assert.equal(getRelatedWriting(article).length, 3);
     }
+
+    assert.deepStrictEqual(
+      new Set(writingArticles.flatMap((article) => article.artifacts.map(({ kind }) => kind))),
+      new Set([
+        "schema",
+        "architecture",
+        "state-machine",
+        "failure-taxonomy",
+        "pipeline",
+        "download",
+        "implementation",
+        "comparison"
+      ])
+    );
   });
 
   test("writing routes include the approved reading and wayfinding structure", () => {
@@ -202,6 +238,7 @@ describe("website content invariants", () => {
     assert.match(writingArticleSource, /ArticleTableOfContents/);
     assert.match(writingArticleSource, /writing-key-points/);
     assert.match(writingArticleSource, /ArticleDiagram/);
+    assert.match(writingArticleSource, /ArticleArtifacts/);
     assert.match(writingArticleSource, /ArticleCodeExamples/);
     assert.match(writingArticleSource, /ArticleFailureCases/);
     assert.match(writingArticleSource, /ArticleRepositoryLinks/);
@@ -246,6 +283,7 @@ describe("website content invariants", () => {
         techArticle?.citation,
         [
           ...bodyCitations.map(({ href }) => href),
+          ...typedArticle.artifacts.map(({ source }) => source.href),
           ...typedArticle.repositoryLinks.map(({ href }) => href)
         ].filter((href, index, references) => references.indexOf(href) === index)
       );

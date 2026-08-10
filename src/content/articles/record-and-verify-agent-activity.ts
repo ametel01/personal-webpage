@@ -139,6 +139,75 @@ export const recordAndVerifyAgentActivity = {
       { label: "Verify", detail: "Independent integrity and diff checks" }
     ]
   },
+  artifacts: [
+    {
+      id: "receipt-schema",
+      kind: "schema",
+      title: "A receipt schema that separates claims from evidence",
+      description:
+        "This reduced manifest is the boundary I use when reasoning about AgentReceipt: stable session identity, an explicit repository baseline, content-addressed artifacts, named gates, and a signature over the canonical payload.",
+      source: {
+        label: "AgentReceipt replay contract",
+        href: "https://github.com/ametel01/agentreceipt/blob/main/docs/REPLAY_SPECS.md"
+      },
+      filename: "receipt.manifest.json",
+      code: `{
+  "schema_version": 1,
+  "session_id": "ar_ses_01J5Y7M8K2",
+  "repository": {
+    "head": "9c2f7d1",
+    "baseline_status_sha256": "sha256:31f1…"
+  },
+  "event_chain": {
+    "count": 42,
+    "head_sha256": "sha256:a842…"
+  },
+  "artifacts": [
+    { "path": "diffs/final.patch", "sha256": "sha256:b71c…" }
+  ],
+  "gates": [
+    { "name": "typecheck", "exit_code": 0, "evidence_ref": "events:40" }
+  ],
+  "signature": {
+    "algorithm": "ed25519",
+    "key_id": "sha256:44ad…",
+    "value": "base64:MEUC…"
+  }
+}`,
+      fields: [
+        {
+          path: "repository.head",
+          type: "git object id",
+          requirement: "required",
+          purpose: "Fixes the repository state from which the session claim begins."
+        },
+        {
+          path: "event_chain.head_sha256",
+          type: "digest",
+          requirement: "required",
+          purpose: "Detects removed, reordered, or mutated events."
+        },
+        {
+          path: "artifacts[].sha256",
+          type: "digest",
+          requirement: "required",
+          purpose: "Binds patches, logs, and snapshots without embedding their bytes."
+        },
+        {
+          path: "gates[].evidence_ref",
+          type: "event reference",
+          requirement: "conditional",
+          purpose: "Distinguishes a gate that ran from one merely asserted in a report."
+        },
+        {
+          path: "signature.value",
+          type: "base64 signature",
+          requirement: "derived",
+          purpose: "Authenticates the canonical manifest after every reference is fixed."
+        }
+      ]
+    }
+  ],
   codeExamples: [
     {
       label: "Capture one session and verify its final patch",

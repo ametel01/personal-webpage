@@ -148,6 +148,56 @@ export const starknetContractVerification = {
       { label: "Publish", detail: "Source + build evidence + status" }
     ]
   },
+  artifacts: [
+    {
+      id: "verification-pipeline",
+      kind: "pipeline",
+      title: "The verification pipeline, with a failure owner at every stage",
+      description:
+        "This is the operational pipeline I use to explain Voyager Verifier. Each stage produces a named artifact and fails before submission when its own invariant cannot be established.",
+      source: {
+        label: "Voyager Verifier repository",
+        href: "https://github.com/NethermindEth/voyager-verifier"
+      },
+      stages: [
+        {
+          stage: "Resolve",
+          input: "workspace root + contract name",
+          assertion: "one package and one contract target",
+          output: "resolved package manifest",
+          failure: "ambiguous or missing target"
+        },
+        {
+          stage: "Compile",
+          input: "Scarb profile + source tree",
+          assertion: "Sierra and CASM artifacts exist",
+          output: "compiler artifacts + metadata",
+          failure: "profile or compiler mismatch"
+        },
+        {
+          stage: "Normalize",
+          input: "local artifacts",
+          assertion: "comparison ignores no semantic field",
+          output: "normalized Sierra/CASM pair",
+          failure: "unsupported artifact schema"
+        },
+        {
+          stage: "Compare",
+          input: "normalized local + on-chain class",
+          assertion: "program and entry points match",
+          output: "class-hash comparison report",
+          failure: "compiled class hash differs"
+        },
+        {
+          stage: "Submit",
+          input: "source bundle + exact class hash",
+          assertion: "request is idempotently identified",
+          output: "Voyager verification result",
+          failure: "network or explorer rejection"
+        }
+      ]
+    }
+  ],
   codeExamples: [
     {
       label: "Verify a workspace contract through Voyager",

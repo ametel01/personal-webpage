@@ -8,15 +8,24 @@ import { starknetContractVerification } from "@/content/articles/starknet-contra
 import type { WritingArticle, WritingTopicGroup } from "@/content/writing-shared";
 
 export type {
+  WritingArchitectureArtifact,
   WritingArticle,
+  WritingArtifact,
   WritingCitation,
   WritingCodeExample,
+  WritingComparisonArtifact,
   WritingDecision,
   WritingDiagram,
+  WritingDownloadArtifact,
   WritingFailureCase,
+  WritingFailureTaxonomyArtifact,
+  WritingImplementationArtifact,
   WritingParagraph,
+  WritingPipelineArtifact,
   WritingRepositoryLink,
+  WritingSchemaArtifact,
   WritingSection,
+  WritingStateMachineArtifact,
   WritingTopic,
   WritingTopicGroup
 } from "@/content/writing-shared";

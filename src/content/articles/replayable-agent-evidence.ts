@@ -143,6 +143,36 @@ export const replayableAgentEvidence = {
       { label: "Focus", detail: "Ranked, verifiable next actions" }
     ]
   },
+  artifacts: [
+    {
+      id: "replay-fixture",
+      kind: "download",
+      title: "Download a deliberately incomplete replay fixture",
+      description:
+        "This synthetic fixture stays valid while declaring one evidence gap. It is small enough for a parser test and realistic enough to exercise ordering, artifact references, risk normalization, and verifier-task generation.",
+      source: {
+        label: "AgentReceipt replay JSON specification",
+        href: "https://github.com/ametel01/agentreceipt/blob/main/docs/REPLAY_SPECS.md"
+      },
+      href: "/fixtures/agentreceipt-replay-v1.json",
+      filename: "agentreceipt-replay-v1.json",
+      mediaType: "application/json · 4.2 KB",
+      preview: `{
+  "schema_version": 1,
+  "kind": "agentreceipt.session_replay",
+  "verification": { "valid": true },
+  "summary": { "changed_file_count": 1, "final_risk": "medium" },
+  "gaps": [{ "code": "provider_trace_unavailable" }],
+  "verifier_tasks": [{ "code": "confirm_tests_for_code_changes" }]
+}`,
+      checks: [
+        "Parse and reject unknown schema versions before consuming nested fields.",
+        "Preserve timeline sequence and stable evidence references during transformation.",
+        "Treat gaps as data: this fixture is usable even without a provider trace.",
+        "Resolve artifact paths relative to a receipt root, never the current process directory."
+      ]
+    }
+  ],
   codeExamples: [
     {
       label: "A compact replay contract",

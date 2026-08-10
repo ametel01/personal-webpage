@@ -144,6 +144,79 @@ export const localFirstDeveloperTools = {
       { label: "Adapters", detail: "CI, PR, dashboard, policy sync" }
     ]
   },
+  artifacts: [
+    {
+      id: "local-first-architecture",
+      kind: "architecture",
+      title: "A local-first artifact architecture",
+      description:
+        "This diagram separates authoritative bytes from rebuildable views and optional coordination. The boundary is drawn from the storage patterns shared by AgentReceipt, Skills Doctor, and RitualAI.",
+      source: {
+        label: "AgentReceipt repository",
+        href: "https://github.com/ametel01/agentreceipt"
+      },
+      lanes: [
+        {
+          label: "Authoritative",
+          responsibility: "Survives restart and remains inspectable without a service",
+          nodes: ["Atomic artifact files", "Canonical manifests", "Signatures + digests"]
+        },
+        {
+          label: "Derived",
+          responsibility: "Can be deleted and rebuilt from authoritative artifacts",
+          nodes: ["SQLite indexes", "Search projections", "Rendered reports"]
+        },
+        {
+          label: "Coordination",
+          responsibility: "Improves sharing without becoming the local write authority",
+          nodes: ["Sync cursor", "Remote object store", "Publication API"]
+        }
+      ],
+      flows: [
+        "Write temp file → fsync → atomic rename → publish manifest reference",
+        "Read artifact → validate digest → update rebuildable index",
+        "Queue remote sync after local commit; retain the local result when sync fails"
+      ]
+    },
+    {
+      id: "storage-boundary-comparison",
+      kind: "comparison",
+      title: "Choosing the authority boundary",
+      description:
+        "This comparison records the tradeoffs I encountered building file-backed developer tools. The choice is not file versus database in the abstract; it is which representation a user can recover and inspect when every helper process is gone.",
+      source: {
+        label: "RitualAI repository",
+        href: "https://github.com/ametel01/ritualai"
+      },
+      columns: ["Artifact files", "Embedded database", "Remote service"],
+      rows: [
+        {
+          criterion: "Offline write path",
+          values: ["Complete", "Complete", "Unavailable without a queue"]
+        },
+        {
+          criterion: "Human inspection",
+          values: ["Direct with ordinary tools", "Requires query tooling", "Requires API access"]
+        },
+        {
+          criterion: "Query flexibility",
+          values: ["Low until indexed", "High locally", "High but network-bound"]
+        },
+        {
+          criterion: "Recovery model",
+          values: [
+            "Copy and verify bytes",
+            "Restore or repair database",
+            "Provider-specific export"
+          ]
+        },
+        {
+          criterion: "Role in this architecture",
+          values: ["Authority", "Rebuildable projection", "Optional coordination"]
+        }
+      ]
+    }
+  ],
   codeExamples: [
     {
       label: "Publish a file atomically in Go",

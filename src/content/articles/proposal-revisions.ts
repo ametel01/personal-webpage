@@ -144,6 +144,62 @@ export const proposalRevisions = {
       { label: "Change order", detail: "Separately approved delta" }
     ]
   },
+  artifacts: [
+    {
+      id: "proposal-state-machine",
+      kind: "state-machine",
+      title: "Proposal and change-order state machine",
+      description:
+        "This state machine separates editability from commercial effect. An issued version never becomes mutable again; revision creates a new draft, while delivery changes enter through an independently approved delta.",
+      source: {
+        label: "ScopePilot workflow documentation",
+        href: "https://scopepilot.launchingfoundry.xyz/docs/how-to-guides/handle-approvals-revisions-and-change-orders"
+      },
+      states: [
+        {
+          name: "Draft",
+          mode: "mutable",
+          description: "Scope, pricing, terms, and attachments may change.",
+          transitions: ["issue → Issued"]
+        },
+        {
+          name: "Issued",
+          mode: "immutable",
+          description: "A digest fixes the exact decision surface.",
+          transitions: [
+            "accept → Accepted",
+            "decline → Declined",
+            "expire → Expired",
+            "request revision → new Draft"
+          ]
+        },
+        {
+          name: "Accepted",
+          mode: "immutable",
+          description: "Becomes the baseline for delivery and later deltas.",
+          transitions: ["start delivery → Active", "propose delta → Change order"]
+        },
+        {
+          name: "Active",
+          mode: "derived",
+          description: "Current commitment projects the baseline plus accepted change orders.",
+          transitions: ["propose delta → Change order"]
+        },
+        {
+          name: "Change order",
+          mode: "mutable",
+          description: "A draft delta with its own pricing and approval surface.",
+          transitions: ["issue → immutable delta", "accept → Active projection"]
+        },
+        {
+          name: "Declined / Expired",
+          mode: "terminal",
+          description: "The historical decision remains attached to the issued version.",
+          transitions: ["derive → new Draft"]
+        }
+      ]
+    }
+  ],
   codeExamples: [
     {
       label: "Enforce immutable issued versions in PostgreSQL",

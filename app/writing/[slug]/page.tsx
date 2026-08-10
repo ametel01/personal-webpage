@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { Container, Section } from "@/components/primitives";
 import { StructuredData } from "@/components/structured-data";
 import {
+  ArticleArtifacts,
   ArticleCodeExamples,
   ArticleDecisionLog,
   ArticleDiagram,
@@ -150,6 +151,7 @@ export default async function WritingArticlePage({ params }: WritingArticlePageP
                   </div>
                 ))}
 
+                <ArticleArtifacts artifacts={article.artifacts} />
                 <ArticleCodeExamples examples={article.codeExamples} />
                 <ArticleDecisionLog decisions={article.decisions} />
                 <ArticleFailureCases cases={article.failureCases} />
@@ -240,6 +242,11 @@ function ArticleTableOfContents({ article }: { article: WritingArticle }) {
         {article.sections.map((section) => (
           <li key={section.id}>
             <a href={`#${section.id}`}>{section.title}</a>
+          </li>
+        ))}
+        {article.artifacts.map((artifact) => (
+          <li key={artifact.id}>
+            <a href={`#${artifact.id}`}>{artifact.title}</a>
           </li>
         ))}
         <li>
