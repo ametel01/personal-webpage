@@ -26,7 +26,19 @@ export const auditingAgentSkills = {
       id: "resolve-effective-instructions",
       title: "Resolve the instructions the agent will actually see",
       paragraphs: [
-        "Repositories can contain root and nested AGENTS.md files, project skills, user-level skills, ecosystem-specific copies, and generated or cached packages. An audit that scans one familiar directory can miss the file that wins at runtime. Begin by discovering candidate roots and computing the effective instruction chain for a concrete target path.",
+        {
+          text: "Repositories can contain root and nested AGENTS.md files, project skills, user-level skills, ecosystem-specific copies, and generated or cached packages. An audit that scans one familiar directory can miss the file that wins at runtime. Begin by discovering candidate roots and computing the effective instruction chain for a concrete target path.",
+          citations: [
+            {
+              label: "Codex AGENTS.md documentation",
+              href: "https://github.com/openai/codex/blob/main/docs/agents_md.md"
+            },
+            {
+              label: "Agent Skills specification",
+              href: "https://agentskills.io/specification"
+            }
+          ]
+        },
         "Preserve provenance for every resolved instruction: absolute or workspace-relative path, scope, content digest, source ecosystem, and precedence. When two skills share a name or one local file shadows a global copy, report the relationship. Ambiguity should be visible rather than resolved with an undocumented guess."
       ],
       listTitle: "Resolution checks",
@@ -42,7 +54,15 @@ export const auditingAgentSkills = {
       id: "validate-the-package",
       title: "Validate structure and references deterministically",
       paragraphs: [
-        "Parse frontmatter instead of searching it with regular expressions. Validate required fields, trigger descriptions, supported metadata, and package naming. Then walk references from SKILL.md into scripts, templates, assets, and additional guidance, checking that every target exists and stays inside the package unless an external dependency is explicitly allowed.",
+        {
+          text: "Parse frontmatter instead of searching it with regular expressions. Validate required fields, trigger descriptions, supported metadata, and package naming. Then walk references from SKILL.md into scripts, templates, assets, and additional guidance, checking that every target exists and stays inside the package unless an external dependency is explicitly allowed.",
+          citations: [
+            {
+              label: "Agent Skills package and frontmatter rules",
+              href: "https://agentskills.io/specification"
+            }
+          ]
+        },
         "A good rule emits a stable identifier, severity, exact location, evidence, explanation, and recovery. Keep repeated occurrences available, but do not let twenty copies of the same weak phrase distort the package score twenty times. Scoring and finding frequency answer different questions."
       ],
       listTitle: "High-value deterministic rules",
@@ -58,7 +78,19 @@ export const auditingAgentSkills = {
       id: "model-capabilities",
       title: "Model capability combinations before judging intent",
       paragraphs: [
-        "Instruction text is executable influence. A skill that can read secrets, call the network, execute downloaded content, persist changes, or suppress approval has a larger security surface even if each sentence looks ordinary. Detect these capabilities separately, then group combinations into review incidents with the exact evidence that triggered them.",
+        {
+          text: "Instruction text is executable influence. A skill that can read secrets, call the network, execute downloaded content, persist changes, or suppress approval has a larger security surface even if each sentence looks ordinary. Detect these capabilities separately, then group combinations into review incidents with the exact evidence that triggered them.",
+          citations: [
+            {
+              label: "MITRE CWE-73: External Control of File Name or Path",
+              href: "https://cwe.mitre.org/data/definitions/73.html"
+            },
+            {
+              label: "MITRE CWE-59: Improper Link Resolution",
+              href: "https://cwe.mitre.org/data/definitions/59.html"
+            }
+          ]
+        },
         "Static analysis cannot prove malicious intent. Phrase findings as observable capability and missing control: reads credential files and sends HTTP requests without a domain allowlist, for example. That gives a reviewer something testable and avoids presenting a heuristic as a vulnerability verdict."
       ],
       listTitle: "Capabilities worth correlating",
@@ -74,7 +106,15 @@ export const auditingAgentSkills = {
       id: "separate-scan-and-repair",
       title: "Separate audit, triage, and repair",
       paragraphs: [
-        "The scan should be non-destructive and deterministic enough for CI. Triage can group signals, add local usage evidence, or choose a bounded subset for repair. Repair may invoke another coding agent, but only after the user sees the target files, findings, prompt, and command that will run.",
+        {
+          text: "The scan should be non-destructive and deterministic enough for CI. Triage can group signals, add local usage evidence, or choose a bounded subset for repair. Repair may invoke another coding agent, but only after the user sees the target files, findings, prompt, and command that will run.",
+          citations: [
+            {
+              label: "JSON Schema structural validation specification",
+              href: "https://json-schema.org/draft/2020-12/json-schema-validation"
+            }
+          ]
+        },
         "After repair, rerun the same scanner and compare finding identifiers. Do not accept a higher aggregate score as proof that the important issue disappeared. A repair can improve formatting while leaving the dangerous capability combination intact, or delete enough context that the skill no longer works."
       ],
       listTitle: "CI contract",

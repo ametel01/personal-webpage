@@ -271,6 +271,14 @@ export function createWritingArticleStructuredData(article: WritingArticle): Str
   const pageId = `${pageUrl}#webpage`;
   const articleId = getWritingArticleId(article);
   const breadcrumbId = `${pageUrl}#breadcrumb`;
+  const citation = [
+    ...article.sections.flatMap((section) =>
+      section.paragraphs.flatMap((paragraph) =>
+        typeof paragraph === "string" ? [] : paragraph.citations.map((reference) => reference.href)
+      )
+    ),
+    ...article.repositoryLinks.map((reference) => reference.href)
+  ].filter((href, index, references) => references.indexOf(href) === index);
 
   return createGraph(
     {
@@ -286,6 +294,7 @@ export function createWritingArticleStructuredData(article: WritingArticle): Str
       breadcrumb: { "@id": breadcrumbId },
       datePublished: article.publishedAt,
       dateModified: article.updatedAt,
+      citation,
       inLanguage: "en"
     },
     {
@@ -302,6 +311,7 @@ export function createWritingArticleStructuredData(article: WritingArticle): Str
       keywords: [article.topic, ...article.searchQuestions],
       datePublished: article.publishedAt,
       dateModified: article.updatedAt,
+      citation,
       inLanguage: "en"
     },
     createBreadcrumbs(pageUrl, breadcrumbId, [

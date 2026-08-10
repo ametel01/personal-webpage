@@ -17,6 +17,7 @@ import {
   getWritingArticle,
   isWritingSlug,
   type WritingArticle,
+  type WritingParagraph,
   writingSlugs
 } from "@/content/writing";
 import { createPageMetadata } from "@/lib/metadata";
@@ -129,7 +130,10 @@ export default async function WritingArticlePage({ params }: WritingArticlePageP
                     <section className="writing-prose-section" id={section.id}>
                       <h2>{section.title}</h2>
                       {section.paragraphs.map((paragraph) => (
-                        <p key={paragraph}>{paragraph}</p>
+                        <ArticleParagraph
+                          key={typeof paragraph === "string" ? paragraph : paragraph.text}
+                          paragraph={paragraph}
+                        />
                       ))}
                       {section.items ? (
                         <div className="writing-checklist">
@@ -201,6 +205,30 @@ export default async function WritingArticlePage({ params }: WritingArticlePageP
         </Section>
       </article>
     </main>
+  );
+}
+
+function ArticleParagraph({ paragraph }: { paragraph: WritingParagraph }) {
+  if (typeof paragraph === "string") {
+    return <p>{paragraph}</p>;
+  }
+
+  return (
+    <p>
+      {paragraph.text}{" "}
+      <span className="writing-inline-citations">
+        Sources:{" "}
+        {paragraph.citations.map((citation, index) => (
+          <span key={citation.href}>
+            {index > 0 ? ", " : null}
+            <a href={citation.href} rel="noreferrer" target="_blank">
+              {citation.label}
+            </a>
+          </span>
+        ))}
+        .
+      </span>
+    </p>
   );
 }
 

@@ -23,6 +23,7 @@ import {
   getRelatedWriting,
   getWritingArticle,
   isWritingSlug,
+  type WritingArticle,
   writingArticles,
   writingSlugs
 } from "@/content/writing";
@@ -217,6 +218,7 @@ describe("website content invariants", () => {
     assert.equal(itemList?.numberOfItems, writingArticles.length);
 
     for (const article of writingArticles) {
+      const typedArticle: WritingArticle = article;
       const graph = createWritingArticleStructuredData(article);
       const techArticle = getGraphNode(graph, "TechArticle");
 
@@ -224,6 +226,29 @@ describe("website content invariants", () => {
       assert.equal(techArticle?.datePublished, article.publishedAt);
       assert.equal(techArticle?.dateModified, article.updatedAt);
       assert.equal(techArticle?.articleSection, article.topic);
+
+      const bodyCitations = typedArticle.sections.flatMap((section) =>
+        section.paragraphs.flatMap((paragraph) =>
+          typeof paragraph === "string" ? [] : paragraph.citations
+        )
+      );
+
+      assert.ok(bodyCitations.length >= 4, `${article.slug} should include substantive citations`);
+      assert.ok(
+        new Set(bodyCitations.map(({ href }) => new URL(href).hostname)).size >= 2,
+        `${article.slug} should cite multiple primary-source domains`
+      );
+      for (const citation of bodyCitations) {
+        assert.match(citation.href, /^https:\/\//);
+        assert.ok(citation.label.length > 0);
+      }
+      assert.deepStrictEqual(
+        techArticle?.citation,
+        [
+          ...bodyCitations.map(({ href }) => href),
+          ...typedArticle.repositoryLinks.map(({ href }) => href)
+        ].filter((href, index, references) => references.indexOf(href) === index)
+      );
     }
   });
 

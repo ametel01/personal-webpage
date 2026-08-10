@@ -28,7 +28,19 @@ export const proposalRevisions = {
       title: "Give the proposal, version, and decision separate identities",
       paragraphs: [
         "A proposal is the long-lived commercial conversation. A draft is editable working state. An issued version is an immutable package of scope, pricing, terms, and attachments. A decision is an actor's response to exactly one issued version. Combining these identities makes later edits change what a client appears to have reviewed.",
-        "Issue a version by snapshotting normalized content and pricing references in one transaction. The client-facing URL may resolve to the current issued version for convenience, but an approval record must retain the immutable version identifier and content digest it accepted."
+        {
+          text: "Issue a version by snapshotting normalized content and pricing references in one transaction. The client-facing URL may resolve to the current issued version for convenience, but an approval record must retain the immutable version identifier and content digest it accepted.",
+          citations: [
+            {
+              label: "PostgreSQL transaction isolation",
+              href: "https://www.postgresql.org/docs/current/transaction-iso.html"
+            },
+            {
+              label: "RFC 8785 JSON Canonicalization Scheme",
+              href: "https://datatracker.ietf.org/doc/html/rfc8785"
+            }
+          ]
+        }
       ],
       listTitle: "Core records",
       items: [
@@ -43,7 +55,15 @@ export const proposalRevisions = {
       id: "enforce-transitions",
       title: "Make revisions explicit state transitions",
       paragraphs: [
-        "A revision request does not reopen an issued version. It creates a new draft derived from that version and records the requested change. Issuing that draft creates a new immutable version with its own decision surface; previous approvals still resolve to the content they covered.",
+        {
+          text: "A revision request does not reopen an issued version. It creates a new draft derived from that version and records the requested change. Issuing that draft creates a new immutable version with its own decision surface; previous approvals still resolve to the content they covered.",
+          citations: [
+            {
+              label: "W3C PROV derivation model",
+              href: "https://www.w3.org/TR/prov-dm/#Derivation-Relation"
+            }
+          ]
+        },
         "Enforce transitions in the domain layer, not only the interface. An unissued draft cannot be approved, an accepted version cannot be edited, and a superseded version cannot receive a new active approval. API routes and background jobs must go through the same transition rules."
       ],
       listTitle: "Useful transitions",
@@ -60,7 +80,19 @@ export const proposalRevisions = {
       title: "Snapshot pricing inputs and derive totals",
       paragraphs: [
         "Catalog prices and tax rules can change after issue. Copy the relevant unit price, quantity, cost basis, discount rule, tax treatment, currency, and rounding policy into the version. Calculate subtotal, margin, tax, and total from that snapshot instead of storing unrelated display totals.",
-        "Use integer minor units or a decimal type and choose whether rounding happens per line or per document. The rule belongs in the versioned pricing model because two services can otherwise produce totals that differ by a cent while both appear mathematically reasonable."
+        {
+          text: "Use integer minor units or a decimal type and choose whether rounding happens per line or per document. The rule belongs in the versioned pricing model because two services can otherwise produce totals that differ by a cent while both appear mathematically reasonable.",
+          citations: [
+            {
+              label: "PostgreSQL exact numeric and rounding behavior",
+              href: "https://www.postgresql.org/docs/current/datatype-numeric.html"
+            },
+            {
+              label: "PostgreSQL guidance for monetary values",
+              href: "https://www.postgresql.org/docs/current/datatype-money.html"
+            }
+          ]
+        }
       ],
       listTitle: "Version comparison should show",
       items: [
@@ -75,7 +107,19 @@ export const proposalRevisions = {
       id: "model-change-orders",
       title: "Treat change orders as deltas to an accepted baseline",
       paragraphs: [
-        "Once delivery begins, editing the accepted proposal destroys the distinction between original scope and later work. A change order references the accepted version and describes additions, removals, schedule effects, and price changes. Its approval creates a new fact without altering the baseline.",
+        {
+          text: "Once delivery begins, editing the accepted proposal destroys the distinction between original scope and later work. A change order references the accepted version and describes additions, removals, schedule effects, and price changes. Its approval creates a new fact without altering the baseline.",
+          citations: [
+            {
+              label: "Federal Acquisition Regulation Part 43",
+              href: "https://www.acquisition.gov/far/part-43"
+            },
+            {
+              label: "FAR 43.103 contract modification types",
+              href: "https://www.acquisition.gov/far/43.103"
+            }
+          ]
+        },
         "The operational view can project current committed scope from the accepted baseline plus accepted change orders. Keep that projection derivable. When a stakeholder asks how the current total was reached, the immutable versions, deltas, and decisions remain the evidence."
       ],
       listTitle: "Edge cases to test",
@@ -153,12 +197,6 @@ export const proposalRevisions = {
     }
   ],
   repositoryLinks: [
-    {
-      label: "Article source and schema examples",
-      href: "https://github.com/ametel01/personal-webpage/blob/main/src/content/articles/proposal-revisions.ts",
-      description:
-        "The public article source, PostgreSQL schema, transition example, decisions, and failure cases."
-    },
     {
       label: "ScopePilot live product",
       href: "https://scopepilot.launchingfoundry.xyz/",

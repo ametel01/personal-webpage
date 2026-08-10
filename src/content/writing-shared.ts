@@ -5,10 +5,22 @@ export type WritingTopic =
   | "Local-first systems"
   | "Product systems";
 
+export type WritingCitation = {
+  label: string;
+  href: string;
+};
+
+export type WritingParagraph =
+  | string
+  | {
+      text: string;
+      citations: readonly WritingCitation[];
+    };
+
 export type WritingSection = {
   id: string;
   title: string;
-  paragraphs: readonly string[];
+  paragraphs: readonly WritingParagraph[];
   listTitle?: string;
   items?: readonly string[];
 };

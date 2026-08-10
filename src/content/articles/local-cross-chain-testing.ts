@@ -27,7 +27,19 @@ export const localCrossChainTesting = {
       id: "model-the-lifecycle",
       title: "Write the complete lifecycle before the test",
       paragraphs: [
-        "A successful source-chain receipt proves only that the bridge contract accepted an operation. The useful test boundary continues through event observation, service indexing, message or exit-root propagation, proof or claim readiness, destination execution, and the final balance or application state.",
+        {
+          text: "A successful source-chain receipt proves only that the bridge contract accepted an operation. The useful test boundary continues through event observation, service indexing, message or exit-root propagation, proof or claim readiness, destination execution, and the final balance or application state.",
+          citations: [
+            {
+              label: "Aggkit bridge service flow",
+              href: "https://agglayer.github.io/aggkit/bridge_service.html"
+            },
+            {
+              label: "Agglayer Unified Bridge asset flow",
+              href: "https://docs.polygon.technology/interoperability/agglayer/core-concepts/unified-bridge/asset-bridging"
+            }
+          ]
+        },
         "Name these states in the CLI and test suite. Protocols differ, but a transition model stops the environment from collapsing every pending condition into waiting. It also tells failure injection where to act: before indexing, after proof creation, during a restart, or immediately before a duplicate claim."
       ],
       listTitle: "Minimum lifecycle",
@@ -43,8 +55,24 @@ export const localCrossChainTesting = {
       id: "pin-the-topology",
       title: "Pin the whole topology, not only contract bytecode",
       paragraphs: [
-        "Reproducibility requires chain IDs, genesis state, RPC endpoints, service images, bridge addresses, deployment order, funded accounts, and block timing. Pinning contracts while letting the indexer, relayer, or proof service float still creates failures that another developer cannot reproduce.",
-        "Use one command to start the environment, but keep every component inspectable. Health, chain height, deployed addresses, recent bridge events, pending operations, and claims should be available from the normal CLI surface. A convenient wrapper that hides protocol state makes the first demo easier and every failure harder."
+        {
+          text: "Reproducibility requires chain IDs, genesis state, RPC endpoints, service images, bridge addresses, deployment order, funded accounts, and block timing. Pinning contracts while letting the indexer, relayer, or proof service float still creates failures that another developer cannot reproduce.",
+          citations: [
+            {
+              label: "Agglayer integration-test topology",
+              href: "https://github.com/agglayer/agglayer#running-integration-tests"
+            }
+          ]
+        },
+        {
+          text: "Use one command to start the environment, but keep every component inspectable. Health, chain height, deployed addresses, recent bridge events, pending operations, and claims should be available from the normal CLI surface. A convenient wrapper that hides protocol state makes the first demo easier and every failure harder.",
+          citations: [
+            {
+              label: "Docker Compose startup and health checks",
+              href: "https://docs.docker.com/compose/how-tos/startup-order/"
+            }
+          ]
+        }
       ],
       listTitle: "Topology manifest",
       items: [
@@ -59,7 +87,15 @@ export const localCrossChainTesting = {
       id: "assert-owned-boundaries",
       title: "Assert each boundary at its source of truth",
       paragraphs: [
-        "A final balance can be correct while the test exercised the wrong token mapping, reused a previous claim, or skipped an intermediate service. Read the source receipt and event from the source chain, indexing status from the bridge service, proof readiness from its producer, and destination execution from the destination chain.",
+        {
+          text: "A final balance can be correct while the test exercised the wrong token mapping, reused a previous claim, or skipped an intermediate service. Read the source receipt and event from the source chain, indexing status from the bridge service, proof readiness from its producer, and destination execution from the destination chain.",
+          citations: [
+            {
+              label: "Unified Bridge component reference",
+              href: "https://docs.polygon.technology/interoperability/agglayer/core-concepts/unified-bridge/bridge-components"
+            }
+          ]
+        },
         "Carry one correlation record through the test: source transaction hash, deposit or message identifier, origin and destination network IDs, token and recipient, proof identifier, and claim transaction hash. Each assertion should print the subset needed for the next command when it fails."
       ],
       listTitle: "High-value cases",
@@ -75,7 +111,15 @@ export const localCrossChainTesting = {
       id: "make-failures-observable",
       title: "Turn timeouts and restarts into evidence",
       paragraphs: [
-        "A timeout that reports only elapsed seconds throws away the useful state. Poll a named transition with a deadline, store the last observation, and on failure collect source receipt, matching events, service health, indexed message status, destination height, proof readiness, and claim state in one bounded report.",
+        {
+          text: "A timeout that reports only elapsed seconds throws away the useful state. Poll a named transition with a deadline, store the last observation, and on failure collect source receipt, matching events, service health, indexed message status, destination height, proof readiness, and claim state in one bounded report.",
+          citations: [
+            {
+              label: "Aggkit claim-readiness polling protocol",
+              href: "https://agglayer.github.io/aggkit/bridge_service.html"
+            }
+          ]
+        },
         "Restart services at deliberate points and verify recovery from durable state. Stop the indexer after source acceptance, restart the claim service after proof readiness, and repeat the status command throughout. Local testing is most valuable when it exercises the recovery paths that are expensive and slow to reproduce on public networks."
       ],
       listTitle: "Before trusting the suite",

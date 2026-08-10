@@ -27,7 +27,15 @@ export const localFirstDeveloperTools = {
       id: "define-the-local-authority",
       title: "Decide what the local machine is authoritative for",
       paragraphs: [
-        "A tool is not local-first merely because it has a CLI. If every useful command uploads source, requires a hosted account, or stores the only readable history remotely, the terminal is a thin client. A local-first developer tool creates its primary artifact on the user's machine in a documented format and keeps core inspection available offline.",
+        {
+          text: "A tool is not local-first merely because it has a CLI. If every useful command uploads source, requires a hosted account, or stores the only readable history remotely, the terminal is a thin client. A local-first developer tool creates its primary artifact on the user's machine in a documented format and keeps core inspection available offline.",
+          citations: [
+            {
+              label: "Ink & Switch local-first software research",
+              href: "https://www.inkandswitch.com/essay/local-first/"
+            }
+          ]
+        },
         "Write down the authority split. The local machine can own session evidence, configuration, indexes, and private keys; a remote service can own organization policy, team discovery, or publication. When the two disagree, the product should have an explicit reconciliation rule instead of whichever response arrived last winning silently."
       ],
       listTitle: "A practical local-first promise",
@@ -43,8 +51,28 @@ export const localFirstDeveloperTools = {
       id: "separate-state-classes",
       title: "Separate immutable artifacts, mutable indexes, and caches",
       paragraphs: [
-        "Durable evidence and rebuildable convenience data should not share the same failure mode. Store completed receipts, reports, or scan results as immutable artifacts. Keep lookup indexes and last-used pointers in a small transactional database or atomic metadata files. Put downloaded toolchains and derived renderings in a cache that can be deleted at any time.",
-        "Content-addressed artifact names reduce accidental duplication and make integrity checks cheap. They do not replace lifecycle metadata: keep schema version, media type, size, creation context, and retention class beside each digest. For mutable state, write to a temporary file, fsync when durability matters, and rename atomically."
+        {
+          text: "Durable evidence and rebuildable convenience data should not share the same failure mode. Store completed receipts, reports, or scan results as immutable artifacts. Keep lookup indexes and last-used pointers in a small transactional database or atomic metadata files. Put downloaded toolchains and derived renderings in a cache that can be deleted at any time.",
+          citations: [
+            {
+              label: "SQLite transactional guarantees",
+              href: "https://www.sqlite.org/transactional.html"
+            },
+            {
+              label: "XDG Base Directory Specification",
+              href: "https://specifications.freedesktop.org/basedir/"
+            }
+          ]
+        },
+        {
+          text: "Content-addressed artifact names reduce accidental duplication and make integrity checks cheap. They do not replace lifecycle metadata: keep schema version, media type, size, creation context, and retention class beside each digest. For mutable state, write to a temporary file, fsync when durability matters, and rename atomically.",
+          citations: [
+            {
+              label: "OCI Content Descriptor specification",
+              href: "https://github.com/opencontainers/image-spec/blob/main/descriptor.md"
+            }
+          ]
+        }
       ],
       listTitle: "State layout",
       items: [
@@ -60,7 +88,15 @@ export const localFirstDeveloperTools = {
       title: "Design for two terminals and a killed process",
       paragraphs: [
         "Developer tools are invoked by humans, editors, hooks, and agents at the same time. Use a per-repository or per-session lock with owner metadata and a bounded stale-lock recovery rule. Avoid a single global lock that turns unrelated repositories into one failure domain.",
-        "Assume the process can stop between every pair of writes. Build multi-step operations around a staging directory or journal, then publish one final pointer atomically. On startup, distinguish incomplete staging data from complete artifacts; offer a repair or discard action instead of treating partial files as valid history."
+        {
+          text: "Assume the process can stop between every pair of writes. Build multi-step operations around a staging directory or journal, then publish one final pointer atomically. On startup, distinguish incomplete staging data from complete artifacts; offer a repair or discard action instead of treating partial files as valid history.",
+          citations: [
+            {
+              label: "SQLite atomic commit and crash recovery",
+              href: "https://www.sqlite.org/atomiccommit.html"
+            }
+          ]
+        }
       ],
       listTitle: "Crash tests",
       items: [
@@ -76,7 +112,15 @@ export const localFirstDeveloperTools = {
       title: "Add remote adapters after the local contract is stable",
       paragraphs: [
         "CI, pull requests, team dashboards, and hosted policy are valuable, but each should consume the same export that a local verifier can read. The adapter uploads an explicit bundle, records the remote object identifier locally, and never mutates the signed artifact to add synchronization metadata.",
-        "Queue outbound work when offline and use idempotency keys derived from the artifact identity. Authentication failure should block publication, not local capture or inspection. This keeps service outages from turning a development tool into an availability dependency while still supporting organizational workflows."
+        {
+          text: "Queue outbound work when offline and use idempotency keys derived from the artifact identity. Authentication failure should block publication, not local capture or inspection. This keeps service outages from turning a development tool into an availability dependency while still supporting organizational workflows.",
+          citations: [
+            {
+              label: "Stripe idempotent request documentation",
+              href: "https://docs.stripe.com/api/idempotent_requests"
+            }
+          ]
+        }
       ],
       listTitle: "Remote boundary checks",
       items: [

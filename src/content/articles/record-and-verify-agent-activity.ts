@@ -26,7 +26,19 @@ export const recordAndVerifyAgentActivity = {
       id: "define-the-evidence-boundary",
       title: "Define the evidence boundary before recording",
       paragraphs: [
-        "A useful recording starts with a precise claim: this agent session began from a known repository state, observed a bounded set of actions, and ended with a particular patch and set of checks. It does not claim that every model thought was captured or that the agent caused every byte written while the recorder was running.",
+        {
+          text: "A useful recording starts with a precise claim: this agent session began from a known repository state, observed a bounded set of actions, and ended with a particular patch and set of checks. It does not claim that every model thought was captured or that the agent caused every byte written while the recorder was running.",
+          citations: [
+            {
+              label: "SLSA provenance specification",
+              href: "https://slsa.dev/spec/v1.2/provenance"
+            },
+            {
+              label: "in-toto Statement v1",
+              href: "https://in-toto.io/Statement/v1"
+            }
+          ]
+        },
         "Take the baseline before launching the agent. Record the repository root, current commit, worktree status, active instruction files, tool versions, and recorder policy. Existing dirty files must be named explicitly so a later verifier can distinguish prior user work from session activity."
       ],
       listTitle: "Minimum start record",
@@ -43,7 +55,15 @@ export const recordAndVerifyAgentActivity = {
       title: "Capture typed events, not one giant transcript",
       paragraphs: [
         "A transcript is presentation. Evidence needs stable event types and relationships. Commands, tool calls, file observations, git transitions, approvals, and quality checks should each have their own payload and source. A provider event can explain intent, while git and filesystem observations establish what changed; neither should silently stand in for the other.",
-        "Append events and chain their hashes so removal or reordering becomes detectable. Canonicalize the payload before hashing, keep timestamps as supporting context rather than the ordering authority, and assign a monotonic sequence within the session. The recorder should survive missing provider logs by degrading confidence instead of refusing to finalize."
+        {
+          text: "Append events and chain their hashes so removal or reordering becomes detectable. Canonicalize the payload before hashing, keep timestamps as supporting context rather than the ordering authority, and assign a monotonic sequence within the session. The recorder should survive missing provider logs by degrading confidence instead of refusing to finalize.",
+          citations: [
+            {
+              label: "RFC 8785 JSON Canonicalization Scheme",
+              href: "https://datatracker.ietf.org/doc/html/rfc8785"
+            }
+          ]
+        }
       ],
       listTitle: "Useful event distinctions",
       items: [
@@ -59,7 +79,19 @@ export const recordAndVerifyAgentActivity = {
       title: "Finalize a receipt around the artifact graph",
       paragraphs: [
         "At stop time, derive the final patch against the declared baseline, inventory untracked files, capture the terminal git state, and attach quality-gate results. Large or sensitive artifacts should live beside the receipt under content-addressed names; the manifest stores their hashes, media types, sizes, and redaction status.",
-        "Sign the canonical manifest after every reference is fixed. Signing a human-readable HTML or Markdown report is brittle because formatting changes alter the bytes without changing the evidence. A stable JSON encoding or another versioned canonical form gives independent implementations something deterministic to verify."
+        {
+          text: "Sign the canonical manifest after every reference is fixed. Signing a human-readable HTML or Markdown report is brittle because formatting changes alter the bytes without changing the evidence. A stable JSON encoding or another versioned canonical form gives independent implementations something deterministic to verify.",
+          citations: [
+            {
+              label: "DSSE envelope specification",
+              href: "https://github.com/secure-systems-lab/dsse/blob/master/envelope.md"
+            },
+            {
+              label: "RFC 8785 canonical JSON",
+              href: "https://datatracker.ietf.org/doc/html/rfc8785"
+            }
+          ]
+        }
       ],
       listTitle: "Receipt contents worth keeping separate",
       items: [
@@ -74,7 +106,15 @@ export const recordAndVerifyAgentActivity = {
       id: "verify-independently",
       title: "Verify the receipt from a clean process",
       paragraphs: [
-        "Verification should work without invoking the model. Recompute every artifact hash, walk the event chain, verify the signature, and compare the recorded final patch with the current worktree or a checked-out commit. The verifier must report which layer failed: schema, integrity, signature, baseline, patch, or quality evidence.",
+        {
+          text: "Verification should work without invoking the model. Recompute every artifact hash, walk the event chain, verify the signature, and compare the recorded final patch with the current worktree or a checked-out commit. The verifier must report which layer failed: schema, integrity, signature, baseline, patch, or quality evidence.",
+          citations: [
+            {
+              label: "Sigstore blob verification documentation",
+              href: "https://docs.sigstore.dev/cosign/verifying/verify/"
+            }
+          ]
+        },
         "A green receipt means the evidence is internally consistent and matches the inspected repository state. It does not mean the code is correct, the agent followed every instruction, or the tests were sufficient. Those remain review questions; the receipt makes them answerable from a stable record."
       ],
       listTitle: "Verification should fail closed when",

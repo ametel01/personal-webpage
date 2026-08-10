@@ -9,10 +9,12 @@ import type { WritingArticle, WritingTopicGroup } from "@/content/writing-shared
 
 export type {
   WritingArticle,
+  WritingCitation,
   WritingCodeExample,
   WritingDecision,
   WritingDiagram,
   WritingFailureCase,
+  WritingParagraph,
   WritingRepositoryLink,
   WritingSection,
   WritingTopic,

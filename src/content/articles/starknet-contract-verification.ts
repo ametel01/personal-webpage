@@ -28,7 +28,19 @@ export const starknetContractVerification = {
       title: "Separate source verification from proof verification",
       paragraphs: [
         "Starknet uses validity proofs to prove correct state transitions, but block-explorer source verification answers a narrower question: can the submitted Cairo workspace and build configuration reproduce the class declared on Starknet? A verified source helps humans inspect code; it does not create or validate the network's STARK proof.",
-        "The onchain identity starts with a class hash. A deployed contract address resolves to a class hash, and a class can be declared without being deployed. For Cairo 1 and later contracts, the declared Sierra class also has a compiled class hash that commits to the CASM form used for execution. The verifier must select the correct identity before it compiles anything."
+        {
+          text: "The onchain identity starts with a class hash. A deployed contract address resolves to a class hash, and a class can be declared without being deployed. For Cairo 1 and later contracts, the declared Sierra class also has a compiled class hash that commits to the CASM form used for execution. The verifier must select the correct identity before it compiles anything.",
+          citations: [
+            {
+              label: "Starknet state and compiled class hashes",
+              href: "https://docs.starknet.io/learn/protocol/state"
+            },
+            {
+              label: "Starknet JSON-RPC specification",
+              href: "https://github.com/starkware-libs/starknet-specs"
+            }
+          ]
+        }
       ],
       listTitle: "Request identity",
       items: [
@@ -43,7 +55,19 @@ export const starknetContractVerification = {
       id: "reconstruct-the-build",
       title: "Reconstruct the original Scarb compilation unit",
       paragraphs: [
-        "Scarb compiles a target from a main package, its dependencies, the selected profile, compiler configuration, and conditional attributes. The visible contract file is therefore not a sufficient build input. Dependency versions, lockfile state, feature flags, source paths, and settings such as Sierra ID replacement can alter the emitted artifact.",
+        {
+          text: "Scarb compiles a target from a main package, its dependencies, the selected profile, compiler configuration, and conditional attributes. The visible contract file is therefore not a sufficient build input. Dependency versions, lockfile state, feature flags, source paths, and settings such as Sierra ID replacement can alter the emitted artifact.",
+          citations: [
+            {
+              label: "Scarb compilation model",
+              href: "https://docs.swmansion.com/scarb/docs/reference/compilation-model.html"
+            },
+            {
+              label: "Scarb.lock reference",
+              href: "https://docs.swmansion.com/scarb/docs/reference/lockfile.html"
+            }
+          ]
+        },
         "A verification client should resolve the workspace locally and submit an explicit file set with build metadata. A verification service should compile in an isolated, resource-bounded environment using a pinned toolchain. Inferred values must be labeled because inference makes the result easier to obtain but weaker as provenance."
       ],
       listTitle: "Inputs commonly missed",
@@ -59,7 +83,19 @@ export const starknetContractVerification = {
       id: "compare-the-artifacts",
       title: "Compare the right artifact at the right boundary",
       paragraphs: [
-        "After compilation, locate the target contract through Scarb's Starknet artifact index rather than guessing a filename. Compute the Sierra class hash from the reproduced contract class and compare it with the declared class. Where the workflow validates compilation to CASM, compute and compare the compiled class hash as a separate result.",
+        {
+          text: "After compilation, locate the target contract through Scarb's Starknet artifact index rather than guessing a filename. Compute the Sierra class hash from the reproduced contract class and compare it with the declared class. Where the workflow validates compilation to CASM, compute and compare the compiled class hash as a separate result.",
+          citations: [
+            {
+              label: "Scarb Sierra and CASM target documentation",
+              href: "https://docs.swmansion.com/scarb/docs/reference/targets.html"
+            },
+            {
+              label: "Starknet class-trie specification",
+              href: "https://docs.starknet.io/learn/protocol/state#the_class_trie"
+            }
+          ]
+        },
         "Keep raw artifacts and computed hashes in the job record. If normalization is necessary for a legacy format, name and version the rule and preserve the pre-normalized bytes. A verifier that silently edits artifacts until they match produces a publication result that cannot be audited later."
       ],
       listTitle: "Useful mismatch categories",
@@ -75,7 +111,19 @@ export const starknetContractVerification = {
       id: "publish-and-operate",
       title: "Publish a result that survives operational reality",
       paragraphs: [
-        "Compilation can be slow and explorer APIs can be unavailable, so verification is naturally asynchronous. Expose queued, resolving, compiling, comparing, verified, mismatched, invalid, and failed as distinct states. A retry after a transport failure should reuse the immutable request; changing inputs creates a new request identity.",
+        {
+          text: "Compilation can be slow and explorer APIs can be unavailable, so verification is naturally asynchronous. Expose queued, resolving, compiling, comparing, verified, mismatched, invalid, and failed as distinct states. A retry after a transport failure should reuse the immutable request; changing inputs creates a new request identity.",
+          citations: [
+            {
+              label: "Voyager verifier implementation",
+              href: "https://github.com/NethermindEth/voyager-verifier"
+            },
+            {
+              label: "Voyager verifier v2.3.0 release",
+              href: "https://github.com/NethermindEth/voyager-verifier/releases/tag/v2.3.0"
+            }
+          ]
+        },
         "When a match succeeds, publish the exact source set, manifest and lockfile metadata, compiler versions, class identity, comparison result, and timestamp. Do not overwrite a historical result when the verifier changes. Append a new evaluation or correction so the explorer can explain which logic produced each status."
       ],
       listTitle: "Operational safeguards",
