@@ -6,7 +6,13 @@ import type { ReactNode } from "react";
 import { Container, ExternalLink, Section, TagList } from "@/components/primitives";
 import { ProjectIcon } from "@/components/project-icon";
 import { StructuredData } from "@/components/structured-data";
-import { getProject, isProjectSlug, type Project, projectSlugs } from "@/content/projects";
+import {
+  type CaseStudySectionTitles,
+  getProject,
+  isProjectSlug,
+  type Project,
+  projectSlugs
+} from "@/content/projects";
 import { getAdjacentProjects, getRelatedArticlesForProject } from "@/content/relationships";
 import { createPageMetadata } from "@/lib/metadata";
 import { createProjectStructuredData } from "@/lib/structured-data";
@@ -97,22 +103,24 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                 <ol className="case-study-nav-list">
                   {caseStudySections.map((section) => (
                     <li key={section.id}>
-                      <a href={`#${section.id}`}>{section.label}</a>
+                      <a href={`#${section.id}`}>
+                        {project.caseStudy.sectionTitles[section.titleKey]}
+                      </a>
                     </li>
                   ))}
                 </ol>
               </nav>
               <div className="case-study-content">
-                <CaseSection id="definition" title="One-sentence definition">
+                <CaseSection id="definition" title={project.caseStudy.sectionTitles.definition}>
                   <p>{project.caseStudy.definition}</p>
                 </CaseSection>
-                <CaseSection id="problem" title="Problem being solved">
+                <CaseSection id="problem" title={project.caseStudy.sectionTitles.problem}>
                   <p>{project.caseStudy.problem}</p>
                 </CaseSection>
-                <CaseSection id="role" title="My specific role">
+                <CaseSection id="role" title={project.caseStudy.sectionTitles.role}>
                   <p>{project.caseStudy.role}</p>
                 </CaseSection>
-                <CaseSection id="architecture" title="Architecture or implementation">
+                <CaseSection id="architecture" title={project.caseStudy.sectionTitles.architecture}>
                   <BulletList items={project.caseStudy.architecture} />
                   {project.caseStudy.implementationExample ? (
                     <figure className="case-implementation-example">
@@ -123,28 +131,40 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                     </figure>
                   ) : null}
                 </CaseSection>
-                <CaseSection id="design-decisions" title="Important design decisions">
+                <CaseSection
+                  id="design-decisions"
+                  title={project.caseStudy.sectionTitles.decisions}
+                >
                   <BulletList items={project.caseStudy.decisions} />
                 </CaseSection>
-                <CaseSection id="hard-problems" title="Hard technical problems">
+                <CaseSection
+                  id="hard-problems"
+                  title={project.caseStudy.sectionTitles.hardProblems}
+                >
                   <BulletList items={project.caseStudy.hardProblems} />
                 </CaseSection>
-                <CaseSection id="tradeoffs" title="Tradeoffs and limitations">
+                <CaseSection id="tradeoffs" title={project.caseStudy.sectionTitles.tradeoffs}>
                   <BulletList items={project.caseStudy.tradeoffs} />
                 </CaseSection>
-                <CaseSection id="current-state" title="Current state">
+                <CaseSection
+                  id="current-state"
+                  title={project.caseStudy.sectionTitles.currentState}
+                >
                   <p>{project.caseStudy.currentState}</p>
                 </CaseSection>
-                <CaseSection id="evidence" title="Verifiable evidence">
+                <CaseSection id="evidence" title={project.caseStudy.sectionTitles.evidence}>
                   <EvidenceList links={project.caseStudy.evidence} />
                 </CaseSection>
-                <CaseSection id="project-documentation" title="Project documentation">
+                <CaseSection
+                  id="project-documentation"
+                  title={project.caseStudy.sectionTitles.relatedWriting}
+                >
                   <EvidenceList
                     emptyMessage="No separate public project documentation is available."
                     links={project.caseStudy.relatedWriting}
                   />
                 </CaseSection>
-                <CaseSection id="last-updated" title="Last-updated date">
+                <CaseSection id="last-updated" title={project.caseStudy.sectionTitles.lastUpdated}>
                   <p>
                     <time dateTime={project.caseStudy.lastUpdated}>
                       {formatCaseStudyDate(project.caseStudy.lastUpdated)}
@@ -155,6 +175,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                   adjacentProjects={adjacentProjects}
                   project={project}
                   relatedArticles={relatedArticles}
+                  sectionTitles={project.caseStudy.sectionTitles}
                 />
               </div>
             </div>
@@ -168,51 +189,51 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 const caseStudySections = [
   {
     id: "definition",
-    label: "Definition"
+    titleKey: "definition"
   },
   {
     id: "problem",
-    label: "Problem being solved"
+    titleKey: "problem"
   },
   {
     id: "role",
-    label: "My specific role"
+    titleKey: "role"
   },
   {
     id: "architecture",
-    label: "Architecture or implementation"
+    titleKey: "architecture"
   },
   {
     id: "design-decisions",
-    label: "Important design decisions"
+    titleKey: "decisions"
   },
   {
     id: "hard-problems",
-    label: "Hard technical problems"
+    titleKey: "hardProblems"
   },
   {
     id: "tradeoffs",
-    label: "Tradeoffs and limitations"
+    titleKey: "tradeoffs"
   },
   {
     id: "current-state",
-    label: "Current state"
+    titleKey: "currentState"
   },
   {
     id: "evidence",
-    label: "Verifiable evidence"
+    titleKey: "evidence"
   },
   {
     id: "project-documentation",
-    label: "Project documentation"
+    titleKey: "relatedWriting"
   },
   {
     id: "last-updated",
-    label: "Last-updated date"
+    titleKey: "lastUpdated"
   },
   {
     id: "related-work",
-    label: "Related work"
+    titleKey: "relatedWork"
   }
 ] as const;
 
@@ -280,16 +301,18 @@ function EvidenceList({
 function RelatedWork({
   adjacentProjects,
   project,
-  relatedArticles
+  relatedArticles,
+  sectionTitles
 }: {
   adjacentProjects: readonly Project[];
   project: Project;
   relatedArticles: ReturnType<typeof getRelatedArticlesForProject>;
+  sectionTitles: CaseStudySectionTitles;
 }) {
   return (
     <aside className="case-related-work" id="related-work" aria-labelledby="related-work-title">
       <header>
-        <h2 id="related-work-title">Related work</h2>
+        <h2 id="related-work-title">{sectionTitles.relatedWork}</h2>
         <p>
           Continue from {project.title} into the technical guides and adjacent systems that share
           its engineering concerns.
@@ -298,7 +321,7 @@ function RelatedWork({
 
       <div className="case-related-work-grid">
         <section aria-labelledby="related-articles-title">
-          <h3 id="related-articles-title">Relevant technical articles</h3>
+          <h3 id="related-articles-title">{sectionTitles.relatedArticles}</h3>
           <ul>
             {relatedArticles.map((article) => (
               <li key={article.slug}>
@@ -313,7 +336,7 @@ function RelatedWork({
         </section>
 
         <section aria-labelledby="adjacent-projects-title">
-          <h3 id="adjacent-projects-title">Adjacent case studies</h3>
+          <h3 id="adjacent-projects-title">{sectionTitles.adjacentProjects}</h3>
           <ul>
             {adjacentProjects.map((adjacentProject) => (
               <li key={adjacentProject.slug}>

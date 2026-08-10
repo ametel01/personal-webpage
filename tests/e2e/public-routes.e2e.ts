@@ -119,7 +119,9 @@ test.describe("public routes", () => {
       await page.goto(`/work/${project.slug}`);
 
       const relatedWork = page.locator(".case-related-work");
-      await expect(relatedWork.getByRole("heading", { name: "Related work" })).toBeVisible();
+      await expect(
+        relatedWork.getByRole("heading", { name: project.caseStudy.sectionTitles.relatedWork })
+      ).toBeVisible();
       await expect(relatedWork.locator('a[href^="/writing/"]')).toHaveCount(
         getRelatedArticlesForProject(project.slug).length
       );
@@ -228,7 +230,12 @@ test.describe("public routes", () => {
       expect(box?.height).toBeGreaterThanOrEqual(44);
     }
 
-    await page.getByRole("link", { name: "Architecture or implementation", exact: true }).click();
+    await page
+      .getByRole("link", {
+        name: projects[0].caseStudy.sectionTitles.architecture,
+        exact: true
+      })
+      .click();
 
     const anchorLanding = await page.evaluate(() => ({
       hash: window.location.hash,

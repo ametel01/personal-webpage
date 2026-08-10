@@ -13,6 +13,23 @@ export type ProjectIconAsset = {
   src: string;
 };
 
+export type CaseStudySectionTitles = {
+  definition: string;
+  problem: string;
+  role: string;
+  architecture: string;
+  decisions: string;
+  hardProblems: string;
+  tradeoffs: string;
+  currentState: string;
+  evidence: string;
+  relatedWriting: string;
+  lastUpdated: string;
+  relatedWork: string;
+  relatedArticles: string;
+  adjacentProjects: string;
+};
+
 type ProjectStructuredData =
   | {
       schemaType: "SoftwareSourceCode" | "CreativeWork";
@@ -44,6 +61,7 @@ export type Project = ProjectStructuredData & {
     currentState: string;
   };
   caseStudy: {
+    sectionTitles: CaseStudySectionTitles;
     definition: string;
     problem: string;
     role: string;
@@ -88,6 +106,22 @@ export const projects: readonly Project[] = [
       currentState: "Public Go CLI; latest tagged release is v0.10.1."
     },
     caseStudy: {
+      sectionTitles: {
+        definition: "What AgentReceipt records",
+        problem: "Why AI-assisted work needs durable evidence",
+        role: "Building the evidence pipeline end to end",
+        architecture: "Sidecar capture architecture",
+        decisions: "Why provider logs are treated as optional evidence",
+        hardProblems: "Matching sessions, patches, and replay state",
+        tradeoffs: "Separating observation from enforcement",
+        currentState: "Current Codex and Claude limitations",
+        evidence: "Inspect the source, receipts, and release",
+        relatedWriting: "Replay contracts and review workflow",
+        lastUpdated: "When this AgentReceipt evidence was reviewed",
+        relatedWork: "Continue through agent evidence and tooling",
+        relatedArticles: "Deeper guides to replayable agent evidence",
+        adjacentProjects: "Other local-first agent tools"
+      },
       definition:
         "AgentReceipt is a local evidence sidecar that records AI-assisted coding sessions and exposes signed, machine-readable replay and review artifacts.",
       problem:
@@ -167,6 +201,22 @@ export const projects: readonly Project[] = [
       currentState: "Public TypeScript CLI; latest tagged release is v0.6.2."
     },
     caseStudy: {
+      sectionTitles: {
+        definition: "What Skills Doctor audits",
+        problem: "Why agent skills silently drift",
+        role: "Building the scanner and rule engine",
+        architecture: "How the audit pipeline is assembled",
+        decisions: "Why repair remains explicit and consent-gated",
+        hardProblems: "Detecting risky capability combinations",
+        tradeoffs: "Where static analysis stops",
+        currentState: "Skills Doctor at v0.6.2",
+        evidence: "Source, releases, and authored changes",
+        relatedWriting: "Rules, API, and security specifications",
+        lastUpdated: "When this Skills Doctor evidence was reviewed",
+        relatedWork: "Continue through local agent tooling",
+        relatedArticles: "Guides to skill design and local tooling",
+        adjacentProjects: "Other agent workflow case studies"
+      },
       definition:
         "Skills Doctor is a local-first TypeScript CLI that audits Claude and Codex Agent Skills and produces human-readable or machine-readable findings.",
       problem:
@@ -250,6 +300,22 @@ export const projects: readonly Project[] = [
       currentState: "Published TypeScript CLI; latest tagged release is v0.3.2."
     },
     caseStudy: {
+      sectionTitles: {
+        definition: "What RitualAI turns into a skill",
+        problem: "Why repeated workflows stay hidden",
+        role: "Building the history-to-skill workflow",
+        architecture: "Local history discovery and guarded installation",
+        decisions: "Why agent discovery requires opt-in",
+        hardProblems: "Ranking repetition without overfitting",
+        tradeoffs: "Privacy, scan caps, and human judgment",
+        currentState: "RitualAI at v0.3.2",
+        evidence: "Source, package, and release evidence",
+        relatedWriting: "Discovery and cache design notes",
+        lastUpdated: "When this RitualAI evidence was reviewed",
+        relatedWork: "Continue through reusable agent workflows",
+        relatedArticles: "Guides to local-first agent automation",
+        adjacentProjects: "Other local-first tooling case studies"
+      },
       definition:
         "RitualAI is an interactive TypeScript CLI that finds repeated workflows in local Claude and Codex history and guides an approved candidate into a reusable SKILL.md.",
       problem:
@@ -329,6 +395,22 @@ export const projects: readonly Project[] = [
       currentState: "Live product with public documentation and deployed proposal workflows."
     },
     caseStudy: {
+      sectionTitles: {
+        definition: "What ScopePilot coordinates",
+        problem: "Why proposals lose scope history",
+        role: "Building the proposal lifecycle",
+        architecture: "From pricing inputs to approved change orders",
+        decisions: "Why scope and pricing stay structured",
+        hardProblems: "Preserving revision and change-order context",
+        tradeoffs: "What public evidence cannot show",
+        currentState: "ScopePilot's deployed state",
+        evidence: "Live product and documentation evidence",
+        relatedWriting: "Approval and margin design guides",
+        lastUpdated: "When ScopePilot was last verified",
+        relatedWork: "Continue through proposal systems",
+        relatedArticles: "Writing on revision and scope modeling",
+        adjacentProjects: "Related systems and engineering case studies"
+      },
       definition:
         "ScopePilot is a web application for configuring agency proposals, pricing scope, collecting approvals, and managing revisions and change orders.",
       problem:
@@ -399,6 +481,22 @@ export const projects: readonly Project[] = [
       currentState: "Public Rust sandbox; latest tagged release is v0.3.0."
     },
     caseStudy: {
+      sectionTitles: {
+        definition: "What AggSandbox runs locally",
+        problem: "Why cross-chain testing needs an inspectable stack",
+        role: "Building the CLI and network environment",
+        architecture: "Local, forked, and multi-L2 topology",
+        decisions: "Why bridge state stays explicit",
+        hardProblems: "Coordinating chains, services, and claims",
+        tradeoffs: "Where local simulation diverges from public networks",
+        currentState: "AggSandbox at v0.3.0 and beyond",
+        evidence: "Repository, release, and authored changes",
+        relatedWriting: "Architecture, bridge, and CLI guides",
+        lastUpdated: "When this AggSandbox evidence was reviewed",
+        relatedWork: "Continue through blockchain infrastructure",
+        relatedArticles: "Guides to cross-chain development workflows",
+        adjacentProjects: "Other infrastructure case studies"
+      },
       definition:
         "AggSandbox is a Rust CLI and Docker-based development environment for running local, forked, and multi-L2 Polygon zkEVM bridge workflows.",
       problem:
@@ -481,6 +579,22 @@ export const projects: readonly Project[] = [
       currentState: "Public Rust verifier; latest tagged release is v2.3.1."
     },
     caseStudy: {
+      sectionTitles: {
+        definition: "What Voyager Verifier submits",
+        problem: "Why contract verification fails on small mismatches",
+        role: "Building the verifier and public Rust library",
+        architecture: "From Scarb metadata to Voyager submission",
+        decisions: "Why the CLI and library share one pipeline",
+        hardProblems: "Matching Cairo sources to deployed classes",
+        tradeoffs: "Explorer dependencies and strict input checks",
+        currentState: "Voyager Verifier at v2.3.1",
+        evidence: "Source, release, docs, and merged work",
+        relatedWriting: "File collection and integration guides",
+        lastUpdated: "When this verifier evidence was reviewed",
+        relatedWork: "Continue through verification tooling",
+        relatedArticles: "Guides to source verification workflows",
+        adjacentProjects: "Other developer infrastructure case studies"
+      },
       definition:
         "Voyager Verifier is a Rust CLI and reusable library for submitting Starknet contract classes to the Voyager block explorer for source verification.",
       problem:
@@ -569,6 +683,22 @@ export const projects: readonly Project[] = [
       currentState: "Alpha mainnet deployment; latest tagged release is v1.0.0."
     },
     caseStudy: {
+      sectionTitles: {
+        definition: "What Horizon Protocol tokenizes",
+        problem: "Why yield splitting spans multiple runtimes",
+        role: "Building contracts, indexer, and frontend together",
+        architecture: "Contracts, router, indexer, and query layer",
+        decisions: "Why slippage and events stay explicit",
+        hardProblems: "Pricing principal tokens toward expiry",
+        tradeoffs: "Unaudited alpha and upgrade risk",
+        currentState: "Horizon Protocol after its first market",
+        evidence: "Source, release, and deployment evidence",
+        relatedWriting: "Protocol, AMM, and indexer specifications",
+        lastUpdated: "When this protocol evidence was reviewed",
+        relatedWork: "Continue through protocol engineering",
+        relatedArticles: "Guides to protocol and indexing architecture",
+        adjacentProjects: "Other blockchain systems"
+      },
       definition:
         "Horizon Protocol is a source-available Starknet protocol that splits yield-bearing assets into standardized yield, principal, and yield tokens with PT/SY markets.",
       problem:

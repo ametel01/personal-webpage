@@ -348,6 +348,13 @@ describe("website content invariants", () => {
       assert.ok(project.caseStudy.relatedWriting.length > 0);
       assert.match(project.caseStudy.lastUpdated, /^\d{4}-\d{2}-\d{2}$/);
 
+      const sectionTitles = Object.values(project.caseStudy.sectionTitles);
+      assert.equal(sectionTitles.length, 14);
+      assert.equal(new Set(sectionTitles).size, sectionTitles.length);
+      for (const title of sectionTitles) {
+        assert.ok(title.length > 0);
+      }
+
       for (const link of [...project.caseStudy.evidence, ...project.caseStudy.relatedWriting]) {
         assert.match(link.href, /^https:\/\//);
         assert.equal(link.href.includes("example.com"), false);
@@ -537,8 +544,8 @@ describe("website content invariants", () => {
     ].join("\n");
 
     assert.doesNotMatch(internalLinkSources, />\s*(?:read more|view project)\s*</i);
-    assert.match(projectPageSource, /Relevant technical articles/);
-    assert.match(projectPageSource, /Adjacent case studies/);
+    assert.match(projectPageSource, /sectionTitles\.relatedArticles/);
+    assert.match(projectPageSource, /sectionTitles\.adjacentProjects/);
     assert.match(writingArticleSource, /Related projects/);
     assert.match(resumePageSource, /\{project\.title\} case study/);
   });
@@ -1102,23 +1109,18 @@ describe("website content invariants", () => {
       const pageText = collectText(element);
 
       assert.match(pageText, new RegExp(project.title));
-      for (const sectionTitle of [
+      for (const sectionTitle of Object.values(project.caseStudy.sectionTitles)) {
+        assert.ok(pageText.includes(sectionTitle));
+      }
+
+      for (const templateHeading of [
         "One-sentence definition",
-        "Problem being solved",
-        "My specific role",
         "Architecture or implementation",
         "Important design decisions",
         "Hard technical problems",
-        "Tradeoffs and limitations",
-        "Current state",
-        "Verifiable evidence",
-        "Project documentation",
-        "Last-updated date",
-        "Related work",
-        "Relevant technical articles",
-        "Adjacent case studies"
+        "Last-updated date"
       ]) {
-        assert.match(pageText, new RegExp(sectionTitle));
+        assert.equal(pageText.includes(templateHeading), false);
       }
     }
   });
