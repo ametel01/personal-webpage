@@ -159,11 +159,21 @@ test.describe("SEO and retrieval gates", () => {
       const canonicalTags = getTags(html, "link").filter((tag) =>
         getAttribute(tag, "rel")?.toLowerCase().split(/\s+/).includes("canonical")
       );
+      const feedTags = getTags(html, "link").filter(
+        (tag) =>
+          getAttribute(tag, "rel")?.toLowerCase().split(/\s+/).includes("alternate") &&
+          getAttribute(tag, "type")?.toLowerCase() === "application/rss+xml"
+      );
       const expectedCanonical = new URL(path, canonicalOrigin).toString();
       const robotsContent = getMetadataContent(html, "robots")?.toLowerCase() ?? "";
       const mainText = normalizeText(getElementContents(html, "main")[0] ?? "");
 
       expect(canonicalTags, `${path} should have exactly one canonical link`).toHaveLength(1);
+      expect(feedTags, `${path} should advertise exactly one RSS feed`).toHaveLength(1);
+      expect(
+        new URL(getAttribute(feedTags[0] ?? "", "href") ?? "", canonicalOrigin).toString(),
+        `${path} should advertise the canonical RSS feed`
+      ).toBe(new URL("/feed.xml", canonicalOrigin).toString());
       expect(
         getAttribute(canonicalTags[0] ?? "", "href"),
         `${path} canonical should be stable`
@@ -305,7 +315,8 @@ test.describe("SEO and retrieval gates", () => {
     const expectedContent = new Map([
       ["/robots.txt", ["User-Agent: *", "Allow: /", "Sitemap:"]],
       ["/sitemap.xml", ["<urlset", "<loc>", "<lastmod>"]],
-      ["/llms.txt", ["# Alex Metelli", "## Canonical pages", "## Technical articles"]]
+      ["/llms.txt", ["# Alex Metelli", "## Canonical pages", "## Technical articles"]],
+      ["/feed.xml", ["<rss", "<channel>", "<item>", "<atom:link"]]
     ]);
 
     for (const target of retrievalSmokeTargets.filter(({ path }) => path !== "/")) {

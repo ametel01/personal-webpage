@@ -14,6 +14,7 @@
     "test:e2e": "playwright test",
     "test:seo": "playwright test tests/e2e/seo-retrieval.e2e.ts --project=chromium-desktop",
     "test:ai-crawlers": "bun run scripts/ai-crawler-smoke.ts",
+    "indexnow": "bun run scripts/indexnow-submit.ts",
     "doctor": "npx react-doctor@latest"
   },
   "dependencies": {

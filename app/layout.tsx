@@ -43,6 +43,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" data-scroll-behavior="smooth">
+      <head>
+        <link
+          rel="alternate"
+          type="application/rss+xml"
+          title={`${site.name} — Technical Writing`}
+          href="/feed.xml"
+        />
+      </head>
       <body>
         {/*
           THESIS: Technical answers form a navigable evidence atlas, refusing the generic reverse-chronological blog feed.

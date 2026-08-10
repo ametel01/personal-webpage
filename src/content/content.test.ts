@@ -28,6 +28,7 @@ import {
   writingSlugs
 } from "@/content/writing";
 import { createLlmsText, getCrawlPages } from "@/lib/crawl";
+import { createRssFeed } from "@/lib/feed";
 import {
   createPageMetadata,
   getAbsoluteUrl,
@@ -1304,5 +1305,55 @@ describe("website content invariants", () => {
     for (const article of writingArticles) {
       assert.match(llmsText, new RegExp(`/writing/${article.slug}`));
     }
+  });
+
+  test("feed.xml publishes every article with stable canonical URLs and dates", async () => {
+    const { GET } = await import("../../app/feed.xml/route");
+    const response = GET();
+    const rss = await response.text();
+
+    assert.equal(response.headers.get("content-type"), "application/rss+xml; charset=utf-8");
+    assert.equal(rss, createRssFeed());
+    assert.match(rss, /<atom:link href="https:\/\/www\.ametel\.dev\/feed\.xml"/);
+    assert.equal((rss.match(/<item>/g) ?? []).length, writingArticles.length);
+
+    for (const article of writingArticles) {
+      assert.match(rss, new RegExp(`/writing/${escapeRegExp(article.slug)}`));
+      assert.match(rss, new RegExp(escapeRegExp(article.title)));
+      assert.match(
+        rss,
+        new RegExp(escapeRegExp(new Date(`${article.publishedAt}T00:00:00.000Z`).toUTCString()))
+      );
+    }
+  });
+
+  test("IndexNow payload stays scoped to the canonical HTTPS host", async () => {
+    const { createIndexNowPayload, extractSitemapUrls } = await import(
+      "../../scripts/indexnow-submit"
+    );
+    const siteUrl = new URL("https://www.ametel.dev");
+    const urls = extractSitemapUrls(
+      "<urlset><url><loc>https://www.ametel.dev/writing/example</loc></url></urlset>",
+      siteUrl
+    );
+    const payload = createIndexNowPayload(siteUrl, urls);
+
+    assert.deepStrictEqual(urls, ["https://www.ametel.dev/writing/example"]);
+    assert.equal(payload.host, "www.ametel.dev");
+    assert.equal(payload.urlList, urls);
+    assert.match(payload.key, /^[a-z0-9-]{8,128}$/i);
+    assert.equal(payload.keyLocation, `https://www.ametel.dev/${payload.key}.txt`);
+    assert.equal(
+      readFileSync(new URL(`../../public/${payload.key}.txt`, import.meta.url), "utf8"),
+      `${payload.key}\n`
+    );
+    assert.throws(
+      () =>
+        extractSitemapUrls(
+          "<urlset><url><loc>https://example.com/out-of-scope</loc></url></urlset>",
+          siteUrl
+        ),
+      /out-of-scope/
+    );
   });
 });

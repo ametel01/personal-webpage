@@ -8,6 +8,8 @@ and this project adheres to semantic versioning where applicable.
 ## [Unreleased]
 
 ### Added
+- Added a discoverable RSS feed for technical writing and included it in live retrieval checks.
+- Added deployment-triggered IndexNow submission with a root ownership key for participating search engines.
 - Added eight source-attributed field-artifact formats across the technical articles, including a downloadable replay fixture and keyboard-accessible code and data views.
 - Added direct technical-writing paths on the homepage and reciprocal related-work links across articles, case studies, About, and Resume.
 - Added one connected JSON-LD graph for Alex Metelli, the website, the work index, and every project case study.

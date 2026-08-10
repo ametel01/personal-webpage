@@ -43,5 +43,9 @@ export const retrievalSmokeTargets = [
   {
     path: "/llms.txt",
     contentType: "text/plain"
+  },
+  {
+    path: "/feed.xml",
+    contentType: "application/rss+xml"
   }
 ] as const;
