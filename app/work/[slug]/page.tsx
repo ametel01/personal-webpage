@@ -39,7 +39,7 @@ export async function generateMetadata({ params }: ProjectPageProps): Promise<Me
   }
 
   return createPageMetadata({
-    title: project.title,
+    title: `${project.title} — Technical Case Study`,
     description: project.shortDescription,
     path: `/work/${project.slug}`
   });

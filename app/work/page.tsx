@@ -16,7 +16,7 @@ import { site } from "@/lib/site";
 import { createWorkStructuredData } from "@/lib/structured-data";
 
 export const metadata: Metadata = createPageMetadata({
-  title: "Selected Work",
+  title: "Selected Software Engineering Work",
   description:
     "Selected engineering case studies by Alex Metelli across AI tooling, developer infrastructure, product systems, Starknet verification, and cross-chain infrastructure.",
   path: "/work"

@@ -26,7 +26,7 @@ import {
   writingArticles,
   writingSlugs
 } from "@/content/writing";
-import { createPageMetadata, getAbsoluteUrl, homeTitle } from "@/lib/metadata";
+import { createPageMetadata, getAbsoluteUrl, homeMetadata, homeTitle } from "@/lib/metadata";
 import { primaryNavItems } from "@/lib/navigation";
 import { seoEntity } from "@/lib/seo";
 import { site } from "@/lib/site";
@@ -665,7 +665,7 @@ describe("website content invariants", () => {
     assert.doesNotMatch(siteShellSource, /button-compact/);
   });
 
-  test("metadata helper builds canonical and Open Graph URLs from the site URL", () => {
+  test("metadata helper builds complete metadata with absolute public URLs", () => {
     assert.equal(getAbsoluteUrl("/work"), "https://www.ametel.dev/work");
 
     const metadata = createPageMetadata({
@@ -675,11 +675,90 @@ describe("website content invariants", () => {
     });
 
     assert.equal(metadata.title, "Selected Work");
-    assert.deepStrictEqual(metadata.alternates, { canonical: "/work" });
+    assert.equal(metadata.description, "Selected work description.");
+    assert.deepStrictEqual(metadata.alternates, {
+      canonical: "https://www.ametel.dev/work"
+    });
 
-    const openGraph = metadata.openGraph as { title?: unknown; url?: unknown } | undefined;
+    const openGraph = metadata.openGraph as
+      | {
+          title?: unknown;
+          description?: unknown;
+          url?: unknown;
+          images?: { url?: unknown; alt?: unknown }[];
+        }
+      | undefined;
     assert.equal(openGraph?.title, "Selected Work | Alex Metelli");
+    assert.equal(openGraph?.description, "Selected work description.");
     assert.equal(openGraph?.url, "https://www.ametel.dev/work");
+    assert.equal(openGraph?.images?.[0]?.url, "https://www.ametel.dev/og.png");
+    assert.equal(openGraph?.images?.[0]?.alt, "Selected Work | Alex Metelli");
+
+    const twitter = metadata.twitter as
+      | { title?: unknown; description?: unknown; images?: unknown }
+      | undefined;
+    assert.equal(twitter?.title, "Selected Work | Alex Metelli");
+    assert.equal(twitter?.description, "Selected work description.");
+    assert.deepStrictEqual(twitter?.images, ["https://www.ametel.dev/og.png"]);
+  });
+
+  test("article metadata includes publication and modification dates", () => {
+    const article = writingArticles[0];
+    const metadata = createPageMetadata({
+      title: article.title,
+      description: article.description,
+      path: `/writing/${article.slug}`,
+      publishedTime: article.publishedAt,
+      modifiedTime: article.updatedAt
+    });
+    const openGraph = metadata.openGraph as
+      | { type?: unknown; publishedTime?: unknown; modifiedTime?: unknown; authors?: unknown }
+      | undefined;
+
+    assert.equal(openGraph?.type, "article");
+    assert.equal(openGraph?.publishedTime, article.publishedAt);
+    assert.equal(openGraph?.modifiedTime, article.updatedAt);
+    assert.deepStrictEqual(openGraph?.authors, [site.name]);
+  });
+
+  test("route metadata uses distinct titles and page-specific descriptions", () => {
+    assert.deepStrictEqual(homeMetadata.title, { absolute: homeTitle });
+    assert.match(homeTitle, / \| Alex Metelli$/);
+    assert.doesNotMatch(String(homeMetadata.description), /Alex Metelli is a software engineer/);
+    assert.match(workPageSource, /title: "Selected Software Engineering Work"/);
+    assert.match(projectPageSource, /`\$\{project\.title\} — Technical Case Study`/);
+    assert.match(writingIndexSource, /title: "Software Engineering Articles"/);
+  });
+
+  test("every static page exposes unique metadata with absolute social URLs", async () => {
+    const [{ metadata: about }, { metadata: resume }, { metadata: work }, { metadata: writing }] =
+      await Promise.all([
+        import("../../app/about/page"),
+        import("../../app/resume/page"),
+        import("../../app/work/page"),
+        import("../../app/writing/page")
+      ]);
+    const routeMetadata = [homeMetadata, about, resume, work, writing];
+    const titles = routeMetadata.map((metadata) =>
+      typeof metadata.openGraph?.title === "string" ? metadata.openGraph.title : ""
+    );
+    const descriptions = routeMetadata.map((metadata) => metadata.description);
+
+    assert.equal(new Set(titles).size, routeMetadata.length);
+    assert.equal(new Set(descriptions).size, routeMetadata.length);
+
+    for (const metadata of routeMetadata) {
+      const canonical = metadata.alternates?.canonical;
+      const openGraph = metadata.openGraph as
+        | { url?: unknown; images?: { url?: unknown }[] }
+        | undefined;
+      const twitter = metadata.twitter as { images?: unknown } | undefined;
+
+      assert.match(String(canonical), /^https:\/\/www\.ametel\.dev\//);
+      assert.match(String(openGraph?.url), /^https:\/\/www\.ametel\.dev\//);
+      assert.equal(openGraph?.images?.[0]?.url, "https://www.ametel.dev/og.png");
+      assert.deepStrictEqual(twitter?.images, ["https://www.ametel.dev/og.png"]);
+    }
   });
 
   test("SEO entity configuration owns the stable public identity", () => {
@@ -787,7 +866,7 @@ describe("website content invariants", () => {
   test("homepage title matches the required SEO title", () => {
     assert.equal(
       homeTitle,
-      "Alex Metelli - Software Engineer | Backend, Developer Infrastructure, AI Tooling"
+      "Software Engineer — Backend, Developer Infrastructure, and AI Tooling | Alex Metelli"
     );
   });
 
@@ -873,12 +952,25 @@ describe("website content invariants", () => {
     const metadata = await generateMetadata({
       params: Promise.resolve({ slug: "voyager-verifier" })
     });
-    assert.equal(metadata.title, voyager.title);
+    assert.equal(metadata.title, `${voyager.title} — Technical Case Study`);
     assert.equal(metadata.description, voyager.shortDescription);
+    assert.deepStrictEqual(metadata.alternates, {
+      canonical: "https://www.ametel.dev/work/voyager-verifier"
+    });
 
     for (const slug of expectedSlugs) {
       const project = getProject(slug);
       assert.ok(project);
+
+      const projectMetadata = await generateMetadata({ params: Promise.resolve({ slug }) });
+      const openGraph = projectMetadata.openGraph as { url?: unknown } | undefined;
+
+      assert.equal(projectMetadata.title, `${project.title} — Technical Case Study`);
+      assert.equal(projectMetadata.description, project.shortDescription);
+      assert.deepStrictEqual(projectMetadata.alternates, {
+        canonical: `https://www.ametel.dev/work/${project.slug}`
+      });
+      assert.equal(openGraph?.url, `https://www.ametel.dev/work/${project.slug}`);
 
       const element = await ProjectPage({ params: Promise.resolve({ slug }) });
       const pageText = collectText(element);
@@ -902,6 +994,36 @@ describe("website content invariants", () => {
       ]) {
         assert.match(pageText, new RegExp(sectionTitle));
       }
+    }
+  });
+
+  test("dynamic writing metadata covers every article and its dates", async () => {
+    const { generateMetadata, generateStaticParams } = await import(
+      "../../app/writing/[slug]/page"
+    );
+
+    assert.deepStrictEqual(
+      generateStaticParams(),
+      writingSlugs.map((slug) => ({ slug }))
+    );
+
+    for (const article of writingArticles) {
+      const metadata = await generateMetadata({
+        params: Promise.resolve({ slug: article.slug })
+      });
+      const openGraph = metadata.openGraph as
+        | { type?: unknown; publishedTime?: unknown; modifiedTime?: unknown; url?: unknown }
+        | undefined;
+
+      assert.equal(metadata.title, article.title);
+      assert.equal(metadata.description, article.description);
+      assert.deepStrictEqual(metadata.alternates, {
+        canonical: `https://www.ametel.dev/writing/${article.slug}`
+      });
+      assert.equal(openGraph?.type, "article");
+      assert.equal(openGraph?.publishedTime, article.publishedAt);
+      assert.equal(openGraph?.modifiedTime, article.updatedAt);
+      assert.equal(openGraph?.url, `https://www.ametel.dev/writing/${article.slug}`);
     }
   });
 

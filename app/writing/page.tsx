@@ -9,7 +9,7 @@ import { createWritingIndexStructuredData } from "@/lib/structured-data";
 import { formatWritingDate } from "@/lib/writing";
 
 export const metadata: Metadata = createPageMetadata({
-  title: "Technical Writing",
+  title: "Software Engineering Articles",
   description:
     "Practical technical guides on AI agent audit trails, local cross-chain testing, contract verification pipelines, and versioned product workflows.",
   path: "/writing"

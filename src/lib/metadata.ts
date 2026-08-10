@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { seoEntity } from "@/lib/seo";
-import { defaultDescription, site } from "@/lib/site";
+import { site } from "@/lib/site";
 
 export function resolveSiteUrl() {
   return new URL(seoEntity.canonicalUrl);
@@ -28,17 +28,19 @@ export function createPageMetadata({
   modifiedTime?: string;
 }): Metadata {
   const fullTitle = absoluteTitle ? title : `${title} | ${site.name}`;
+  const canonicalUrl = getAbsoluteUrl(path);
+  const openGraphImageUrl = getAbsoluteUrl("/og.png");
   const sharedOpenGraph = {
     title: fullTitle,
     description,
-    url: getAbsoluteUrl(path),
+    url: canonicalUrl,
     siteName: site.name,
     images: [
       {
-        url: "/og.png",
+        url: openGraphImageUrl,
         width: 1200,
         height: 630,
-        alt: `${site.name} - ${site.role}`
+        alt: fullTitle
       }
     ]
   };
@@ -47,7 +49,7 @@ export function createPageMetadata({
     title: absoluteTitle ? { absolute: title } : title,
     description,
     alternates: {
-      canonical: path
+      canonical: canonicalUrl
     },
     openGraph: publishedTime
       ? {
@@ -65,17 +67,18 @@ export function createPageMetadata({
       card: "summary_large_image",
       title: fullTitle,
       description,
-      images: ["/og.png"]
+      images: [openGraphImageUrl]
     }
   };
 }
 
 export const homeTitle =
-  "Alex Metelli - Software Engineer | Backend, Developer Infrastructure, AI Tooling";
+  "Software Engineer — Backend, Developer Infrastructure, and AI Tooling | Alex Metelli";
 
 export const homeMetadata = createPageMetadata({
   title: homeTitle,
-  description: defaultDescription,
+  description:
+    "Selected backend, developer infrastructure, AI tooling, and blockchain engineering projects, with technical case studies, field notes, and experience.",
   path: "/",
   absoluteTitle: true
 });

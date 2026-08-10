@@ -19,7 +19,7 @@ import { createPageMetadata } from "@/lib/metadata";
 export const metadata: Metadata = createPageMetadata({
   title: "About",
   description:
-    "About Alex Metelli, a software engineer focused on backend systems, developer tooling, blockchain infrastructure, and correctness-sensitive software.",
+    "An overview of Alex Metelli's engineering principles, technical background, current focus, selected projects, and approach to software delivery.",
   path: "/about"
 });
 

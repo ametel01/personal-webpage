@@ -29,9 +29,9 @@ const resumeSections = [
 ] as const;
 
 export const metadata: Metadata = createPageMetadata({
-  title: "Resume",
+  title: "Software Engineering Resume",
   description:
-    "Structured web resume for Alex Metelli, software engineer focused on backend systems, developer tooling, and blockchain infrastructure.",
+    "Alex Metelli's software engineering experience, selected projects, technical skills, education, and downloadable resume.",
   path: "/resume"
 });
 
