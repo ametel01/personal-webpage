@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { seoEntity } from "@/lib/seo";
-import { site } from "@/lib/site";
+import { professionalDescription, site } from "@/lib/site";
 
 export function resolveSiteUrl() {
   return new URL(seoEntity.canonicalUrl);
@@ -77,8 +77,7 @@ export const homeTitle =
 
 export const homeMetadata = createPageMetadata({
   title: homeTitle,
-  description:
-    "Selected backend, developer infrastructure, AI tooling, and blockchain engineering projects, with technical case studies, field notes, and experience.",
+  description: professionalDescription,
   path: "/",
   absoluteTitle: true
 });

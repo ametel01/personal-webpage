@@ -30,7 +30,7 @@ import { createLlmsText, getCrawlPages } from "@/lib/crawl";
 import { createPageMetadata, getAbsoluteUrl, homeMetadata, homeTitle } from "@/lib/metadata";
 import { primaryNavItems } from "@/lib/navigation";
 import { seoEntity } from "@/lib/seo";
-import { site } from "@/lib/site";
+import { defaultDescription, professionalDescription, site } from "@/lib/site";
 import {
   createHomepageStructuredData,
   createProjectStructuredData,
@@ -336,13 +336,30 @@ describe("website content invariants", () => {
   test("about page exposes structured redesigned content", () => {
     assert.deepStrictEqual(
       profile.about.capabilityChips.map((chip) => chip.label),
-      ["5+ years", "Backend systems", "Developer tooling", "Blockchain infra", "Remote-friendly"]
+      [
+        "5 years' experience",
+        "Backend engineering",
+        "Developer infrastructure",
+        "AI-assisted tools",
+        "Blockchain infrastructure"
+      ]
     );
 
     assert.deepStrictEqual(
       profile.about.focusCards.map((card) => card.title),
-      ["What I work on", "How I work", "What I am looking for"]
+      [
+        "Who is Alex Metelli?",
+        "What does he specialize in?",
+        "What has he built?",
+        "What evidence supports those claims?",
+        "What kind of engineering work does he take on?"
+      ]
     );
+
+    assert.equal(profile.hero.body, professionalDescription);
+    assert.equal(profile.about.narrative, professionalDescription);
+    assert.equal(defaultDescription, professionalDescription);
+    assert.equal(site.professionalDescription, professionalDescription);
 
     assert.deepStrictEqual(
       profile.about.values.map((value) => value.title),
@@ -725,7 +742,7 @@ describe("website content invariants", () => {
   test("route metadata uses distinct titles and page-specific descriptions", () => {
     assert.deepStrictEqual(homeMetadata.title, { absolute: homeTitle });
     assert.match(homeTitle, / \| Alex Metelli$/);
-    assert.doesNotMatch(String(homeMetadata.description), /Alex Metelli is a software engineer/);
+    assert.equal(homeMetadata.description, professionalDescription);
     assert.match(workPageSource, /title: "Selected Software Engineering Work"/);
     assert.match(projectPageSource, /`\$\{project\.title\} — Technical Case Study`/);
     assert.match(writingIndexSource, /title: "Software Engineering Articles"/);
@@ -767,7 +784,7 @@ describe("website content invariants", () => {
     assert.equal(seoEntity.canonicalUrl, "https://www.ametel.dev/");
     assert.equal(seoEntity.name, site.name);
     assert.equal(seoEntity.occupation, site.role);
-    assert.equal(seoEntity.description.length > 0, true);
+    assert.equal(seoEntity.description, professionalDescription);
     assert.equal(seoEntity.image, "https://www.ametel.dev/images/professional-photo.png");
     assert.deepStrictEqual(seoEntity.sameAs, [site.githubUrl, site.linkedinUrl]);
     assert.ok(seoEntity.skills.includes("Developer infrastructure"));
@@ -886,7 +903,11 @@ describe("website content invariants", () => {
 
     const homeText = collectText(HomePage());
 
-    assert.match(homeText, /Backend and platform systems, built to be inspected\./);
+    assert.match(
+      homeText,
+      /Backend and developer-infrastructure engineering, backed by inspectable work\./
+    );
+    assert.match(homeText, new RegExp(escapeRegExp(professionalDescription)));
     assert.match(homeText, /Open-source contributions/);
     assert.match(homeText, /Apache DataFusion/);
 
@@ -924,10 +945,13 @@ describe("website content invariants", () => {
     assert.match(workText, /Git, filesystem, instruction, and provider evidence/);
     assert.match(workText, /Signed receipts emit deterministic replay and focus JSON/);
     assert.match(workText, /Quality gates, policy checks, and ranked agent-review tasks/);
-    assert.match(
-      collectText(AboutPage()),
-      /Engineering work built around correctness, clarity, and delivery\./
-    );
+    const aboutText = collectText(AboutPage());
+
+    assert.match(aboutText, /Engineering systems that make complex work easier to verify\./);
+    assert.match(aboutText, new RegExp(escapeRegExp(professionalDescription)));
+    for (const question of profile.about.focusCards.map((card) => card.title)) {
+      assert.match(aboutText, new RegExp(escapeRegExp(question)));
+    }
     const resumeText = collectText(ResumePage());
 
     assert.match(resumeText, /Alex Metelli/);

@@ -15,7 +15,7 @@ export const profile = {
     eyebrow: site.name,
     role: site.role,
     headline: "I build backend systems and developer tools for AI-assisted engineering.",
-    body: "My work spans local-first AI tooling, developer infrastructure, and blockchain systems where provenance, observability, and correctness matter."
+    body: site.professionalDescription
   },
   summary:
     "Previously at Nethermind, now focused on AI-assisted software development tooling, agent workflows, Starknet tooling, verification workflows, and developer infrastructure.",
@@ -42,8 +42,7 @@ export const profile = {
   about: {
     image: "/images/professional-photo.png",
     imageAlt: "Professional portrait of Alex Metelli",
-    narrative:
-      "I am a software engineer focused on backend systems, developer infrastructure, AI tooling, and blockchain infrastructure. My work is strongest where correctness, clear developer workflows, and practical delivery all matter.",
+    narrative: site.professionalDescription,
     work: "I work across APIs, local-first CLI tools, agent workflow automation, contract tooling, infrastructure automation, Starknet systems, and cross-chain experiments.",
     style:
       "I work well in remote, async teams and can adapt my schedule across time zones when collaboration needs it.",
@@ -51,43 +50,53 @@ export const profile = {
       "I am open to remote software engineering roles and selected consulting work with concrete technical scope.",
     capabilityChips: [
       {
-        label: "5+ years",
+        label: "5 years' experience",
         icon: "calendar"
       },
       {
-        label: "Backend systems",
+        label: "Backend engineering",
         icon: "server"
       },
       {
-        label: "Developer tooling",
+        label: "Developer infrastructure",
         icon: "code"
       },
       {
-        label: "Blockchain infra",
+        label: "AI-assisted tools",
         icon: "cube"
       },
       {
-        label: "Remote-friendly",
+        label: "Blockchain infrastructure",
         icon: "globe"
       }
     ],
     focusCards: [
       {
-        title: "What I work on",
-        body: "I work across APIs, local-first CLI tools, agent workflow automation, contract tooling, infrastructure automation, Starknet systems, and cross-chain experiments.",
+        title: "Who is Alex Metelli?",
+        body: "I am a software engineer with five years of experience, including professional work at Nethermind and independent work on public developer tools, product systems, and protocol experiments.",
         icon: "code"
       },
       {
-        title: "How I work",
-        body: "I work well in remote, async teams and can adapt my schedule across time zones when collaboration needs it.",
+        title: "What does he specialize in?",
+        body: "I specialize in backend systems, developer infrastructure, AI-assisted engineering tools, verification workflows, and blockchain infrastructure. My work often combines APIs, local-first CLIs, automation, observability, and correctness-sensitive systems.",
         icon: "team"
       },
       {
-        title: "What I am looking for",
-        sidebarTitle: "What I'm looking for",
-        body: "I am open to remote software engineering roles and selected consulting work with concrete technical scope.",
+        title: "What has he built?",
+        body: "I have built AgentReceipt, Skills Doctor, RitualAI, ScopePilot, AggSandbox, Voyager Verifier, and Horizon Protocol. Together, they cover signed agent evidence, skill auditing, AI workflow tooling, proposal systems, contract verification, local multichain infrastructure, and deployed blockchain protocols.",
+        icon: "target"
+      },
+      {
+        title: "What evidence supports those claims?",
+        body: "The work is documented through technical case studies and, where available, public repositories, tagged releases, source documentation, live products, and deployed protocol records. My professional evidence includes Nethermind work on Starknet tooling, contract verification, cross-chain infrastructure, and developer-experience automation.",
+        icon: "shield"
+      },
+      {
+        title: "What kind of engineering work does he take on?",
+        sidebarTitle: "Work I take on",
+        body: "I take on remote software engineering roles and selected consulting projects involving backend services and APIs, developer infrastructure, AI-assisted workflows, verification tooling, or blockchain systems. I am most useful when I can own a concrete technical scope from architecture and implementation through validation, deployment, and support.",
         sidebarBody:
-          "Open to remote software engineering roles and selected consulting work with concrete technical scope.",
+          "Open to remote engineering roles and selected consulting projects with concrete technical scope.",
         icon: "target"
       }
     ],

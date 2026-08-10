@@ -66,7 +66,7 @@ export default function Home() {
         <Container>
           <header className="home-hero">
             <h1 className="home-hero-title">
-              Backend and platform systems, built to be inspected.
+              Backend and developer-infrastructure engineering, backed by inspectable work.
             </h1>
             <p className="home-hero-description">{profile.hero.body}</p>
             <div className="home-hero-actions">

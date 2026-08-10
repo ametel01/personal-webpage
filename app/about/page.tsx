@@ -19,7 +19,7 @@ import { createPageMetadata } from "@/lib/metadata";
 export const metadata: Metadata = createPageMetadata({
   title: "About",
   description:
-    "An overview of Alex Metelli's engineering principles, technical background, current focus, selected projects, and approach to software delivery.",
+    "How Alex Metelli applies backend and developer-infrastructure engineering to AI-assisted tools, verification workflows, and blockchain infrastructure.",
   path: "/about"
 });
 
@@ -66,7 +66,7 @@ export default function AboutPage() {
 
             <div className="about-reading-field">
               <header className="about-intro">
-                <h1>Engineering work built around correctness, clarity, and delivery.</h1>
+                <h1>Engineering systems that make complex work easier to verify.</h1>
                 <p>{profile.about.narrative}</p>
               </header>
 
@@ -160,8 +160,11 @@ function SupportingCaseStudies() {
   return (
     <section className="about-supporting-work" aria-labelledby="about-supporting-work-title">
       <header>
-        <h2 id="about-supporting-work-title">Supporting case studies</h2>
-        <p>Inspect the project evidence behind the engineering range described on this page.</p>
+        <h2 id="about-supporting-work-title">Evidence behind the work</h2>
+        <p>
+          Each case study records the system, Alex's role, key decisions, current state, and links
+          to inspectable artifacts.
+        </p>
       </header>
       <ul>
         {supportingCaseStudies.map((project) => (
@@ -169,6 +172,7 @@ function SupportingCaseStudies() {
             <Link href={`/work/${project.slug}`} prefetch={false}>
               <span>{project.tags.slice(0, 3).join(" · ")}</span>
               <strong>{project.title}</strong>
+              <p>{project.proof}</p>
               <ArrowRight aria-hidden="true" size={18} strokeWidth={2} />
             </Link>
           </li>
