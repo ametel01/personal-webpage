@@ -142,8 +142,8 @@ function getGraphNode(graph: StructuredDataGraph, type: string) {
 
 describe("website content invariants", () => {
   test("technical writing exposes complete static article routes", () => {
-    assert.equal(writingArticles.length, 4);
-    assert.equal(writingSlugs.length, 4);
+    assert.equal(writingArticles.length, 7);
+    assert.equal(writingSlugs.length, 7);
 
     for (const article of writingArticles) {
       assert.equal(isWritingSlug(article.slug), true);
@@ -158,6 +158,22 @@ describe("website content invariants", () => {
       assert.match(article.updatedAt, /^2026-\d{2}-\d{2}$/);
       assert.ok(article.readingMinutes >= 5);
       assert.match(article.relatedProject.href, /^\/work\/[a-z0-9-]+$/);
+      assert.ok(article.diagram.steps.length >= 4);
+      assert.ok(article.codeExamples.length >= 1);
+      assert.ok(article.decisions.length >= 3);
+      assert.ok(article.failureCases.length >= 3);
+      assert.ok(article.repositoryLinks.length >= 3);
+
+      for (const example of article.codeExamples) {
+        assert.ok(example.label.length > 10);
+        assert.ok(example.language.length > 1);
+        assert.ok(example.code.includes("\n"));
+      }
+
+      for (const link of article.repositoryLinks) {
+        assert.match(link.href, /^https:\/\//);
+        assert.ok(link.description.length > 30);
+      }
 
       const relatedProjects = getRelatedProjectsForArticle(article);
 
@@ -183,6 +199,10 @@ describe("website content invariants", () => {
     assert.match(writingIndexSource, /TopicAtlas/);
     assert.match(writingArticleSource, /ArticleTableOfContents/);
     assert.match(writingArticleSource, /writing-key-points/);
+    assert.match(writingArticleSource, /ArticleDiagram/);
+    assert.match(writingArticleSource, /ArticleCodeExamples/);
+    assert.match(writingArticleSource, /ArticleFailureCases/);
+    assert.match(writingArticleSource, /ArticleRepositoryLinks/);
     assert.match(writingArticleSource, /generateStaticParams/);
     assert.ok(primaryNavItems.some((item) => item.href === "/writing"));
   });

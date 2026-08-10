@@ -20,6 +20,20 @@ const securityHeaders = [
 ] as const;
 
 const nextConfig: NextConfig = {
+  async redirects() {
+    return [
+      {
+        source: "/writing/designing-audit-trails-for-ai-agent-workflows",
+        destination: "/writing/how-to-record-and-verify-ai-coding-agent-activity",
+        permanent: true
+      },
+      {
+        source: "/writing/designing-contract-verification-pipelines",
+        destination: "/writing/how-starknet-contract-source-verification-works",
+        permanent: true
+      }
+    ];
+  },
   async headers() {
     return [
       {

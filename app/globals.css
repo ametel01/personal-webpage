@@ -61,6 +61,7 @@
   --font-sans:
     Inter, Geist, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
     sans-serif;
+  --font-code: ui-monospace, "SFMono-Regular", Consolas, "Liberation Mono", monospace;
 
   --text-xs: 0.75rem;
   --text-sm: 0.875rem;
@@ -3206,7 +3207,7 @@ button {
   display: grid;
   grid-template-columns: minmax(0, 1.86fr) minmax(260px, 0.74fr);
   gap: clamp(2.8rem, 5vw, 5.4rem);
-  align-items: end;
+  align-items: start;
   margin-top: clamp(2.7rem, 5vw, 4.6rem);
 }
 
@@ -3712,6 +3713,312 @@ button {
   content: "";
 }
 
+.writing-process-diagram {
+  margin: clamp(3rem, 7vw, 5.5rem) 0 0;
+  border-block: 1px solid var(--writing-blue);
+  padding-block: 1.5rem;
+}
+
+.writing-process-diagram figcaption {
+  display: grid;
+  grid-template-columns: minmax(110px, 0.28fr) minmax(180px, 0.52fr) minmax(0, 1fr);
+  gap: 1.25rem;
+  align-items: baseline;
+}
+
+.writing-process-diagram figcaption > span,
+.writing-code-language {
+  color: var(--writing-blue);
+  font-size: var(--text-xs);
+  font-weight: var(--label-font-weight);
+  letter-spacing: var(--label-letter-spacing);
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.writing-process-diagram figcaption strong {
+  color: var(--writing-ink);
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  line-height: 1.2;
+}
+
+.writing-process-diagram figcaption p {
+  margin: 0;
+  color: var(--writing-muted);
+  font-size: var(--text-sm);
+  line-height: 1.55;
+}
+
+.writing-process-diagram ol {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  margin: 1.6rem 0 0;
+  padding: 0;
+  border-top: 1px solid var(--writing-line);
+  border-bottom: 1px solid var(--writing-line);
+  list-style: none;
+}
+
+.writing-process-diagram li {
+  position: relative;
+  display: grid;
+  min-width: 0;
+  min-height: 136px;
+  align-content: start;
+  gap: 0.42rem;
+  padding: 1rem 1.2rem 1rem 0;
+}
+
+.writing-process-diagram li + li {
+  border-left: 1px solid var(--writing-line);
+  padding-left: 1.2rem;
+}
+
+.writing-diagram-index {
+  color: var(--writing-blue);
+  font-family: var(--font-code);
+  font-size: var(--text-xs);
+}
+
+.writing-process-diagram li strong {
+  color: var(--writing-ink);
+  font-size: var(--text-sm);
+  line-height: 1.35;
+}
+
+.writing-process-diagram li > span:last-of-type {
+  color: var(--writing-muted);
+  font-size: var(--text-xs);
+  line-height: 1.45;
+}
+
+.writing-diagram-arrow {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  right: -9px;
+  padding: 3px;
+  border: 1px solid var(--writing-line-strong);
+  background: var(--color-surface-muted);
+  color: var(--writing-blue);
+  transform: translateY(-50%) rotate(-90deg);
+}
+
+.writing-code-section,
+.writing-decision-section,
+.writing-failure-section,
+.writing-repository-section {
+  padding-top: clamp(3.5rem, 7vw, 5.5rem);
+  scroll-margin-top: 5rem;
+}
+
+.writing-evidence-heading {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr);
+  gap: 0.85rem;
+  align-items: start;
+  padding-bottom: 1.15rem;
+  border-bottom: 1px solid var(--writing-blue);
+}
+
+.writing-evidence-heading > svg {
+  margin-top: 0.28rem;
+  color: var(--writing-blue);
+}
+
+.writing-evidence-heading h2 {
+  margin: 0;
+  color: var(--writing-ink);
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 3vw, 2.35rem);
+  font-weight: var(--editorial-font-weight);
+  letter-spacing: var(--editorial-letter-spacing);
+  line-height: 1.08;
+}
+
+.writing-evidence-heading p {
+  margin: 0.55rem 0 0;
+  color: var(--writing-muted);
+  font-size: var(--text-sm);
+  line-height: 1.55;
+}
+
+.writing-code-list {
+  display: grid;
+  gap: 1.25rem;
+  margin-top: 1.4rem;
+}
+
+.writing-code-example {
+  min-width: 0;
+  margin: 0;
+  border: 1px solid color-mix(in oklch, var(--color-primary) 84%, var(--writing-line));
+  background: var(--color-dark);
+  color: var(--color-on-dark);
+}
+
+.writing-code-example figcaption {
+  display: flex;
+  min-height: 46px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  border-bottom: 1px solid color-mix(in oklch, var(--color-on-dark) 18%, transparent);
+  padding: 0.7rem 1rem;
+}
+
+.writing-code-example figcaption > span:first-child {
+  color: color-mix(in oklch, var(--color-on-dark) 86%, transparent);
+  font-size: var(--text-sm);
+  font-weight: 650;
+  line-height: 1.4;
+}
+
+.writing-code-language {
+  color: color-mix(in oklch, var(--color-on-dark) 65%, transparent);
+}
+
+.writing-code-example pre {
+  max-width: 100%;
+  margin: 0;
+  overflow-x: auto;
+  padding: 1.15rem 1.2rem 1.3rem;
+  font-family: var(--font-code);
+  font-size: clamp(0.78rem, 1.2vw, 0.88rem);
+  line-height: 1.7;
+  tab-size: 2;
+}
+
+.writing-code-example code {
+  font-family: inherit;
+}
+
+.writing-decision-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.writing-decision-list li {
+  display: grid;
+  grid-template-columns: minmax(150px, 0.42fr) minmax(0, 1fr);
+  gap: 0.45rem 1.5rem;
+  border-bottom: 1px solid var(--writing-line);
+  padding-block: 1.25rem;
+}
+
+.writing-decision-list strong {
+  grid-row: 1 / 3;
+  color: var(--writing-ink);
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  line-height: 1.25;
+}
+
+.writing-decision-list p,
+.writing-decision-list span {
+  margin: 0;
+  color: var(--writing-muted);
+  font-size: var(--text-sm);
+  line-height: 1.55;
+}
+
+.writing-decision-list span {
+  color: var(--writing-ink);
+}
+
+.writing-failure-list {
+  margin: 0;
+  border-bottom: 1px solid var(--writing-line);
+}
+
+.writing-failure-row {
+  display: grid;
+  grid-template-columns: minmax(145px, 0.62fr) repeat(2, minmax(0, 1fr));
+  gap: 1.3rem;
+  border-bottom: 1px solid var(--writing-line);
+  padding-block: 1.15rem;
+}
+
+.writing-failure-row:last-child {
+  border-bottom: 0;
+}
+
+.writing-failure-row dt {
+  color: var(--writing-ink);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  line-height: 1.45;
+}
+
+.writing-failure-row dd {
+  margin: 0;
+}
+
+.writing-failure-row dd > span {
+  display: block;
+  margin-bottom: 0.3rem;
+  color: var(--writing-blue);
+  font-size: var(--text-xs);
+  font-weight: var(--label-font-weight);
+  letter-spacing: var(--label-letter-spacing);
+  text-transform: uppercase;
+}
+
+.writing-failure-row dd > p {
+  margin: 0;
+  color: var(--writing-muted);
+  font-size: var(--text-sm);
+  line-height: 1.55;
+}
+
+.writing-repository-section ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.writing-repository-section li {
+  border-bottom: 1px solid var(--writing-line);
+}
+
+.writing-repository-section a {
+  display: grid;
+  grid-template-columns: minmax(170px, 0.48fr) minmax(0, 1fr) 24px;
+  gap: 1.25rem;
+  align-items: center;
+  min-height: 86px;
+  color: var(--writing-ink);
+  padding-block: 1rem;
+  transition: background-color var(--duration-base) var(--ease-standard);
+}
+
+.writing-repository-section a:hover {
+  background: color-mix(in oklch, var(--color-primary-soft) 28%, transparent);
+}
+
+.writing-repository-section strong {
+  color: var(--writing-blue);
+  font-size: var(--text-sm);
+  line-height: 1.4;
+}
+
+.writing-repository-section span {
+  color: var(--writing-muted);
+  font-size: var(--text-sm);
+  line-height: 1.5;
+}
+
+.writing-repository-section svg {
+  color: var(--writing-blue);
+  transition: transform var(--duration-base) var(--ease-standard);
+}
+
+.writing-repository-section a:hover svg {
+  transform: translate(3px, -3px);
+}
+
 .writing-project-callout {
   margin-top: clamp(3.5rem, 7vw, 5.5rem);
   border-top: 1px solid var(--writing-blue);
@@ -3929,6 +4236,31 @@ button {
     padding: 0.5rem 0.65rem;
     white-space: nowrap;
   }
+
+  .writing-process-diagram ol {
+    grid-template-columns: 1fr;
+  }
+
+  .writing-process-diagram li {
+    min-height: 0;
+    grid-template-columns: 38px minmax(110px, 0.35fr) minmax(0, 1fr);
+    align-items: baseline;
+    padding: 0.9rem 0;
+  }
+
+  .writing-process-diagram li + li {
+    border-top: 1px solid var(--writing-line);
+    border-left: 0;
+    padding-left: 0;
+  }
+
+  .writing-diagram-arrow {
+    top: auto;
+    right: auto;
+    bottom: -9px;
+    left: 10px;
+    transform: none;
+  }
 }
 
 @media (max-width: 640px) {
@@ -4023,6 +4355,40 @@ button {
   .writing-project-callout a > svg {
     grid-column: 2;
     grid-row: 1 / 4;
+  }
+
+  .writing-process-diagram figcaption {
+    grid-template-columns: 1fr;
+    gap: 0.55rem;
+  }
+
+  .writing-decision-list li,
+  .writing-failure-row {
+    grid-template-columns: 1fr;
+  }
+
+  .writing-decision-list strong {
+    grid-row: auto;
+  }
+
+  .writing-failure-row {
+    gap: 0.5rem;
+    padding-block: 1.25rem;
+  }
+
+  .writing-repository-section a {
+    grid-template-columns: minmax(0, 1fr) 24px;
+    gap: 0.45rem 1rem;
+  }
+
+  .writing-repository-section strong,
+  .writing-repository-section span {
+    grid-column: 1;
+  }
+
+  .writing-repository-section svg {
+    grid-column: 2;
+    grid-row: 1 / 3;
   }
 }
 

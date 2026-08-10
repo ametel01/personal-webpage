@@ -3,7 +3,12 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Container, Section } from "@/components/primitives";
 import { StructuredData } from "@/components/structured-data";
-import { type WritingArticle, writingArticles } from "@/content/writing";
+import {
+  getWritingTopicGroups,
+  type WritingArticle,
+  type WritingTopicGroup,
+  writingArticles
+} from "@/content/writing";
 import { createPageMetadata } from "@/lib/metadata";
 import { createWritingIndexStructuredData } from "@/lib/structured-data";
 import { formatWritingDate } from "@/lib/writing";
@@ -11,7 +16,7 @@ import { formatWritingDate } from "@/lib/writing";
 export const metadata: Metadata = createPageMetadata({
   title: "Software Engineering Articles",
   description:
-    "Practical technical guides on AI agent audit trails, local cross-chain testing, contract verification pipelines, and versioned product workflows.",
+    "Implementation-led guides on coding-agent evidence, replay, Agent Skill audits, Starknet source verification, local-first tools, and cross-chain testing.",
   path: "/writing"
 });
 
@@ -20,6 +25,7 @@ const writingStructuredData = createWritingIndexStructuredData(writingArticles);
 export default function WritingPage() {
   const featuredArticle = writingArticles[0];
   const supportingArticles = writingArticles.slice(1);
+  const topicGroups = getWritingTopicGroups();
 
   return (
     <main className="writing-page" id="main-content" tabIndex={-1}>
@@ -36,7 +42,7 @@ export default function WritingPage() {
 
           <div className="writing-atlas-layout">
             <FeaturedWritingCard article={featuredArticle} />
-            <TopicAtlas articles={writingArticles} />
+            <TopicAtlas topics={topicGroups} />
           </div>
 
           <section className="writing-index-list" aria-label="All technical articles">
@@ -89,7 +95,7 @@ function ContourLines() {
   );
 }
 
-function TopicAtlas({ articles }: { articles: readonly WritingArticle[] }) {
+function TopicAtlas({ topics }: { topics: readonly WritingTopicGroup[] }) {
   return (
     <aside className="writing-topic-atlas" aria-labelledby="topic-atlas-title">
       <div className="writing-topic-heading">
@@ -98,12 +104,14 @@ function TopicAtlas({ articles }: { articles: readonly WritingArticle[] }) {
       </div>
       <span aria-hidden="true" className="writing-atlas-bridge" />
       <ol className="writing-topic-list">
-        {articles.map((article) => (
-          <li key={article.topic}>
-            <Link href={`/writing/${article.slug}`}>
-              <span className="writing-topic-title">{article.topic}</span>
-              <span className="writing-topic-description">{article.topicDescription}</span>
-              <span className="writing-topic-count">1 field note</span>
+        {topics.map((topic) => (
+          <li key={topic.topic}>
+            <Link href={`/writing/${topic.firstArticleSlug}`}>
+              <span className="writing-topic-title">{topic.topic}</span>
+              <span className="writing-topic-description">{topic.description}</span>
+              <span className="writing-topic-count">
+                {topic.count} {topic.count === 1 ? "field note" : "field notes"}
+              </span>
             </Link>
           </li>
         ))}

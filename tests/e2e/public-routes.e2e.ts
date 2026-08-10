@@ -40,6 +40,14 @@ async function readStructuredData(page: Page): Promise<StructuredDataGraph> {
 }
 
 test.describe("public routes", () => {
+  test("superseded writing URLs redirect to their expanded guides", async ({ page }) => {
+    await page.goto("/writing/designing-audit-trails-for-ai-agent-workflows");
+    await expect(page).toHaveURL(/\/writing\/how-to-record-and-verify-ai-coding-agent-activity$/);
+
+    await page.goto("/writing/designing-contract-verification-pipelines");
+    await expect(page).toHaveURL(/\/writing\/how-starknet-contract-source-verification-works$/);
+  });
+
   for (const route of publicRoutes) {
     test(`${route} renders with accessible page structure`, async ({ page }) => {
       const response = await page.goto(route);
@@ -131,6 +139,19 @@ test.describe("public routes", () => {
       ).toBeVisible();
       await expect(relatedProjects.locator('a[href^="/work/"]')).toHaveCount(
         getRelatedProjectsForArticle(article).length
+      );
+      await expect(page.locator(".writing-process-diagram")).toHaveCount(1);
+      await expect(page.locator(".writing-code-example")).toHaveCount(article.codeExamples.length);
+      const failureList = page.locator(".writing-failure-list");
+      await expect(failureList.locator("dt")).toHaveCount(article.failureCases.length);
+      await expect(failureList.getByText("Signal", { exact: true })).toHaveCount(
+        article.failureCases.length
+      );
+      await expect(failureList.getByText("Response", { exact: true })).toHaveCount(
+        article.failureCases.length
+      );
+      await expect(page.locator(".writing-repository-section a")).toHaveCount(
+        article.repositoryLinks.length
       );
     }
   });

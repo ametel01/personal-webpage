@@ -2,9 +2,20 @@ import { getProject, type Project } from "@/content/projects";
 import { type WritingArticle, type WritingSlug, writingArticles } from "@/content/writing";
 
 const relatedProjectSlugsByArticle = {
-  "designing-audit-trails-for-ai-agent-workflows": ["agentreceipt", "skills-doctor", "ritualai"],
+  "how-to-record-and-verify-ai-coding-agent-activity": [
+    "agentreceipt",
+    "skills-doctor",
+    "ritualai"
+  ],
+  "designing-replayable-evidence-for-coding-agents": ["agentreceipt", "ritualai", "skills-doctor"],
+  "how-starknet-contract-source-verification-works": [
+    "voyager-verifier",
+    "skills-doctor",
+    "aggsandbox"
+  ],
+  "auditing-agent-skills-and-instruction-files": ["skills-doctor", "agentreceipt", "ritualai"],
+  "local-first-architecture-for-developer-tools": ["agentreceipt", "skills-doctor", "ritualai"],
   "how-to-test-cross-chain-bridge-workflows-locally": ["aggsandbox", "horizon-starknet"],
-  "designing-contract-verification-pipelines": ["voyager-verifier", "skills-doctor", "aggsandbox"],
   "modeling-proposal-revisions-and-change-orders": ["scopepilot", "agentreceipt"]
 } as const satisfies Record<WritingSlug, readonly Project["slug"][]>;
 

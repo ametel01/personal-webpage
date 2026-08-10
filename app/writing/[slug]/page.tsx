@@ -4,6 +4,13 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Container, Section } from "@/components/primitives";
 import { StructuredData } from "@/components/structured-data";
+import {
+  ArticleCodeExamples,
+  ArticleDecisionLog,
+  ArticleDiagram,
+  ArticleFailureCases,
+  ArticleRepositoryLinks
+} from "@/components/writing-evidence";
 import { getRelatedProjectsForArticle } from "@/content/relationships";
 import {
   getRelatedWriting,
@@ -117,24 +124,32 @@ export default async function WritingArticlePage({ params }: WritingArticlePageP
                   </ul>
                 </aside>
 
-                {article.sections.map((section) => (
-                  <section className="writing-prose-section" id={section.id} key={section.id}>
-                    <h2>{section.title}</h2>
-                    {section.paragraphs.map((paragraph) => (
-                      <p key={paragraph}>{paragraph}</p>
-                    ))}
-                    {section.items ? (
-                      <div className="writing-checklist">
-                        {section.listTitle ? <h3>{section.listTitle}</h3> : null}
-                        <ul>
-                          {section.items.map((item) => (
-                            <li key={item}>{item}</li>
-                          ))}
-                        </ul>
-                      </div>
-                    ) : null}
-                  </section>
+                {article.sections.map((section, index) => (
+                  <div key={section.id}>
+                    <section className="writing-prose-section" id={section.id}>
+                      <h2>{section.title}</h2>
+                      {section.paragraphs.map((paragraph) => (
+                        <p key={paragraph}>{paragraph}</p>
+                      ))}
+                      {section.items ? (
+                        <div className="writing-checklist">
+                          {section.listTitle ? <h3>{section.listTitle}</h3> : null}
+                          <ul>
+                            {section.items.map((item) => (
+                              <li key={item}>{item}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      ) : null}
+                    </section>
+                    {index === 1 ? <ArticleDiagram diagram={article.diagram} /> : null}
+                  </div>
                 ))}
+
+                <ArticleCodeExamples examples={article.codeExamples} />
+                <ArticleDecisionLog decisions={article.decisions} />
+                <ArticleFailureCases cases={article.failureCases} />
+                <ArticleRepositoryLinks links={article.repositoryLinks} />
 
                 <section
                   className="writing-project-callout"
@@ -199,6 +214,18 @@ function ArticleTableOfContents({ article }: { article: WritingArticle }) {
             <a href={`#${section.id}`}>{section.title}</a>
           </li>
         ))}
+        <li>
+          <a href="#implementation">Implementation examples</a>
+        </li>
+        <li>
+          <a href="#decisions">Decision log</a>
+        </li>
+        <li>
+          <a href="#failure-cases">Failure cases</a>
+        </li>
+        <li>
+          <a href="#repositories">Repositories</a>
+        </li>
       </ol>
     </nav>
   );
