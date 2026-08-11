@@ -88,11 +88,6 @@ export const VISUAL_ACTIONS = LIVE_COMMANDS.map((c) => c.value);
  * ---------------------------------------------------------------------------
  * Protocol vocabulary
  * ---------------------------------------------------------------------------
- * The enums below are the wire contract between the browser overlay, the live
- * helper server, and the durable session journal. They live here rather than in
- * the modules that use them so a value cannot be added to the validator without
- * the store and the server seeing it too.
- *
  * live-browser.js still cannot import this file (it is served raw and injected
  * as an IIFE), so its local phase table repeats the agent-phase names. Anything
  * the server can broadcast must appear in AGENT_PHASES here first.
@@ -115,67 +110,6 @@ export const AGENT_PHASES = Object.freeze([
   "all_variants_ready"
 ]);
 
-/** Event types the helper server accepts from the browser over POST /events. */
-export const CLIENT_EVENT_TYPES = Object.freeze([
-  "generate",
-  "accept",
-  "discard",
-  "checkpoint",
-  "agent_phase",
-  "variant_mounted",
-  "variant_mount_failed",
-  "exit",
-  "prefetch",
-  "manual_edits",
-  "steer",
-  "carbonize_cleanup"
-]);
-
-/**
- * Event types the durable journal applies. A superset of CLIENT_EVENT_TYPES:
- * the agent-side helpers (live-poll, live-complete) and the server itself
- * append the rest. An event type missing here lands as `unknown_event_type`
- * in the snapshot diagnostics.
- */
-export const JOURNAL_EVENT_TYPES = Object.freeze([
-  "generate",
-  "variant_plan",
-  "detector_waivers",
-  "agent_phase",
-  "variants_ready",
-  "agent_done",
-  "variant_mounted",
-  "variant_mount_failed",
-  "checkpoint",
-  "accept",
-  "accept_intent",
-  "manual_edit_apply",
-  "steer",
-  "steer_done",
-  "carbonize_cleanup",
-  "discard",
-  "discarded",
-  "complete",
-  "agent_error"
-]);
-
-/** Phases the session store assigns to a snapshot. */
-export const SESSION_PHASES = Object.freeze([
-  "new",
-  "generate_requested",
-  "variants_ready",
-  "carbonize_required",
-  "carbonize_cleanup_requested",
-  "manual_edit_apply_requested",
-  "steer_requested",
-  "steer_done",
-  "accept_requested",
-  "discard_requested",
-  "discarded",
-  "completed",
-  "agent_error"
-]);
-
 /** Phases that retire a session from the active list. */
 export const COMPLETED_SESSION_PHASES = Object.freeze(["completed", "discarded"]);
 
@@ -189,28 +123,6 @@ export const GENERATION_FENCED_SESSION_PHASES = Object.freeze([
   "carbonize_required",
   "completed",
   "discarded"
-]);
-
-/**
- * `reason` values carried on checkpoint events. Not validated (an unknown
- * reason is journaled, never rejected) because the reason is diagnostic
- * breadcrumb, not control flow. Two exceptions drive behavior and are split
- * out below.
- */
-export const CHECKPOINT_REASONS = Object.freeze([
-  "generate_started",
-  "variants_progress",
-  "variants_ready",
-  "browser_resumed",
-  "browser_resumed_svelte_component",
-  "param_changed",
-  "variant_anchor_missing",
-  "component_preview_anchor_missing",
-  "steer_input_focused",
-  "steer_submitted",
-  "steer_send_failed",
-  "steer_done",
-  "steer_error"
 ]);
 
 /** Checkpoint reasons the server reads as variant-publication progress. */

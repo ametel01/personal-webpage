@@ -3,7 +3,8 @@ import { existsSync, readFileSync } from "node:fs";
 import { describe, test } from "node:test";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
-import { getTechVisual, TechIcon } from "@/components/tech-icons";
+import { TechIcon } from "@/components/tech-icons";
+import { getTechVisual } from "@/components/tech-visuals";
 import { profile, technicalFocusGroups } from "@/content/profile";
 import {
   getProject,

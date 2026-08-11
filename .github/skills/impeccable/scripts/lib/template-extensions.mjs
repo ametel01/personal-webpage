@@ -123,11 +123,6 @@ export function resolveLiveTemplateExtensions(cwd = process.cwd()) {
 // config mid-run.
 const extensionCache = new Map();
 
-/** Test seam: drop the memoized config so a fixture can rewrite config.json. */
-export function clearTemplateExtensionCache() {
-  extensionCache.clear();
-}
-
 function readLiveTemplateExtensions(cwd) {
   const configured = [];
   for (const name of ["config.json", "config.local.json"]) {

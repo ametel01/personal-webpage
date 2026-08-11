@@ -50,13 +50,6 @@ export function fileExists(cwd, rel) {
   }
 }
 
-export function firstExistingFile(cwd, candidates) {
-  for (const rel of candidates) {
-    if (fileExists(cwd, rel)) return rel;
-  }
-  return null;
-}
-
 /**
  * Literal (non-glob) entries of `config.files` that exist on disk. Several
  * detectors read the configured injection target as a signal, which is how the

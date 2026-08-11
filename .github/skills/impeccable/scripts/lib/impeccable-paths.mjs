@@ -137,10 +137,6 @@ export function getCritiqueDir(cwd = process.cwd(), options = {}) {
   return path.join(getImpeccableDir(cwd, options), CRITIQUE_DIR);
 }
 
-export function getLegacyLiveAnnotationsDir(cwd = process.cwd(), options = {}) {
-  return path.join(resolveProjectRoot(cwd, options), ".impeccable-live", "annotations");
-}
-
 function firstExisting(paths) {
   return paths.find((filePath) => fs.existsSync(filePath)) || null;
 }

@@ -164,22 +164,3 @@ export const experienceSnapshot = [
     body: "AI workflow tools, signed agent evidence, protocol experiments, full-stack product prototypes, CLI tooling, and engineering automation."
   }
 ] as const;
-
-export const proofBarItems = [
-  {
-    label: "Professional Experience",
-    value: "Nethermind"
-  },
-  {
-    label: "Core Work",
-    value: "Backend · AI Tools · Infra"
-  },
-  {
-    label: "Open Source",
-    value: "DataFusion · Starknet · Dev Tools"
-  },
-  {
-    label: "Availability",
-    value: "Remote · Async · Timezone flexible"
-  }
-] as const;

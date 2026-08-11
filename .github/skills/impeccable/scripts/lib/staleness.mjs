@@ -449,23 +449,6 @@ export function checkProjectRoots({
   ];
 }
 
-/**
- * Workspaces that inherit the repo-root PRODUCT.md. Inheritance is a feature,
- * not a defect, so this is reported as information for the doctor pass rather
- * than emitted at boot: the judgment call is whether the inherited record
- * actually describes that app.
- */
-export function describeWorkspaceContext(candidates = []) {
-  return candidates.map((candidate) => ({
-    name: candidate.name,
-    path: candidate.path,
-    productStatus: candidate.productStatus,
-    productPath: candidate.productPath,
-    designStatus: candidate.designStatus,
-    designPath: candidate.designPath
-  }));
-}
-
 // ─── Tier 1 orchestration ──────────────────────────────────────────────────
 
 /**

@@ -42,9 +42,6 @@ export const SVELTE_COMPONENT_ROOT = "node_modules/.impeccable-live";
 export const LEGACY_SVELTE_COMPONENT_ROOT = ".impeccable/live/previews";
 export const SVELTE_RUNTIME_FILE = `${SVELTE_COMPONENT_ROOT}/__runtime.js`;
 export const SVELTE_PROBE_FILE = `${SVELTE_COMPONENT_ROOT}/__probe.js`;
-export const DEFERRED_ACCEPTS_FILE = ".impeccable/live/deferred-svelte-component-accepts.json";
-
-const MUSTACHE_RE = /\{([^{}]+)\}/g;
 
 export function shouldUseSvelteComponentInjection(filePath) {
   if (/^(0|false|no)$/i.test(process.env.IMPECCABLE_LIVE_SVELTE_COMPONENT || "")) return false;
@@ -74,55 +71,6 @@ export function ensureRuntimeHelper(cwd = process.cwd()) {
     fs.writeFileSync(probe, `export const impeccableLivePreviewProbe = true;\n`, "utf-8");
   }
   return file;
-}
-
-/**
- * Extract ordered unique mustache expressions from markup (not inside <!-- -->).
- */
-export function extractMustacheExpressions(text) {
-  const expressions = [];
-  const seen = new Set();
-  const lines = String(text || "").split("\n");
-  for (const line of lines) {
-    const trimmed = line.trim();
-    if (trimmed.startsWith("<!--")) continue;
-    let match;
-    MUSTACHE_RE.lastIndex = 0;
-    while ((match = MUSTACHE_RE.exec(line)) !== null) {
-      const expr = match[1].trim();
-      if (!expr || seen.has(expr)) continue;
-      seen.add(expr);
-      expressions.push(expr);
-    }
-  }
-  return expressions;
-}
-
-export function buildPropContract(expressions) {
-  return expressions.map((expr, index) => {
-    const derived = derivePropName(expr, index);
-    return {
-      prop: derived,
-      expr,
-      placeholder: `{${expr}}`
-    };
-  });
-}
-
-function derivePropName(expr, index) {
-  const tail = expr.match(/(?:\.|\[)(\w+)\s*\]?$/);
-  if (tail && tail[1] && /^[A-Za-z_$][\w$]*$/.test(tail[1])) {
-    return tail[1];
-  }
-  return `prop${index}`;
-}
-
-export function substituteExprsWithProps(markup, contract) {
-  let out = String(markup || "");
-  for (const entry of contract) {
-    out = out.split(entry.placeholder).join(`{${entry.prop}}`);
-  }
-  return out;
 }
 
 export function substitutePropsWithExprs(markup, contract) {
@@ -161,14 +109,6 @@ function buildPropsScript(contract) {
   const names = contract.map((c) => c.prop).join(", ");
   const typeFields = contract.map((c) => `    ${c.prop}: string;`).join("\n");
   return `<script>\n  /** @type {{\n${typeFields}\n  }} */\n  let { ${names} } = $props();\n</script>\n`;
-}
-
-function buildVariantStub(variantNum, originalWithProps, contract) {
-  const propsComment =
-    contract.length > 0
-      ? `\n<!-- Props: ${contract.map((c) => `${c.prop} <- {${c.expr}}`).join(", ")} -->\n`
-      : "";
-  return `${buildPropsScript(contract)}${propsComment}${originalWithProps.trim()}\n\n<style>\n  /* Variant ${variantNum}: add scoped CSS here */\n</style>\n`;
 }
 
 function buildInsertVariantStub(variantNum) {
@@ -1401,15 +1341,6 @@ export function readDeferredAccepts(cwd = process.cwd()) {
   } catch {
     return { accepts: [] };
   }
-}
-
-export function writeDeferredAccept(entry, cwd = process.cwd()) {
-  const file = deferredAcceptsPath(cwd);
-  fs.mkdirSync(path.dirname(file), { recursive: true });
-  const data = readDeferredAccepts(cwd);
-  data.accepts = (data.accepts || []).filter((item) => item.id !== entry.id);
-  data.accepts.push({ ...entry, createdAt: new Date().toISOString() });
-  fs.writeFileSync(file, JSON.stringify(data, null, 2) + "\n", "utf-8");
 }
 
 export function applyDeferredSvelteComponentAccepts(cwd = process.cwd()) {
