@@ -34,7 +34,7 @@ External evidence includes public repositories, release artifacts, live products
 
 ## Capabilities and Constraints
 
-- The canonical portfolio contains all seven projects currently represented in `src/content/projects.ts`: AgentReceipt, Skills Doctor, RitualAI, ScopePilot, AggSandbox, Voyager Verifier, and Horizon Protocol.
+- The canonical portfolio contains all seven projects currently represented in `src/content/projects.ts`: AgentReceipt, Skills Doctor, RitualAI, Ask Siargao, AggSandbox, Voyager Verifier, and Horizon Protocol.
 - Each project must have defensible technical substance, a real case study, and concrete evidence. Placeholder or thin project pages are not acceptable.
 - Core capability areas are backend and platform systems, developer tooling and infrastructure, local-first AI tooling and agent workflows, engineering automation, and blockchain infrastructure.
 - Relevant technologies include TypeScript, Go, Rust, Python, Solidity, Cairo, Starknet, Node.js, PostgreSQL, Redis, Docker, Linux, Next.js, React, and supporting infrastructure tools where project evidence warrants them.

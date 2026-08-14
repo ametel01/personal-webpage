@@ -45,7 +45,7 @@ export type Project = ProjectStructuredData & {
     | "agentreceipt"
     | "skills-doctor"
     | "ritualai"
-    | "scopepilot"
+    | "ask-siargao"
     | "aggsandbox"
     | "voyager-verifier"
     | "horizon-starknet";
@@ -375,90 +375,103 @@ export const projects: readonly Project[] = [
     }
   },
   {
-    slug: "scopepilot",
-    title: "ScopePilot",
+    slug: "ask-siargao",
+    title: "Ask Siargao",
     schemaType: "SoftwareApplication",
-    applicationCategory: "BusinessApplication",
+    applicationCategory: "TravelApplication",
     shortDescription:
-      "Agency proposal configurator for scope, pricing, approvals, revisions, and client delivery.",
+      "AI travel decision desk that turns Siargao plans into evidence-backed keep, change, avoid, or confirm-locally calls.",
     valueStatement:
-      "Agency proposal configurator for scope, pricing, approvals, revisions, and client delivery.",
-    proof: "Live product with public user documentation for proposal and change-order workflows.",
+      "AI travel decision desk that turns Siargao plans into evidence-backed keep, change, avoid, or confirm-locally calls.",
+    proof:
+      "Live product and public source with governed tool use, server-validated Reality Checks, privacy-scoped trip memory, and repeatable verification gates.",
     icon: {
-      alt: "ScopePilot",
-      src: "/icons/scopepilot.svg"
+      alt: "Ask Siargao",
+      src: "/icons/ask-siargao.svg"
     },
-    tags: ["TypeScript", "Astro", "Cloudflare Workers", "Bun", "PostgreSQL", "Product workflows"],
+    tags: ["TypeScript", "Next.js", "AI Agents", "PostgreSQL", "Redis", "Travel Tech"],
     metadata: {
-      role: "Independent product engineer",
-      stack: ["TypeScript", "Astro", "Cloudflare Workers", "Bun", "PostgreSQL"],
-      currentState: "Live product with public documentation and deployed proposal workflows."
+      role: "Independent AI product and backend engineer",
+      stack: ["TypeScript", "Next.js", "OpenAI", "PostgreSQL", "Redis", "Vercel"],
+      currentState: "Live public product with an active public repository and deployed chat."
     },
     caseStudy: {
       sectionTitles: {
-        definition: "What ScopePilot coordinates",
-        problem: "Why proposals lose scope history",
-        role: "Building the proposal lifecycle",
-        architecture: "From pricing inputs to approved change orders",
-        decisions: "Why scope and pricing stay structured",
-        hardProblems: "Preserving revision and change-order context",
-        tradeoffs: "What public evidence cannot show",
-        currentState: "ScopePilot's deployed state",
-        evidence: "Live product and documentation evidence",
-        relatedWriting: "Approval and margin design guides",
-        lastUpdated: "When ScopePilot was last verified",
-        relatedWork: "Continue through proposal systems",
-        relatedArticles: "Writing on revision and scope modeling",
-        adjacentProjects: "Related systems and engineering case studies"
+        definition: "What Ask Siargao decides",
+        problem: "Why island plans need current, bounded evidence",
+        role: "Building the decision system end to end",
+        architecture: "Agent judgment inside deterministic evidence boundaries",
+        decisions: "Why the model chooses tools but not source truth",
+        hardProblems: "Freshness, failure, and privacy across one chat turn",
+        tradeoffs: "What an on-demand decision desk does not promise",
+        currentState: "Ask Siargao's live state",
+        evidence: "Live product, source, and product contract",
+        relatedWriting: "Runtime, source-governance, and Reality Check references",
+        lastUpdated: "When this Ask Siargao evidence was reviewed",
+        relatedWork: "Continue through evidence-bounded AI systems",
+        relatedArticles: "Writing on agent evidence and recommendation boundaries",
+        adjacentProjects: "Other agent and infrastructure case studies"
       },
       definition:
-        "ScopePilot is a web application for configuring agency proposals, pricing scope, collecting approvals, and managing revisions and change orders.",
+        "Ask Siargao is a chat-first travel decision system for accommodation, itinerary, immediate-plan, surf-session, and disruption questions. It turns request-time evidence into a bounded keep, change, avoid, or needs-confirmation recommendation.",
       problem:
-        "Agency proposals often move across spreadsheets, documents, review threads, and client emails. That makes scope changes, pricing assumptions, approvals, and client-facing delivery difficult to keep consistent.",
-      role: "I designed and implemented the application structure, proposal and pricing workflows, approval and revision state transitions, documentation surface, and Cloudflare deployment path. The product surface also includes workspace, team, billing, and reporting capabilities.",
+        "Siargao travel advice changes with weather, tides, surf conditions, place status, transport, and a traveler's real constraints. A generic answer can sound decisive while relying on stale evidence, hiding missing checks, or overstating what the product can verify.",
+      role: "I designed and implemented the product, Next.js application, agent runtime, governed evidence tools, Reality Check contract, provider and cache boundaries, traveler privacy model, Trip Pass lifecycle, deployment path, and verification harness.",
       architecture: [
-        "The application is written in TypeScript and Astro, uses Bun for development, Biome for code quality, PostgreSQL for persisted workspace and proposal data, and Cloudflare Pages and Workers for the public deployment.",
-        "The domain flow connects service catalogs and pricing inputs to versioned proposals, private client pages, approval decisions, revisions, and change orders.",
-        "Workspace branding, team access, clients, reports, and billing sit around the proposal lifecycle rather than being separate document-generation tools."
+        "A Next.js App Router API accepts an explicit chat submission and delegates it to a Responses-compatible agent runtime. The model chooses typed tools and writes the answer; deterministic code validates request shape, access, source labels, evidence references, and public artifact selection.",
+        "Governed tools combine Open-Meteo weather, marine, and tide data; Google Places identity and place evidence; public-web research; and repository-backed local knowledge. PostgreSQL stores durable facts and traveler-owned artifacts, while Redis supports shared operational controls such as rate limiting.",
+        "A structured final payload identifies the tool calls and artifacts used. The server validates source sufficiency, creates the public decision summary and source list, and persists only sanitized traveler-visible history without raw provider payloads or exact browser coordinates."
       ],
+      implementationExample: {
+        label: "Run the fast checks, then the complete local Foundation Gates",
+        code: "bun run verify\nbun run verify:foundation"
+      },
       decisions: [
-        "Proposal configuration keeps scope and pricing inputs structured so later revisions and change orders can refer to the same source data.",
-        "Client-facing proposal pages expose the decision surface while keeping workspace administration, team controls, and internal reporting separate.",
-        "User documentation is public even though the application repository is not linked from this case study."
+        "The model owns tool choice, synthesis, and final wording; the backend owns provider access, source governance, privacy, and evidence validation.",
+        "Reality Checks run only after explicit message submission and finish inside that request, keeping the evidence timestamp, cost, result, and failure state observable together.",
+        "The model references completed evidence calls, but the server derives public sources and decision IDs so a generated answer cannot declare its own evidence trustworthy."
       ],
       hardProblems: [
-        "A proposal revision has to preserve the client's prior context while making changed scope and pricing explicit enough to approve again.",
-        "Change orders need to extend an accepted proposal without collapsing the distinction between original scope and later additions.",
-        "The same pricing model must support internal configuration, a legible client presentation, and later reporting without duplicating calculations across views."
+        "Different questions require different evidence contracts: surf decisions need current marine or tide data and a condition judgment, while named stays need successful place-identity evidence.",
+        "Provider success is partial and time-sensitive, so the runtime must preserve useful checked evidence, expose meaningful gaps, and prevent failed or stale sources from supporting a decisive claim.",
+        "Anonymous chat, signed-in history, saved plans, sharing, browser location, payments, and account closure need distinct ownership and retention boundaries without leaking private tool arguments into public artifacts."
       ],
       tradeoffs: [
-        "Structured pricing improves consistency but requires more setup than starting from an unstructured document.",
-        "The public case study can verify deployed workflows and documentation, but it cannot provide source-level evidence because no public repository is linked.",
-        "Client pages intentionally expose fewer controls than the workspace, so some operational context remains visible only to authenticated team members."
+        "The synchronous, on-demand workflow gives one evidence-backed answer at a time; it does not monitor conditions, contact operators, book activities, or guarantee future availability.",
+        "Typed tool contracts, source policies, caches, and artifact allowlists add backend complexity, but make answer provenance and degraded states reviewable.",
+        "When required evidence is unavailable, needs confirmation is deliberately less satisfying than a confident recommendation but more accurate than inventing a checked result."
       ],
       currentState:
-        "The application and documentation both returned HTTP 200 on August 9, 2026. Public documentation covers proposal setup, client delivery, workspace, billing, and reporting workflows; no public release number is exposed.",
+        "The public repository is actively maintained and the Vercel deployment returned HTTP 200 on August 14, 2026. The live product exposes the landing page, chat workspace, Reality Checks, traveler settings, saved-trip sharing, and a free-to-paid Trip Pass allowance; no tagged release is published.",
       evidence: [
         {
-          label: "Live product",
-          href: "https://scopepilot.launchingfoundry.xyz/"
+          label: "Live Ask Siargao product",
+          href: "https://www.asksiargao.com/"
         },
         {
-          label: "User documentation",
-          href: "https://scopepilot.launchingfoundry.xyz/docs"
+          label: "Public GitHub repository",
+          href: "https://github.com/ametel01/ask-siargao"
+        },
+        {
+          label: "Product and local-run overview",
+          href: "https://github.com/ametel01/ask-siargao/blob/main/README.md"
         }
       ],
       relatedWriting: [
         {
-          label: "Approvals, revisions, and change orders guide",
-          href: "https://scopepilot.launchingfoundry.xyz/docs/how-to-guides/handle-approvals-revisions-and-change-orders"
+          label: "Reality Check contract reference",
+          href: "https://github.com/ametel01/ask-siargao/blob/main/documentation/developer/reference/reality-check-contract.md"
         },
         {
-          label: "Proposal margin design explanation",
-          href: "https://scopepilot.launchingfoundry.xyz/docs/explanation/how-scopepilot-protects-proposal-margin"
+          label: "Chat routing and source-governance explanation",
+          href: "https://github.com/ametel01/ask-siargao/blob/main/documentation/developer/explanation/chat-agent-routing-and-source-governance.md"
+        },
+        {
+          label: "On-demand Reality Check lifecycle",
+          href: "https://github.com/ametel01/ask-siargao/blob/main/documentation/developer/explanation/on-demand-reality-check-lifecycle.md"
         }
       ],
-      lastUpdated: "2026-08-09"
+      lastUpdated: "2026-08-14"
     }
   },
   {

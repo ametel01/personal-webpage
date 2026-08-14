@@ -124,7 +124,7 @@ Create a browser spec covering these routes:
 - `/work`
 - `/work/voyager-verifier`
 - `/work/aggsandbox`
-- `/work/scopepilot`
+- `/work/ask-siargao`
 - `/work/horizon-starknet`
 - `/about`
 - `/resume`

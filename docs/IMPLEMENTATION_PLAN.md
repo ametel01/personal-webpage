@@ -306,12 +306,12 @@ Tasks:
 - Build Selected Work with four cards:
   - Voyager Verifier
   - AggSandbox
-  - ScopePilot
+  - Ask Siargao
   - Horizon Protocol
 - Use recommended project icons where they fit:
   - Voyager Verifier: `ShieldCheck` or `FileCode`
   - AggSandbox: `Network` or `GitBranch`
-  - ScopePilot: `ClipboardList` or `FileText`
+  - Ask Siargao: `MessageCircle` or `Palmtree`
   - Horizon Protocol: `Coins` or `ChartNoAxesCombined`
 - Build Technical Focus.
 - Build Experience Snapshot.
@@ -368,7 +368,7 @@ Tasks:
 - Build `/work` as a curated index only.
 - Build `/work/voyager-verifier`.
 - Build `/work/aggsandbox`.
-- Build `/work/scopepilot`.
+- Build `/work/ask-siargao`.
 - Build `/work/horizon-starknet`.
 - Use the case-study template:
   - title
@@ -596,7 +596,7 @@ Browser verification:
 - `/work`
 - `/work/voyager-verifier`
 - `/work/aggsandbox`
-- `/work/scopepilot`
+- `/work/ask-siargao`
 - `/work/horizon-starknet`
 - `/about`
 - `/resume`
@@ -684,7 +684,7 @@ Production verification:
 
 - Homepage renders.
 - Work index renders.
-- Voyager Verifier, AggSandbox, ScopePilot, and Horizon Protocol case studies render.
+- Voyager Verifier, AggSandbox, Ask Siargao, and Horizon Protocol case studies render.
 - About page renders with headshot.
 - Resume page renders.
 - `/resume.pdf` works.
@@ -706,7 +706,7 @@ The product is final and deployable when:
 - Every route in the PRD exists and is non-placeholder.
 - Writing / Notes is excluded unless a finished technical note exists.
 - Homepage is evidence-first and matches the positioning.
-- Selected Work includes exactly Voyager Verifier, AggSandbox, ScopePilot, and Horizon Protocol.
+- Selected Work includes exactly Voyager Verifier, AggSandbox, Ask Siargao, and Horizon Protocol.
 - `/about` uses the professional headshot.
 - `/resume` is rendered from structured content.
 - `/resume.pdf` is available.

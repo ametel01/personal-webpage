@@ -16,14 +16,14 @@ const relatedProjectSlugsByArticle = {
   "auditing-agent-skills-and-instruction-files": ["skills-doctor", "agentreceipt", "ritualai"],
   "local-first-architecture-for-developer-tools": ["agentreceipt", "skills-doctor", "ritualai"],
   "how-to-test-cross-chain-bridge-workflows-locally": ["aggsandbox", "horizon-starknet"],
-  "modeling-proposal-revisions-and-change-orders": ["scopepilot"]
+  "designing-evidence-bounded-ai-travel-recommendations": ["ask-siargao"]
 } as const satisfies Record<WritingSlug, readonly Project["slug"][]>;
 
 const adjacentProjectSlugs = {
   agentreceipt: ["skills-doctor", "ritualai"],
   "skills-doctor": ["agentreceipt", "ritualai"],
   ritualai: ["agentreceipt", "skills-doctor"],
-  scopepilot: ["agentreceipt", "ritualai"],
+  "ask-siargao": ["agentreceipt", "ritualai"],
   aggsandbox: ["voyager-verifier", "horizon-starknet"],
   "voyager-verifier": ["aggsandbox", "horizon-starknet"],
   "horizon-starknet": ["aggsandbox", "voyager-verifier"]

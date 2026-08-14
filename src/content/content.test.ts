@@ -56,14 +56,14 @@ const expectedSlugs = [
   "agentreceipt",
   "skills-doctor",
   "ritualai",
-  "scopepilot",
+  "ask-siargao",
   "aggsandbox",
   "voyager-verifier",
   "horizon-starknet"
 ] as const;
 const homepageFeaturedSlugs: readonly (typeof expectedSlugs)[number][] = [
   "agentreceipt",
-  "scopepilot",
+  "ask-siargao",
   "aggsandbox",
   "voyager-verifier"
 ];
@@ -375,12 +375,14 @@ describe("website content invariants", () => {
       getAdjacentProjects("agentreceipt").map((project) => project.slug),
       ["skills-doctor", "ritualai"]
     );
-    const proposalRevisions = getWritingArticle("modeling-proposal-revisions-and-change-orders");
+    const evidenceBoundedTravelAi = getWritingArticle(
+      "designing-evidence-bounded-ai-travel-recommendations"
+    );
 
-    assert.ok(proposalRevisions);
+    assert.ok(evidenceBoundedTravelAi);
     assert.deepStrictEqual(
-      getRelatedProjectsForArticle(proposalRevisions).map((project) => project.slug),
-      ["scopepilot"]
+      getRelatedProjectsForArticle(evidenceBoundedTravelAi).map((project) => project.slug),
+      ["ask-siargao"]
     );
   });
 
@@ -449,7 +451,7 @@ describe("website content invariants", () => {
       agentreceipt: "/icons/agentreceipt.svg",
       "skills-doctor": "/icons/skills-doctor.svg",
       ritualai: "/icons/ritualai.svg",
-      scopepilot: "/icons/scopepilot.svg",
+      "ask-siargao": "/icons/ask-siargao.svg",
       aggsandbox: "/icons/agglayer.svg",
       "voyager-verifier": "/icons/nethermind.svg",
       "horizon-starknet": "/icons/horizon-protocol.png"
@@ -589,7 +591,7 @@ describe("website content invariants", () => {
     assert.doesNotMatch(homePageSource, /page-eyebrow|section-eyebrow/);
     assert.doesNotMatch(homePageSource, /technicalFocusGroups|proofBarItems/);
 
-    for (const slug of ["agentreceipt", "scopepilot", "aggsandbox", "voyager-verifier"] as const) {
+    for (const slug of ["agentreceipt", "ask-siargao", "aggsandbox", "voyager-verifier"] as const) {
       assert.match(homePageSource, new RegExp(`"${slug}"`));
     }
   });

@@ -1,7 +1,7 @@
 import { auditingAgentSkills } from "@/content/articles/auditing-agent-skills";
+import { evidenceBoundedTravelAi } from "@/content/articles/evidence-bounded-travel-ai";
 import { localCrossChainTesting } from "@/content/articles/local-cross-chain-testing";
 import { localFirstDeveloperTools } from "@/content/articles/local-first-developer-tools";
-import { proposalRevisions } from "@/content/articles/proposal-revisions";
 import { recordAndVerifyAgentActivity } from "@/content/articles/record-and-verify-agent-activity";
 import { replayableAgentEvidence } from "@/content/articles/replayable-agent-evidence";
 import { starknetContractVerification } from "@/content/articles/starknet-contract-verification";
@@ -39,7 +39,7 @@ export const writingArticles = [
   auditingAgentSkills,
   localFirstDeveloperTools,
   localCrossChainTesting,
-  proposalRevisions
+  evidenceBoundedTravelAi
 ] as const satisfies readonly WritingArticle[];
 
 export type WritingSlug = (typeof writingArticles)[number]["slug"];

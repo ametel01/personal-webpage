@@ -31,7 +31,7 @@ Current selected-work docs:
 ```text
 docs/PRD.md:190 V1 uses four strong case studies only:
 docs/DESIGN.md:316 Use four cards in v1:
-docs/IMPLEMENTATION_PLAN.md:708 Selected Work includes exactly Voyager Verifier, AggSandbox, ScopePilot, and Horizon Protocol.
+docs/IMPLEMENTATION_PLAN.md:708 Selected Work includes exactly Voyager Verifier, AggSandbox, Ask Siargao, and Horizon Protocol.
 ```
 
 Historical stale excerpt from the original audit:
@@ -103,7 +103,7 @@ with either:
 or a route-explicit line:
 
 ```text
-- Voyager Verifier, AggSandbox, ScopePilot, and Horizon Protocol case studies render.
+- Voyager Verifier, AggSandbox, Ask Siargao, and Horizon Protocol case studies render.
 ```
 
 Prefer the route-explicit line if it makes future regressions easier to spot.

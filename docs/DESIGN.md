@@ -71,7 +71,7 @@ Do not use:
 
 /work/voyager-verifier
 /work/aggsandbox
-/work/scopepilot
+/work/ask-siargao
 /work/horizon-starknet
 
 /about
@@ -319,7 +319,7 @@ Use four cards in v1:
 ```text
 Voyager Verifier
 AggSandbox
-ScopePilot
+Ask Siargao
 Horizon Protocol
 ```
 
@@ -348,7 +348,7 @@ Recommended icons:
 ```text
 Voyager Verifier: ShieldCheck or FileCode
 AggSandbox: Network or GitBranch
-ScopePilot: ClipboardList or FileText
+Ask Siargao: MessageCircle or Palmtree
 Horizon Protocol: Coins or ChartNoAxesCombined
 ```
 

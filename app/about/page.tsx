@@ -34,7 +34,7 @@ const valueIcons = {
 const supportingCaseStudySlugs = new Set([
   "agentreceipt",
   "skills-doctor",
-  "scopepilot",
+  "ask-siargao",
   "horizon-starknet"
 ]);
 

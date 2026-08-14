@@ -19,7 +19,7 @@ export function createRssFeed() {
   const feedUrl = getAbsoluteUrl("/feed.xml");
   const writingUrl = getAbsoluteUrl("/writing");
   const lastBuildDate = toRssDate(
-    writingArticles.reduce(
+    writingArticles.reduce<string>(
       (latest, article) => (article.updatedAt > latest ? article.updatedAt : latest),
       writingArticles[0].updatedAt
     )

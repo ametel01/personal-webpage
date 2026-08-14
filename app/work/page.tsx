@@ -26,7 +26,7 @@ const projectCategories = {
   agentreceipt: "Local-first AI tooling",
   "skills-doctor": "Agent tooling",
   ritualai: "AI workflows",
-  scopepilot: "Product engineering",
+  "ask-siargao": "AI travel product",
   aggsandbox: "Cross-chain infrastructure",
   "voyager-verifier": "Developer tooling",
   "horizon-starknet": "Protocol engineering"

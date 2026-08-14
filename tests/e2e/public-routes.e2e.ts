@@ -21,7 +21,7 @@ const publicRoutes = [
 ] as const;
 const homepageFeaturedSlugs = new Set([
   "agentreceipt",
-  "scopepilot",
+  "ask-siargao",
   "aggsandbox",
   "voyager-verifier"
 ]);

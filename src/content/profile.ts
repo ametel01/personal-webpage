@@ -83,7 +83,7 @@ export const profile = {
       },
       {
         title: "What has he built?",
-        body: "I have built AgentReceipt, Skills Doctor, RitualAI, ScopePilot, AggSandbox, Voyager Verifier, and Horizon Protocol. Together, they cover signed agent evidence, skill auditing, AI workflow tooling, proposal systems, contract verification, local multichain infrastructure, and deployed blockchain protocols.",
+        body: "I have built AgentReceipt, Skills Doctor, RitualAI, Ask Siargao, AggSandbox, Voyager Verifier, and Horizon Protocol. Together, they cover signed agent evidence, skill auditing, AI workflow tooling, evidence-bounded travel recommendations, contract verification, local multichain infrastructure, and deployed blockchain protocols.",
         icon: "target"
       },
       {

@@ -14,7 +14,7 @@ const homepageStructuredData = createHomepageStructuredData();
 
 const featuredSlugs = new Set<Project["slug"]>([
   "agentreceipt",
-  "scopepilot",
+  "ask-siargao",
   "aggsandbox",
   "voyager-verifier"
 ]);
@@ -37,8 +37,8 @@ const engineeringIndex = [
     description: "Starknet tooling, protocol systems, and cross-chain work."
   },
   {
-    title: "Product workflows",
-    description: "Proposal, approval, revision, and delivery systems."
+    title: "AI product systems",
+    description: "Tool-using agents, governed evidence, and bounded recommendations."
   }
 ] as const;
 

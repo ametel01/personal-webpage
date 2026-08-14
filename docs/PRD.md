@@ -74,8 +74,8 @@ Avoid:
 /work/aggsandbox
   AggSandbox case study
 
-/work/scopepilot
-  ScopePilot case study
+/work/ask-siargao
+  Ask Siargao case study
 
 /work/horizon-starknet
   Horizon Protocol case study
@@ -195,7 +195,7 @@ V1 uses four strong case studies only:
 ```text
 1. Voyager Verifier
 2. AggSandbox
-3. ScopePilot
+3. Ask Siargao
 4. Horizon Protocol
 ```
 
@@ -229,11 +229,11 @@ Cross-chain infrastructure experiments using LayerZero, AggLayer concepts, and e
 Proof: Cross-chain protocol experiments with executable contracts and scripts.
 ```
 
-ScopePilot:
+Ask Siargao:
 
 ```text
-Agency proposal configurator for scope, pricing, approvals, revisions, and client delivery.
-Proof: Live product with public user documentation for proposal and change-order workflows.
+AI travel decision desk that turns Siargao plans into evidence-backed keep, change, avoid, or confirm-locally calls.
+Proof: Live product and public source with governed tool use and server-validated Reality Checks.
 ```
 
 Horizon Protocol:
@@ -411,7 +411,7 @@ Nethermind
 Selected Projects
 Voyager Verifier
 AggSandbox
-ScopePilot
+Ask Siargao
 Horizon Protocol
 
 Skills
@@ -611,7 +611,7 @@ Requirements:
 - Final production domain and canonical URL
 - Exact evidence links for Voyager Verifier
 - Exact evidence links for AggSandbox
-- Exact evidence links for ScopePilot
+- Exact evidence links for Ask Siargao
 - Exact evidence links for Horizon Protocol
 - Exact structured resume transcription
 - Whether Writing / Notes ships in v1
